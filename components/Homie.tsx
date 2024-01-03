@@ -5,9 +5,11 @@ import _051 from "../public/051.jpg";
 import profile from "../public/profile.png";
 import logout from "../public/logout.png";
 import { useEffect, useState } from "react";
+import { formatter } from "../tools";
 
 const Homie = () => {
     const { data: session } = useSession();
+    const [sessionWithBalance, setSessionWithBalance] = useState<any>(null);
     const handleLogIn = () => {
         if(!session){
             signIn()
@@ -17,13 +19,28 @@ const Homie = () => {
     useEffect(()=>{
         const fetch_create_user =async () => {
             try {
-                const response = await fetch("/api/user");
-                console.log(response);
+                const response = await fetch("/api/user",{
+                    method:"POST",
+                    body:JSON.stringify(session)
+                });
+                const resJson = await response.json();
+                const userBalance = resJson.balance;
+                if(userBalance){
+                    const balancedSession = {...session, user:{...session!.user, balance:userBalance}};
+                    setSessionWithBalance(balancedSession);
+                }else{
+                    const balancedSession = {...session, user:{...session!.user, balance:0}};
+                    setSessionWithBalance(balancedSession);
+                }
+
+                
             } catch (error) {
                 console.log(error)
             }
         }
-       fetch_create_user();
+        if(session){
+            fetch_create_user();
+        }
     },[session])
     return ( 
         <div className={h.home}>
@@ -45,7 +62,7 @@ const Homie = () => {
                         {
                             session && 
                             <>
-                            <span> <strong>{session && session.user?.name} <br />$ 00:00  </strong> </span>
+                            <span> <strong>{session && session.user?.name} <br />{sessionWithBalance && formatter(sessionWithBalance.user.balance)}  </strong> </span>
                             <Image src={session!.user!.image as string} alt={"discord profile image"} width={50} height={50} />
                             <div id={h.dropdown}>
                                 <div>

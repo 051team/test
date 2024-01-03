@@ -8,12 +8,33 @@ export default async function handler(
   res: NextApiResponse
 ) {
   console.log("User Endpoint accessed")
-/*   try {
+  const user_from_session = JSON.parse(req.body).user;
+  const name = user_from_session.name;
+  const email = user_from_session.email;
+  
+
+  try {
     const client = await connectToDatabase();
     const data_base = client.db('casadepapel');
     const members = data_base.collection('cdp_users');
+
+    const existingUser = await members.findOne({
+      cdpUser:{$eq:name}, cdpEmail:{$eq:email}
+    });
+
+    if(existingUser){
+      console.log("User already exists");
+      res.status(200).json({ name: 'Existing User', balance:existingUser.balance })
+    }else{
+      const result = await members.insertOne({
+        cdpUser:name, cdpEmail:email,balance:0, joinedAt:new Date()
+      });
+      console.log(result);
+      res.status(200).json({ name: 'New User' })
+    }
+    
+
   } catch (error) {
     console.log(error);
-  } */
-  res.status(200).json({ name: 'John Doe' })
+  }
 }
