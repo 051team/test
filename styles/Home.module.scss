@@ -72,10 +72,9 @@
                     animation-timing-function: ease;
                     height: 100px;
                     opacity: 1;
-                    button{
+                    z-index: 999;
+                    div{
                         width: 100%;
-                        border: none;
-                        background: transparent;
                         padding: 5px 10px;
                         display: flex;
                         align-items: flex-end;
@@ -134,7 +133,7 @@
                     }
                     &:hover{
                         box-shadow: 0 0 5px 1px silver;
-                        filter:brightness(1.2);
+                        filter:brightness(1.3);
                     }
                 }
             }

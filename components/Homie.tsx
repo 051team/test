@@ -4,20 +4,27 @@ import Image from "next/image";
 import _051 from "../public/051.jpg";
 import profile from "../public/profile.png";
 import logout from "../public/logout.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Homie = () => {
     const { data: session } = useSession();
-    if (session){
-        console.log(session);
-    }
     const handleLogIn = () => {
         if(!session){
             signIn()
-        }else{
-            console.log("oturum açık")
         }
     }
+
+    useEffect(()=>{
+        const fetch_create_user =async () => {
+            try {
+                const response = await fetch("/api/user");
+                console.log(response);
+            } catch (error) {
+                console.log(error)
+            }
+        }
+       fetch_create_user();
+    },[session])
     return ( 
         <div className={h.home}>
             <div className={h.home_navbar}>
@@ -38,17 +45,17 @@ const Homie = () => {
                         {
                             session && 
                             <>
-                            <span> <strong>$ 00:00</strong> </span>
+                            <span> <strong>{session && session.user?.name} <br />$ 00:00  </strong> </span>
                             <Image src={session!.user!.image as string} alt={"discord profile image"} width={50} height={50} />
                             <div id={h.dropdown}>
-                                <button>
+                                <div>
                                     <Image src={profile} alt={"profile icon"} width={25} height={25} />
                                     <span>Profile</span>
-                                </button>
-                                <button onClick={()=>signOut()}>
+                                </div>
+                                <div onClick={()=>signOut()}>
                                     <Image src={logout} alt={"logout icon"} width={25} height={25} />
                                     <span>Sign out</span>
-                                </button>
+                                </div>
                             </div>
                             </>
                         }
@@ -63,7 +70,7 @@ const Homie = () => {
                         {
                             [...Array(10)].map((e,i)=>
                             <div className={h.home_cases_kernel_group_each} key={i}>
-                                <Image src={`/assets/${i+1}.png`} alt={"051 logo"} width={200} height={250} />
+                                <Image priority={i === 0 ? true : false} src={`/assets/${i+1}.png`} alt={"051 logo"} width={200} height={250} />
                                 <h5>
                                     Case name heree
                                 </h5>
