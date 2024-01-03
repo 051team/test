@@ -124,11 +124,14 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 15px;
+  padding-top: 10px;
 }
 .home_cases_kernel_group_each {
   width: 200px;
   height: 250px;
   position: relative;
+  border-radius: 10px;
+  cursor: pointer;
 }
 .home_cases_kernel_group_each img {
   width: 100%;
@@ -141,6 +144,10 @@
   bottom: 20px;
   left: 20px;
   width: 100px;
+}
+.home_cases_kernel_group_each:hover {
+  box-shadow: 0 0 5px 1px silver;
+  filter: brightness(1.2);
 }
 
 @-webkit-keyframes drop {
