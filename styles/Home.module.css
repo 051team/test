@@ -1,16 +1,46 @@
 .home {
   min-height: 100vh;
+  background-color: black;
 }
 .home_navbar {
-  height: 100px;
-  background-color: black;
   position: relative;
+  display: grid;
+  align-items: center;
+  grid-template-rows: 30px 80px;
+}
+.home_navbar_bottom {
+  position: relative;
+  background-color: rgb(26, 26, 34);
+  height: 80px;
+  display: flex;
+  align-items: center;
+  padding: 0 40px;
+}
+.home_navbar_bottom input {
+  margin-left: 50px;
+  background-color: rgba(128, 128, 128, 0.087);
+  padding: 10px;
+  padding-left: 20px;
+  font-size: medium;
+  outline: none;
+  border: none;
+  width: 300px;
+}
+.home_navbar_bottom input::-moz-placeholder {
+  color: rgba(64, 224, 208, 0.517);
+}
+.home_navbar_bottom input:-ms-input-placeholder {
+  color: rgba(64, 224, 208, 0.517);
+}
+.home_navbar_bottom input::placeholder {
+  color: rgba(64, 224, 208, 0.517);
+}
+.home_navbar_bottom #profile {
+  position: absolute;
+  right: 40px;
   display: flex;
   align-items: center;
 }
-.home_navbar #profile {
-  position: absolute;
-  right: 20px;
-  display: flex;
-  align-items: center;
+.home_navbar_bottom #profile img {
+  border-radius: 50%;
 }/*# sourceMappingURL=Home.module.css.map */

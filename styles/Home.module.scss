@@ -1,16 +1,40 @@
 .home{
     min-height: 100vh;
+    background-color: black;
     &_navbar{
-        height: 100px;
-        background-color: black;
         position: relative;
-        display: flex;
+        display: grid;
         align-items: center;
-        #profile{
-            position: absolute;
-            right: 20px;
+        grid-template-rows: 30px 80px;
+        &_bottom{
+            position: relative;
+            background-color: rgb(26, 26, 34);
+            height: 80px;
             display: flex;
             align-items: center;
+            padding: 0 40px;
+            input{
+                margin-left: 50px;
+                background-color: rgba(128, 128, 128, 0.087);
+                padding: 10px; padding-left: 20px;
+                font-size: medium;
+                outline: none;
+                border: none;
+                width: 300px;
+                &::placeholder{
+                    color: rgba(64, 224, 208, 0.517);
+                }
+            }
+            #profile{
+                position: absolute;
+                right: 40px;
+                display: flex;
+                align-items: center;
+                img{
+                    border-radius: 50%;
+                }
+            }
         }
+
     }
 }
