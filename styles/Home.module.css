@@ -1,6 +1,6 @@
 .home {
-  min-height: 100vh;
   background-color: black;
+  height: 2500px;
 }
 .home_navbar {
   position: relative;
@@ -40,14 +40,16 @@
   position: absolute;
   right: 40px;
   display: flex;
+  justify-content: center;
   align-items: center;
   -moz-column-gap: 20px;
        column-gap: 20px;
   padding-left: 20px;
   background: transparent;
   border: none;
-  border-left: 1px solid #102631;
   height: 60px;
+  border-left: 1px solid #102631;
+  width: 180px;
 }
 .home_navbar_bottom #profile input {
   position: absolute;
@@ -110,12 +112,21 @@
   color: whitesmoke !important;
   font-weight: bold;
 }
+.home_navbar_bottom #deposit {
+  position: absolute;
+  width: 150px;
+  right: 220px;
+  background: #008754;
+  font-weight: bold;
+  color: whitesmoke;
+  padding: 7px 0;
+  border-radius: 7px;
+}
 .home_cases {
   display: grid;
   justify-items: center;
 }
 .home_cases_kernel {
-  min-height: 700px;
   padding-top: 30px;
   color: whitesmoke !important;
 }
@@ -131,6 +142,7 @@
   position: relative;
   border-radius: 10px;
   cursor: pointer;
+  z-index: 999;
 }
 .home_cases_kernel_group_each img {
   width: 100%;

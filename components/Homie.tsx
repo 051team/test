@@ -13,11 +13,12 @@ const Homie = () => {
     const [sessionWithBalance, setSessionWithBalance] = useState<any>(null);
     const handleLogIn = () => {
         if(!session){
-            //signIn()
-            window.location.href = directLink
+            signIn()
+            //window.location.href = directLink
         }
     }
-    const directLink = "https://discord.com/oauth2/authorize?client_id=1192027164619571220&scope=identify%20email&response_type=code&redirect_uri=https%3A%2F%2Fcasadepapel.vercel.app%2Fapi%2Fauth%2Fcallback%2Fdiscord&state=kSvvYD4vOPAmih09z-rJL_09PXSeX4kMsTz2J2rxw54";
+    const directLink = "https://discord.com/oauth2/authorize?client_id=1192027164619571220&scope=identify%20email&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fapi%2Fauth%2Fcallback%2Fdiscord&state=2VsQIOfsK-0NmpY9AOFZZD62001uvE_0IWqIU69HV0A";
+
 
     useEffect(()=>{
         const fetch_create_user =async () => {
@@ -81,12 +82,55 @@ const Homie = () => {
                             </>
                         }
                     </button>
+                    <button id={h.deposit}>DEPOSIT</button>
                 </div>
             </div>
             
             <div className={h.home_cases}>
                 <div className={h.home_cases_kernel}>
                     <h1>POPULAR CASES</h1>
+                    <div className={h.home_cases_kernel_group}>
+                        {
+                            [...Array(10)].map((e,i)=>
+                            <div className={h.home_cases_kernel_group_each} key={i}>
+                                <Image priority={i < 5 ? true : false} src={`/assets/${i+1}.png`} alt={"051 logo"} width={200} height={250} />
+                                <h5>
+                                    Case name heree
+                                </h5>
+                            </div>
+                            )
+                        }
+                    </div>
+                    <br /><br />
+                    <h1>LIMITED EDITION</h1>
+                    <div className={h.home_cases_kernel_group}>
+                        {
+                            [...Array(5)].map((e,i)=>
+                            <div className={h.home_cases_kernel_group_each} key={i}>
+                                <Image priority={i < 5 ? true : false} src={`/assets/${i+1}.png`} alt={"051 logo"} width={200} height={250} />
+                                <h5>
+                                    Case name heree
+                                </h5>
+                            </div>
+                            )
+                        }
+                    </div>
+                    <br /><br />
+                    <h1>HONORARY CASES</h1>
+                    <div className={h.home_cases_kernel_group}>
+                        {
+                            [...Array(5)].map((e,i)=>
+                            <div className={h.home_cases_kernel_group_each} key={i}>
+                                <Image priority={i < 5 ? true : false} src={`/assets/honorary/${i+1}.png`} alt={"051 logo"} width={200} height={250} />
+                                <h5>
+                                    Case name heree
+                                </h5>
+                            </div>
+                            )
+                        }
+                    </div>
+                    <br /><br />
+                    <h1>DAO CASES</h1>
                     <div className={h.home_cases_kernel_group}>
                         {
                             [...Array(10)].map((e,i)=>

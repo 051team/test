@@ -29,6 +29,12 @@ a {
   text-decoration: none;
 }
 
+button{
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
 @media (prefers-color-scheme: light) {
   html {
     color-scheme: light;
