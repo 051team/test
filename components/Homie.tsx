@@ -11,7 +11,7 @@ const Homie = () => {
     if (session){
         console.log(session);
     }
-    const handleLogInOut = () => {
+    const handleLogIn = () => {
         if(!session){
             signIn()
         }else{
@@ -28,7 +28,7 @@ const Homie = () => {
                     <Image src={_051} alt={"051 logo"} width={90} height={50} />
                     <input type="text" placeholder="Search for safe..." />
 
-                    <button onClick={handleLogInOut} id={h.profile}>
+                    <button onClick={handleLogIn} id={h.profile}>
                         <input type="checkbox" id="open"/>
                         <label htmlFor="open"></label>
                         {
@@ -40,19 +40,18 @@ const Homie = () => {
                             <>
                             <span> <strong>$ 00:00</strong> </span>
                             <Image src={session!.user!.image as string} alt={"discord profile image"} width={50} height={50} />
+                            <div id={h.dropdown}>
+                                <button>
+                                    <Image src={profile} alt={"profile icon"} width={25} height={25} />
+                                    <span>Profile</span>
+                                </button>
+                                <button onClick={()=>signOut()}>
+                                    <Image src={logout} alt={"logout icon"} width={25} height={25} />
+                                    <span>Sign out</span>
+                                </button>
+                            </div>
                             </>
                         }
-                        
-                        <div id={h.dropdown}>
-                            <button>
-                                <Image src={profile} alt={"profile icon"} width={25} height={25} />
-                                <span>Profile</span>
-                            </button>
-                            <button>
-                                <Image src={logout} alt={"logout icon"} width={25} height={25} />
-                                <span>Sign out</span>
-                            </button>
-                        </div>
                         
                     </button>
                 </div>
