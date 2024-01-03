@@ -4,4 +4,13 @@
 .home_navbar {
   height: 100px;
   background-color: black;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.home_navbar #profile {
+  position: absolute;
+  right: 20px;
+  display: flex;
+  align-items: center;
 }/*# sourceMappingURL=Home.module.css.map */

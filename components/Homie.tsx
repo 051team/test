@@ -10,14 +10,19 @@ const Homie = () => {
     return ( 
         <div className={h.home}>
             <div className={h.home_navbar}>
-                    <button onClick={()=>signIn()}>
-                        <span>Sign In</span>
+                    <button onClick={()=>signIn()} id={h.profile}>
                         {
-                            session && <Image src={session!.user!.image as string} alt={"discord profile image"} width={30} height={30} />
+                            !session &&
+                            <span>Sign In</span>
                         }
-                        
-                        
-                    
+                        {
+                            session && 
+                            <>
+                            <span>{session.user?.name}</span>
+                            <Image src={session!.user!.image as string} alt={"discord profile image"} width={30} height={30} />
+                            </>
+                        }
+
                     </button>
             </div>
         </div>
