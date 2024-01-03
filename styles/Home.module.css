@@ -21,10 +21,11 @@
   background-color: #0b1720;
   padding: 10px;
   padding-left: 20px;
-  font-size: medium;
+  font-size: 14px;
   outline: none;
   border: none;
   width: 300px;
+  color: whitesmoke;
 }
 .home_navbar_bottom input::-moz-placeholder {
   color: rgba(64, 224, 208, 0.517);
@@ -109,6 +110,37 @@
 .home_navbar_bottom #profile #dropdown button span {
   color: whitesmoke !important;
   font-weight: bold;
+}
+.home_cases {
+  display: grid;
+  justify-items: center;
+}
+.home_cases_kernel {
+  min-height: 700px;
+  padding-top: 30px;
+  color: whitesmoke !important;
+}
+.home_cases_kernel_group {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 15px;
+}
+.home_cases_kernel_group_each {
+  width: 200px;
+  height: 250px;
+  position: relative;
+}
+.home_cases_kernel_group_each img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: fill;
+     object-fit: fill;
+}
+.home_cases_kernel_group_each h5 {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  width: 100px;
 }
 
 @-webkit-keyframes drop {

@@ -17,10 +17,11 @@
                 margin-left: 50px;
                 background-color: #0b1720;
                 padding: 10px; padding-left: 20px;
-                font-size: medium;
+                font-size: 14px;
                 outline: none;
                 border: none;
                 width: 300px;
+                color: whitesmoke;
                 &::placeholder{
                     color: rgba(64, 224, 208, 0.517);
                 }
@@ -100,6 +101,37 @@
             }
         }
 
+    }
+    &_cases{
+        //background-color: rgba($color: gold, $alpha: 0.4);
+        display: grid;
+        justify-items: center;
+        &_kernel{
+            //background-color: rgba($color: yellow, $alpha: 0.3);
+            min-height: 700px;
+            padding-top: 30px;
+            color: whitesmoke !important;
+            &_group{
+                display: grid;
+                grid-template-columns: repeat(5, 1fr);
+                gap: 15px;
+                &_each{
+                    width: 200px;
+                    height: 250px;
+                    position: relative;
+                    img{
+                        width: 100%;
+                        height: 100%;
+                        object-fit: fill;
+                    }
+                    h5{
+                        position: absolute;
+                        bottom: 20px; left: 20px;
+                        width: 100px;
+                    }
+                }
+            }
+        }
     }
 }
 

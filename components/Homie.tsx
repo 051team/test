@@ -52,8 +52,25 @@ const Homie = () => {
                             </div>
                             </>
                         }
-                        
                     </button>
+                </div>
+            </div>
+            
+            <div className={h.home_cases}>
+                <div className={h.home_cases_kernel}>
+                    <h1>POPULAR CASES</h1>
+                    <div className={h.home_cases_kernel_group}>
+                        {
+                            [...Array(10)].map((e,i)=>
+                            <div className={h.home_cases_kernel_group_each} key={i}>
+                                <Image src={`/assets/${i+1}.png`} alt={"051 logo"} width={200} height={250} />
+                                <h5>
+                                    Case name here
+                                </h5>
+                            </div>
+                            )
+                        }
+                    </div>
                 </div>
             </div>
         </div>
