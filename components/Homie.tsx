@@ -6,15 +6,18 @@ import profile from "../public/profile.png";
 import logout from "../public/logout.png";
 import { useEffect, useState } from "react";
 import { formatter } from "../tools";
+import Link from "next/link";
 
 const Homie = () => {
     const { data: session } = useSession();
     const [sessionWithBalance, setSessionWithBalance] = useState<any>(null);
     const handleLogIn = () => {
         if(!session){
-            signIn()
+            //signIn()
+            window.location.href = directLink
         }
     }
+    const directLink = "https://discord.com/oauth2/authorize?client_id=1192027164619571220&scope=identify%20email&response_type=code&redirect_uri=https%3A%2F%2Fcasadepapel.vercel.app%2Fapi%2Fauth%2Fcallback%2Fdiscord&state=kSvvYD4vOPAmih09z-rJL_09PXSeX4kMsTz2J2rxw54";
 
     useEffect(()=>{
         const fetch_create_user =async () => {
@@ -51,6 +54,7 @@ const Homie = () => {
                 <div className={h.home_navbar_bottom}>
                     <Image src={_051} alt={"051 logo"} width={90} height={50} />
                     <input type="text" placeholder="Search for safe..." />
+                    <Link href={directLink}>Go</Link>
 
                     <button onClick={handleLogIn} id={h.profile}>
                         <input type="checkbox" id="open"/>
