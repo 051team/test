@@ -146,7 +146,7 @@
   filter: drop-shadow(0 0 2px gray);
 }
 .home_navbar_slider button:hover {
-  filter: brightness(1.5);
+  filter: brightness(1.3);
 }
 .home_navbar_slider button #text {
   display: grid;
