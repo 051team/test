@@ -68,6 +68,7 @@
 .home_navbar_bottom #profile span {
   color: orange;
   font-size: 15px;
+  line-height: 20px;
 }
 .home_navbar_bottom #profile img {
   border-radius: 50%;

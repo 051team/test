@@ -62,7 +62,7 @@ const Homie = () => {
                         <label htmlFor="open"></label>
                         {
                             !session &&
-                            <span>Sign In</span>
+                            <span><strong>Sign In</strong></span>
                         }
                         {
                             session && 
