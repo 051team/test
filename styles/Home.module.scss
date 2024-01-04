@@ -6,7 +6,26 @@
         position: relative;
         display: grid;
         align-items: center;
-        grid-template-rows: 30px 90px;
+        grid-template-rows: 40px 90px;
+        &_top{
+            background-color: rgba($color: red, $alpha: 0.3);
+            padding-left: 40px;
+            display: flex;
+            align-items: center;
+            column-gap: 20px;
+            #each{
+                display: flex;
+                align-items: center;
+                column-gap: 5px;
+                color: whitesmoke;
+                font-weight: bold;
+                font-size: small;
+                #dot{
+                    font-size: xx-large;
+                    color: #00bc3e;
+                }
+            }
+        }
         &_bottom{
             position: relative;
             background-color: #061118;

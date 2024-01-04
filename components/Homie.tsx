@@ -53,7 +53,10 @@ const Homie = () => {
         <div className={h.home}>
             <div className={h.home_navbar}>
                 <div className={h.home_navbar_top}>
-                    aeohgqıeg oıjegıqwjgh 
+                    <span id={h.each}><span id={h.dot}>&#x2022;</span> 2551 <span style={{color:"#00bc3e"}}>Online</span> </span>
+                    <span id={h.each}><span>&#9729;</span> $56,124 <span style={{color:"#009fb3"}}>24h Volume</span></span>
+                    <span id={h.each}><span>&#9729;</span> $1,245,621 <span style={{color:"#009fb3"}}>30D Volume</span></span>
+                    <span id={h.each}><span>&#9729;</span> $1,245,621 <span style={{color:"#009fb3"}}>Case Opened</span></span>
                 </div>
                 <div className={h.home_navbar_bottom}>
                     <Image src={_051} alt={"051 logo"} width={90} height={50} />
