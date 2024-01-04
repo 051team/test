@@ -8,7 +8,6 @@
 .panel_kernel {
   width: 800px;
   min-height: 300px;
-  overflow: hidden;
   position: relative;
   padding-top: 30px;
 }
@@ -26,7 +25,7 @@
   position: relative;
   display: grid;
   background-color: navy;
-  font-weight: bold;
+  font-size: medium;
 }
 .panel_kernel_tabs button span {
   position: absolute;
@@ -77,17 +76,6 @@
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
-  padding-right: 25%;
-  background-color: rgba(0, 0, 128, 0.432);
-}
-.panel_kernel #coupons button {
-  width: calc(25% - 10px);
-  height: 95px;
-  background-color: navy;
-  color: white;
-  position: absolute;
-  right: 10px;
-  font-weight: bold;
 }
 .panel_kernel #coupons input {
   outline: none;
@@ -114,6 +102,97 @@
 }
 .panel_kernel #coupons input:nth-child(4) {
   width: calc(50% - 5px);
+}
+.panel_kernel #coupons #options {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  -moz-column-gap: 5px;
+       column-gap: 5px;
+  position: relative;
+}
+.panel_kernel #coupons #options #showcoupons {
+  background-color: navy;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  color: white;
+  font-size: medium;
+  padding: 10px;
+}
+.panel_kernel #coupons #options span {
+  position: absolute;
+  display: none;
+  right: 25%;
+  top: 50px;
+  color: darkorange;
+}
+.panel_kernel #coupons #options label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: navy;
+  cursor: pointer;
+}
+.panel_kernel #coupons #options input[type=checkbox] {
+  visibility: hidden;
+}
+.panel_kernel #coupons #options input:checked ~ #createcoupon {
+  display: block;
+}
+.panel_kernel #coupons #options input:checked ~ #allcoupons {
+  display: none;
+}
+.panel_kernel #coupons #options input:checked ~ span {
+  display: block;
+}
+.panel_kernel #coupons #options input:checked ~ label {
+  color: red;
+}
+.panel_kernel #coupons #options #createcoupon {
+  position: absolute;
+  display: none;
+  top: 80px;
+  width: 100%;
+  padding: 10px;
+  padding-right: 25%;
+  background-color: navy;
+}
+.panel_kernel #coupons #options #createcoupon button {
+  width: calc(25% - 10px);
+  height: 95px;
+  background-color: darkorange;
+  color: white;
+  position: absolute;
+  right: 10px;
+  font-weight: bold;
+  top: 10px;
+}
+.panel_kernel #coupons #options #createcoupon input {
+  height: 45px;
+  margin-bottom: 5px;
+}
+.panel_kernel #coupons #options #allcoupons {
+  position: absolute;
+  top: 80px;
+  width: 100%;
+  color: white;
+  padding: 5px;
+  background-color: rgba(0, 0, 128, 0.432);
+}
+.panel_kernel #coupons #options #allcoupons #each {
+  display: grid;
+  grid-template-columns: 4fr 1fr 1fr 1fr;
+  border-bottom: 1px solid navy;
+  padding: 5px;
+  position: relative;
+}
+.panel_kernel #coupons #options #allcoupons #each #anchor {
+  color: darkorange;
+  position: absolute;
+  top: -35px;
+  left: 25%;
 }
 .panel_modal {
   background: black;
