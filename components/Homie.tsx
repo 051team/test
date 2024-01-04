@@ -57,7 +57,7 @@ const Homie = () => {
                     <div id={h.row1}>
                         <div id={h.right}>
                             <h3>PROMO CODE</h3>
-                            <span>Enter "051BETA" promo code</span><br />
+                            <span>Enter &quot;051BETA&quot; promo code</span><br />
                             <span id={h.bottom}>and activate $1000 BETA balance.</span>
                         </div>
                     </div>
