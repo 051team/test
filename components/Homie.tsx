@@ -6,7 +6,7 @@ import safe from "../public/safe.png";
 import sword from "../public/sword.png";
 import dolar from "../public/dolar.png";
 import profile from "../public/profile.png";
-import test from "../public/assets/3.png";
+import promo from "../public/assets/promo.png";
 import logout from "../public/logout.png";
 import { useEffect, useState } from "react";
 import { formatter } from "../tools";
@@ -60,7 +60,7 @@ const Homie = () => {
                     <div className={h.home_modal_kernel}>
                         <button id={h.close} onClick={()=>setModalOpen(false)}>x</button>
                         <div id={h.row1}>
-                            <Image src={test} alt={"crazy professor"} width={156} height={192} />
+                            <Image src={promo} alt={"crazy professor"} width={156} height={192} priority />
                             <div id={h.right}>
                                 <h3>PROMO CODE</h3>
                                 <span>Enter &quot;051BETA&quot; promo code</span><br />
