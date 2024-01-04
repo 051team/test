@@ -5,7 +5,7 @@
         position: relative;
         display: grid;
         align-items: center;
-        grid-template-rows: 30px 80px;
+        grid-template-rows: 30px 90px;
         &_bottom{
             position: relative;
             background-color: #061118;
@@ -111,6 +111,40 @@
                 color: whitesmoke;
                 padding: 7px 0;
                 border-radius: 7px;
+            }
+        }
+        &_slider{
+            //background-color: rgba($color:yellow, $alpha: 0.4);
+            display: flex;
+            padding: 5px 0;
+            overflow: hidden;
+            column-gap: 5px;
+            width: fit-content;
+            button{
+                height: 100px;
+                width: 100px !important;
+                color:whitesmoke;
+                display: grid;
+                grid-template-rows: 2fr 1fr;
+                justify-items: center;
+                align-items: center;
+                filter: brightness(1.1);
+                img{
+                    filter: drop-shadow(0 0 2px gray);
+                }
+                &:hover{
+                    filter: brightness(1.5);
+                }
+                #text{
+                    display: grid;
+                    position: relative;
+                    top:-5px;
+                    span{
+                        font-size: 12px;
+                        font-weight: 500;
+                        line-height: 15px;
+                    }
+                }
             }
         }
 

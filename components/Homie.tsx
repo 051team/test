@@ -84,6 +84,24 @@ const Homie = () => {
                     </button>
                     <button id={h.deposit}>DEPOSIT</button>
                 </div>
+                <div className={h.home_navbar_slider}>
+                    {
+                        [...Array(20)].map((e,i) =>
+                        <button style={{
+                            backgroundImage:i%2 === 0 ? "linear-gradient(to bottom, rgb(26, 25, 25), #cb7900)"
+                                                    : i%3 === 0 ? "linear-gradient(to bottom, rgb(26, 25, 25), #772677)"
+                                                    : i%5 === 0 ? "linear-gradient(to bottom, rgb(26, 25, 25), #006c7d)"
+                                                    : "linear-gradient(to bottom, rgb(26, 25, 25), #00a262)"
+                        }}>
+                            <Image priority={i < 5 ? true : false} src={`/assets/${i > 10 ? i-10 : i === 0 ? 1: 11-i}.png`} alt={"051 logo"} width={45} height={45} />
+                            <div id={h.text}>
+                                <span>Item no</span>
+                                <span>$ 0.50</span>
+                            </div>
+                        </button>
+                        )
+                    }
+                </div>
             </div>
             
             <div className={h.home_cases}>
