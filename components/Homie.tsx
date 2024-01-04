@@ -51,6 +51,22 @@ const Homie = () => {
     },[session])
     return ( 
         <div className={h.home}>
+            <div className={h.home_modal}>
+                <div className={h.home_modal_kernel}>
+                    <button id={h.close}>x</button>
+                    <div id={h.row1}>
+                        <div id={h.right}>
+                            <h3>PROMO CODE</h3>
+                            <span>Enter "051BETA" promo code</span><br />
+                            <span id={h.bottom}>and activate $1000 BETA balance.</span>
+                        </div>
+                    </div>
+                    <div id={h.row2}>
+                        <input type="text" placeholder="Enter promo code..." />
+                        <button>APPLY</button>
+                    </div>
+                </div>
+            </div>
             <div className={h.home_navbar}>
                 <div className={h.home_navbar_top}>
                     <span id={h.each}><span id={h.dot}>&#x2022;</span> 2551 <span style={{color:"#00bc3e"}}>Online</span> </span>
@@ -135,7 +151,6 @@ const Homie = () => {
                     </div>
                 </div>
             </div>
-            
             <div className={h.home_cases}>
                 <div className={h.home_cases_kernel}>
                     <h1>POPULAR CASES</h1>
