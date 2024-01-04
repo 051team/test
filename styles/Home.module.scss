@@ -276,6 +276,7 @@
             position: relative;
             filter: brightness(1.2);
             display: grid;
+            animation: hop 0.6s 1;
             #close{
                 position: absolute;
                 top:0; right: 20px;
@@ -289,6 +290,11 @@
                 display: flex;
                 justify-content: flex-end;
                 align-items: center;
+                position: relative;
+                img{
+                    position: absolute;
+                    bottom: 0;left: 0;
+                }
                 #right{
                     right: 20px;
                     width: 250px;
@@ -339,4 +345,9 @@
 @keyframes drop {
     from{height: 0; opacity: 0;}
     to{height: 100px; opacity: 1;}
+}
+
+@keyframes hop {
+    from{left:-300px;opacity: 0.5;}
+    to{left:0;opacity: 1;}
 }

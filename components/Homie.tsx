@@ -6,6 +6,7 @@ import safe from "../public/safe.png";
 import sword from "../public/sword.png";
 import dolar from "../public/dolar.png";
 import profile from "../public/profile.png";
+import test from "../public/assets/3.png";
 import logout from "../public/logout.png";
 import { useEffect, useState } from "react";
 import { formatter } from "../tools";
@@ -14,14 +15,7 @@ import Link from "next/link";
 const Homie = () => {
     const { data: session } = useSession();
     const [sessionWithBalance, setSessionWithBalance] = useState<any>(null);
-    const handleLogIn = () => {
-        if(!session){
-            signIn()
-            //window.location.href = directLink
-        }
-    }
-    const directLink = "https://discord.com/oauth2/authorize?client_id=1192027164619571220&scope=identify%20email&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fapi%2Fauth%2Fcallback%2Fdiscord&state=2VsQIOfsK-0NmpY9AOFZZD62001uvE_0IWqIU69HV0A";
-
+    const [modalOpen,setModalOpen] = useState(false);
 
     useEffect(()=>{
         const fetch_create_user =async () => {
@@ -48,25 +42,39 @@ const Homie = () => {
         if(session){
             fetch_create_user();
         }
-    },[session])
+    },[session]);
+
+    const handleLogIn = () => {
+        if(!session){
+            signIn()
+            //window.location.href = directLink
+        }
+    }
+
+
     return ( 
         <div className={h.home}>
-            <div className={h.home_modal}>
-                <div className={h.home_modal_kernel}>
-                    <button id={h.close}>x</button>
-                    <div id={h.row1}>
-                        <div id={h.right}>
-                            <h3>PROMO CODE</h3>
-                            <span>Enter &quot;051BETA&quot; promo code</span><br />
-                            <span id={h.bottom}>and activate $1000 BETA balance.</span>
+            {
+                modalOpen &&
+                <div className={h.home_modal}>
+                    <div className={h.home_modal_kernel}>
+                        <button id={h.close} onClick={()=>setModalOpen(false)}>x</button>
+                        <div id={h.row1}>
+                            <Image src={test} alt={"crazy professor"} width={156} height={192} />
+                            <div id={h.right}>
+                                <h3>PROMO CODE</h3>
+                                <span>Enter &quot;051BETA&quot; promo code</span><br />
+                                <span id={h.bottom}>and activate $1000 BETA balance.</span>
+                            </div>
+                        </div>
+                        <div id={h.row2}>
+                            <input type="text" placeholder="Enter promo code..." />
+                            <button>APPLY</button>
                         </div>
                     </div>
-                    <div id={h.row2}>
-                        <input type="text" placeholder="Enter promo code..." />
-                        <button>APPLY</button>
-                    </div>
                 </div>
-            </div>
+            }
+
             <div className={h.home_navbar}>
                 <div className={h.home_navbar_top}>
                     <span id={h.each}><span id={h.dot}>&#x2022;</span> 2551 <span style={{color:"#00bc3e"}}>Online</span> </span>
@@ -77,8 +85,6 @@ const Homie = () => {
                 <div className={h.home_navbar_bottom}>
                     <Image src={_051} alt={"051 logo"} width={90} height={50} />
                     <input type="text" placeholder="Search for safe..." />
-                    <Link href={directLink}>Go</Link>
-
                     <button onClick={handleLogIn} id={h.profile}>
                         <input type="checkbox" id="open"/>
                         <label htmlFor="open"></label>
@@ -104,7 +110,7 @@ const Homie = () => {
                             </>
                         }
                     </button>
-                    <button id={h.deposit}>DEPOSIT</button>
+                    <button id={h.deposit} onClick={()=>setModalOpen(true)}>DEPOSIT</button>
                 </div>
                 <div className={h.home_navbar_slider}>
                     <button key={99}>
