@@ -87,7 +87,7 @@ const Homie = () => {
                 <div className={h.home_navbar_slider}>
                     {
                         [...Array(20)].map((e,i) =>
-                        <button style={{
+                        <button key={i} style={{
                             backgroundImage:i%2 === 0 ? "linear-gradient(to bottom, rgb(26, 25, 25), #cb7900)"
                                                     : i%3 === 0 ? "linear-gradient(to bottom, rgb(26, 25, 25), #772677)"
                                                     : i%5 === 0 ? "linear-gradient(to bottom, rgb(26, 25, 25), #006c7d)"
