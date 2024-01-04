@@ -1,6 +1,7 @@
 .home{
     background-color: black;
     height: 2500px;
+    user-select: none;
     &_navbar{
         position: relative;
         display: grid;
@@ -112,6 +113,55 @@
                 color: whitesmoke;
                 padding: 7px 0;
                 border-radius: 7px;
+            }
+        }
+        &_tabs{
+            display: flex;
+            justify-content: center;
+            padding: 5px 0;
+            &_kernel{
+                width: 1060px;
+                height: 40px;
+                background-color: #061118;
+                border-radius: 5px;
+                display: flex;
+                align-items: center;
+                padding: 20px;
+                padding-right: 0;
+                position: relative;
+                #join{
+                    background-color: #c90022;
+                    color: whitesmoke;
+                    border-radius: inherit;
+                    padding: 5px 20px;
+                    transition: filter 0.4s ease;
+                    &:hover{
+                        filter: brightness(1.5);
+                    }
+                }
+                #right{
+                    position: absolute;
+                    right: 20px;
+                    border: 2px solid black;
+                    display: flex;
+                    column-gap: 40px;
+                    button{
+                        display: flex;
+                        column-gap: 5px;
+                        color: whitesmoke;
+                        font-weight: 500;
+                        font-size: 14px;
+                        padding: 5px 10px;
+                        transition: color 0.3s ease, box-shadow 0.3s ease;
+                        img{
+                            filter: invert(100%);
+                        }
+                        &:hover{
+                            color: crimson;
+                            box-shadow: 0 0 2px 1px crimson;
+                        }
+                    }
+                }
             }
         }
         &_slider{

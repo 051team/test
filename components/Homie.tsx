@@ -2,6 +2,9 @@ import h from "../styles/Home.module.css";
 import { signIn, signOut, useSession } from 'next-auth/react';
 import Image from "next/image";
 import _051 from "../public/051.jpg";
+import safe from "../public/safe.png";
+import sword from "../public/sword.png";
+import dolar from "../public/dolar.png";
 import profile from "../public/profile.png";
 import logout from "../public/logout.png";
 import { useEffect, useState } from "react";
@@ -107,6 +110,26 @@ const Homie = () => {
                         </button>
                         )
                     }
+                </div>
+
+                <div className={h.home_navbar_tabs}>
+                    <div className={h.home_navbar_tabs_kernel}>
+                        <button id={h.join}>JOIN <strong>051DAO</strong> AND WIN MORE</button>
+                        <div id={h.right}>
+                            <button>
+                                <Image src={safe} alt={"cases"} width={20} height={20} />
+                                CASES
+                            </button>
+                            <button>
+                                <Image src={sword} alt={"battles"} width={20} height={20} />
+                                BATTLES
+                            </button>
+                            <button>
+                                <Image style={{filter:"brightness(1.2)"}} src={dolar} alt={"free cases"} width={20} height={20} />
+                                FREE CASES
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
             
