@@ -126,6 +126,10 @@
   color: whitesmoke;
   padding: 7px 0;
   border-radius: 7px;
+  transition: filter 0.3s ease;
+}
+.home_navbar_bottom #deposit:hover {
+  filter: brightness(1.5);
 }
 .home_navbar_tabs {
   display: flex;
@@ -148,7 +152,7 @@
   color: whitesmoke;
   border-radius: inherit;
   padding: 5px 20px;
-  transition: filter 0.4s ease;
+  transition: filter 0.3s ease;
 }
 .home_navbar_tabs_kernel #join:hover {
   filter: brightness(1.5);
