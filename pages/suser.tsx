@@ -50,6 +50,19 @@ const Super_user = () => {
                     <button id={s.showall} onClick={handleFetchAll}>Show all users</button>
                 </div>
             }
+                        {
+                selectedTab === "Coupons" &&
+                <div id={s.coupons}>
+                    <input type="text" placeholder="Coupon name..." />
+                    <input type="number" min={1} max={100000} placeholder="Coupon value..." />
+                    <input type="number" min={1} max={100000} placeholder="Quantity..." />
+                    <input type="number" min={1} max={100000} placeholder="...times valid" />
+                    <button>CREATE COUPON</button>
+                </div>
+            }
+
+
+
             {
                 selectedTab === "User Actions" && activeUsers &&
                 <div id={s.activeusers}>

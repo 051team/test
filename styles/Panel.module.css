@@ -26,13 +26,14 @@
   position: relative;
   display: grid;
   background-color: navy;
+  font-weight: bold;
 }
 .panel_kernel_tabs button span {
   position: absolute;
   display: grid;
   justify-self: center;
-  bottom: -35px;
-  font-size: x-large;
+  bottom: -30px;
+  font-size: larger;
   -webkit-animation: later 0.3s 1 forwards;
           animation: later 0.3s 1 forwards;
   -webkit-animation-delay: 0.3s;
@@ -60,12 +61,59 @@
   color: white;
   position: relative;
   top: 50px;
+  background-color: rgba(0, 0, 128, 0.432);
 }
 .panel_kernel #activeusers #user {
   display: grid;
   grid-template-columns: 2fr 3fr 1fr;
   padding: 5px;
   border-bottom: 1px solid navy;
+}
+.panel_kernel #coupons {
+  color: white;
+  position: relative;
+  top: 50px;
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  padding-right: 25%;
+  background-color: rgba(0, 0, 128, 0.432);
+}
+.panel_kernel #coupons button {
+  width: calc(25% - 10px);
+  height: 95px;
+  background-color: navy;
+  color: white;
+  position: absolute;
+  right: 10px;
+  font-weight: bold;
+}
+.panel_kernel #coupons input {
+  outline: none;
+  padding: 5px;
+  height: 45px;
+}
+.panel_kernel #coupons input::-moz-placeholder {
+  color: navy;
+}
+.panel_kernel #coupons input:-ms-input-placeholder {
+  color: navy;
+}
+.panel_kernel #coupons input::placeholder {
+  color: navy;
+}
+.panel_kernel #coupons input:nth-child(1) {
+  width: calc(50% - 5px);
+}
+.panel_kernel #coupons input:nth-child(2) {
+  width: calc(50% - 5px);
+}
+.panel_kernel #coupons input:nth-child(3) {
+  width: calc(50% - 5px);
+}
+.panel_kernel #coupons input:nth-child(4) {
+  width: calc(50% - 5px);
 }
 .panel_modal {
   background: black;
@@ -126,7 +174,7 @@
 
 @-webkit-keyframes drop {
   from {
-    top: -200px;
+    top: -100%;
   }
   to {
     top: 0;
@@ -135,7 +183,7 @@
 
 @keyframes drop {
   from {
-    top: -200px;
+    top: -100%;
   }
   to {
     top: 0;

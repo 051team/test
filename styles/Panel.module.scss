@@ -24,12 +24,13 @@
                 position: relative;
                 display: grid;
                 background-color: navy;
+                font-weight: bold;
                 span{
                     position: absolute;
                     display: grid;
                     justify-self: center;
-                    bottom: -35px;
-                    font-size: x-large;
+                    bottom: -30px;
+                    font-size: larger;
                     animation: later 0.3s 1 forwards;
                     animation-delay: 0.3s;
                     visibility: hidden;
@@ -56,12 +57,54 @@
             color:white;
             position: relative;
             top:50px;
+            background-color: rgba(0, 0, 128, 0.432);
+
             #user{
                 display: grid;
                 grid-template-columns: 2fr 3fr 1fr;
                 padding: 5px;
                 border-bottom: 1px solid navy;
             }
+        }
+        #coupons{
+          color:white;
+          position: relative;
+          top:50px;
+          padding: 10px;
+          display: flex;
+          flex-wrap: wrap;
+          gap: 5px;
+          padding-right: 25%;
+          background-color: rgba(0, 0, 128, 0.432);
+          button{
+            width: calc(25% - 10px);
+            height: 95px;
+            background-color: navy;
+            color: white;
+            position: absolute;
+            right: 10px;
+            font-weight: bold;
+          }
+          input{
+            outline: none;
+            padding: 5px;
+            height: 45px;
+            &::placeholder{
+              color: navy;
+            }
+          }
+          input:nth-child(1){
+            width: calc(50% - 5px);
+          }
+          input:nth-child(2){
+            width: calc(50% - 5px);
+          }
+          input:nth-child(3){
+            width: calc(50% - 5px);
+          }
+          input:nth-child(4){
+            width: calc(50% - 5px);
+          }
         }
     }
 
@@ -119,7 +162,7 @@
 
 
 @keyframes drop {
-    from{top:-200px;}
+    from{top:-100%;}
     to{top:0}
 }
 
