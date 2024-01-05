@@ -63,10 +63,10 @@ const Homie = () => {
 
     const handleUseCoupon = async () => {
         console.log("coupon use working");
-        if(promo.current?.value){
+        if(promo.current?.value && session){
            const response = await fetch("/api/usecoupon",{
             method:"POST",
-            body:promo.current.value
+            body:JSON.stringify({promo:promo.current.value,user:session.user?.name})
            });
         }else{
             confirm("Please enter promo code")

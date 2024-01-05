@@ -7,32 +7,66 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  console.log("Expire Coupon Endpoint accessed");
-  const coupon_to_USE = req.body;
+  const coupon_to_USE = JSON.parse(req.body).promo;
+  const user = JSON.parse(req.body).user;
+
   console.log("to updated",coupon_to_USE);
+  console.log(user);
 
   try {
     const client = await connectToDatabase();
     const data_base = client.db('casadepapel');
     const coupons = data_base.collection('cdp_coupons');
+    const cdp_users = data_base.collection('cdp_users');
 
-    const result = await coupons.updateOne(
-        { couponName: coupon_to_USE, disabled:false },
-        [
-          {
-            $addFields: {
-              disabled: { $eq: ["$couponQuantity", { $add: ["$usedXtimes", 1]}] },
-              usedXtimes: { $add: ["$usedXtimes", 1] }
+
+    const existingActiveCoupon = await coupons.findOne({couponName: coupon_to_USE, disabled:false});
+    //console.log(existingActiveCoupon);
+
+    if(existingActiveCoupon){
+        const resultCouponUpdated = await coupons.updateOne(
+            { couponName: coupon_to_USE, disabled:false },
+            [
+              {
+                $addFields: {
+                  disabled: { $eq: ["$couponQuantity", { $add: ["$usedXtimes", 1]}] },
+                  usedXtimes: { $add: ["$usedXtimes", 1] }
+                }
+              }
+            ]
+        );
+          
+        if(resultCouponUpdated.matchedCount === 1 && resultCouponUpdated.matchedCount === 1){
+            console.log("Coupon Updated successfully");
+
+            // NOW CAN UPDATE USER BALANCE
+            const resultUserUpdated = await cdp_users.updateOne(
+                {cdpUser: user},
+                {
+                    $inc:{
+                        balance: existingActiveCoupon.couponValue
+                    },
+                 }
+            );
+
+            //console.log(resultUserUpdated);
+
+            if(resultUserUpdated.matchedCount === 1 && resultUserUpdated.matchedCount === 1){
+                console.log("Coupon updated");
+                console.log("User balance updated");
+            }else{
+                console.log("Failed to update User Blance");
             }
-          }
-        ]
-    );
-      
-    if(result.matchedCount === 1 && result.matchedCount === 1){
-        console.log("Güncellendi");
-        console.log(result);
+
+
+        }else{
+            console.log("Failed to update Coupon")
+        }
     }else{
-        console.log("Güncelleme yok")
+        //COUPON NOT FOUND or EXPIRED
+        console.log("Coupon not FOUND");
+        res.status(500).json({ message: 'Coupon not found',color:"red" })
+
     }
     
     res.status(200).json({ message: 'Found coupon to update',color:"green" })
