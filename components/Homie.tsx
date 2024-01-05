@@ -6,7 +6,7 @@ import safe from "../public/safe.png";
 import sword from "../public/sword.png";
 import dolar from "../public/dolar.png";
 import profile from "../public/profile.png";
-import promo from "../public/assets/promo.png";
+import crazy from "../public/assets/promo.png";
 import logout from "../public/logout.png";
 import { useEffect, useRef, useState } from "react";
 import { formatter } from "../tools";
@@ -17,6 +17,7 @@ const Homie = () => {
     const [sessionWithBalance, setSessionWithBalance] = useState<any>(null);
     const [modalOpen,setModalOpen] = useState(false);
     const core = useRef<HTMLDivElement>(null);
+    const promo = useRef<HTMLInputElement>(null);
 
     useEffect(()=>{
         const fetch_create_user =async () => {
@@ -47,7 +48,6 @@ const Homie = () => {
 
     useEffect(()=>{
         const handleOutsideClick = (e:any) => {
-            console.log("hello")
             if (!core.current?.contains(e.target) && e.target.tagName !== 'BUTTON') {
                 setModalOpen(false);
             }
@@ -58,7 +58,18 @@ const Homie = () => {
     const handleLogIn = () => {
         if(!session){
             signIn()
-            //window.location.href = directLink
+        }
+    }
+
+    const handleUseCoupon = async () => {
+        console.log("coupon use working");
+        if(promo.current?.value){
+           const response = await fetch("/api/usecoupon",{
+            method:"POST",
+            body:promo.current.value
+           });
+        }else{
+            confirm("Please enter promo code")
         }
     }
 
@@ -70,7 +81,7 @@ const Homie = () => {
                     <div className={h.home_modal_kernel} ref={core}>
                         <button id={h.close} onClick={()=>setModalOpen(false)}>x</button>
                         <div id={h.row1}>
-                            <Image src={promo} alt={"crazy professor"} width={156} height={192} priority />
+                            <Image src={crazy} alt={"crazy professor"} width={156} height={192} priority />
                             <div id={h.right}>
                                 <h3>PROMO CODE</h3>
                                 <span>Enter &quot;051BETA&quot; promo code</span><br />
@@ -78,8 +89,8 @@ const Homie = () => {
                             </div>
                         </div>
                         <div id={h.row2}>
-                            <input type="text" placeholder="Enter promo code..." />
-                            <button>APPLY</button>
+                            <input type="text" placeholder="Enter promo code..." ref={promo} />
+                            <button onClick={handleUseCoupon}>APPLY</button>
                         </div>
                     </div>
                 </div>
