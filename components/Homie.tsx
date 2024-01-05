@@ -51,7 +51,7 @@ const Homie = () => {
                 setModalOpen(false);
             }
         }
-        document.addEventListener("mousedown", handleOutsideClick)
+        window.addEventListener("click", handleOutsideClick)
     },[]);
 
     const handleLogIn = () => {
