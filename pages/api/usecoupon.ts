@@ -54,6 +54,7 @@ export default async function handler(
             if(resultUserUpdated.matchedCount === 1 && resultUserUpdated.matchedCount === 1){
                 console.log("Coupon updated");
                 console.log("User balance updated");
+                res.status(200).json({result:"balance updated"})
             }else{
                 console.log("Failed to update User Blance");
             }

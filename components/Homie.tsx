@@ -16,6 +16,7 @@ const Homie = () => {
     const { data: session } = useSession();
     const [sessionWithBalance, setSessionWithBalance] = useState<any>(null);
     const [modalOpen,setModalOpen] = useState(false);
+    const [balanceChange,setBalanceChange] = useState<boolean>(false);
     const core = useRef<HTMLDivElement>(null);
     const promo = useRef<HTMLInputElement>(null);
 
@@ -44,7 +45,7 @@ const Homie = () => {
         if(session){
             fetch_create_user();
         }
-    },[session]);
+    },[session,balanceChange]);
 
     useEffect(()=>{
         const handleOutsideClick = (e:any) => {
@@ -68,6 +69,14 @@ const Homie = () => {
             method:"POST",
             body:JSON.stringify({promo:promo.current.value,user:session.user?.name})
            });
+           const resJson = await response.json();
+           if(response.status === 200){
+            setBalanceChange(true);
+            setModalOpen(false);
+           }else{
+            setModalOpen(false);
+           }
+
         }else{
             confirm("Please enter promo code")
         }
