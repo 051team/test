@@ -54,11 +54,10 @@ export default async function handler(
             if(resultUserUpdated.matchedCount === 1 && resultUserUpdated.matchedCount === 1){
                 console.log("Coupon updated");
                 console.log("User balance updated");
-                res.status(200).json({result:"balance updated"})
+                res.status(200).json({message:"Congrats! Balance updated!",color:"green"})
             }else{
                 console.log("Failed to update User Blance");
-                res.status(200).json({result:"Failed to updated balance 1111111"})
-
+                res.status(200).json({message:"Oops!",color:"red"})
             }
 
 
@@ -70,7 +69,7 @@ export default async function handler(
     }else{
         //COUPON NOT FOUND or EXPIRED
         console.log("Coupon not FOUND");
-        res.status(500).json({ message: 'Coupon not found',color:"red" })
+        res.status(200).json({ message: 'Expired or Invalid coupon',color:"red" });
 
     }
     

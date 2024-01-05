@@ -11,11 +11,14 @@ import logout from "../public/logout.png";
 import { useEffect, useRef, useState } from "react";
 import { formatter } from "../tools";
 import Link from "next/link";
+import Modal from "./modal";
 
 const Homie = () => {
     const { data: session } = useSession();
     const [sessionWithBalance, setSessionWithBalance] = useState<any>(null);
-    const [modalOpen,setModalOpen] = useState(false);
+    const [promoModal,setPromoModalOpen] = useState(false);
+    const [feedbackModal,setFeedbackModalOpen] = useState(false);
+    const [feedback,setFeedback] = useState<{message:string,color:string}>()
     const [balanceChange,setBalanceChange] = useState<boolean>(false);
     const core = useRef<HTMLDivElement>(null);
     const promo = useRef<HTMLInputElement>(null);
@@ -50,7 +53,7 @@ const Homie = () => {
     useEffect(()=>{
         const handleOutsideClick = (e:any) => {
             if (!core.current?.contains(e.target) && e.target.tagName !== 'BUTTON') {
-                setModalOpen(false);
+                setPromoModalOpen(false);
             }
         }
         window.addEventListener("click", handleOutsideClick)
@@ -64,30 +67,35 @@ const Homie = () => {
 
     const handleUseCoupon = async () => {
         if(promo.current?.value && session){
+            setFeedbackModalOpen(true);
+            setFeedback({message:"Uploading balance from the coupon", color:"gray"});
            const response = await fetch("/api/usecoupon",{
             method:"POST",
             body:JSON.stringify({promo:promo.current.value,user:session.user?.name})
            });
            if(response.status === 200){
+            const resJson = await response.json();
             setBalanceChange(pr=>!pr);
-            setModalOpen(false);
+            setPromoModalOpen(false);
+            setFeedback(resJson);
+            setTimeout(() => {
+                setFeedbackModalOpen(false)
+            }, 1500);
            }else{
-            setModalOpen(false);
-            console.log(response);
+            setPromoModalOpen(false);
            }
-
         }else{
-            confirm("Please enter promo code")
+            confirm("Please enter promo code");
         }
     }
 
     return ( 
         <div className={h.home}>
             {
-                modalOpen &&
+                promoModal &&
                 <div className={h.home_modal}>
                     <div className={h.home_modal_kernel} ref={core}>
-                        <button id={h.close} onClick={()=>setModalOpen(false)}>x</button>
+                        <button id={h.close} onClick={()=>setPromoModalOpen(false)}>x</button>
                         <div id={h.row1}>
                             <Image src={crazy} alt={"crazy professor"} width={156} height={192} priority />
                             <div id={h.right}>
@@ -102,6 +110,10 @@ const Homie = () => {
                         </div>
                     </div>
                 </div>
+            }
+            {
+                feedbackModal && feedback &&
+                <Modal modalOpen={feedbackModal} feedback={feedback} />
             }
 
             <div className={h.home_navbar}>
@@ -139,7 +151,7 @@ const Homie = () => {
                             </>
                         }
                     </button>
-                    <button id={h.deposit} onClick={()=>setModalOpen(true)}>DEPOSIT</button>
+                    <button id={h.deposit} onClick={()=>setPromoModalOpen(true)}>DEPOSIT</button>
                 </div>
                 <div className={h.home_navbar_slider}>
                     <button key={99}>
