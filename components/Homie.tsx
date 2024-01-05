@@ -45,7 +45,7 @@ const Homie = () => {
         if(session){
             fetch_create_user();
         }
-    },[session,balanceChange]);
+    },[session]);
 
     useEffect(()=>{
         const handleOutsideClick = (e:any) => {
