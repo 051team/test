@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { useRef, useState } from "react";
 import s from "../styles/Panel.module.css";
 
@@ -87,6 +88,37 @@ const Super_user = () => {
         }
     }
 
+
+    const handleDeleteCoupon = async (coupon:any) => {
+        if(confirm(`Are you sure to delete the coupon titled ${coupon.couponName} ?`)){
+            setFeedback({message:"Deleting coupon...",color:"gray"})
+            setModalOpen(true);
+            try {
+                const response = await fetch("/api/delcoupon",{
+                    method:"POST",
+                    body:JSON.stringify(coupon)
+                });
+                const resJson = await response.json();
+                if(resJson){
+                    setFeedback(resJson);
+                    if(response.status === 200){
+                        const updatedAllCoupons = allCoupons.filter((c:any)=>c.couponName !== coupon.couponName);
+                        setAllCoupons(updatedAllCoupons);
+                    }
+                    setTimeout(() => {
+                        setModalOpen(false);
+                    }, 2000);
+                    console.log(resJson);
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    }
+
+
+
+
     return ( <>
     <div className={s.panel}>
         {
@@ -147,6 +179,9 @@ const Super_user = () => {
                                             <p>{coupon.couponValue}</p>
                                             <p>{coupon.couponQuantity}</p>
                                             <p>{coupon.couponPerUser}</p>
+                                            <button onClick={()=>handleDeleteCoupon(coupon)}>
+                                                <Image alt="delete" src={"/delete.png"} width={25} height={25}/>
+                                            </button>
                                         </div>
                                         )
                                     }
