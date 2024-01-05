@@ -47,9 +47,9 @@ const Homie = () => {
 
     useEffect(()=>{
         const handleOutsideClick = (e:any) => {
-            if(!core.current?.contains(e.target) && modalOpen){
+            console.log("hello")
+            if (!core.current?.contains(e.target) && e.target.tagName !== 'BUTTON') {
                 setModalOpen(false);
-                console.log("fucntion called")
             }
         }
         window.addEventListener("click", handleOutsideClick)
