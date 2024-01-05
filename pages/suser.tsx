@@ -43,6 +43,8 @@ const Super_user = () => {
                 couponValue:parseFloat(couponValue.current!.value),
                 couponQuantity:parseInt(couponQuantity.current!.value),
                 couponPerUser:parseInt(couponPerUser.current!.value),
+                disabled:false,
+                usedXtimes:0
             }
             try {
                 const response = await fetch("/api/createcoupon",{
@@ -78,6 +80,7 @@ const Super_user = () => {
             const response = await fetch("/api/fetchcoupons");
             const resJson = await response.json();
             if(resJson){
+                console.log(resJson);
                 if(resJson.data){
                     setAllCoupons(resJson.data)
                 }
