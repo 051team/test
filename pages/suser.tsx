@@ -54,9 +54,9 @@ const Super_user = () => {
                     console.log(resJson);
                     setFeedback({message:resJson.message,color:resJson.color});
                     setAllCoupons([...allCoupons,coupon]);
-                    createcoupon.current!.checked = false;
                     setTimeout(() => {
                         setModalOpen(false);
+                        createcoupon.current!.checked = false;
                     }, 2000);
                 }
             } catch (error) {
@@ -109,6 +109,38 @@ const Super_user = () => {
                         setModalOpen(false);
                     }, 2000);
                     console.log(resJson);
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    }
+
+    const handleExpireCoupon = async (coupon:any) => {
+        if(confirm(`Are you sure to expire the coupon titled ${coupon.couponName} ?`)){
+            setFeedback({message:"Expiring coupon...",color:"gray"})
+            setModalOpen(true);
+            try {
+                const response = await fetch("/api/expirecoupon",{
+                    method:"POST",
+                    body:JSON.stringify(coupon)
+                });
+                const resJson = await response.json();
+                console.log(resJson)
+                if(resJson){
+                    setFeedback(resJson);
+                    if(response.status === 200){
+                        const updatedAllCoupons = allCoupons.map((c:any) => {
+                            if (c.couponName === coupon.couponName) {
+                              return { ...c, disabled: true };
+                            }
+                            return c;
+                        });
+                        setAllCoupons(updatedAllCoupons);
+                    }
+                    setTimeout(() => {
+                        setModalOpen(false);
+                    }, 2000);
                 }
             } catch (error) {
                 console.log(error)
@@ -171,6 +203,8 @@ const Super_user = () => {
                                             <p>Value</p>
                                             <p>Quantity</p>
                                             <p>Per user</p>
+                                            <p>Used</p>
+                                            <p>Active</p>
                                         </div>
                                     {
                                         allCoupons.map((coupon:any,i:any)=>
@@ -179,15 +213,21 @@ const Super_user = () => {
                                             <p>{coupon.couponValue}</p>
                                             <p>{coupon.couponQuantity}</p>
                                             <p>{coupon.couponPerUser}</p>
+                                            <p>{coupon.usedXtimes}</p>
+                                            <p style={{color:coupon.disabled ? "gray" : "lightgreen"}}>{coupon.disabled ? "no" : "yes"}</p>
                                             <button onClick={()=>handleDeleteCoupon(coupon)}>
                                                 <Image alt="delete" src={"/delete.png"} width={25} height={25}/>
+                                            </button>
+                                            <button onClick={()=>handleExpireCoupon(coupon)} disabled={coupon.disabled}>
+                                                <Image alt="expired" src={"/expired.png"} width={25} height={25}
+                                                style={{filter:coupon.disabled ? "grayscale(90%)" : "none"}}
+                                                />
                                             </button>
                                         </div>
                                         )
                                     }
                                 </div>
                             }
-                        
                     </div>
                     <div>
                     </div>

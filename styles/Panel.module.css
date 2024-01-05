@@ -183,7 +183,7 @@
 }
 .panel_kernel #coupons #options #allcoupons #each {
   display: grid;
-  grid-template-columns: 4fr 1fr 1fr 1fr 50px;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr 50px 50px;
   border-bottom: 1px solid navy;
   padding: 5px;
   position: relative;
