@@ -216,10 +216,10 @@ const Super_user = () => {
                                             <p>{coupon.usedXtimes}</p>
                                             <p style={{color:coupon.disabled ? "gray" : "lightgreen"}}>{coupon.disabled ? "no" : "yes"}</p>
                                             <button onClick={()=>handleDeleteCoupon(coupon)}>
-                                                <Image alt="delete" src={"/delete.png"} width={25} height={25}/>
+                                                <Image alt="delete" src={"/delete.png"} width={25} height={25} priority/>
                                             </button>
                                             <button onClick={()=>handleExpireCoupon(coupon)} disabled={coupon.disabled}>
-                                                <Image alt="expired" src={"/expired.png"} width={25} height={25}
+                                                <Image alt="expired" src={"/expired.png"} width={25} height={25} priority
                                                 style={{filter:coupon.disabled ? "grayscale(90%)" : "none"}}
                                                 />
                                             </button>
