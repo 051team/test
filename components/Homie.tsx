@@ -8,7 +8,7 @@ import dolar from "../public/dolar.png";
 import profile from "../public/profile.png";
 import promo from "../public/assets/promo.png";
 import logout from "../public/logout.png";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { formatter } from "../tools";
 import Link from "next/link";
 
@@ -16,6 +16,7 @@ const Homie = () => {
     const { data: session } = useSession();
     const [sessionWithBalance, setSessionWithBalance] = useState<any>(null);
     const [modalOpen,setModalOpen] = useState(false);
+    const core = useRef<HTMLDivElement>(null);
 
     useEffect(()=>{
         const fetch_create_user =async () => {
@@ -44,6 +45,19 @@ const Homie = () => {
         }
     },[session]);
 
+    useEffect(()=>{
+        const handleOutsideClick = (e:any) => {
+            if(!core.current?.contains(e.target) && modalOpen){
+                setModalOpen(false);
+            }
+        }
+        document.addEventListener("mousedown", handleOutsideClick)
+
+        return () => {
+            document.removeEventListener("mousedown", handleOutsideClick)
+        }
+    },[]);
+
     const handleLogIn = () => {
         if(!session){
             signIn()
@@ -51,13 +65,12 @@ const Homie = () => {
         }
     }
 
-
     return ( 
         <div className={h.home}>
             {
                 modalOpen &&
                 <div className={h.home_modal}>
-                    <div className={h.home_modal_kernel}>
+                    <div className={h.home_modal_kernel} ref={core}>
                         <button id={h.close} onClick={()=>setModalOpen(false)}>x</button>
                         <div id={h.row1}>
                             <Image src={promo} alt={"crazy professor"} width={156} height={192} priority />
