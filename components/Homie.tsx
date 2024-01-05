@@ -21,7 +21,7 @@ const Homie = () => {
     const promo = useRef<HTMLInputElement>(null);
 
     useEffect(()=>{
-        const fetch_create_user =async () => {
+        const fetch_create_user = async () => {
             try {
                 const response = await fetch("/api/user",{
                     method:"POST",
@@ -63,18 +63,17 @@ const Homie = () => {
     }
 
     const handleUseCoupon = async () => {
-        console.log("coupon use working");
         if(promo.current?.value && session){
            const response = await fetch("/api/usecoupon",{
             method:"POST",
             body:JSON.stringify({promo:promo.current.value,user:session.user?.name})
            });
-           const resJson = await response.json();
            if(response.status === 200){
-            setBalanceChange(true);
+            setBalanceChange(pr=>!pr);
             setModalOpen(false);
            }else{
             setModalOpen(false);
+            console.log(response);
            }
 
         }else{

@@ -57,11 +57,15 @@ export default async function handler(
                 res.status(200).json({result:"balance updated"})
             }else{
                 console.log("Failed to update User Blance");
+                res.status(200).json({result:"Failed to updated balance 1111111"})
+
             }
 
 
         }else{
-            console.log("Failed to update Coupon")
+            console.log("Failed to update Coupon");
+            res.status(200).json({result:"Failed to updated balance 222222"})
+
         }
     }else{
         //COUPON NOT FOUND or EXPIRED
