@@ -84,14 +84,16 @@ export default async function handler(
             res.status(200).json({message:"Congrats! Balance updated!",color:"green"})
           }else{
               console.log("Failed to update User Blance");
-              res.status(500).json({ message: 'Failed to use coupon 11111',color:"red" })
+              //res.status(500).json({ message: 'Failed to use coupon 11111',color:"red" })
             }
         }else{
           console.log("Failed to update Coupon");
-          res.status(500).json({ message: 'Failed to use coupon 22222',color:"red" })
+          //res.status(500).json({ message: 'Failed to use coupon 22222',color:"red" })
         }
       }
-      if(useAgain && coupon_used_before){
+
+      
+      if(useAgain){
         const resultCouponUpdated = await coupons.updateOne(
           { couponName: coupon_to_USE, disabled:false },
           [
