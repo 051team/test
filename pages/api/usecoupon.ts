@@ -84,14 +84,14 @@ export default async function handler(
             res.status(200).json({message:"Congrats! Balance updated!",color:"green"})
           }else{
               console.log("Failed to update User Blance");
-              res.status(200).json({message:"Oops!",color:"red"})
-          }
+              res.status(500).json({ message: 'Failed to use coupon 11111',color:"red" })
+            }
         }else{
           console.log("Failed to update Coupon");
-          res.status(200).json({result:"Failed to updated balance 222222"})
+          res.status(500).json({ message: 'Failed to use coupon 22222',color:"red" })
         }
       }
-      if(useAgain){
+      if(useAgain && coupon_used_before){
         const resultCouponUpdated = await coupons.updateOne(
           { couponName: coupon_to_USE, disabled:false },
           [
@@ -129,14 +129,13 @@ export default async function handler(
               res.status(200).json({message:"Congrats! Balance updated!",color:"green"})
           }else{
               console.log("Failed to update User Blance");
-              res.status(200).json({message:"Oops!",color:"red"})
-          }
+              res.status(500).json({ message: 'Failed to use coupon 33333',color:"red" })
+            }
 
 
       }else{
           console.log("Failed to update Coupon");
-          res.status(200).json({result:"Failed to updated balance 222222"})
-
+          res.status(500).json({ message: 'Failed to use coupon 44444',color:"red" })
       }
       }else{
         console.log("Coupon quota is full for the user");
@@ -146,8 +145,7 @@ export default async function handler(
     }else{
         //COUPON NOT FOUND or EXPIRED
         console.log("Coupon not FOUND");
-        res.status(200).json({ message: 'Expired or Invalid coupon',color:"red" });
-
+        res.status(404).json({ message: 'Expired or Invalid coupon',color:"red" });
     }
     
   } catch (error) {
