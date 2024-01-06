@@ -19,6 +19,10 @@ const Super_user = () => {
     const couponPerUser = useRef<HTMLInputElement>(null);
     const createcoupon = useRef<HTMLInputElement>(null);
 
+    const caseName = useRef<HTMLInputElement>(null);
+    const caseCategory = useRef<HTMLSelectElement>(null);
+    const caseImage = useRef<HTMLInputElement>(null);
+
     const handleFetchAll = async () => {
         setFeedback({message:"Fetching all users...",color:"gray"})
         setModalOpen(true);
@@ -35,7 +39,7 @@ const Super_user = () => {
         }
     }
 
-    const handleCreate = async () => {
+    const handleCreateCoupon = async () => {
         const ready = [couponName, couponValue, couponQuantity, couponPerUser].every(inputRef => inputRef.current?.value);
         if(ready){
             setFeedback({message:"Creating new coupon...",color:"gray"});
@@ -153,6 +157,45 @@ const Super_user = () => {
         }
     }
 
+    const handleCreateCase = async () => {
+        const warning = !caseName.current?.value ? "Please enter case name" : 
+                        !caseCategory.current?.value ? "Please choose case category" :
+                        !caseImage.current?.files![0] ? "Please upload case image" : "";
+        const ready = [caseName,caseCategory].every((rf) => rf.current?.value) && caseImage.current?.files![0];
+
+        if(!ready){
+            confirm(warning);
+            return
+        };
+        
+        setFeedback({message:"Creating new case",color:"gray"});
+        setModalOpen(true);
+        try {
+            const response = await fetch("/api/createcase",{
+                method:"POST",
+                body:JSON.stringify({
+                    caseName:caseName.current?.value,
+                    caseCategory:caseCategory.current?.value
+                })
+            });
+            if(response.ok){
+                const resJson = await response.json();
+                console.log(resJson);
+                setFeedback(()=>resJson);
+                setTimeout(() => {
+                    setModalOpen(pr=>!pr);
+                }, 1500);
+            }
+        } catch (error) {
+        }
+    }
+
+    const handleCasaImageUpload = () => {
+        if(caseImage.current){
+            console.log(caseImage.current.files![0]);
+        }
+    }
+
 
 
 
@@ -179,7 +222,7 @@ const Super_user = () => {
                     <button id={s.showall} onClick={handleFetchAll}>Show all users</button>
                 </div>
             }
-                        {
+            {
                 selectedTab === "Coupons" &&
                 <div id={s.coupons}>
                     <div id={s.options}>
@@ -192,7 +235,7 @@ const Super_user = () => {
                             <input ref={couponValue} type="number" min={1} max={100000} placeholder="Coupon value..." />
                             <input ref={couponQuantity} type="number" min={1} max={100000} placeholder="Quantity..." />
                             <input ref={couponPerUser} type="number" min={1} max={999} placeholder="Per user..." />
-                            <button onClick={handleCreate}>CREATE COUPON</button>
+                            <button onClick={handleCreateCoupon}>CREATE COUPON</button>
                         </div>
                         
                             {
@@ -266,17 +309,26 @@ const Super_user = () => {
                         <span>&#x25BC;</span>
                         <div id={s.createcase}>
                             <div id={s.caseoptions}>
-                                <button>Upload Case <br /> Image</button>
+                                <button>
+                                    Upload Case <br /> Image       
+                                    <input
+                                        ref={caseImage}
+                                        type="file"
+                                        accept="image/*" // Specify accepted file types (images in this case)
+                                        style={{  }} // Hide the input visually
+                                        onChange={handleCasaImageUpload}
+                                    />
+                                </button>
                                 <div id={s.name_cat}>
                                     <p>Case Name</p>
-                                    <input type="text" placeholder="..."/>
+                                    <input type="text" placeholder="..." ref={caseName}/>
                                     <p>Category</p>
-                                    <select>
+                                    <select ref={caseCategory}>
                                         <option value="" disabled selected>Choose Category</option>
-                                        <option value="">POPULAR CASES</option>
-                                        <option value="">LIMITED EDITION</option>
-                                        <option value="">HONORARY CASES</option>
-                                        <option value="">DAO CASES</option>
+                                        <option value="popular cases">POPULAR CASES</option>
+                                        <option value="limited edition">LIMITED EDITION</option>
+                                        <option value="honorary cases">HONORARY CASES</option>
+                                        <option value="dao cases">DAO CASES</option>
                                     </select>
                                 </div>
                             </div>
@@ -302,7 +354,7 @@ const Super_user = () => {
                                         <input type="text" placeholder="Enter price..." />
                                     </div>
                                     <div className={s.actions_double}>
-                                        <button>CREATE CASE</button>
+                                        <button onClick={handleCreateCase}>CREATE CASE</button>
                                     </div>
                                 </div>
                             </div>
