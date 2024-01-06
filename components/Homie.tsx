@@ -75,16 +75,16 @@ const Homie = () => {
            });
            if(response.status === 200){
             const resJson = await response.json();
+            setFeedback(()=>resJson);
             setBalanceChange(pr=>!pr);
             setPromoModalOpen(pr=>!pr);
-            setFeedback(resJson);
             setTimeout(() => {
                 setFeedbackModalOpen(pr=>!pr)
             }, 1500);
            }else{
             const resJson = await response.json();
+            setFeedback(()=>resJson);
             setPromoModalOpen(pr=>!pr);
-            setFeedback(resJson);
             setTimeout(() => {
                 setFeedbackModalOpen(pr=>!pr)
             }, 1500);
