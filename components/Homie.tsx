@@ -69,28 +69,32 @@ const Homie = () => {
         if(promo.current?.value && session){
             setFeedbackModalOpen(true);
             setFeedback({message:"Uploading balance from the coupon", color:"gray"});
-           const response = await fetch("/api/usecoupon",{
-            method:"POST",
-            body:JSON.stringify({promo:promo.current.value,user:session.user?.name})
-           });
-           if(response.status === 200){
-            const resJson = await response.json();
-            console.log(resJson);
-            setFeedback(()=>resJson);
-            setBalanceChange(pr=>!pr);
-            setPromoModalOpen(pr=>!pr);
-            setTimeout(() => {
-                setFeedbackModalOpen(pr=>!pr)
-            }, 1500);
-           }else{
-            const resJson = await response.json();
-            console.log(resJson)
-            setFeedback(()=>resJson);
-            setPromoModalOpen(pr=>!pr);
-            setTimeout(() => {
-                setFeedbackModalOpen(pr=>!pr)
-            }, 1500);
-           }
+            try {
+                const response = await fetch("/api/usecoupon",{
+                    method:"POST",
+                    body:JSON.stringify({promo:promo.current.value,user:session.user?.name})
+                   });
+                   if(response.status === 200){
+                    const resJson = await response.json();
+                    console.log(resJson);
+                    setFeedback(()=>resJson);
+                    setBalanceChange(pr=>!pr);
+                    setPromoModalOpen(pr=>!pr);
+                    setTimeout(() => {
+                        setFeedbackModalOpen(pr=>!pr)
+                    }, 1500);
+                   }else{
+                    const resJson = await response.json();
+                    console.log(resJson)
+                    setFeedback(()=>resJson);
+                    setPromoModalOpen(pr=>!pr);
+                    setTimeout(() => {
+                        setFeedbackModalOpen(pr=>!pr)
+                    }, 1500);
+                   }
+            } catch (error) {
+                console.log("Sorun lu ki:",error)
+            }
         }else{
             confirm("Please enter promo code");
         }
