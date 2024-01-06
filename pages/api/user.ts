@@ -27,7 +27,7 @@ export default async function handler(
       res.status(200).json({ name: 'Existing User', balance:existingUser.balance })
     }else{
       const result = await members.insertOne({
-        cdpUser:name, cdpEmail:email,balance:0, joinedAt:new Date()
+        cdpUser:name, cdpEmail:email,balance:0, joinedAt:new Date(), coupons_used:[]
       });
       console.log(result);
       res.status(200).json({ name: 'New User' })

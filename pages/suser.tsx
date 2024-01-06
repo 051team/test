@@ -57,7 +57,7 @@ const Super_user = () => {
                     setFeedback({message:resJson.message,color:resJson.color});
                     setAllCoupons([...allCoupons,coupon]);
                     setTimeout(() => {
-                        setModalOpen(false);
+                        setModalOpen(pr=>!pr);
                         createcoupon.current!.checked = false;
                     }, 2000);
                 }

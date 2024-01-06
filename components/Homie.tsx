@@ -82,7 +82,12 @@ const Homie = () => {
                 setFeedbackModalOpen(false)
             }, 1500);
            }else{
+            const resJson = await response.json();
             setPromoModalOpen(false);
+            setFeedback(resJson);
+            setTimeout(() => {
+                setFeedbackModalOpen(false)
+            }, 1500);
            }
         }else{
             confirm("Please enter promo code");
