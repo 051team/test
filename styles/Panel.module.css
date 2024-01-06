@@ -2,7 +2,7 @@
   min-height: 100vh;
   display: grid;
   justify-content: center;
-  align-items: center;
+  padding-top: 10%;
   background-color: black;
 }
 .panel_kernel {
@@ -43,7 +43,7 @@
   min-height: 200px;
   width: 100%;
   padding: 30px 0;
-  padding-top: 60px;
+  padding-top: 50px;
   -webkit-animation: drop 0.6s 1;
           animation: drop 0.6s 1;
   position: relative;
@@ -73,6 +73,7 @@
   position: relative;
   top: 50px;
   padding: 10px;
+  padding-top: 0;
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
@@ -197,61 +198,126 @@
 .panel_kernel #coupons #options #allcoupons #each button {
   color: white;
 }
-.panel_modal {
-  background: black;
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 99999;
-  display: grid;
-  justify-content: center;
-  align-items: center;
-}
-.panel_modal_kernel {
-  width: 500px;
-  position: relative;
-  display: grid;
-  justify-content: center;
-  align-items: center;
-}
-.panel_modal_kernel h2 {
-  color: gray;
-  font-weight: 400;
-  margin-top: 10px;
-  -webkit-animation: shine 1s infinite;
-          animation: shine 1s infinite;
-}
-.panel_modal_kernel .loader {
-  transform: rotateZ(45deg);
-  perspective: 1000px;
-  border-radius: 50%;
-  width: 68px;
-  height: 68px;
-  color: #fff;
-  display: grid;
-  justify-self: center;
-}
-.panel_modal_kernel .loader:before,
-.panel_modal_kernel .loader:after {
-  content: "";
+.panel_kernel #coupons input:checked ~ #createcase {
   display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: inherit;
-  height: inherit;
-  border-radius: 50%;
-  transform: rotateX(70deg);
-  -webkit-animation: 1s spin linear infinite;
-          animation: 1s spin linear infinite;
 }
-.panel_modal_kernel .loader:after {
-  color: #FF3D00;
-  transform: rotateY(70deg);
-  -webkit-animation-delay: 0.4s;
-          animation-delay: 0.4s;
+.panel_kernel #coupons #createcase {
+  position: absolute;
+  display: none;
+  top: 80px;
+  width: 100%;
+  padding: 10px;
+  padding-right: 25%;
+  background-color: navy;
+  padding-right: 10px;
+}
+.panel_kernel #coupons #createcase #caseoptions {
+  height: 100px;
+  display: flex;
+  -moz-column-gap: 30px;
+       column-gap: 30px;
+  margin-bottom: 30px;
+}
+.panel_kernel #coupons #createcase #caseoptions p {
+  font-size: small;
+  color: orange;
+}
+.panel_kernel #coupons #createcase #caseoptions #name_cat {
+  width: 200px;
+}
+.panel_kernel #coupons #createcase #caseoptions button {
+  background-color: gray;
+  width: 200px;
+  height: calc(100% + 10px);
+  color: white;
+  font-size: large;
+  font-weight: 500;
+  filter: brightness(1.1);
+}
+.panel_kernel #coupons #createcase #caseoptions input, .panel_kernel #coupons #createcase #caseoptions select {
+  height: 30px;
+  width: 285px;
+  outline: none;
+  color: navy;
+  font-weight: 500;
+  padding-left: 20px;
+  margin-bottom: 5px;
+}
+.panel_kernel #coupons #createcase #caseoptions select {
+  color: navy;
+  border: none;
+  padding-left: 0;
+}
+.panel_kernel #coupons #createcase #gifts {
+  position: relative;
+}
+.panel_kernel #coupons #createcase #gifts #titles {
+  display: flex;
+  padding-left: 60px;
+  padding-right: 10px;
+  -moz-column-gap: 20px;
+       column-gap: 20px;
+}
+.panel_kernel #coupons #createcase #gifts #titles p {
+  width: 100%;
+  font-size: small;
+  font-weight: 500;
+  color: orange;
+}
+.panel_kernel #coupons #createcase #gifts .gift {
+  height: 40px;
+  padding: 5px 10px;
+  display: flex;
+  -moz-column-gap: 20px;
+       column-gap: 20px;
+}
+.panel_kernel #coupons #createcase #gifts .gift button {
+  height: 100%;
+}
+.panel_kernel #coupons #createcase #gifts .gift img {
+  width: auto;
+  height: 100%;
+  filter: brightness(1.4);
+}
+.panel_kernel #coupons #createcase #gifts .gift input {
+  height: 30px !important;
+  width: 100%;
+  padding-left: 10px;
+}
+.panel_kernel #coupons #createcase #gifts .actions {
+  height: 90px;
+  width: 100%;
+  position: absolute;
+  bottom: -100px;
+  padding: 10px;
+}
+.panel_kernel #coupons #createcase #gifts .actions_double {
+  display: flex;
+  position: relative;
+  min-height: 25px;
+  padding-left: 60px;
+}
+.panel_kernel #coupons #createcase #gifts .actions_double input {
+  height: 30px;
+  width: 200px;
+}
+.panel_kernel #coupons #createcase #gifts .actions_double p {
+  font-size: small;
+  font-weight: 500;
+}
+.panel_kernel #coupons #createcase #gifts .actions_double p:nth-child(1) {
+  position: absolute;
+  right: 10px;
+  top: 0;
+  color: whitesmoke;
+}
+.panel_kernel #coupons #createcase #gifts .actions_double button {
+  background-color: darkorange;
+  position: absolute;
+  right: 10px;
+  display: grid;
+  align-self: center;
+  padding: 5px 25px;
 }
 
 @-webkit-keyframes drop {
@@ -285,111 +351,5 @@
   }
   to {
     visibility: visible;
-  }
-}
-@-webkit-keyframes shine {
-  0% {
-    filter: brightness(1);
-  }
-  50% {
-    filter: brightness(1.9);
-  }
-  100% {
-    filter: brightness(1);
-  }
-}
-@keyframes shine {
-  0% {
-    filter: brightness(1);
-  }
-  50% {
-    filter: brightness(1.9);
-  }
-  100% {
-    filter: brightness(1);
-  }
-}
-@-webkit-keyframes rotate {
-  0% {
-    transform: translate(-50%, -50%) rotateZ(0deg);
-  }
-  100% {
-    transform: translate(-50%, -50%) rotateZ(360deg);
-  }
-}
-@keyframes rotate {
-  0% {
-    transform: translate(-50%, -50%) rotateZ(0deg);
-  }
-  100% {
-    transform: translate(-50%, -50%) rotateZ(360deg);
-  }
-}
-@-webkit-keyframes rotateccw {
-  0% {
-    transform: translate(-50%, -50%) rotate(0deg);
-  }
-  100% {
-    transform: translate(-50%, -50%) rotate(-360deg);
-  }
-}
-@keyframes rotateccw {
-  0% {
-    transform: translate(-50%, -50%) rotate(0deg);
-  }
-  100% {
-    transform: translate(-50%, -50%) rotate(-360deg);
-  }
-}
-@-webkit-keyframes spin {
-  0%, 100% {
-    box-shadow: 0.2em 0px 0 0px currentcolor;
-  }
-  12% {
-    box-shadow: 0.2em 0.2em 0 0 currentcolor;
-  }
-  25% {
-    box-shadow: 0 0.2em 0 0px currentcolor;
-  }
-  37% {
-    box-shadow: -0.2em 0.2em 0 0 currentcolor;
-  }
-  50% {
-    box-shadow: -0.2em 0 0 0 currentcolor;
-  }
-  62% {
-    box-shadow: -0.2em -0.2em 0 0 currentcolor;
-  }
-  75% {
-    box-shadow: 0px -0.2em 0 0 currentcolor;
-  }
-  87% {
-    box-shadow: 0.2em -0.2em 0 0 currentcolor;
-  }
-}
-@keyframes spin {
-  0%, 100% {
-    box-shadow: 0.2em 0px 0 0px currentcolor;
-  }
-  12% {
-    box-shadow: 0.2em 0.2em 0 0 currentcolor;
-  }
-  25% {
-    box-shadow: 0 0.2em 0 0px currentcolor;
-  }
-  37% {
-    box-shadow: -0.2em 0.2em 0 0 currentcolor;
-  }
-  50% {
-    box-shadow: -0.2em 0 0 0 currentcolor;
-  }
-  62% {
-    box-shadow: -0.2em -0.2em 0 0 currentcolor;
-  }
-  75% {
-    box-shadow: 0px -0.2em 0 0 currentcolor;
-  }
-  87% {
-    box-shadow: 0.2em -0.2em 0 0 currentcolor;
   }
 }/*# sourceMappingURL=Panel.module.css.map */

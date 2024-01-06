@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { useRef, useState } from "react";
 import s from "../styles/Panel.module.css";
+import gift from "../public/assets/camera.png";
 
 const Super_user = () => {
     const tabs = ["User Actions", "Coupons","Case Actions"];
@@ -237,10 +238,6 @@ const Super_user = () => {
                 </div>
             }
 
-
-
-
-
             {
                 selectedTab === "User Actions" && activeUsers &&
                 <div id={s.activeusers}>
@@ -262,6 +259,62 @@ const Super_user = () => {
                     }
                 </div>
             }
+
+            {
+                selectedTab === "Case Actions" &&
+                <div id={s.coupons}>
+                    <div id={s.options}>
+                        <button id={s.showcoupons}>List cases</button>
+                        <label htmlFor="createcoupon">Create Case</label> 
+                        <input id="createcoupon" type="checkbox" ref={createcoupon} />
+                        <span>&#x25BC;</span>
+                        <div id={s.createcase}>
+                            <div id={s.caseoptions}>
+                                <button>Upload Case <br /> Image</button>
+                                <div id={s.name_cat}>
+                                    <p>Case Name</p>
+                                    <input type="text" placeholder="..."/>
+                                    <p>Category</p>
+                                    <select>
+                                        <option value="" disabled selected>Choose Category</option>
+                                        <option value="">POPULAR CASES</option>
+                                        <option value="">LIMITED EDITION</option>
+                                        <option value="">HONORARY CASES</option>
+                                        <option value="">DAO CASES</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div id={s.gifts}>
+                                <div id={s.titles}>
+                                    <p>Gift name</p>
+                                    <p>Gift price</p>
+                                    <p>Probability</p>
+                                </div>
+                                <div className={s.gift}>
+                                    <button><Image src={gift} alt="Gift image"/></button>
+                                    <input type="text" placeholder="..." />
+                                    <input type="text" placeholder="..." />
+                                    <input type="text" placeholder="..." />
+                                </div>
+                                <div className={s.actions}>
+                                    <div className={s.actions_double}>
+                                        <p>Recommended Price</p>
+                                        <p>Case Price</p>
+                                    </div>
+                                    <div className={s.actions_double}>
+                                        <p style={{top:"-10px"}}>$ 750</p>   
+                                        <input type="text" placeholder="Enter price..." />
+                                    </div>
+                                    <div className={s.actions_double}>
+                                        <button>CREATE CASE</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
         </div>
     </div>
     </> );
