@@ -1,5 +1,5 @@
 .panel_modal {
-  background: black;
+  background: rgba(0, 0, 0, 0.85);
   position: fixed;
   top: 0;
   bottom: 0;
