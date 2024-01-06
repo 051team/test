@@ -96,7 +96,12 @@ const Homie = () => {
                 console.log("Sorun lu ki:",error)
             }
         }else{
-            confirm("Please enter promo code");
+            if(!session){
+                confirm("Login required!");
+            }else{
+                confirm("Please enter promo code");
+            }
+            
         }
     }
 

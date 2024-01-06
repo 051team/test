@@ -2,6 +2,7 @@ import Image from "next/image";
 import { useRef, useState } from "react";
 import s from "../styles/Panel.module.css";
 import gift from "../public/assets/camera.png";
+import Modal from "../components/modal";
 
 const Super_user = () => {
     const tabs = ["User Actions", "Coupons","Case Actions"];
@@ -159,12 +160,7 @@ const Super_user = () => {
     <div className={s.panel}>
         {
             modalOpen &&
-            <div className={s.panel_modal}>
-                <div className={s.panel_modal_kernel}>
-                    <span className={s.loader}></span>
-                    <h2 style={{color:feedback?.color ? feedback.color : "gray"}}>{feedback && feedback.message}</h2>
-                </div>
-            </div>
+            <Modal modalOpen={modalOpen} feedback={feedback} />
         }
         <div className={s.panel_kernel}>
             <div className={s.panel_kernel_tabs}>
@@ -291,7 +287,7 @@ const Super_user = () => {
                                     <p>Probability</p>
                                 </div>
                                 <div className={s.gift}>
-                                    <button><Image src={gift} alt="Gift image"/></button>
+                                    <button><Image priority src={gift} alt="Gift image"/></button>
                                     <input type="text" placeholder="..." />
                                     <input type="text" placeholder="..." />
                                     <input type="text" placeholder="..." />
