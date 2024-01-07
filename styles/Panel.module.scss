@@ -200,6 +200,7 @@
             padding-right: 25%;
             background-color: navy;
             padding-right: 10px;
+            padding-bottom: 30px;
             #caseoptions{
               height: 100px;
               display: flex;
@@ -228,6 +229,16 @@
                   opacity: 0;
                   cursor: pointer;
                 }
+              }
+              #addgift{
+                width: 200px;
+                height: 90px;
+                position: absolute;
+                right: 25px;
+                top:30px;
+                background-color: darkorange;
+                color: black;
+                font-weight: 500;
               }
               input, select{
                 height: 30px;
@@ -281,7 +292,7 @@
                 height: 90px;
                 width: 100%;
                 position: absolute;
-                bottom: -100px;
+                bottom: -120px;
                 padding: 10px;
                 &_double{
                   display: flex;

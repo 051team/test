@@ -4,7 +4,7 @@ import s from "../styles/Panel.module.css";
 import gift from "../public/assets/camera.png";
 import Modal from "../components/modal";
 import { BlobServiceClient, ContainerClient } from '@azure/storage-blob';
-import { useCallback } from "react";
+import Gift_holder from "../components/giftholder";
 
 const Super_user = () => {
     const tabs = ["User Actions", "Coupons","Case Actions"];
@@ -13,7 +13,8 @@ const Super_user = () => {
     const [allCoupons,setAllCoupons] = useState<any>(null);
 
     const [modalOpen,setModalOpen] = useState(false);
-    const [feedback,setFeedback] = useState<{message:string,color:string}>()
+    const [feedback,setFeedback] = useState<{message:string,color:string}>();
+    const [selectedCaseImageURL, setCaseImageURL] = useState("");
 
     const couponName = useRef<HTMLInputElement>(null);
     const couponValue = useRef<HTMLInputElement>(null);
@@ -24,6 +25,12 @@ const Super_user = () => {
     const caseName = useRef<HTMLInputElement>(null);
     const caseCategory = useRef<HTMLSelectElement>(null);
     const caseImage = useRef<HTMLInputElement>(null);
+
+    const [gifts, setGifts] = useState
+                            <{numberofGifts:number,canAddGift:boolean}>
+                            ({numberofGifts:1, canAddGift:false});
+
+    const [giftsReady,setGiftsReady] = useState<boolean>(false);
 
 
     const handleFetchAll = async () => {
@@ -160,6 +167,43 @@ const Super_user = () => {
         }
     }
 
+
+    const containerName = process.env.NEXT_PUBLIC_CONTAINER_NAME;
+    const sasToken = process.env.NEXT_PUBLIC_STORAGESASTOKEN;
+    const storageAccountName = process.env.NEXT_PUBLIC_STORAGERESOURCENAME;
+
+    const uploadFileToBlob = async (file: File | null, newFileName: string) => {
+        if (!file) {
+          console.log("Not found");
+        } else {
+          const blobService = new BlobServiceClient(
+            `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
+          );
+  
+          const containerClient: ContainerClient =
+            blobService.getContainerClient(containerName!);
+          await containerClient.createIfNotExists({
+            access: 'container',
+          });
+  
+          const blobClient = containerClient.getBlockBlobClient(newFileName);
+          const options = { blobHTTPHeaders: { blobContentType: file.type } };
+  
+          await blobClient.uploadData(file, options);
+          console.log("Upload successful");
+
+          const blobUrl = blobClient.url;
+          return blobUrl;
+        }
+    };
+    
+    const showTemporaryCaseImage = () => {
+        if(caseImage.current && caseImage.current.files){
+            const caseImageURL = URL.createObjectURL(caseImage.current.files[0]);
+            setCaseImageURL(caseImageURL);
+        }
+    }
+
     const handleCreateCase = async () => {
         const warning = !caseName.current?.value ? "Please enter case name" : 
                         !caseCategory.current?.value ? "Please choose case category" :
@@ -170,9 +214,8 @@ const Super_user = () => {
             confirm(warning);
             return
         };
-
         
-        setFeedback({message:"Saving Image to Azure CDN",color:"gray"});
+        setFeedback({message:"Creating new case...",color:"gray"});
         setModalOpen(true);
 
         const originalFile = caseImage.current.files![0];
@@ -181,52 +224,19 @@ const Super_user = () => {
 
         console.log(newFileName);
 
-        const containerName = process.env.NEXT_PUBLIC_CONTAINER_NAME;
-        const sasToken = process.env.NEXT_PUBLIC_STORAGESASTOKEN;
-        const storageAccountName = process.env.NEXT_PUBLIC_STORAGERESOURCENAME;
+        const caseImageURL = await uploadFileToBlob(originalFile, newFileName);
+        const fake_CDN_URL = "https://casadepapeldev.blob.core.windows.net/cdpdemo/daocases-qeg-1704649956333.png?sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2024-01-07T22:39:53Z&st=2024-01-07T14:39:53Z&spr=https,http&sig=LYxXZX53MdGxHKg7VUU1LL%2FtIX820dZyVTHH%2FIj8VnY%3D"
 
-        const uploadFileToBlob = async (file: File | null, newFileName: string) => {
-              if (!file) {
-                console.log("Not found");
-              } else {
-                const blobService = new BlobServiceClient(
-                  `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
-                );
-        
-                const containerClient: ContainerClient =
-                  blobService.getContainerClient(containerName!);
-                await containerClient.createIfNotExists({
-                  access: 'container',
-                });
-        
-                const blobClient = containerClient.getBlockBlobClient(newFileName);
-                const options = { blobHTTPHeaders: { blobContentType: file.type } };
-        
-                await blobClient.uploadData(file, options);
-                console.log("Upload successful");
-              }
-        };
+        const caseInfo = {
+            caseName:caseName.current?.value!,
+            caseCategory:caseCategory.current?.value!,
+            caseImageURL: caseImageURL
+        }
 
-        await uploadFileToBlob(originalFile, newFileName);
-        setFeedback({message:"Image successfully saved",color:"green"})
-        setTimeout(() => {
-            setModalOpen(pr=>!pr);
-        }, 1500);
-
-
-/*         const binaryImage = await readFileAsBinaryString(originalFile);
-
-        //create form data and appen fields and images
-        const caseINFO = new FormData();
-        caseINFO.append("caseImage",binaryImage as string);
-        caseINFO.append("caseName",caseName.current?.value!);
-        caseINFO.append("caseFileName", newFileName)
-        caseINFO.append("caseCategory",caseCategory.current?.value!); */
-
-/*         try {
+        try {
             const response = await fetch("/api/createcase",{
                 method:"POST",
-                body:caseINFO
+                body:JSON.stringify(caseInfo)
             });
             if(response.ok){
                 const resJson = await response.json();
@@ -237,30 +247,18 @@ const Super_user = () => {
                 }, 1500);
             }
         } catch (error) {
-        } */
+        }
     }
 
-
-
-    function readFileAsBinaryString(file:any) {
-        return new Promise((resolve, reject) => {
-          const reader = new FileReader();
-      
-          reader.onload = (event) => {
-            // The result is a binary string
-            resolve(event.target?.result);
-          };
-      
-          reader.onerror = (error) => {
-            reject(error);
-          };
-      
-          reader.readAsBinaryString(file);
-        });
-      }
-
-
-
+    const handleAddGift = () => {
+        if(!gifts.canAddGift){
+            alert("Can not add gifts before filling existing gift details");
+            return
+        }
+        setGifts({
+            ...gifts, numberofGifts:gifts.numberofGifts+1, canAddGift:false
+        })
+    }
 
     return ( <>
     <div className={s.panel}>
@@ -373,13 +371,18 @@ const Super_user = () => {
                         <div id={s.createcase}>
                             <div id={s.caseoptions}>
                                 <button>
-                                    Upload Case <br /> Image       
+                                    {
+                                        !selectedCaseImageURL ?
+                                        <div>Upload Case <br /> Image </div>
+                                        :
+                                        <Image src={selectedCaseImageURL} id={s.caseiamge} alt="Case Image" fill/>
+                                    }      
                                     <input
                                         ref={caseImage}
                                         type="file"
                                         accept="image/*" // Specify accepted file types (images in this case)
                                         style={{  }} // Hide the input visually
-                                        /* onChange={handleCasaImageUpload} */
+                                        onChange={showTemporaryCaseImage}
                                     />
                                 </button>
                                 <div id={s.name_cat}>
@@ -394,6 +397,7 @@ const Super_user = () => {
                                         <option value="daocases">DAO CASES</option>
                                     </select>
                                 </div>
+                                <button id={s.addgift} onClick={handleAddGift}>Add Gift</button>
                             </div>
                             <div id={s.gifts}>
                                 <div id={s.titles}>
@@ -401,12 +405,11 @@ const Super_user = () => {
                                     <p>Gift price</p>
                                     <p>Probability</p>
                                 </div>
-                                <div className={s.gift}>
-                                    <button><Image priority src={gift} alt="Gift image"/></button>
-                                    <input type="text" placeholder="..." />
-                                    <input type="text" placeholder="..." />
-                                    <input type="text" placeholder="..." />
-                                </div>
+                                {
+                                    [...Array(gifts.numberofGifts)].map((g,i)=>
+                                    <Gift_holder key={i} setGiftsReady={setGiftsReady} setGifts={setGifts} gifts={gifts} />
+                                    )
+                                }
                                 <div className={s.actions}>
                                     <div className={s.actions_double}>
                                         <p>Recommended Price</p>
@@ -431,3 +434,26 @@ const Super_user = () => {
 }
  
 export default Super_user;
+
+
+
+
+
+
+/* const getBlobs = async () => {
+    const returnedBlobUrls: string[] = [];
+    const blobService = new BlobServiceClient(
+      `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
+    );
+
+    const containerClient: ContainerClient =
+      blobService.getContainerClient(containerName!);
+    
+      for await (const blob of containerClient.listBlobsFlat()) {
+        returnedBlobUrls.push(
+          `https://${storageAccountName}.blob.core.windows.net/${containerName}/${blob.name}`
+        );
+      }
+    console.log(returnedBlobUrls);
+    return returnedBlobUrls;
+} */
