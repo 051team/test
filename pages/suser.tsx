@@ -3,6 +3,8 @@ import { useRef, useState } from "react";
 import s from "../styles/Panel.module.css";
 import gift from "../public/assets/camera.png";
 import Modal from "../components/modal";
+import { BlobServiceClient, ContainerClient } from '@azure/storage-blob';
+import { useCallback } from "react";
 
 const Super_user = () => {
     const tabs = ["User Actions", "Coupons","Case Actions"];
@@ -22,6 +24,7 @@ const Super_user = () => {
     const caseName = useRef<HTMLInputElement>(null);
     const caseCategory = useRef<HTMLSelectElement>(null);
     const caseImage = useRef<HTMLInputElement>(null);
+
 
     const handleFetchAll = async () => {
         setFeedback({message:"Fetching all users...",color:"gray"})
@@ -169,30 +172,54 @@ const Super_user = () => {
         };
 
         
-        setFeedback({message:"Creating new case",color:"gray"});
-        setModalOpen(true);
+/*         setFeedback({message:"Creating new case",color:"gray"});
+        setModalOpen(true); */
 
         const originalFile = caseImage.current.files![0];
         const file_extension = originalFile.name.split(".").pop();
-        console.log(new Date().getTime());
         const newFileName = (caseCategory.current!.value + "-" + caseName.current!.value + "-" + (new Date().getTime()) + "." + file_extension).replace(/\s/g, "");
 
         console.log(newFileName);
 
+        const containerName = process.env.NEXT_PUBLIC_CONTAINER_NAME;
+        const sasToken = process.env.NEXT_PUBLIC_STORAGESASTOKEN;
+        const storageAccountName = process.env.NEXT_PUBLIC_STORAGERESOURCENAME;
 
-        const modifiedFile = new File([originalFile], newFileName, {
-        type: originalFile.type,
-        });
+        const uploadFileToBlob = async (file: File | null, newFileName: string) => {
+              if (!file) {
+                console.log("Not found");
+              } else {
+                const blobService = new BlobServiceClient(
+                  `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
+                );
+        
+                const containerClient: ContainerClient =
+                  blobService.getContainerClient(containerName!);
+                await containerClient.createIfNotExists({
+                  access: 'container',
+                });
+        
+                const blobClient = containerClient.getBlockBlobClient(newFileName);
+                const options = { blobHTTPHeaders: { blobContentType: file.type } };
+        
+                await blobClient.uploadData(file, options);
+                console.log("Upload successful");
+              }
+        };
 
+        await uploadFileToBlob(originalFile, newFileName);
+
+
+/*         const binaryImage = await readFileAsBinaryString(originalFile);
 
         //create form data and appen fields and images
         const caseINFO = new FormData();
-        caseINFO.append("caseImage",modifiedFile);
+        caseINFO.append("caseImage",binaryImage as string);
         caseINFO.append("caseName",caseName.current?.value!);
         caseINFO.append("caseFileName", newFileName)
-        caseINFO.append("caseCategory",caseCategory.current?.value!);
+        caseINFO.append("caseCategory",caseCategory.current?.value!); */
 
-        try {
+/*         try {
             const response = await fetch("/api/createcase",{
                 method:"POST",
                 body:caseINFO
@@ -206,21 +233,27 @@ const Super_user = () => {
                 }, 1500);
             }
         } catch (error) {
-        }
+        } */
     }
 
-/*     const handleCasaImageUpload = () => {
-        if(caseImage.current){
-                const case_image = new FormData();
-                case_image.append('case_image', caseImage.current.files![0]);
-                case_image.append('caseName', 'Casa de Papel');
-                fetch("/api/createcase",{
-                    method:"POST",
-                    body:case_image
-                })
-                console.log(caseImage.current.files![0]);
-        }
-    } */
+
+
+    function readFileAsBinaryString(file:any) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+      
+          reader.onload = (event) => {
+            // The result is a binary string
+            resolve(event.target?.result);
+          };
+      
+          reader.onerror = (error) => {
+            reject(error);
+          };
+      
+          reader.readAsBinaryString(file);
+        });
+      }
 
 
 
@@ -388,6 +421,9 @@ const Super_user = () => {
                     </div>
                 </div>
             }
+            <Image src={"https://casadepapeldev.blob.core.windows.net/cdpdemo/popularcases-aeg-1704638478220.png"} alt="test"
+                width={300} height={300}
+            />
 
         </div>
     </div>
