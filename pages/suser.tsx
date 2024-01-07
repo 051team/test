@@ -421,10 +421,6 @@ const Super_user = () => {
                     </div>
                 </div>
             }
-            <Image src={"https://casadepapeldev.blob.core.windows.net/cdpdemo/popularcases-aeg-1704638478220.png"} alt="test"
-                width={300} height={300}
-            />
-
         </div>
     </div>
     </> );
