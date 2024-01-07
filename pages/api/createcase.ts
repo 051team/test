@@ -16,7 +16,7 @@ const readCaseInfo = (req: NextApiRequest,saveLocally:boolean):Promise<{fields:f
   // create options variable to handle images and form data
   const options:formidable.Options = {};
   if(saveLocally){
-    options.uploadDir = path.join(process.cwd(),"public/caseimages");
+    options.uploadDir = path.join(process.cwd(),"./public/caseimages");
     options.filename = (name,extension,path,form) =>  {
       return path.originalFilename || new Date().toLocaleDateString();
     }
@@ -38,9 +38,15 @@ export default async function handler(
 ) {
   console.log("Create CASE Endpoint accessed");
 
-  const test = await readCaseInfo(req,true);
+  try {
+    const test = await readCaseInfo(req,true);
+    console.log(test);
+    res.status(200).json({ message: 'Create Case Route working', color:"green" });
+  } catch (error) {
+    console.log("hata", error);
+    res.status(500).json({ message: 'Couldnt save image', color:"red" });
+  }
 
-  console.log(test);
 
 /*   const form = formidable();
   form.parse(req, (error,fields,files)=>{
@@ -49,7 +55,6 @@ export default async function handler(
     console.log(fields)
   }); */
 
-  res.status(200).json({ message: 'Create Case Route working', color:"green" });
 
   
 /*   try {
