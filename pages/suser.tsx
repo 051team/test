@@ -172,8 +172,8 @@ const Super_user = () => {
         };
 
         
-/*         setFeedback({message:"Creating new case",color:"gray"});
-        setModalOpen(true); */
+        setFeedback({message:"Saving Image to Azure CDN",color:"gray"});
+        setModalOpen(true);
 
         const originalFile = caseImage.current.files![0];
         const file_extension = originalFile.name.split(".").pop();
@@ -208,6 +208,10 @@ const Super_user = () => {
         };
 
         await uploadFileToBlob(originalFile, newFileName);
+        setFeedback({message:"Image successfully saved",color:"green"})
+        setTimeout(() => {
+            setModalOpen(pr=>!pr);
+        }, 1500);
 
 
 /*         const binaryImage = await readFileAsBinaryString(originalFile);
