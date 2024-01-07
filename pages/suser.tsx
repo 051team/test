@@ -167,16 +167,35 @@ const Super_user = () => {
             confirm(warning);
             return
         };
+
         
         setFeedback({message:"Creating new case",color:"gray"});
         setModalOpen(true);
+
+        const originalFile = caseImage.current.files![0];
+        const file_extension = originalFile.name.split(".").pop();
+        console.log(new Date().getTime());
+        const newFileName = (caseCategory.current!.value + "-" + caseName.current!.value + "-" + (new Date().getTime()) + "." + file_extension).replace(/\s/g, "");
+
+        console.log(newFileName);
+
+
+        const modifiedFile = new File([originalFile], newFileName, {
+        type: originalFile.type,
+        });
+
+
+        //create form data and appen fields and images
+        const caseINFO = new FormData();
+        caseINFO.append("caseImage",modifiedFile);
+        caseINFO.append("caseName",caseName.current?.value!);
+        caseINFO.append("caseFileName", newFileName)
+        caseINFO.append("caseCategory",caseCategory.current?.value!);
+
         try {
             const response = await fetch("/api/createcase",{
                 method:"POST",
-                body:JSON.stringify({
-                    caseName:caseName.current?.value,
-                    caseCategory:caseCategory.current?.value
-                })
+                body:caseINFO
             });
             if(response.ok){
                 const resJson = await response.json();
@@ -190,11 +209,18 @@ const Super_user = () => {
         }
     }
 
-    const handleCasaImageUpload = () => {
+/*     const handleCasaImageUpload = () => {
         if(caseImage.current){
-            console.log(caseImage.current.files![0]);
+                const case_image = new FormData();
+                case_image.append('case_image', caseImage.current.files![0]);
+                case_image.append('caseName', 'Casa de Papel');
+                fetch("/api/createcase",{
+                    method:"POST",
+                    body:case_image
+                })
+                console.log(caseImage.current.files![0]);
         }
-    }
+    } */
 
 
 
@@ -316,7 +342,7 @@ const Super_user = () => {
                                         type="file"
                                         accept="image/*" // Specify accepted file types (images in this case)
                                         style={{  }} // Hide the input visually
-                                        onChange={handleCasaImageUpload}
+                                        /* onChange={handleCasaImageUpload} */
                                     />
                                 </button>
                                 <div id={s.name_cat}>
@@ -324,11 +350,11 @@ const Super_user = () => {
                                     <input type="text" placeholder="..." ref={caseName}/>
                                     <p>Category</p>
                                     <select ref={caseCategory}>
-                                        <option value="" disabled selected>Choose Category</option>
-                                        <option value="popular cases">POPULAR CASES</option>
-                                        <option value="limited edition">LIMITED EDITION</option>
-                                        <option value="honorary cases">HONORARY CASES</option>
-                                        <option value="dao cases">DAO CASES</option>
+                                        <option defaultValue="" disabled>Choose Category</option>
+                                        <option value="popularcases">POPULAR CASES</option>
+                                        <option value="limitededition">LIMITED EDITION</option>
+                                        <option value="honorarycases">HONORARY CASES</option>
+                                        <option value="daocases">DAO CASES</option>
                                     </select>
                                 </div>
                             </div>
