@@ -308,7 +308,7 @@ const Super_user = () => {
                 setTimeout(() => {
                     setModalOpen(pr=>!pr);
                 }, 1500);
-                setShowCaselist(true);
+                setShowCaselist(pr=>!pr);
             }
         } catch (error) {
         }
