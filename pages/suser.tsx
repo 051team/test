@@ -122,10 +122,10 @@ const Super_user = () => {
     }
 
     const handleFetchCases = async () => {
-        if(allCases){
+/*         if(allCases){
             setShowCaselist(true);
             return
-        };
+        }; */
         setFeedback({message:"Listing all cases...",color:"gray"});
         setModalOpen(true);
         try {

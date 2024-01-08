@@ -366,10 +366,10 @@
 .panel_kernel #coupons #listcases #allcases #eachcase #caseimage {
   position: absolute;
   left: -37%;
-  top: 0;
+  top: 40px;
   height: auto;
-  max-height: 150px;
-  width: 30%;
+  width: 100px;
+  height: 100px;
   -o-object-fit: contain;
      object-fit: contain;
 }
