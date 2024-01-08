@@ -268,8 +268,8 @@ const Super_user = () => {
           if (!casePrice.current?.value) {
             warnings.push("Please enter case price!");
           }
-          if(!allGiftshaveImage){
-            warnings.push("All gifts must have images!");
+          if(!allGiftshaveImage || !gifts.canAddGift){
+            warnings.push("Please check gift fields");
           }
           if (totalProbability !== 100000 && warnings.length === 0 && allGiftshaveImage) {
             warnings.push("Total gift probability must be 100.000");
