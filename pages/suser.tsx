@@ -44,6 +44,8 @@ const Super_user = () => {
         console.log(gifts.addedgifts);
     },[gifts.addedgifts])
 
+    
+
 
     const handleFetchAll = async () => {
         setFeedback({message:"Fetching all users...",color:"gray"})
@@ -308,7 +310,7 @@ const Super_user = () => {
                 setTimeout(() => {
                     setModalOpen(pr=>!pr);
                 }, 1500);
-                setShowCaselist(pr=>!pr);
+                //setShowCaselist(pr=>!pr);
             }
         } catch (error) {
         }
