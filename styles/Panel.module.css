@@ -3,7 +3,6 @@
   display: grid;
   justify-content: center;
   padding-top: 10%;
-  background-color: black;
 }
 .panel_kernel {
   width: 800px;
@@ -339,6 +338,64 @@
   display: grid;
   align-self: center;
   padding: 5px 25px;
+}
+.panel_kernel #coupons #listcases {
+  position: absolute;
+  top: 80px;
+  width: 100%;
+  padding: 10px;
+  background-color: navy;
+  padding-bottom: 30px;
+  padding-left: 30%;
+  min-height: 250px;
+}
+.panel_kernel #coupons #listcases #titles {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  padding-bottom: 10px;
+}
+.panel_kernel #coupons #listcases #allcases {
+  display: grid;
+  gap: 20px;
+}
+.panel_kernel #coupons #listcases #allcases #eachcase {
+  display: grid;
+  align-items: center;
+  position: relative;
+}
+.panel_kernel #coupons #listcases #allcases #eachcase #caseimage {
+  position: absolute;
+  left: -37%;
+  top: 0;
+  height: auto;
+  max-height: 150px;
+  width: 30%;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+.panel_kernel #coupons #listcases #allcases #eachcase #casevalues {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  padding: 5px 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: darkorange;
+}
+.panel_kernel #coupons #listcases #allcases #eachcase #gifts {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+.panel_kernel #coupons #listcases #allcases #eachcase #gifts #gift {
+  background-color: rgba(255, 255, 0, 0.5);
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  text-align: center;
+  width: calc(25% - 12px);
+  aspect-ratio: 1/1;
 }
 
 @-webkit-keyframes drop {

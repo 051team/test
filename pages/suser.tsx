@@ -11,6 +11,9 @@ const Super_user = () => {
     const [selectedTab, setTab] = useState("User Actions");
     const [activeUsers,setActiveUsers] = useState<any>(null);
     const [allCoupons,setAllCoupons] = useState<any>(null);
+    const [allCases,setAllCases] = useState<any>();
+    const [showCaseList, setShowCaselist] = useState(false);
+
 
     const [modalOpen,setModalOpen] = useState(false);
     const [feedback,setFeedback] = useState<{message:string,color:string}>();
@@ -25,6 +28,8 @@ const Super_user = () => {
     const caseName = useRef<HTMLInputElement>(null);
     const caseCategory = useRef<HTMLSelectElement>(null);
     const caseImage = useRef<HTMLInputElement>(null);
+    const casePrice = useRef<HTMLInputElement>(null);
+
 
     const [gifts, setGifts] = useState
                             <{numberofGifts:number,canAddGift:boolean, addedgifts:any[]}>
@@ -111,6 +116,32 @@ const Super_user = () => {
             }
         } catch (error) {
             console.log(error)
+        }
+    }
+
+    const handleFetchCases = async () => {
+        if(allCases){
+            setShowCaselist(true);
+            return
+        };
+        setFeedback({message:"Listing all cases...",color:"gray"});
+        setModalOpen(true);
+        try {
+            const response = await fetch("/api/fetchcases");
+            try {
+                const resJson = await response.json();
+                const cases = resJson.data;
+                setAllCases(cases);
+                setShowCaselist(()=>true);
+                console.log(cases);
+                setModalOpen(pr=>!pr);
+            } catch (error) {
+                setFeedback({message:"Data not available in response",color:"red"});
+                setModalOpen(pr=>!pr);
+            }
+        } catch (error) {
+            setFeedback({message:"Failed to list cases!",color:"red"});
+            setModalOpen(pr=>!pr);
         }
     }
 
@@ -216,8 +247,9 @@ const Super_user = () => {
         const warning = !caseName.current?.value ? "Please enter case name" : 
                         !caseCategory.current?.value ? "Please choose case category" :
                         !caseImage.current?.files![0] ? "Please upload case image" : 
+                        !casePrice.current?.value ? "Please enter case price!" :
                         !gifts.canAddGift ? "Gifts are not ready!": "";
-        const ready = [caseName,caseCategory].every((rf) => rf.current?.value) && caseImage.current?.files![0] 
+        const ready = [caseName,caseCategory,casePrice].every((rf) => rf.current?.value) && caseImage.current?.files![0] 
                         && gifts.canAddGift;
 
         if(!ready){
@@ -257,6 +289,7 @@ const Super_user = () => {
             caseName:caseName.current?.value!,
             caseCategory:caseCategory.current?.value!,
             caseImageURL: caseImageURL,
+            casePrice:casePrice.current?.value,
             caseGifts:gifts.addedgifts
         }
 
@@ -268,10 +301,14 @@ const Super_user = () => {
             if(response.ok){
                 const resJson = await response.json();
                 console.log(resJson);
+                if(response.status === 201){
+                    setAllCases([...allCases, caseInfo]);
+                }
                 setFeedback(()=>resJson);
                 setTimeout(() => {
                     setModalOpen(pr=>!pr);
                 }, 1500);
+                setShowCaselist(true);
             }
         } catch (error) {
         }
@@ -290,6 +327,7 @@ const Super_user = () => {
 
     return ( <>
     <div className={s.panel}>
+        <div style={{background:"black", position:"fixed", top:"0", left:"0", right:"0", bottom:"0"}}></div>
         {
             modalOpen &&
             <Modal modalOpen={modalOpen} feedback={feedback} />
@@ -392,11 +430,11 @@ const Super_user = () => {
                 selectedTab === "Case Actions" &&
                 <div id={s.coupons}>
                     <div id={s.options}>
-                        <button id={s.showcoupons}>List cases</button>
-                        <label htmlFor="createcoupon">Create Case</label> 
+                        <button id={s.showcoupons} onClick={handleFetchCases}>List cases</button>
+                        <label onClick={()=>setShowCaselist(false)} htmlFor="createcoupon">Create Case</label> 
                         <input id="createcoupon" type="checkbox" ref={createcoupon} />
                         <span>&#x25BC;</span>
-                        <div id={s.createcase}>
+                        <div id={s.createcase} style={{visibility:showCaseList ? "hidden" : "visible"}}>
                             <div id={s.caseoptions}>
                                 <button>
                                     {
@@ -419,10 +457,10 @@ const Super_user = () => {
                                     <p>Category</p>
                                     <select ref={caseCategory}>
                                         <option defaultValue="" disabled>Choose Category</option>
-                                        <option value="popularcases">POPULAR CASES</option>
-                                        <option value="limitededition">LIMITED EDITION</option>
-                                        <option value="honorarycases">HONORARY CASES</option>
-                                        <option value="daocases">DAO CASES</option>
+                                        <option value="Popular Cases">POPULAR CASES</option>
+                                        <option value="Limited Edition">LIMITED EDITION</option>
+                                        <option value="Hononary Cases">HONORARY CASES</option>
+                                        <option value="DAO Cases">DAO CASES</option>
                                     </select>
                                 </div>
                                 <button id={s.addgift} onClick={handleAddGift}>Add Gift</button>
@@ -450,7 +488,7 @@ const Super_user = () => {
                                     </div>
                                     <div className={s.actions_double}>
                                         <p style={{top:"-10px"}}>$ 750</p>   
-                                        <input type="text" placeholder="Enter price..." />
+                                        <input type="text" placeholder="Enter price..." ref={casePrice} />
                                     </div>
                                     <div className={s.actions_double}>
                                         <button onClick={handleCreateCase}>CREATE CASE</button>
@@ -458,6 +496,42 @@ const Super_user = () => {
                                 </div>
                             </div>
                         </div>
+
+                        {
+                            allCases && showCaseList &&
+                            <div id={s.listcases}>
+                                <div id={s.titles}>
+                                    <p>Case Name</p>
+                                    <p>Category</p>
+                                    <p>Price</p>
+                                </div>
+                                <div id={s.allcases}>
+                                    {
+                                        allCases.map((c:any,i:number)=>
+                                        <div id={s.eachcase} key={i}>
+                                            <Image priority src={c.caseImageURL} width={150} height={200} alt="Case Image" id={s.caseimage} />
+                                            <div id={s.casevalues}>
+                                                <p>{c.caseName}</p>
+                                                <p>{c.caseCategory}</p>
+                                                <p>${c.casePrice}</p>
+                                            </div>
+                                            <div id={s.gifts}>
+                                                {
+                                                    c.caseGifts.map((gf:any,i:number)=>
+                                                    <div id={s.gift} key={i}>
+                                                        {gf.giftName} <br />
+                                                        {gf.giftPrice} <br />
+                                                        {gf.giftProbability} 
+                                                    </div>
+                                                    )
+                                                }
+                                            </div>
+                                        </div>
+                                        )
+                                    }
+                                </div>
+                            </div>
+                        }
                     </div>
                 </div>
             }
