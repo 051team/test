@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import s from "../styles/Panel.module.css";
 import gift from "../public/assets/camera.png";
 import Modal from "../components/modal";
@@ -27,10 +27,17 @@ const Super_user = () => {
     const caseImage = useRef<HTMLInputElement>(null);
 
     const [gifts, setGifts] = useState
-                            <{numberofGifts:number,canAddGift:boolean}>
-                            ({numberofGifts:1, canAddGift:false});
+                            <{numberofGifts:number,canAddGift:boolean, addedgifts:any[]}>
+                            ({numberofGifts:1, canAddGift:false, addedgifts:[
+                                {giftName:"", giftPrice:0, propability:0,giftId:1}
+                            ]},);
 
     const [giftsReady,setGiftsReady] = useState<boolean>(false);
+
+    useEffect(()=>{
+        console.log("There is change in added gifts");
+        console.log(gifts.addedgifts);
+    },[gifts.addedgifts])
 
 
     const handleFetchAll = async () => {
@@ -208,8 +215,10 @@ const Super_user = () => {
     const handleCreateCase = async () => {
         const warning = !caseName.current?.value ? "Please enter case name" : 
                         !caseCategory.current?.value ? "Please choose case category" :
-                        !caseImage.current?.files![0] ? "Please upload case image" : "";
-        const ready = [caseName,caseCategory].every((rf) => rf.current?.value) && caseImage.current?.files![0];
+                        !caseImage.current?.files![0] ? "Please upload case image" : 
+                        !gifts.canAddGift ? "Gifts are not ready!": "";
+        const ready = [caseName,caseCategory].every((rf) => rf.current?.value) && caseImage.current?.files![0] 
+                        && gifts.canAddGift;
 
         if(!ready){
             confirm(warning);
@@ -224,17 +233,31 @@ const Super_user = () => {
         const newFileName = (caseCategory.current!.value + "-" + caseName.current!.value + "-" + (new Date().getTime()) + "." + file_extension).replace(/\s/g, "");
 
         console.log(newFileName);
-/*         try {
-            const caseImageURL = await uploadFileToBlob(originalFile, newFileName);
+
+        let caseImageURL:string | undefined;
+
+        try {
+            caseImageURL = await uploadFileToBlob(originalFile, newFileName);
         } catch (error) {
             console.log(error)
-        } */
-        const caseImageURL = await uploadFileToBlob(originalFile, newFileName);
+        }
+
+        if(!caseImageURL){
+            setFeedback({message:"Failed to upload image to Microsoft Azure ",color:"red"});
+            setModalOpen(true);
+            setTimeout(() => {
+                setModalOpen(pr=>!pr);
+            }, 1000);
+        }
+
+        //const caseImageURL = await uploadFileToBlob(originalFile, newFileName);
+
 
         const caseInfo = {
             caseName:caseName.current?.value!,
             caseCategory:caseCategory.current?.value!,
-            caseImageURL: caseImageURL
+            caseImageURL: caseImageURL,
+            caseGifts:gifts.addedgifts
         }
 
         try {
@@ -260,7 +283,8 @@ const Super_user = () => {
             return
         }
         setGifts({
-            ...gifts, numberofGifts:gifts.numberofGifts+1, canAddGift:false
+            ...gifts, numberofGifts:gifts.numberofGifts+1, canAddGift:false,
+            addedgifts:[...gifts.addedgifts, {giftName:"", giftPrice:0, propability:0,giftId:gifts.numberofGifts+1}]
         })
     }
 
@@ -410,8 +434,13 @@ const Super_user = () => {
                                     <p>Probability</p>
                                 </div>
                                 {
-                                    [...Array(gifts.numberofGifts)].map((g,i)=>
-                                    <Gift_holder key={i} setGiftsReady={setGiftsReady} setGifts={setGifts} gifts={gifts} />
+                                    gifts.addedgifts.map((g,i)=>
+                                    <Gift_holder key={i} 
+                                        setGiftsReady={setGiftsReady} 
+                                        setGifts={setGifts} 
+                                        gifts={gifts} 
+                                        giftId={g.giftId}
+                                    />
                                     )
                                 }
                                 <div className={s.actions}>
