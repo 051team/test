@@ -303,9 +303,9 @@ const Super_user = () => {
             if(response.ok){
                 const resJson = await response.json();
                 console.log(resJson);
-                if(response.status === 201){
+/*                 if(response.status === 201){
                     setAllCases([...allCases, caseInfo]);
-                }
+                } */
                 setFeedback(()=>resJson);
                 setTimeout(() => {
                     setModalOpen(pr=>!pr);
