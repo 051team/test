@@ -34,15 +34,26 @@ const Super_user = () => {
     const [gifts, setGifts] = useState
                             <{numberofGifts:number,canAddGift:boolean, addedgifts:any[]}>
                             ({numberofGifts:1, canAddGift:false, addedgifts:[
-                                {giftName:"", giftPrice:0, propability:0,giftId:1}
+                                {giftName:"", giftPrice:0, propability:0,giftId:1, giftImage:null}
                             ]},);
-
-    const [giftsReady,setGiftsReady] = useState<boolean>(false);
+    const [recommendedPrice,setRecommend] = useState<number | null>();
+    const [problemsIn, setProblems] = useState<any[]>();
 
     useEffect(()=>{
         console.log("There is change in added gifts");
-        console.log(gifts.addedgifts);
-    },[gifts.addedgifts])
+        const allGiftshaveImage = gifts.addedgifts.every(gf=>gf.giftImage);
+        console.log(allGiftshaveImage);
+
+        const totalProbability = parseInt(gifts.addedgifts.reduce((probability,gf) => {return probability+parseInt(gf.giftProbability)},0));
+        if(totalProbability === 100000){
+            const recommended = parseInt(gifts.addedgifts.reduce((rPrice,gf) => {return rPrice+parseInt(gf.giftPrice)*(gf.giftProbability)},0)) / 100000;
+            setRecommend(recommended);
+        }else{
+            if(recommendedPrice){
+                setRecommend(null);
+            }
+        }
+    },[gifts.addedgifts]);
 
     
 
@@ -242,18 +253,34 @@ const Super_user = () => {
 
     const handleCreateCase = async () => {
         const totalProbability = parseInt(gifts.addedgifts.reduce((probability,gf) => {return probability+parseInt(gf.giftProbability)},0));
-        const warning = !caseName.current?.value ? "Please enter case name" : 
-                        !caseCategory.current?.value ? "Please choose case category" :
-                        !caseImage.current?.files![0] ? "Please upload case image" : 
-                        !casePrice.current?.value ? "Please enter case price!" :
-                        totalProbability !== 100000 ? "Total gift probability must be 100.000" :
-                        !gifts.canAddGift ? "Gifts are not ready!": "";
-
+        const allGiftshaveImage = gifts.addedgifts.every(gf=>gf.giftImage);
+        console.log(allGiftshaveImage);
+        const warnings = problemsIn ? [...problemsIn] : [];
+          if (!caseName.current?.value) {
+            warnings.push("Please enter case name");
+          }
+          if (!caseCategory.current?.value) {
+            warnings.push("Please choose case category");
+          }
+          if (!caseImage.current?.files![0]) {
+            warnings.push("Please upload case image");
+          }
+          if (!casePrice.current?.value) {
+            warnings.push("Please enter case price!");
+          }
+          if(!allGiftshaveImage){
+            warnings.push("All gifts must have images!");
+          }
+          if (totalProbability !== 100000 && warnings.length === 0 && allGiftshaveImage) {
+            warnings.push("Total gift probability must be 100.000");
+          }
+          const warningMessage = warnings.join('\n');
+        
         const ready = [caseName,caseCategory,casePrice].every((rf) => rf.current?.value) && caseImage.current?.files![0] 
-                        && gifts.canAddGift && totalProbability === 100000;
-
+                        && gifts.canAddGift && totalProbability === 100000 && allGiftshaveImage;
+        
         if(!ready){
-            confirm(warning);
+            confirm(warningMessage);
             return
         };
         
@@ -267,32 +294,43 @@ const Super_user = () => {
         console.log(newFileName);
 
         let caseImageURL:string | undefined;
+        let giftImageUrls = [];
+        
 
         try {
             caseImageURL = await uploadFileToBlob(originalFile, newFileName);
+            for (const gf of gifts.addedgifts){
+                try {
+                    const giftImageUrl = await uploadFileToBlob(gf.giftImage,new Date().getTime().toString());
+                    giftImageUrls?.push(giftImageUrl);
+                } catch (error) {
+                    console.log(error);
+                    setFeedback({message:"Failed to upload gift image to Microsoft Azure ",color:"red"});
+                    setModalOpen(true);
+                    setTimeout(() => {
+                        setModalOpen(pr=>!pr);
+                    }, 1000);
+                    throw error;
+                }
+            }
         } catch (error) {
-            console.log(error)
-        }
-
-        if(!caseImageURL){
+            console.log(error);
             setFeedback({message:"Failed to upload image to Microsoft Azure ",color:"red"});
             setModalOpen(true);
             setTimeout(() => {
                 setModalOpen(pr=>!pr);
             }, 1000);
+            throw error;
         }
-
-        //const caseImageURL = await uploadFileToBlob(originalFile, newFileName);
-
 
         const caseInfo = {
             caseName:caseName.current?.value!,
             caseCategory:caseCategory.current?.value!,
             caseImageURL: caseImageURL,
             casePrice:casePrice.current?.value,
-            caseGifts:gifts.addedgifts
+            caseGifts:gifts.addedgifts,
+            caseGiftImageUrls:giftImageUrls
         }
-
         try {
             const response = await fetch("/api/createcase",{
                 method:"POST",
@@ -447,7 +485,6 @@ const Super_user = () => {
                                         ref={caseImage}
                                         type="file"
                                         accept="image/*" // Specify accepted file types (images in this case)
-                                        style={{  }} // Hide the input visually
                                         onChange={showTemporaryCaseImage}
                                     />
                                 </button>
@@ -474,7 +511,7 @@ const Super_user = () => {
                                 {
                                     gifts.addedgifts.map((g,i)=>
                                     <Gift_holder key={i} 
-                                        setGiftsReady={setGiftsReady} 
+                                        setProblems={setProblems}
                                         setGifts={setGifts} 
                                         gifts={gifts} 
                                         giftId={g.giftId}
@@ -487,7 +524,7 @@ const Super_user = () => {
                                         <p>Case Price</p>
                                     </div>
                                     <div className={s.actions_double}>
-                                        <p style={{top:"-10px"}}>$ 750</p>   
+                                        <p style={{top:"-10px"}}>$ {recommendedPrice && recommendedPrice}</p>   
                                         <input type="text" placeholder="Enter price..." ref={casePrice} />
                                     </div>
                                     <div className={s.actions_double}>
@@ -503,27 +540,23 @@ const Super_user = () => {
                                     <p>Case Name</p>
                                     <p>Category</p>
                                     <p>Price</p>
+                                    <p>Gifts</p>
                                 </div>
                                 <div id={s.allcases}>
                                     {
                                         allCases.map((c:any,i:number)=>
                                         <div id={s.eachcase} key={i}>
-                                            <Image priority src={c.caseImageURL} width={150} height={200} alt="Case Image" id={s.caseimage} />
                                             <div id={s.casevalues}>
-                                                <p>{c.caseName}</p>
+                                                <p style={{color:"silver"}}>{c.caseName}</p>
                                                 <p>{c.caseCategory}</p>
-                                                <p>${c.casePrice}</p>
-                                            </div>
-                                            <div id={s.gifts}>
-                                                {
-                                                    c.caseGifts.map((gf:any,i:number)=>
-                                                    <div id={s.gift} key={i}>
-                                                        {gf.giftName} <br />
-                                                        {gf.giftPrice} <br />
-                                                        {gf.giftProbability} 
-                                                    </div>
-                                                    )
-                                                }
+                                                <p style={{color:"lightgreen"}}>${c.casePrice}</p>
+                                                <p style={{color:"yellow"}}>{c.caseGifts.length}</p>
+                                                <button>
+                                                    <Image alt="delete" src={"/delete.png"} width={25} height={25} priority/>
+                                                </button>
+                                                <button>
+                                                    <Image alt="delete" src={"/edit.png"} width={25} height={25} priority/>
+                                                </button>
                                             </div>
                                         </div>
                                         )

@@ -285,7 +285,7 @@
   color: orange;
 }
 .panel_kernel #coupons #createcase #gifts .gift {
-  height: 40px;
+  height: 45px;
   padding: 5px 10px;
   display: flex;
   -moz-column-gap: 20px;
@@ -293,10 +293,18 @@
 }
 .panel_kernel #coupons #createcase #gifts .gift button {
   height: 100%;
+  position: relative;
+}
+.panel_kernel #coupons #createcase #gifts .gift button input {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer !important;
 }
 .panel_kernel #coupons #createcase #gifts .gift img {
-  width: auto;
-  height: 100%;
   filter: brightness(1.4);
 }
 .panel_kernel #coupons #createcase #gifts .gift input {
@@ -343,15 +351,13 @@
   position: absolute;
   top: 80px;
   width: 100%;
-  padding: 10px;
-  background-color: navy;
-  padding-bottom: 30px;
-  padding-left: 30%;
   min-height: 250px;
+  padding: 20px;
+  padding-bottom: 30px;
 }
 .panel_kernel #coupons #listcases #titles {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1.3fr 1fr 1fr 80px 50px 50px;
   padding-bottom: 10px;
 }
 .panel_kernel #coupons #listcases #allcases {
@@ -362,40 +368,15 @@
   display: grid;
   align-items: center;
   position: relative;
-}
-.panel_kernel #coupons #listcases #allcases #eachcase #caseimage {
-  position: absolute;
-  left: -37%;
-  top: 40px;
-  height: auto;
-  width: 100px;
-  height: 100px;
-  -o-object-fit: contain;
-     object-fit: contain;
+  border-bottom: 1px solid navy;
 }
 .panel_kernel #coupons #listcases #allcases #eachcase #casevalues {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1.3fr 1fr 1fr 80px 50px 50px;
   padding: 5px 0;
   font-size: 14px;
   font-weight: 500;
   color: darkorange;
-}
-.panel_kernel #coupons #listcases #allcases #eachcase #gifts {
-  display: flex;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  gap: 15px;
-}
-.panel_kernel #coupons #listcases #allcases #eachcase #gifts #gift {
-  background-color: rgba(255, 255, 0, 0.5);
-  display: grid;
-  justify-content: center;
-  align-items: center;
-  color: black;
-  text-align: center;
-  width: calc(25% - 12px);
-  aspect-ratio: 1/1;
 }
 
 @-webkit-keyframes drop {
