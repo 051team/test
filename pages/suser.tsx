@@ -168,7 +168,7 @@ const Super_user = () => {
     }
 
 
-    const containerName = process.env.NEXT_PUBLIC_CONTAINER_NAME;
+    const containerName = process.env.NEXT_PUBLIC_CONTAINER_NAME!;
     const sasToken = process.env.NEXT_PUBLIC_STORAGESASTOKEN;
     const storageAccountName = process.env.NEXT_PUBLIC_STORAGERESOURCENAME;
 
@@ -177,7 +177,8 @@ const Super_user = () => {
           console.log("Not found");
         } else {
           const blobService = new BlobServiceClient(
-            `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
+            /* `https://${storageAccountName}.blob.core.windows.net/?${sasToken}` */
+            process.env.NEXT_PUBLIC_SASURL!
           );
   
           const containerClient: ContainerClient =
@@ -223,9 +224,12 @@ const Super_user = () => {
         const newFileName = (caseCategory.current!.value + "-" + caseName.current!.value + "-" + (new Date().getTime()) + "." + file_extension).replace(/\s/g, "");
 
         console.log(newFileName);
-
+/*         try {
+            const caseImageURL = await uploadFileToBlob(originalFile, newFileName);
+        } catch (error) {
+            console.log(error)
+        } */
         const caseImageURL = await uploadFileToBlob(originalFile, newFileName);
-        const fake_CDN_URL = "https://casadepapeldev.blob.core.windows.net/cdpdemo/daocases-qeg-1704649956333.png?sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2024-01-07T22:39:53Z&st=2024-01-07T14:39:53Z&spr=https,http&sig=LYxXZX53MdGxHKg7VUU1LL%2FtIX820dZyVTHH%2FIj8VnY%3D"
 
         const caseInfo = {
             caseName:caseName.current?.value!,
