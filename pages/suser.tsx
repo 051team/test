@@ -85,7 +85,6 @@ const Super_user = () => {
                 if(resJson){
                     console.log(resJson);
                     setFeedback({message:resJson.message,color:resJson.color});
-                    setAllCoupons([...allCoupons,coupon]);
                     setTimeout(() => {
                         setModalOpen(pr=>!pr);
                         createcoupon.current!.checked = false;
@@ -100,10 +99,6 @@ const Super_user = () => {
     }
 
     const handleFetchCoupons = async () => {
-        if(allCoupons){
-            createcoupon.current!.checked = false;
-            return
-        }
         setFeedback({message:"Fetching all coupons...",color:"gray"})
         setModalOpen(true);
         try {
@@ -498,7 +493,6 @@ const Super_user = () => {
                                 </div>
                             </div>
                         </div>
-
                         {
                             allCases && showCaseList &&
                             <div id={s.listcases}>
