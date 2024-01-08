@@ -241,13 +241,16 @@ const Super_user = () => {
     }
 
     const handleCreateCase = async () => {
+        const totalProbability = parseInt(gifts.addedgifts.reduce((probability,gf) => {return probability+parseInt(gf.giftProbability)},0));
         const warning = !caseName.current?.value ? "Please enter case name" : 
                         !caseCategory.current?.value ? "Please choose case category" :
                         !caseImage.current?.files![0] ? "Please upload case image" : 
                         !casePrice.current?.value ? "Please enter case price!" :
+                        totalProbability !== 100000 ? "Total gift probability must be 100.000" :
                         !gifts.canAddGift ? "Gifts are not ready!": "";
+
         const ready = [caseName,caseCategory,casePrice].every((rf) => rf.current?.value) && caseImage.current?.files![0] 
-                        && gifts.canAddGift;
+                        && gifts.canAddGift && totalProbability === 100000;
 
         if(!ready){
             confirm(warning);
