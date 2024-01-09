@@ -1,7 +1,7 @@
 .home{
     background-color: black;
-    height: 2500px;
     user-select: none;
+    padding-bottom: 20px;
     &_navbar{
         position: relative;
         display: grid;
@@ -224,6 +224,7 @@
     &_cases{
         display: grid;
         justify-items: center;
+        overflow: hidden;
         &_kernel{
             //background-color: rgba($color: yellow, $alpha: 0.3);
             padding-top: 30px;

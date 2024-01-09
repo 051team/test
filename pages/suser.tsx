@@ -67,7 +67,7 @@ const Super_user = () => {
             if(resJson){
                 console.log(resJson);
                 setActiveUsers(resJson);
-                setModalOpen(false);
+                setModalOpen(pr=>!pr);
             }
         } catch (error) {
             console.log(error)
@@ -494,10 +494,10 @@ const Super_user = () => {
                                     <p>Category</p>
                                     <select ref={caseCategory}>
                                         <option defaultValue="" disabled>Choose Category</option>
-                                        <option value="Popular Cases">POPULAR CASES</option>
-                                        <option value="Limited Edition">LIMITED EDITION</option>
-                                        <option value="Hononary Cases">HONORARY CASES</option>
-                                        <option value="DAO Cases">DAO CASES</option>
+                                        <option value="popularcases">POPULAR CASES</option>
+                                        <option value="limitededition">LIMITED EDITION</option>
+                                        <option value="honorarycases">HONORARY CASES</option>
+                                        <option value="daocases">DAO CASES</option>
                                     </select>
                                 </div>
                                 <button id={s.addgift} onClick={handleAddGift}>Add Gift</button>

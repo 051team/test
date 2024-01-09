@@ -12,6 +12,7 @@ import { useEffect, useRef, useState } from "react";
 import { formatter } from "../tools";
 import Link from "next/link";
 import Modal from "./modal";
+import Cases from "./cases";
 
 const Homie = () => {
     const { data: session } = useSession();
@@ -214,65 +215,7 @@ const Homie = () => {
                     </div>
                 </div>
             </div>
-            <div className={h.home_cases}>
-                <div className={h.home_cases_kernel}>
-                    <h1>POPULAR CASES</h1>
-                    <div className={h.home_cases_kernel_group}>
-                        {
-                            [...Array(10)].map((e,i)=>
-                            <div className={h.home_cases_kernel_group_each} key={i}>
-                                <Image priority={i < 5 ? true : false} src={`/assets/${i+1}.png`} alt={"051 logo"} width={200} height={250} />
-                                <h5>
-                                    Case name heree
-                                </h5>
-                            </div>
-                            )
-                        }
-                    </div>
-                    <br /><br />
-                    <h1>LIMITED EDITION</h1>
-                    <div className={h.home_cases_kernel_group}>
-                        {
-                            [...Array(5)].map((e,i)=>
-                            <div className={h.home_cases_kernel_group_each} key={i}>
-                                <Image priority={i < 5 ? true : false} src={`/assets/${i+1}.png`} alt={"051 logo"} width={200} height={250} />
-                                <h5>
-                                    Case name heree
-                                </h5>
-                            </div>
-                            )
-                        }
-                    </div>
-                    <br /><br />
-                    <h1>HONORARY CASES</h1>
-                    <div className={h.home_cases_kernel_group}>
-                        {
-                            [...Array(5)].map((e,i)=>
-                            <div className={h.home_cases_kernel_group_each} key={i}>
-                                <Image priority={i < 5 ? true : false} src={`/assets/honorary/${i+1}.png`} alt={"051 logo"} width={200} height={250} />
-                                <h5>
-                                    Case name heree
-                                </h5>
-                            </div>
-                            )
-                        }
-                    </div>
-                    <br /><br />
-                    <h1>DAO CASES</h1>
-                    <div className={h.home_cases_kernel_group}>
-                        {
-                            [...Array(10)].map((e,i)=>
-                            <div className={h.home_cases_kernel_group_each} key={i}>
-                                <Image priority={i < 5 ? true : false} src={`/assets/${i+1}.png`} alt={"051 logo"} width={200} height={250} />
-                                <h5>
-                                    Case name heree
-                                </h5>
-                            </div>
-                            )
-                        }
-                    </div>
-                </div>
-            </div>
+            <Cases />
         </div>
      );
 }

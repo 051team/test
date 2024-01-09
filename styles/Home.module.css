@@ -1,10 +1,10 @@
 .home {
   background-color: black;
-  height: 2500px;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
+  padding-bottom: 20px;
 }
 .home_navbar {
   position: relative;
@@ -241,6 +241,7 @@
 .home_cases {
   display: grid;
   justify-items: center;
+  overflow: hidden;
 }
 .home_cases_kernel {
   padding-top: 30px;
