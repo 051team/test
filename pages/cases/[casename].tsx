@@ -30,6 +30,23 @@ const Case_page = () => {
         }
     },[cat,name])
 
+    const mockLotteryDraw = () => {
+        if(!caseInfo){return}
+        let balls:number[] = [];
+        for (let i = 0; i < caseInfo.caseGifts.length; i++) {
+            const gift = caseInfo.caseGifts[i];
+            const probability = gift.giftProbability;
+            const price = gift.giftPrice;
+            console.log(probability);
+            for (let ind = 0; ind < probability; ind++) {
+                balls.push(price);
+            }
+        }
+        const chosenIndex = Math.floor(Math.random() * balls.length);
+        const selectedBall = balls[chosenIndex];
+        console.log("Result:",selectedBall,balls.length);
+    }
+
     const handleShuffle = () => {
         setPlaceholders(50);
     };
@@ -39,12 +56,11 @@ const Case_page = () => {
         return remainder
     }
 
-
     return ( 
         <div className={c.casepage}>
             <div id={c.black}></div>
             <div className={c.casepage_case}>
-                <h3>
+                <h3 onClick={mockLotteryDraw}>
                     {(caseInfo && caseInfo.caseName.toUpperCase()) ?? "LOADING..."}
                     <div id={c.index}>
                         <span>&#9660;</span>
