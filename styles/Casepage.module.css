@@ -1,0 +1,206 @@
+.casepage {
+  background-color: black;
+  padding-top: 200px;
+  min-height: 100vh;
+}
+.casepage #black {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: black;
+  z-index: -1;
+}
+.casepage_case {
+  display: grid;
+  justify-items: center;
+}
+.casepage_case h3 {
+  color: whitesmoke;
+  margin-bottom: 30px;
+  position: relative;
+  display: grid;
+}
+.casepage_case h3 #index {
+  position: absolute;
+  z-index: 99;
+  height: 170px;
+  color: orange;
+  font-size: x-large;
+  top: 35px;
+  display: grid;
+  justify-self: center;
+  filter: drop-shadow(0 0 2px white);
+}
+.casepage_case h3 #index span:nth-child(1) {
+  position: absolute;
+  top: 0;
+}
+.casepage_case h3 #index span:nth-child(2) {
+  position: absolute;
+  bottom: 0;
+}
+.casepage_case_kernel {
+  display: grid;
+  align-items: flex-start;
+  width: 1000px;
+  overflow: hidden;
+}
+.casepage_case_kernel_spinner {
+  height: 120px;
+  display: flex;
+  justify-items: flex-start;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  transition: left 5s ease;
+}
+.casepage_case_kernel_spinner button {
+  width: 125px;
+  height: 150px;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  filter: brightness(1.1);
+}
+.casepage_case_kernel_spinner button img {
+  filter: drop-shadow(0 0 2px gray);
+}
+.casepage_case_kernel_spinner button:hover {
+  filter: brightness(1.3);
+}
+.casepage_case_kernel_spinner button #text {
+  display: grid;
+  position: relative;
+  top: -30px;
+  color: whitesmoke !important;
+}
+.casepage_case_kernel_spinner button #text span {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 15px;
+}
+.casepage_case #actions {
+  color: white;
+  margin-top: 40px;
+  width: 1000px;
+  display: flex;
+  justify-content: center;
+  -moz-column-gap: 50px;
+       column-gap: 50px;
+}
+.casepage_case #actions #shaped, .casepage_case #actions #shaped2 {
+  width: 130px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: small;
+  font-weight: 500;
+}
+.casepage_case #actions #shaped button, .casepage_case #actions #shaped2 button {
+  background-color: purple;
+  width: 30px;
+  height: 40px;
+  position: relative;
+  color: white;
+}
+.casepage_case #actions #shaped button:nth-child(1):before, .casepage_case #actions #shaped2 button:nth-child(1):before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -10px;
+  border-width: 20px 10px 20px 0;
+  border-style: solid;
+  border-color: transparent purple transparent transparent;
+}
+.casepage_case #actions #shaped button:nth-child(5):after, .casepage_case #actions #shaped2 button:nth-child(5):after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: -10px;
+  border-width: 20px 10px 20px 0;
+  border-style: solid;
+  border-color: transparent purple transparent transparent;
+  transform: rotate(180deg);
+}
+.casepage_case #actions #shaped2 {
+  position: relative;
+  background-color: #e11963;
+}
+.casepage_case #actions #shaped2:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -10px;
+  border-width: 20px 10px 20px 0;
+  border-style: solid;
+  border-color: transparent #e11963 transparent transparent;
+}
+.casepage_case #actions #shaped2:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: -10px;
+  border-width: 20px 10px 20px 0;
+  border-style: solid;
+  border-color: transparent #e11963 transparent transparent;
+  transform: rotate(180deg);
+}
+.casepage_case #gifts {
+  overflow: visible;
+}
+.casepage_case #gifts #content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  width: 1000px;
+  gap: 20px;
+  border-top: 1px solid orange;
+  padding-top: 20px;
+  overflow: visible;
+  height: auto;
+  position: relative;
+  top: -10px;
+}
+.casepage_case #gifts #content button {
+  width: 150px;
+  height: 120px;
+  border-radius: 5px;
+  padding-top: 20px;
+}
+.casepage_case #gifts #content button #text {
+  top: 0;
+  color: whitesmoke;
+}
+.casepage_case #bottombanner {
+  padding: 20px;
+  padding-top: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.casepage_case #bottombanner img {
+  position: absolute;
+  left: 20px;
+}
+.casepage_case #bottombanner a {
+  color: white;
+  font-weight: 500;
+  font-size: small;
+  margin-right: 20px;
+}
+.casepage_case #bottombanner #right {
+  position: absolute;
+  right: 20px;
+  display: flex;
+  -moz-column-gap: 10px;
+       column-gap: 10px;
+}
+.casepage_case #bottombanner #right span {
+  color: white;
+  font-weight: 500;
+  font-size: larger;
+}/*# sourceMappingURL=Casepage.module.css.map */

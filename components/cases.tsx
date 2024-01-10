@@ -1,6 +1,7 @@
 import h from "../styles/Home.module.css";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 
 const Cases = () => {
@@ -31,10 +32,11 @@ const Cases = () => {
                 {
                     allCases && allCases.filter( (c) => c.caseCategory === "popularcases").map((cs,index)=>
                     <div className={h.home_cases_kernel_group_each} key={index}>
+                        <Link href={`/cases/cs?cat=${cs.caseCategory}&name=${cs.caseName}`}>
                         <Image priority src={cs.caseImageURL} alt={cs.caseName} width={200} height={250} />
                         <h5>
                             {cs.caseName}
-                        </h5>
+                        </h5></Link>
                     </div>
                     )
                 }
@@ -54,12 +56,13 @@ const Cases = () => {
             <div className={h.home_cases_kernel_group}>
                 {
                     allCases && allCases.filter( (c) => c.caseCategory === "limitededition").map((cs,index)=>
+                    <Link href={`/cases/cs?cat=${cs.caseCategory}&name=${cs.caseName}`}>
                     <div className={h.home_cases_kernel_group_each} key={index}>
                         <Image priority src={cs.caseImageURL} alt={cs.caseName} width={200} height={250} />
                         <h5>
                             {cs.caseName}
                         </h5>
-                    </div>
+                    </div></Link>
                     )
                 }
                 {
@@ -78,12 +81,13 @@ const Cases = () => {
             <div className={h.home_cases_kernel_group}>
                 {
                     allCases && allCases.filter( (c) => c.caseCategory === "honorarycases").map((cs,index)=>
+                    <Link href={`/cases/cs?cat=${cs.caseCategory}&name=${cs.caseName}`}>
                     <div className={h.home_cases_kernel_group_each} key={index}>
                         <Image priority src={cs.caseImageURL} alt={cs.caseName} width={200} height={250} />
                         <h5>
                             {cs.caseName}
                         </h5>
-                    </div>
+                    </div></Link>
                     )
                 }
                 {
@@ -102,12 +106,13 @@ const Cases = () => {
             <div className={h.home_cases_kernel_group}>
                 {
                     allCases && allCases.filter( (c) => c.caseCategory === "daocases").map((cs,index)=>
+                    <Link href={`/cases/cs?cat=${cs.caseCategory}&name=${cs.caseName}`}>
                     <div className={h.home_cases_kernel_group_each} key={index}>
                         <Image priority src={cs.caseImageURL} alt={cs.caseName} width={200} height={250} />
                         <h5>
                             {cs.caseName}
                         </h5>
-                    </div>
+                    </div></Link>
                     )
                 }
                 {

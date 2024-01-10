@@ -260,6 +260,7 @@
   border-radius: 10px;
   cursor: pointer;
   z-index: 999;
+  overflow: hidden;
 }
 .home_cases_kernel_group_each img {
   width: 100%;
