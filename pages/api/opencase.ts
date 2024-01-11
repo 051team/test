@@ -27,23 +27,45 @@ export default async function handler(
 ) {
   console.log("Opening Case....");
 
-  const { cat, name } = req.query;
+  const { cat, name, user, email } = JSON.parse(req.body);
+  console.log(cat,name,user,email);
   try {
     const client = await connectToDatabase();
     const data_base = client.db('casadepapel');
     const cases = data_base.collection('cdp_cases');
+    const users = data_base.collection('cdp_users');
 
     const caseToOpen = await cases.findOne({caseCategory:{$eq:cat},caseName:{$eq:name}});
-    if(caseToOpen){
-        const lotteryResult = mockLotteryDraw(caseToOpen.caseGifts);
-        console.log(lotteryResult);
-        res.status(200).json({lucky:lotteryResult})
+
+    if(!caseToOpen){
+      res.status(404).json({message:"Case not found",color:"red"});
     }else{
-        res.status(404).json({ message: 'Case not found!',color:"red" })
+      const lotteryResult = mockLotteryDraw(caseToOpen.caseGifts);
+      console.log(lotteryResult);
+      const casePrice = caseToOpen.casePrice;
+      const accountOwner = await users.findOne({cdpUser:{$eq:user}, cdpEmail:{$eq:email}});
+      if(accountOwner){
+        const balance = accountOwner.balance;
+        const balanceEnough = balance > casePrice;
+        console.log("Case price: ",casePrice, " Balance: ", balance);
+        console.log("Enough Balance = ", balance > casePrice);
+        if(balanceEnough){
+          const result = await users.updateOne({cdpUser:{$eq:user}, cdpEmail:{$eq:email}},
+            { $inc:{balance:-casePrice} });
+          if(result.matchedCount === 1 && result.matchedCount === 1){
+            res.status(200).json({lucky:lotteryResult});
+          }else{
+            res.status(500).json({ message: 'Failed to update balance',color:"red" });
+          }
+        }else{
+          res.status(500).json({ message: 'Not enough balance to open the case!',color:"red" });
+        }
+      }
     }
 
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: 'Failed to find Case to Open',color:"red" })
+    res.status(500).json({ message: 'Failed to find Case to Open',color:"red" });
   }
+  res.status(500).send("ok");
 }

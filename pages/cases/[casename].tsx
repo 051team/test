@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useSession } from 'next-auth/react';
 import Navbar from "../../components/navbar";
 import c from "../../styles/Casepage.module.css";
 import _051 from "../../public/051.jpg";
@@ -6,14 +7,19 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from 'next/router';
 import Modal from "../../components/modal";
+import { useDispatch } from "react-redux";
+import { note_balanceChange } from "../../redux/loginSlice";
 
 const Case_page = () => {
+    const { data: session } = useSession();
     const [placeholders,setPlaceholders] = useState<number>(10);
     const router = useRouter();
     const {cat,name} = router.query;
     const [caseInfo, setCaseInfo] = useState<any>();
     const [won,setWon] = useState<any>();
-    const [feedback,setFeedback] = useState<{message:string,color:string}>()
+    const [feedback,setFeedback] = useState<{message:string,color:string}>();
+    const dispatch = useDispatch();
+
 
     useEffect(()=>{
         const fetchCase = async () => {
@@ -33,42 +39,51 @@ const Case_page = () => {
         }
     },[cat,name])
 
-    const mockLotteryDraw = () => {
-        if(!caseInfo){return}
-        let balls:number[] = [];
-        for (let i = 0; i < caseInfo.caseGifts.length; i++) {
-            const gift = caseInfo.caseGifts[i];
-            const probability = gift.giftProbability;
-            const price = gift.giftPrice;
-            for (let ind = 0; ind < probability; ind++) {
-                balls.push(price);
-            }
-        }
-        const chosenIndex = Math.floor(Math.random() * balls.length);
-        const selectedBall = balls[chosenIndex];
-        return selectedBall;
-    }
-
     const makeNumber = (n:number,lng:number) => {
         const remainder = n%lng;
         return remainder
     }
 
     const handleOpenCase = async () => {
+        if(!session){confirm("Login required");return}
         setFeedback({message:`Opening case...Good Luck \u{1F340}`,color:"gray"})
-        const response = await fetch(`/api/opencase?cat=${cat}&name=${name}`);
+        const response = await fetch("/api/opencase",{
+            method:"POST",
+            body:JSON.stringify({
+                cat:cat,
+                name:name,
+                user:session?.user?.name,
+                email:session?.user?.email
+            })
+        });
         if(response.status === 200){
             const resJson = await response.json();
             console.log(resJson.lucky);
             setWon(resJson.lucky)
             setFeedback(()=>undefined);
             setPlaceholders(50);
+            setTimeout(() => {
+                dispatch(note_balanceChange(true));
+            }, 500);
+        }else{
+            try {
+                const resJson = await response.json();
+                setFeedback(resJson);
+                setTimeout(() => {
+                    setFeedback(()=>undefined);
+                }, 1500);
+            } catch (error) {
+                setFeedback({message:"Failed to open the case",color:"red"});
+                setTimeout(() => {
+                    setFeedback(()=>undefined);
+                }, 1500);
+            }
         }
     };
 
     return ( 
         <>
-        <Navbar />
+        <Navbar/>
         {
             feedback &&
             <Modal feedback={feedback} />
@@ -76,7 +91,7 @@ const Case_page = () => {
         <div className={c.casepage}>
             <div id={c.black}></div>
             <div className={c.casepage_case}>
-                <h3 onClick={mockLotteryDraw}>
+                <h3>
                     {(caseInfo && caseInfo.caseName.toUpperCase()) ?? "LOADING..."}
                     <div id={c.index}>
                         <span>&#9660;</span>
@@ -84,7 +99,7 @@ const Case_page = () => {
                     </div>
                 </h3>
                 <div className={c.casepage_case_kernel}>
-                    <div className={c.casepage_case_kernel_spinner} style={{position:"relative", left:-(placeholders-10)*125}}>
+                    <div className={c.casepage_case_kernel_spinner} style={{position:"relative", left:-(placeholders-10)*126.2}}>
                     {
                        caseInfo && [...Array(placeholders)].map((e,i) =>
                         <button key={i} style={{

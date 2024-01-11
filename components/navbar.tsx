@@ -11,15 +11,18 @@ import logout from "../public/logout.png";
 import { formatter } from "../tools";
 import crazy from "../public/assets/promo.png";
 import Modal from "./modal";
+import { useSelector,useDispatch } from "react-redux";
+import { note_balanceChange } from "./../redux/loginSlice";
 
 const Navbar = () => {
     const { data: session } = useSession();
     const [sessionWithBalance, setSessionWithBalance] = useState<any>(null);
-    const [balanceChange,setBalanceChange] = useState<boolean>(false);
     const core = useRef<HTMLDivElement>(null);
     const promo = useRef<HTMLInputElement>(null);
     const [promoModal,setPromoModalOpen] = useState(false);
-    const [feedback,setFeedback] = useState<{message:string,color:string}>()
+    const [feedback,setFeedback] = useState<{message:string,color:string}>();
+    const dispatch = useDispatch();
+    const bChange = useSelector((state:any) => state.loginSlice.balanceChange);
 
     useEffect(()=>{
         const fetch_create_user = async () => {
@@ -46,7 +49,7 @@ const Navbar = () => {
         if(session){
             fetch_create_user();
         }
-    },[session,balanceChange]);
+    },[session,bChange]);
 
     useEffect(()=>{
         const handleOutsideClick = (e:any) => {
@@ -75,7 +78,7 @@ const Navbar = () => {
                     const resJson = await response.json();
                     console.log(resJson);
                     setFeedback(()=>resJson);
-                    setBalanceChange(pr=>!pr);
+                    dispatch(note_balanceChange((pr:boolean) => !pr));
                     setPromoModalOpen((pr:any)=>!pr);
                     setTimeout(() => {
                         setFeedback(()=>undefined)
@@ -98,7 +101,6 @@ const Navbar = () => {
             }else{
                 confirm("Please enter promo code");
             }
-            
         }
     }
     return ( 

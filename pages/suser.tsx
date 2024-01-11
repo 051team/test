@@ -326,7 +326,7 @@ const Super_user = () => {
             caseName:caseName.current?.value!,
             caseCategory:caseCategory.current?.value!,
             caseImageURL: caseImageURL,
-            casePrice:casePrice.current?.value,
+            casePrice:parseFloat(casePrice.current?.value!),
             caseGifts:gifts.addedgifts,
         }
         try {
