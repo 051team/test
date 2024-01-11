@@ -67,5 +67,4 @@ export default async function handler(
     console.log(error);
     res.status(500).json({ message: 'Failed to find Case to Open',color:"red" });
   }
-  res.status(500).send("ok");
 }
