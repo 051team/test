@@ -46,6 +46,7 @@ const Case_page = () => {
 
     const handleOpenCase = async () => {
         if(!session){confirm("Login required");return}
+        setWon(null);
         setFeedback({message:`Opening case...Good Luck \u{1F340}`,color:"gray"})
         const response = await fetch("/api/opencase",{
             method:"POST",
@@ -128,7 +129,9 @@ const Case_page = () => {
                             <button>x5</button>
                         </div>
                         <button id={c.shaped2} style={{color:"white"}} onClick={handleOpenCase}>
-                            Pay $35.50
+                            {
+                                won === null ? "Opening..."  : caseInfo ? `Pay $${caseInfo.casePrice}` : "Loading..."
+                            }
                         </button>
                 </div>
                 <br />
