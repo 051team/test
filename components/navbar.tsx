@@ -10,13 +10,16 @@ import profile from "../public/profile.png";
 import logout from "../public/logout.png";
 import { formatter } from "../tools";
 import crazy from "../public/assets/promo.png";
+import Modal from "./modal";
 
-const Navbar = ({setPromoModalOpen, promoModal,setFeedback,setFeedbackModalOpen}:any) => {
+const Navbar = () => {
     const { data: session } = useSession();
     const [sessionWithBalance, setSessionWithBalance] = useState<any>(null);
     const [balanceChange,setBalanceChange] = useState<boolean>(false);
     const core = useRef<HTMLDivElement>(null);
     const promo = useRef<HTMLInputElement>(null);
+    const [promoModal,setPromoModalOpen] = useState(false);
+    const [feedback,setFeedback] = useState<{message:string,color:string}>()
 
     useEffect(()=>{
         const fetch_create_user = async () => {
@@ -62,7 +65,6 @@ const Navbar = ({setPromoModalOpen, promoModal,setFeedback,setFeedbackModalOpen}
     }
     const handleUseCoupon = async () => {
         if(promo.current?.value && session){
-            setFeedbackModalOpen((pr:boolean)=>!pr);
             setFeedback({message:"Uploading balance from the coupon", color:"gray"});
             try {
                 const response = await fetch("/api/usecoupon",{
@@ -76,7 +78,7 @@ const Navbar = ({setPromoModalOpen, promoModal,setFeedback,setFeedbackModalOpen}
                     setBalanceChange(pr=>!pr);
                     setPromoModalOpen((pr:any)=>!pr);
                     setTimeout(() => {
-                        setFeedbackModalOpen((pr:boolean)=>!pr)
+                        setFeedback(()=>undefined)
                     }, 1500);
                    }else{
                     const resJson = await response.json();
@@ -84,7 +86,7 @@ const Navbar = ({setPromoModalOpen, promoModal,setFeedback,setFeedbackModalOpen}
                     setFeedback(()=>resJson);
                     setPromoModalOpen((pr:any)=>!pr);
                     setTimeout(() => {
-                        setFeedbackModalOpen((pr:boolean)=>!pr)
+                        setFeedback(()=>undefined)
                     }, 1500);
                    }
             } catch (error) {
@@ -101,6 +103,10 @@ const Navbar = ({setPromoModalOpen, promoModal,setFeedback,setFeedbackModalOpen}
     }
     return ( 
     <>
+            {
+                feedback &&
+                <Modal feedback={feedback} />
+            }
             {
                 promoModal &&
                 <div className={h.home_modal}>

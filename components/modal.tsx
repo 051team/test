@@ -1,10 +1,10 @@
 import m from "../styles/Modal.module.css";
 
-const Modal = ({modalOpen,feedback}:any) => {
+const Modal = ({feedback}:any) => {
     return ( 
         <>
         {
-            modalOpen &&
+            feedback &&
             <div className={m.panel_modal}>
                 <div className={m.panel_modal_kernel}>
                     <span className={m.loader}></span>

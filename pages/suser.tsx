@@ -294,7 +294,6 @@ const Super_user = () => {
         console.log(newFileName);
 
         let caseImageURL:string | undefined;
-        let giftImageUrls = [];
         
 
         try {
@@ -302,7 +301,7 @@ const Super_user = () => {
             for (const gf of gifts.addedgifts){
                 try {
                     const giftImageUrl = await uploadFileToBlob(gf.giftImage,new Date().getTime().toString());
-                    giftImageUrls?.push(giftImageUrl);
+                    gf.giftURL = giftImageUrl;
                 } catch (error) {
                     console.log(error);
                     setFeedback({message:"Failed to upload gift image to Microsoft Azure ",color:"red"});
@@ -329,7 +328,6 @@ const Super_user = () => {
             caseImageURL: caseImageURL,
             casePrice:casePrice.current?.value,
             caseGifts:gifts.addedgifts,
-            caseGiftImageUrls:giftImageUrls
         }
         try {
             const response = await fetch("/api/createcase",{

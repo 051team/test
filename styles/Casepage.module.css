@@ -1,6 +1,4 @@
 .casepage {
-  background-color: black;
-  padding-top: 200px;
   min-height: 100vh;
 }
 .casepage #black {
@@ -166,13 +164,25 @@
 }
 .casepage_case #gifts #content button {
   width: 150px;
-  height: 120px;
+  height: 140px;
   border-radius: 5px;
-  padding-top: 20px;
+  padding-top: 30px;
 }
 .casepage_case #gifts #content button #text {
   top: 0;
   color: whitesmoke;
+}
+.casepage_case #gifts #content button #luck {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  display: grid;
+}
+.casepage_case #gifts #content button #luck span {
+  color: white;
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 10px;
 }
 .casepage_case #bottombanner {
   padding: 20px;
