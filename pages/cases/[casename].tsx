@@ -18,6 +18,7 @@ const Case_page = () => {
     const [caseInfo, setCaseInfo] = useState<any>();
     const [won,setWon] = useState<any>();
     const [feedback,setFeedback] = useState<{message:string,color:string}>();
+    const [tempoText, setTempoText] = useState<string | null>();
     const dispatch = useDispatch();
 
 
@@ -60,12 +61,16 @@ const Case_page = () => {
         if(response.status === 200){
             const resJson = await response.json();
             console.log(resJson.lucky);
-            setWon(resJson.lucky)
+            setWon(resJson.lucky);
+            setTempoText("Opening..")
             setFeedback(()=>undefined);
             setPlaceholders(50);
             setTimeout(() => {
                 dispatch(note_balanceChange(true));
             }, 500);
+            setTimeout(() => {
+                setTempoText(null);
+            }, 5300);
         }else{
             try {
                 const resJson = await response.json();
@@ -99,6 +104,10 @@ const Case_page = () => {
                         <span>&#9650;</span>
                     </div>
                 </h3>
+                {
+                    (!won || tempoText )&&
+                <>
+                    
                 <div className={c.casepage_case_kernel}>
                     <div className={c.casepage_case_kernel_spinner} style={{position:"relative", left:-(placeholders-10)*126.2}}>
                     {
@@ -130,14 +139,12 @@ const Case_page = () => {
                         </div>
                         <button id={c.shaped2} style={{color:"white"}} onClick={handleOpenCase}>
                             {
-                                won === null ? "Opening..."  : caseInfo ? `Pay $${caseInfo.casePrice}` : "Loading..."
+                                tempoText ? tempoText : caseInfo ? `Pay $${caseInfo.casePrice}` : ""
                             }
                         </button>
                 </div>
                 <br />
                 <br />
-
-
                 <h3>
                     CASE CONTENT
                 </h3>
@@ -166,6 +173,35 @@ const Case_page = () => {
                     }
                     </div>
                 </div>
+                    
+                 </>
+
+                }
+                {
+                    won && !tempoText &&
+                    <div className={c.casepage_case_result}>
+                        <h3>
+                            <div id={c.index}>
+                                <span>&#9660;</span>
+                                <span>&#9650;</span>
+                             </div>
+                        </h3>
+                        <div id={c.btn}>
+                            <div id={c.chance}>Chance <br /> 30% </div>
+                            <Image src={won.giftURL} alt={"won this gift"} width={90} height={90} />
+                            <div id={c.text}>
+                                <span>{won.giftName}</span>
+                            </div>
+                        </div>
+
+                        <div id={c.ops}>
+                            <button>OPEN AGAIN <Image src={"/redo.png"} alt={"re-open the case"} width={20} height={20} /> </button>
+                            <button>SELL FOR $xxx</button>
+                            <button>TO UPGRADE <Image src={"/up.png"} alt={"re-open the case"} width={15} height={13} /></button>
+                        </div>
+                    </div>
+                }
+
 
 
 
