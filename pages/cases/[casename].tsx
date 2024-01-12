@@ -120,7 +120,7 @@ const Case_page = () => {
                         }}>
                             <Image src={
                                !caseInfo ? "/loading.png" : ( won && i === 44) ? won.giftURL : (caseInfo && caseInfo.caseGifts) ? caseInfo.caseGifts[makeNumber((i+1),caseInfo.caseGifts.length)].giftURL : ""} 
-                            alt={"051 logo"} width={45} height={45} />
+                            alt={"051 logo"} width={45} height={45} priority />
                             <div id={c.text}>
                                 <span>{ !caseInfo ? "loading.." : (won && i === 44) ? won.giftName : caseInfo.caseGifts[makeNumber((i+1),caseInfo.caseGifts.length)].giftName}</span>
                             </div>
