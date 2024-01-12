@@ -7,7 +7,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from 'next/router';
 import Modal from "../../components/modal";
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 import { note_balanceChange } from "../../redux/loginSlice";
 
 const Case_page = () => {
@@ -19,6 +19,8 @@ const Case_page = () => {
     const [won,setWon] = useState<any>();
     const [feedback,setFeedback] = useState<{message:string,color:string}>();
     const [tempoText, setTempoText] = useState<string | null>();
+    const balance = useSelector((state:any) => state.loginSlice.balance);
+
     const dispatch = useDispatch();
 
 
@@ -47,8 +49,11 @@ const Case_page = () => {
 
     const handleOpenCase = async () => {
         if(!session){confirm("Login required");return}
-        setWon(null);
-        setFeedback({message:`Opening case...Good Luck \u{1F340}`,color:"gray"})
+        if(caseOpenDisabled){
+            confirm("Insufficient balance!");
+            return
+        };
+        setTempoText("Opening");
         const response = await fetch("/api/opencase",{
             method:"POST",
             body:JSON.stringify({
@@ -63,7 +68,6 @@ const Case_page = () => {
             console.log(resJson.lucky);
             setWon(resJson.lucky);
             setTempoText("Opening..")
-            setFeedback(()=>undefined);
             setPlaceholders(50);
             setTimeout(() => {
                 dispatch(note_balanceChange(true));
@@ -87,6 +91,8 @@ const Case_page = () => {
         }
     };
 
+    const caseOpenDisabled = !balance || !caseInfo || ( caseInfo && balance && caseInfo.casePrice > balance);
+
     return ( 
         <>
         <Navbar/>
@@ -104,9 +110,9 @@ const Case_page = () => {
                         <span>&#9650;</span>
                     </div>
                 </h3>
-                {
-                    (!won || tempoText )&&
-                <>
+            {
+            (!won || tempoText )&&
+            <>
                     
                 <div className={c.casepage_case_kernel}>
                     <div className={c.casepage_case_kernel_spinner} style={{position:"relative", left:-(placeholders-10)*126.2}}>
@@ -138,11 +144,89 @@ const Case_page = () => {
                             <button>x5</button>
                         </div>
                         <button id={c.shaped2} style={{color:"white"}} onClick={handleOpenCase}>
-                            {
-                                tempoText ? tempoText : caseInfo ? `Pay $${caseInfo.casePrice}` : "Loading..."
-                            }
+                {
+                    tempoText ? tempoText : 
+                    (caseInfo && balance && (caseInfo.casePrice <= balance )) ? `Pay $${caseInfo.casePrice}`:
+                    (caseInfo && balance && caseInfo.casePrice > balance) ? `+ $${caseInfo.casePrice - balance} needed` 
+                    : "Loading..."
+                }
                         </button>
                 </div>
+                <br />
+                <br />
+                {
+                caseInfo && 
+                <>
+                <h3>
+                    CASE CONTENT
+                </h3>
+                <div className={c.casepage_case_kernel} id={c.gifts}>
+                    <div className={c.casepage_case_kernel_spinner} id={c.content} 
+                        style={{justifyContent:caseInfo && caseInfo.caseGifts.length > 6 ? "flex-start" : "center" }}>
+                    {
+                        caseInfo.caseGifts.map((gf:any,i:number) =>
+                        <button key={i} style={{
+                            backgroundImage:i%2 === 0 ? "linear-gradient(to bottom, rgb(26, 25, 25), darkorange)"
+                                                    : i%3 === 0 ? "linear-gradient(to bottom, rgb(26, 25, 25), blue)"
+                                                    : i%5 === 0 ? "linear-gradient(to bottom, rgb(26, 25, 25), purple)"
+                                                    : "linear-gradient(to bottom, rgb(26, 25, 25), #00a262)"
+                        }}>
+                            <Image src={gf.giftURL} alt={"051 logo"} width={45} height={45} />
+                            <div id={c.luck}>
+                                <span>Chance</span>
+                                <span> %{gf.giftProbability/1000}</span>
+                            </div>
+                            <div id={c.text}>
+                                <span>{gf.giftName}</span>
+                                <span>${gf.giftPrice}</span>
+                            </div>
+                        </button>
+                        )
+                    }
+                    </div>
+                </div>
+                </>
+
+                }                    
+            </>
+            }
+
+
+            {
+            won && !tempoText &&
+            <>
+                <div className={c.casepage_case_result}>
+                    <h3>
+                        <div id={c.index}>
+                            <span>&#9660;</span>
+                            <span>&#9650;</span>
+                            </div>
+                    </h3>
+                    <div id={c.btn}>
+                        <div id={c.chance}>Chance <br /> 30% </div>
+                        <Image src={won.giftURL} alt={"won this gift"} width={90} height={90} />
+                        <div id={c.text}>
+                            <span>{won.giftName}</span>
+                        </div>
+                    </div>
+
+                    <div id={c.ops}>
+                        <button>OPEN AGAIN <Image src={"/redo.png"} alt={"re-open the case"} width={20} height={20} /> </button>
+                        <button>SELL FOR $xxx</button>
+                        <button>TO UPGRADE <Image src={"/up.png"} alt={"re-open the case"} width={15} height={13} /></button>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
                 <br />
                 <br />
                 <h3>
@@ -173,37 +257,8 @@ const Case_page = () => {
                     }
                     </div>
                 </div>
-                    
-                 </>
-
-                }
-                {
-                    won && !tempoText &&
-                    <div className={c.casepage_case_result}>
-                        <h3>
-                            <div id={c.index}>
-                                <span>&#9660;</span>
-                                <span>&#9650;</span>
-                             </div>
-                        </h3>
-                        <div id={c.btn}>
-                            <div id={c.chance}>Chance <br /> 30% </div>
-                            <Image src={won.giftURL} alt={"won this gift"} width={90} height={90} />
-                            <div id={c.text}>
-                                <span>{won.giftName}</span>
-                            </div>
-                        </div>
-
-                        <div id={c.ops}>
-                            <button>OPEN AGAIN <Image src={"/redo.png"} alt={"re-open the case"} width={20} height={20} /> </button>
-                            <button>SELL FOR $xxx</button>
-                            <button>TO UPGRADE <Image src={"/up.png"} alt={"re-open the case"} width={15} height={13} /></button>
-                        </div>
-                    </div>
-                }
-
-
-
+            </>
+            }
 
 
                 <div className={c.casepage_case_kernel} id={c.bottombanner}>

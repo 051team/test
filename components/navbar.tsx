@@ -12,16 +12,17 @@ import { formatter } from "../tools";
 import crazy from "../public/assets/promo.png";
 import Modal from "./modal";
 import { useSelector,useDispatch } from "react-redux";
-import { note_balanceChange } from "./../redux/loginSlice";
+import { note_balanceChange, note_balance } from "./../redux/loginSlice";
 
 const Navbar = () => {
     const { data: session } = useSession();
-    const [sessionWithBalance, setSessionWithBalance] = useState<any>(null);
     const core = useRef<HTMLDivElement>(null);
     const promo = useRef<HTMLInputElement>(null);
     const [promoModal,setPromoModalOpen] = useState(false);
     const [feedback,setFeedback] = useState<{message:string,color:string}>();
     const dispatch = useDispatch();
+
+    const balance = useSelector((state:any) => state.loginSlice.balance);
     const bChange = useSelector((state:any) => state.loginSlice.balanceChange);
 
     useEffect(()=>{
@@ -34,14 +35,10 @@ const Navbar = () => {
                 const resJson = await response.json();
                 const userBalance = resJson.balance;
                 if(userBalance){
-                    const balancedSession = {...session, user:{...session!.user, balance:userBalance}};
-                    setSessionWithBalance(balancedSession);
+                    dispatch(note_balance(userBalance));
                 }else{
-                    const balancedSession = {...session, user:{...session!.user, balance:0}};
-                    setSessionWithBalance(balancedSession);
+                    dispatch(note_balance(0));
                 }
-
-                
             } catch (error) {
                 console.log(error)
             }
@@ -149,7 +146,7 @@ const Navbar = () => {
                     {
                         session && 
                         <>
-                        <span> <strong>{session && session.user?.name} <br />{sessionWithBalance && formatter(sessionWithBalance.user.balance)}  </strong> </span>
+                        <span> <strong>{session && session.user?.name} <br />{balance ? formatter(balance) : ""}  </strong> </span>
                         <Image src={session!.user!.image as string} alt={"discord profile image"} width={50} height={50} />
                         <div id={h.dropdown}>
                             <div>
