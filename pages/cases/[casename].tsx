@@ -111,7 +111,7 @@ const Case_page = () => {
                 <div className={c.casepage_case_kernel}>
                     <div className={c.casepage_case_kernel_spinner} style={{position:"relative", left:-(placeholders-10)*126.2}}>
                     {
-                       caseInfo && [...Array(placeholders)].map((e,i) =>
+                       [...Array(placeholders)].map((e,i) =>
                         <button key={i} style={{
                             backgroundImage:i%2 === 0 ? "linear-gradient(to bottom, rgb(26, 25, 25), darkorange)"
                                                     : i%3 === 0 ? "linear-gradient(to bottom, rgb(26, 25, 25), lightgreen)"
@@ -119,10 +119,10 @@ const Case_page = () => {
                                                     : "linear-gradient(to bottom, rgb(26, 25, 25), #00a262)"
                         }}>
                             <Image src={
-                               (won && i === 44) ? won.giftURL : caseInfo.caseGifts[makeNumber((i+1),caseInfo.caseGifts.length)].giftURL} 
+                               !caseInfo ? "/loading.png" : ( won && i === 44) ? won.giftURL : (caseInfo && caseInfo.caseGifts) ? caseInfo.caseGifts[makeNumber((i+1),caseInfo.caseGifts.length)].giftURL : ""} 
                             alt={"051 logo"} width={45} height={45} />
                             <div id={c.text}>
-                                <span>{ (won && i === 44) ? won.giftName : caseInfo.caseGifts[makeNumber((i+1),caseInfo.caseGifts.length)].giftName}</span>
+                                <span>{ !caseInfo ? "loading.." : (won && i === 44) ? won.giftName : caseInfo.caseGifts[makeNumber((i+1),caseInfo.caseGifts.length)].giftName}</span>
                             </div>
                         </button>
                         )
@@ -139,7 +139,7 @@ const Case_page = () => {
                         </div>
                         <button id={c.shaped2} style={{color:"white"}} onClick={handleOpenCase}>
                             {
-                                tempoText ? tempoText : caseInfo ? `Pay $${caseInfo.casePrice}` : ""
+                                tempoText ? tempoText : caseInfo ? `Pay $${caseInfo.casePrice}` : "Loading..."
                             }
                         </button>
                 </div>
