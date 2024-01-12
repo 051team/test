@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 import Modal from "../../components/modal";
 import { useDispatch,useSelector } from "react-redux";
 import { note_balanceChange } from "../../redux/loginSlice";
+import { generateRandomNumber } from "../../tools";
 
 const Case_page = () => {
     const { data: session } = useSession();
@@ -70,11 +71,11 @@ const Case_page = () => {
             setTempoText("Opening..")
             setPlaceholders(50);
             setTimeout(() => {
-                dispatch(note_balanceChange(true));
+                dispatch(note_balanceChange((pr:any)=>!pr));
             }, 500);
             setTimeout(() => {
                 setTempoText(null);
-            }, 5300);
+            }, 8000);
         }else{
             try {
                 const resJson = await response.json();
@@ -115,7 +116,7 @@ const Case_page = () => {
             <>
                     
                 <div className={c.casepage_case_kernel}>
-                    <div className={c.casepage_case_kernel_spinner} style={{position:"relative", left:-(placeholders-10)*126.2}}>
+                    <div className={c.casepage_case_kernel_spinner} style={{position:"relative", left:placeholders === 10 ? -(placeholders-10)*125 : -(((placeholders-10)*125)+generateRandomNumber())}}>
                     {
                        [...Array(placeholders)].map((e,i) =>
                         <button key={i} style={{
@@ -143,12 +144,12 @@ const Case_page = () => {
                             <button>x4</button>
                             <button>x5</button>
                         </div>
-                        <button id={c.shaped2} style={{color:"white"}} onClick={handleOpenCase}>
+                        <button id={c.shaped2} style={{color:"white"}} onClick={handleOpenCase} disabled={won ? true : tempoText ? true : false}>
                 {
                     tempoText ? tempoText : 
                     (caseInfo && balance && (caseInfo.casePrice <= balance )) ? `Pay $${caseInfo.casePrice}`:
-                    (caseInfo && balance && caseInfo.casePrice > balance) ? `+ $${caseInfo.casePrice - balance} needed` 
-                    : "Loading..."
+                    (caseInfo && balance && caseInfo.casePrice > balance) ? `+ $${caseInfo.casePrice - balance} needed` :
+                    !session ? "Login required!" : "No balance!"
                 }
                         </button>
                 </div>
@@ -196,12 +197,6 @@ const Case_page = () => {
             won && !tempoText &&
             <>
                 <div className={c.casepage_case_result}>
-                    <h3>
-                        <div id={c.index}>
-                            <span>&#9660;</span>
-                            <span>&#9650;</span>
-                            </div>
-                    </h3>
                     <div id={c.btn}>
                         <div id={c.chance}>Chance <br /> 30% </div>
                         <Image src={won.giftURL} alt={"won this gift"} width={90} height={90} />
@@ -211,9 +206,8 @@ const Case_page = () => {
                     </div>
 
                     <div id={c.ops}>
-                        <button>OPEN AGAIN <Image src={"/redo.png"} alt={"re-open the case"} width={20} height={20} /> </button>
+                        <button onClick={()=> {setPlaceholders(10);setWon(()=>null)}}>OPEN AGAIN <Image src={"/redo.png"} alt={"re-open the case"} width={20} height={20} /> </button>
                         <button>SELL FOR $xxx</button>
-                        <button>TO UPGRADE <Image src={"/up.png"} alt={"re-open the case"} width={15} height={13} /></button>
                     </div>
                 </div>
                 <br />

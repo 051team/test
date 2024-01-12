@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import {connectToDatabase} from "./mdb";
+import {connectToDatabase, closeDatabaseConnection} from "./mdb";
 
 
 export default async function handler(
@@ -12,8 +12,10 @@ export default async function handler(
   const { cat, name } = req.query;
   console.log(cat,name);
 
+  let client;
+
   try {
-    const client = await connectToDatabase();
+    client = await connectToDatabase();
     const data_base = client.db('casadepapel');
     const cases = data_base.collection('cdp_cases');
 
@@ -28,5 +30,10 @@ export default async function handler(
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: 'Failed to fetch CASES',color:"red" })
+  }
+  finally{
+    if (client) {
+      await closeDatabaseConnection(client);
+    }
   }
 }

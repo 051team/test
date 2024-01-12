@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import {connectToDatabase} from "./mdb";
+import {connectToDatabase, closeDatabaseConnection} from "./mdb";
 
 
 export default async function handler(
@@ -13,8 +13,10 @@ export default async function handler(
   console.log("to updated",coupon_to_USE);
   console.log(user);
 
+  let client;
+
   try {
-    const client = await connectToDatabase();
+    client = await connectToDatabase();
     const data_base = client.db('casadepapel');
     const coupons = data_base.collection('cdp_coupons');
     const cdp_users = data_base.collection('cdp_users');
@@ -155,5 +157,10 @@ export default async function handler(
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: 'Failed to delete coupon',color:"red" })
+    }
+    finally{
+      if (client) {
+        await closeDatabaseConnection(client);
+      }
     }
 }

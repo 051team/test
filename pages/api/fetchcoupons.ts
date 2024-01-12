@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import {connectToDatabase} from "./mdb";
+import {connectToDatabase, closeDatabaseConnection} from "./mdb";
 
 
 export default async function handler(
@@ -8,8 +8,11 @@ export default async function handler(
   res: NextApiResponse
 ) {
   console.log("Fetch all Coupons Endpoint accessed");
+
+  let client;
+
   try {
-    const client = await connectToDatabase();
+    client = await connectToDatabase();
     const data_base = client.db('casadepapel');
     const coupons = data_base.collection('cdp_coupons');
 
@@ -20,5 +23,10 @@ export default async function handler(
   } catch (error) {
     console.log(error);
     res.status(500).json({ name: 'New User' })
+  }
+  finally{
+    if (client) {
+      await closeDatabaseConnection(client);
+    }
   }
 }

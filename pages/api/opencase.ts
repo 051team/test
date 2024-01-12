@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import {connectToDatabase} from "./mdb";
+import {connectToDatabase, closeDatabaseConnection} from "./mdb";
 
 const mockLotteryDraw = (giftArray:any) => {
     if(!giftArray){return}
@@ -29,8 +29,11 @@ export default async function handler(
 
   const { cat, name, user, email } = JSON.parse(req.body);
   console.log(cat,name,user,email);
+
+  let client;
+
   try {
-    const client = await connectToDatabase();
+    client = await connectToDatabase();
     const data_base = client.db('casadepapel');
     const cases = data_base.collection('cdp_cases');
     const users = data_base.collection('cdp_users');
@@ -51,7 +54,11 @@ export default async function handler(
         console.log("Enough Balance = ", balance > casePrice);
         if(balanceEnough){
           const result = await users.updateOne({cdpUser:{$eq:user}, cdpEmail:{$eq:email}},
-            { $inc:{balance:-casePrice} });
+            { 
+              $inc:{balance:-casePrice},
+              $push: { inventory: lotteryResult }
+          },
+          );
           if(result.matchedCount === 1 && result.matchedCount === 1){
             res.status(200).json({lucky:lotteryResult});
           }else{
@@ -66,5 +73,10 @@ export default async function handler(
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: 'Failed to find Case to Open',color:"red" });
+  }
+  finally{
+    if (client) {
+      await closeDatabaseConnection(client);
+    }
   }
 }

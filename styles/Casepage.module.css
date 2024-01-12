@@ -50,7 +50,7 @@
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
-  transition: left 5s ease;
+  transition: left 6s ease-out;
 }
 .casepage_case_kernel_spinner button {
   width: 125px;

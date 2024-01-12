@@ -146,7 +146,7 @@ const Navbar = () => {
                     {
                         session && 
                         <>
-                        <span> <strong>{session && session.user?.name} <br />{balance ? formatter(balance) : ""}  </strong> </span>
+                        <span><strong>{session && session.user?.name} <br />{balance ? formatter(balance) : ""}  </strong> </span>
                         <Image src={session!.user!.image as string} alt={"discord profile image"} width={50} height={50} />
                         <div id={h.dropdown}>
                             <div>

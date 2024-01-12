@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import {connectToDatabase} from "./mdb";
+import {connectToDatabase, closeDatabaseConnection} from "./mdb";
 
 
 export default async function handler(
@@ -19,6 +19,7 @@ export default async function handler(
     const cases = database.collection('cdp_cases');
     try {
       const result = await cases.insertOne(caseInfo);
+      await closeDatabaseConnection(client);
       console.log(result);
       if(result.acknowledged){
         res.status(201).json({ message: 'Case has successfully been created!', color:"green" });

@@ -8,3 +8,10 @@ export const formatter = (price: number): string => {
   
     return formattedPrice;
   };
+
+
+ export  const generateRandomNumber = () => {
+    // Generates a random number between 10 (inclusive) and 90 (exclusive)
+    const randomNumber = Math.floor(Math.random() * 100) + 10;
+    return randomNumber;
+  }
