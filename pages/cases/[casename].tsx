@@ -9,7 +9,7 @@ import { useRouter } from 'next/router';
 import Modal from "../../components/modal";
 import { useDispatch,useSelector } from "react-redux";
 import { note_balanceChange } from "../../redux/loginSlice";
-import { generateRandomNumber } from "../../tools";
+import { formatter, generateRandomNumber } from "../../tools";
 
 const Case_page = () => {
     const { data: session } = useSession();
@@ -92,6 +92,36 @@ const Case_page = () => {
         }
     };
 
+    const handleSellGift =async () => {
+        if(!won || tempoText === "Selling gift..."){return};
+        setTempoText("Selling gift...")
+        try {
+            const response = await fetch("/api/sellgift", {
+                method:"POST",
+                body:JSON.stringify({gift:won,user:session?.user})
+            });
+            try {
+                if(response.status === 200){
+                    const resJson = await response.json();
+                    console.log(resJson);
+                    dispatch(note_balanceChange((pr:any)=>!pr));
+                    setTimeout(() => {
+                        setTempoText(()=>null);
+                        setWon(()=>null);
+                        setPlaceholders(10);
+                    }, 1000);
+                }else{
+                    console.log("Problem var", response)
+                }
+            } catch (error) {
+                console.log("resJson failed");
+            }
+
+        } catch (error) {
+            
+        }
+    }
+
     const caseOpenDisabled = !balance || !caseInfo || ( caseInfo && balance && caseInfo.casePrice > balance);
 
     return ( 
@@ -112,7 +142,7 @@ const Case_page = () => {
                     </div>
                 </h3>
             {
-            (!won || tempoText )&&
+            (!won || (tempoText && tempoText !== "Selling gift...") )&&
             <>
                     
                 <div className={c.casepage_case_kernel}>
@@ -149,7 +179,7 @@ const Case_page = () => {
                     tempoText ? tempoText : 
                     (caseInfo && balance && (caseInfo.casePrice <= balance )) ? `Pay $${caseInfo.casePrice}`:
                     (caseInfo && balance && caseInfo.casePrice > balance) ? `+ $${caseInfo.casePrice - balance} needed` :
-                    !session ? "Login required!" : "No balance!"
+                    !session ? "Login required!" : "Please wait..."
                 }
                         </button>
                 </div>
@@ -194,7 +224,7 @@ const Case_page = () => {
 
 
             {
-            won && !tempoText &&
+            won && (!tempoText || tempoText === "Selling gift...") &&
             <>
                 <div className={c.casepage_case_result}>
                     <div id={c.btn}>
@@ -207,7 +237,7 @@ const Case_page = () => {
 
                     <div id={c.ops}>
                         <button onClick={()=> {setPlaceholders(10);setWon(()=>null)}}>OPEN AGAIN <Image src={"/redo.png"} alt={"re-open the case"} width={20} height={20} /> </button>
-                        <button>SELL FOR $xxx</button>
+                        <button onClick={handleSellGift}>{tempoText === "Selling gift..." ? tempoText : `SELL FOR ${formatter(won.giftPrice)}`}</button>
                     </div>
                 </div>
                 <br />
