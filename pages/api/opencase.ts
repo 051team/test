@@ -46,7 +46,7 @@ export default async function handler(
       const accountOwner = await users.findOne({cdpUser:{$eq:user}, cdpEmail:{$eq:email}});
       if(accountOwner){
         const balance = accountOwner.balance;
-        const balanceEnough = balance > casePrice;
+        const balanceEnough = balance > casePrice || balance === casePrice;
         console.log("Case price: ",casePrice, " Balance: ", balance);
         console.log("Enough Balance = ", balance > casePrice);
         if(balanceEnough){
