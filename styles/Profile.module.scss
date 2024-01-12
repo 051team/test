@@ -1,0 +1,60 @@
+.profile{
+    #black{
+        position: fixed;
+        top: 0; bottom: 0; left: 0; right: 0;
+        background-color: black;
+        z-index: -1;
+    }
+    display: grid;
+    justify-items: center;
+    &_kernel{
+        width: 1000px;
+        padding-top: 40px;
+        display: grid;
+        row-gap: 30px;
+        &_card{
+            border: 2px solid yellow;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            column-gap: 20px;
+            img{
+                object-fit: cover;
+                border-radius: 50%;
+                height: 100px;
+                width: 100px;
+                filter: drop-shadow(0 0 4px silver);
+            }
+            #info{
+                border: 2px solid white;
+                color: white;
+                h3{
+                    font-size: x-large;
+                }
+                h4{
+                    color: orange;
+                    font-size: larger;
+                }
+            }
+        }
+        &_line{
+            background-color: #071118;
+            border-radius: 5px;
+            padding-left: 20px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            color: white;
+            font-size: small;
+            font-weight: bolder;
+            span{
+                border-bottom: 2px solid orange;
+                filter: brightness(1.1);
+            }
+        }
+        &_inventory{
+            border: 2px solid pink;
+            height: 200px;
+        }
+    }
+}

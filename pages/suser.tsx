@@ -571,26 +571,3 @@ const Super_user = () => {
 }
  
 export default Super_user;
-
-
-
-
-
-
-/* const getBlobs = async () => {
-    const returnedBlobUrls: string[] = [];
-    const blobService = new BlobServiceClient(
-      `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
-    );
-
-    const containerClient: ContainerClient =
-      blobService.getContainerClient(containerName!);
-    
-      for await (const blob of containerClient.listBlobsFlat()) {
-        returnedBlobUrls.push(
-          `https://${storageAccountName}.blob.core.windows.net/${containerName}/${blob.name}`
-        );
-      }
-    console.log(returnedBlobUrls);
-    return returnedBlobUrls;
-} */

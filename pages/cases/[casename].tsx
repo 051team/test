@@ -54,7 +54,7 @@ const Case_page = () => {
             confirm("Insufficient balance!");
             return
         };
-        setTempoText("Opening");
+        setTempoText("Opening...");
         const response = await fetch("/api/opencase",{
             method:"POST",
             body:JSON.stringify({
@@ -68,7 +68,6 @@ const Case_page = () => {
             const resJson = await response.json();
             console.log(resJson.lucky);
             setWon(resJson.lucky);
-            setTempoText("Opening..")
             setPlaceholders(50);
             setTimeout(() => {
                 dispatch(note_balanceChange((pr:any)=>!pr));
@@ -93,8 +92,8 @@ const Case_page = () => {
     };
 
     const handleSellGift =async () => {
-        if(!won || tempoText === "Selling gift..."){return};
-        setTempoText("Selling gift...")
+        if(!won || tempoText === "Selling..."){return};
+        setTempoText("Selling...")
         try {
             const response = await fetch("/api/sellgift", {
                 method:"POST",
@@ -105,6 +104,7 @@ const Case_page = () => {
                     const resJson = await response.json();
                     console.log(resJson);
                     dispatch(note_balanceChange((pr:any)=>!pr));
+                    setTempoText(()=>"SOLD")
                     setTimeout(() => {
                         setTempoText(()=>null);
                         setWon(()=>null);
@@ -123,6 +123,9 @@ const Case_page = () => {
     }
 
     const caseOpenDisabled = !balance || !caseInfo || ( caseInfo && balance && caseInfo.casePrice > balance);
+    const sliderVisible = !won || (tempoText && tempoText !== "Selling..." && tempoText !== "SOLD");
+    const resultVisible = won && (!tempoText || tempoText === "Selling..." || tempoText === "SOLD");
+    const sellButtonText = (tempoText === "Selling..." || tempoText === "SOLD") ? tempoText : `SELL FOR ${formatter(won && won.giftPrice)}`;
 
     return ( 
         <>
@@ -142,7 +145,7 @@ const Case_page = () => {
                     </div>
                 </h3>
             {
-            (!won || (tempoText && tempoText !== "Selling gift...") )&&
+            sliderVisible  &&
             <>
                     
                 <div className={c.casepage_case_kernel}>
@@ -224,7 +227,7 @@ const Case_page = () => {
 
 
             {
-            won && (!tempoText || tempoText === "Selling gift...") &&
+            resultVisible &&
             <>
                 <div className={c.casepage_case_result}>
                     <div id={c.btn}>
@@ -237,7 +240,7 @@ const Case_page = () => {
 
                     <div id={c.ops}>
                         <button onClick={()=> {setPlaceholders(10);setWon(()=>null)}}>OPEN AGAIN <Image src={"/redo.png"} alt={"re-open the case"} width={20} height={20} /> </button>
-                        <button onClick={handleSellGift}>{tempoText === "Selling gift..." ? tempoText : `SELL FOR ${formatter(won.giftPrice)}`}</button>
+                        <button onClick={handleSellGift}>{sellButtonText}</button>
                     </div>
                 </div>
                 <br />
