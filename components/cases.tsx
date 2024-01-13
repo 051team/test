@@ -41,12 +41,9 @@ const Cases = () => {
                     )
                 }
                 {
-                    [...Array(10)].map((e,i)=>
-                    <div className={h.home_cases_kernel_group_each} key={i}>
-                        <Image priority={i < 5 ? true : false} src={`/assets/${i+1}.png`} alt={"051 logo"} width={200} height={250} />
-                        <h5>
-                            Case name heree
-                        </h5>
+                   !allCases && [...Array(5)].map((e,i)=>
+                    <div className={h.home_cases_kernel_group_each} id={h.placeholder} key={i}>
+
                     </div>
                     )
                 }
