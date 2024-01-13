@@ -48,6 +48,9 @@ const Profile = () => {
             if(response.status === 200){
                 const resJson = await response.json();
                 setTempoText({text:"SOLD*",no:i});
+                setTimeout(() => {
+                    setTempoText(()=>null);
+                }, 1000);
                 const updatedInventory = inventory.map((e:any, i:number) => (e === gift ? { ...e, isSold: true } : e));
                 setInventory(updatedInventory);
                 console.log("UPDATED",updatedInventory);
