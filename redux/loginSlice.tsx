@@ -2,7 +2,7 @@ import { createSlice,PayloadAction } from '@reduxjs/toolkit';
 
 const initialState = {
   balanceChange:false,
-  balance:0,
+  balance:null,
   universal_feedback:{message:"",color:"whitesmoke"}
 }
 

@@ -13,23 +13,25 @@
         display: grid;
         row-gap: 30px;
         &_card{
-            border: 2px solid yellow;
-            height: 150px;
             display: flex;
             align-items: center;
             column-gap: 20px;
+            background-color: #071118;
+            border-radius: 10px;
+            background-image: linear-gradient(to right, #071118 30%, #4d0f22 55%, #071118 100%);
+            filter: brightness(1.2);
+            padding: 20px;
             img{
                 object-fit: cover;
                 border-radius: 50%;
                 height: 100px;
                 width: 100px;
-                filter: drop-shadow(0 0 4px silver);
+                filter: drop-shadow(0 0 4px gray);
             }
             #info{
-                border: 2px solid white;
                 color: white;
                 h3{
-                    font-size: x-large;
+                    font-size: larger;
                 }
                 h4{
                     color: orange;
@@ -38,23 +40,70 @@
             }
         }
         &_line{
-            background-color: #071118;
             border-radius: 5px;
-            padding-left: 20px;
-            height: 50px;
+            padding: 10px 20px;
             display: flex;
             align-items: center;
             color: white;
             font-size: small;
             font-weight: bolder;
+            background-image: linear-gradient(to right, #071118 30%, #4d0f22 60%, #071118 100%);
+            filter: brightness(1.2);
             span{
                 border-bottom: 2px solid orange;
                 filter: brightness(1.1);
             }
         }
         &_inventory{
-            border: 2px solid pink;
-            height: 200px;
+            display: grid;
+            grid-template-columns: repeat(6,1fr);
+            width: 1000px;
+            gap: 20px;
+            overflow: visible;
+            position: relative;
+            top: -10px;
+            button{
+                height: 140px;
+                border-radius: 5px;
+                padding-top: 10px;
+                background-color: #071118;
+                position: relative;
+                box-shadow: 0 -1px 2px 1px #323131;
+                &:hover{
+                    filter: brightness(1.5);
+                    box-shadow: inset 0 1px 2px 1px #323131;
+
+                }
+                #text{
+                    position: relative;
+                    top:5px;
+                    color: whitesmoke;
+                    font-size: 10px;
+                    line-height: 15px;
+                    font-weight: 500;
+                    display: grid;
+                }
+                #act{
+                    #dollar{
+                        color: white;
+                        font-weight: 400;
+                        line-height: 10px;
+                        background-color: darkgreen;
+                        display: grid;
+                        justify-content: center;
+                        align-items: center;
+                        font-size: medium;
+                        width: 20px;
+                        height: 20px;
+                        clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+                    }
+                    position: absolute;
+                    top:10px;
+                    left: 10px;
+                    display: grid;
+                }
+            }
+            
         }
     }
 }

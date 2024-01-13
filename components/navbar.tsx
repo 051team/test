@@ -13,6 +13,7 @@ import crazy from "../public/assets/promo.png";
 import Modal from "./modal";
 import { useSelector,useDispatch } from "react-redux";
 import { note_balanceChange, note_balance } from "./../redux/loginSlice";
+import Link from "next/link";
 
 const Navbar = () => {
     const { data: session } = useSession();
@@ -134,7 +135,8 @@ const Navbar = () => {
                 <span id={h.each}><span>&#9729;</span> $1,245,621 <span style={{color:"#009fb3"}}>Case Opened</span></span>
             </div>
             <div className={h.home_navbar_bottom}>
-                <Image src={_051} alt={"051 logo"} width={90} height={50} />
+                <Link href={"/"}>
+                <Image src={_051} alt={"051 logo"} width={90} height={50} /></Link>
                 <input type="text" placeholder="Search for safe..." />
                 <button onClick={handleLogIn} id={h.profile}>
                     <input type="checkbox" id="open"/>
@@ -149,10 +151,11 @@ const Navbar = () => {
                         <span><strong>{session && session.user?.name} <br />{balance ? formatter(balance) : ""}  </strong> </span>
                         <Image src={session!.user!.image as string} alt={"discord profile image"} width={50} height={50} />
                         <div id={h.dropdown}>
+                            <Link href={"/profile"}>
                             <div>
                                 <Image src={profile} alt={"profile icon"} width={25} height={25} />
                                 <span>Profile</span>
-                            </div>
+                            </div></Link>
                             <div onClick={()=>signOut()}>
                                 <Image src={logout} alt={"logout icon"} width={25} height={25} />
                                 <span>Sign out</span>

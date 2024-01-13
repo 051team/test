@@ -1,4 +1,7 @@
 export const formatter = (price: number): string => {
+  if(price === null){
+    return ""
+  }
     const formattedPrice = new Intl.NumberFormat('us-US', {
       style: 'currency',
       currency: 'USD',

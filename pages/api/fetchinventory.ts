@@ -8,7 +8,7 @@ export default async function handler(
 ) {
   console.log("Selling Case....");
 
-  const {gift,user} = JSON.parse(req.body);
+  const {name,email} = req.query;
 
   let client;
 
@@ -17,27 +17,22 @@ export default async function handler(
     const data_base = client.db('casadepapel');
     const users = data_base.collection('cdp_users');
 
-    const resultSold = await users.updateOne(
+    const user = await users.findOne(
         {
-            cdpUser:{$eq:user.name},
-            cdpEmail:{$eq:user.email},
-            inventory: gift
-        },
-        {
-            $pull: { inventory: gift },
-            $inc:{ balance:parseFloat(gift.giftPrice)}     
+            cdpUser:{$eq:name},
+            cdpEmail:{$eq:email},
         }
     )
-    if(resultSold.matchedCount === 1 && resultSold.modifiedCount === 1){
-        console.log(resultSold)
-        res.status(200).json({ message: 'Gift sold! Balance updated',color:"lightgreen"});
+    if(user){
+        const inventory = user.inventory ?? [];
+        res.status(200).json(inventory);
     }else{
-        res.status(500).json({ message: 'Failed to sell the gift',color:"red" });
+        res.status(404).json({ message: 'Failed to fetch inventory',color:"red" });
     }
 
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: 'Failed to sell the gift',color:"red" });
+    res.status(500).json({ message: 'Failed to fetch inventory',color:"red" });
 }
   finally{
     if (client) {
