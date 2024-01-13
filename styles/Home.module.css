@@ -284,6 +284,9 @@
   -webkit-animation: gradientMovement 1s linear infinite;
           animation: gradientMovement 1s linear infinite;
 }
+.home_cases_kernel_group #placeholder:hover {
+  box-shadow: none;
+}
 .home_modal {
   background-color: rgba(0, 0, 0, 0.85);
   position: fixed;

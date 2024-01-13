@@ -233,7 +233,7 @@ const Case_page = () => {
             <>
                 <div className={c.casepage_case_result}>
                     <div id={c.btn}>
-                        <div id={c.chance}>Chance <br /> 30% </div>
+                        <div id={c.chance}>Chance <br /> {won.giftProbability/100000*100}% </div>
                         <Image src={won.giftURL} alt={"won this gift"} width={90} height={90} />
                         <div id={c.text}>
                             <span>{won.giftName}</span>

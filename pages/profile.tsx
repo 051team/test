@@ -2,14 +2,17 @@ import Image from "next/image";
 import Navbar from "../components/navbar";
 import p from "../styles/Profile.module.css";
 import { useSession } from 'next-auth/react';
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
 import { formatter } from "../tools";
 import { useEffect, useState } from "react";
+import { note_balanceChange } from "../redux/loginSlice";
 
 const Profile = () => {
     const { data: session } = useSession();
     const username = session?.user?.name || "...";
     const balance = useSelector((state:any) => state.loginSlice.balance);
+    const bchange = useSelector((state:any) => state.loginSlice.bchange);
+    const dispatch = useDispatch();
     const [inventory,setInventory] = useState<any>();
     const [tempoText,setTempoText] = useState<{text:string,no:number} | null>();
 
@@ -48,6 +51,7 @@ const Profile = () => {
             if(response.status === 200){
                 const resJson = await response.json();
                 setTempoText({text:"SOLD*",no:i});
+                dispatch(note_balanceChange((pr:boolean)=>!pr));
                 setTimeout(() => {
                     setTempoText(()=>null);
                 }, 1000);
