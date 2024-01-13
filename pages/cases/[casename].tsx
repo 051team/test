@@ -74,7 +74,7 @@ const Case_page = () => {
             }, 500);
             setTimeout(() => {
                 setTempoText(null);
-            }, 9000);
+            }, 8000);
         }else{
             try {
                 const resJson = await response.json();

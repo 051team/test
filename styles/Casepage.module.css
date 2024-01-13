@@ -50,7 +50,7 @@
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
-  transition: left 7s cubic-bezier(0.45, 1, 1, 1);
+  transition: left 6s cubic-bezier(0.55, 1, 1, 1);
 }
 .casepage_case_kernel_spinner button {
   width: 125px;
