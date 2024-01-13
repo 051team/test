@@ -12,6 +12,6 @@ export const formatter = (price: number): string => {
 
  export  const generateRandomNumber = () => {
     // Generates a random number between 10 (inclusive) and 90 (exclusive)
-    const randomNumber = Math.floor(Math.random() * 100) + 10;
+    const randomNumber = Math.floor(Math.random() * 105) + 5;
     return randomNumber;
   }

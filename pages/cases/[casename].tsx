@@ -91,7 +91,7 @@ const Case_page = () => {
         }
     };
 
-    const handleSellGift =async () => {
+    const handleSellGift = async () => {
         if(!won || tempoText === "Selling..."){return};
         setTempoText("Selling...")
         try {
@@ -126,6 +126,8 @@ const Case_page = () => {
     const sliderVisible = !won || (tempoText && tempoText !== "Selling..." && tempoText !== "SOLD");
     const resultVisible = won && (!tempoText || tempoText === "Selling..." || tempoText === "SOLD");
     const sellButtonText = (tempoText === "Selling..." || tempoText === "SOLD") ? tempoText : `SELL FOR ${formatter(won && won.giftPrice)}`;
+    const sellButtonDisabled = !!tempoText;
+    const payButtonDisabled = (won || tempoText) ? true : false;
 
     return ( 
         <>
@@ -177,13 +179,13 @@ const Case_page = () => {
                             <button>x4</button>
                             <button>x5</button>
                         </div>
-                        <button id={c.shaped2} style={{color:"white"}} onClick={handleOpenCase} disabled={won ? true : tempoText ? true : false}>
-                {
-                    tempoText ? tempoText : 
-                    (caseInfo && balance && (caseInfo.casePrice <= balance )) ? `Pay $${caseInfo.casePrice}`:
-                    (caseInfo && balance && caseInfo.casePrice > balance) ? `+ $${caseInfo.casePrice - balance} needed` :
-                    !session ? "Login required!" : "Please wait..."
-                }
+                        <button id={c.shaped2} style={{color:"white"}} onClick={handleOpenCase} disabled={payButtonDisabled}>
+                            {
+                                tempoText ? tempoText : 
+                                (caseInfo && balance && (caseInfo.casePrice <= balance )) ? `Pay $${caseInfo.casePrice}`:
+                                (caseInfo && balance && caseInfo.casePrice > balance) ? `+ $${caseInfo.casePrice - balance} needed` :
+                                !session ? "Login required!" : "Please wait..."
+                            }
                         </button>
                 </div>
                 <br />
@@ -240,7 +242,7 @@ const Case_page = () => {
 
                     <div id={c.ops}>
                         <button onClick={()=> {setPlaceholders(10);setWon(()=>null)}}>OPEN AGAIN <Image src={"/redo.png"} alt={"re-open the case"} width={20} height={20} /> </button>
-                        <button onClick={handleSellGift}>{sellButtonText}</button>
+                        <button disabled={sellButtonDisabled} onClick={handleSellGift}>{sellButtonText}</button>
                     </div>
                 </div>
                 <br />
