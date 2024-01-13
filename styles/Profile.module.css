@@ -65,6 +65,7 @@
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   width: 1000px;
+  overflow: hidden;
   gap: 20px;
   overflow: visible;
   position: relative;
@@ -73,7 +74,7 @@
 .profile_kernel_inventory button {
   height: 140px;
   border-radius: 5px;
-  padding-top: 10px;
+  padding-top: 20px;
   background-color: #071118;
   position: relative;
   box-shadow: 0 -1px 2px 1px #323131;
@@ -91,14 +92,19 @@
   font-weight: 500;
   display: grid;
 }
+.profile_kernel_inventory button #text #shine {
+  -webkit-animation: shine 0.8s infinite;
+          animation: shine 0.8s infinite;
+  font-size: 14px;
+}
 .profile_kernel_inventory button #act {
+  color: white;
   position: absolute;
   top: 10px;
   left: 10px;
-  display: grid;
+  display: flex;
 }
 .profile_kernel_inventory button #act #dollar {
-  color: white;
   font-weight: 400;
   line-height: 10px;
   background-color: darkgreen;
@@ -110,4 +116,66 @@
   height: 20px;
   -webkit-clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
           clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+  z-index: 9 !important;
+}
+.profile_kernel_inventory button #act #sell {
+  background-color: darkgreen;
+  height: 20px;
+  padding: 0 15px;
+  color: white;
+  font-weight: 500;
+  font-size: 12px;
+  border: none;
+  visibility: hidden;
+  transition: visibility 0.2s ease;
+  position: relative;
+  left: -10px;
+  z-index: 3;
+  box-shadow: none !important;
+}
+.profile_kernel_inventory button #act #sell:hover {
+  filter: none !important;
+}
+.profile_kernel_inventory button #act #sell:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: -4px;
+  border-width: 10px 6px 10px 0;
+  border-style: solid;
+  border-color: transparent darkgreen transparent transparent;
+  transform: rotate(180deg);
+}
+.profile_kernel_inventory button #act:hover #sell {
+  visibility: visible !important;
+}
+.profile_kernel_inventory h1 {
+  color: #7b1533;
+  width: 1000px;
+  text-align: center;
+  filter: drop-shadow(0 -1px 2px white) brightness(1.5);
+}
+
+@-webkit-keyframes shine {
+  0% {
+    color: white;
+  }
+  50% {
+    color: #7b1533;
+  }
+  100% {
+    color: white;
+  }
+}
+
+@keyframes shine {
+  0% {
+    color: white;
+  }
+  50% {
+    color: #7b1533;
+  }
+  100% {
+    color: white;
+  }
 }/*# sourceMappingURL=Profile.module.css.map */

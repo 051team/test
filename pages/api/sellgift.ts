@@ -16,15 +16,18 @@ export default async function handler(
     client = await connectToDatabase();
     const data_base = client.db('casadepapel');
     const users = data_base.collection('cdp_users');
+    if(gift.isSold){
+      gift.isSold = false
+    }
 
     const resultSold = await users.updateOne(
         {
             cdpUser:{$eq:user.name},
             cdpEmail:{$eq:user.email},
-            inventory: gift
+            inventory: gift,
         },
         {
-            $pull: { inventory: gift },
+            $set: { 'inventory.$.isSold': true },
             $inc:{ balance:parseFloat(gift.giftPrice)}     
         }
     )
@@ -32,6 +35,7 @@ export default async function handler(
         console.log(resultSold)
         res.status(200).json({ message: 'Gift sold! Balance updated',color:"lightgreen"});
     }else{
+        console.log("No matched found");
         res.status(500).json({ message: 'Failed to sell the gift',color:"red" });
     }
 

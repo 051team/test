@@ -9,6 +9,7 @@ export async function connectToDatabase() {
 export async function closeDatabaseConnection(client:MongoClient) {
   try {
     await client.close();
+    console.log("DB conenction closed")
   } catch (error) {
     console.error("Error closing MongoDB connection:", error);
   }

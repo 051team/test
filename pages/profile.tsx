@@ -11,6 +11,7 @@ const Profile = () => {
     const username = session?.user?.name || "...";
     const balance = useSelector((state:any) => state.loginSlice.balance);
     const [inventory,setInventory] = useState<any>();
+    const [tempoText,setTempoText] = useState<{text:string,no:number} | null>();
 
     useEffect(()=>{
         const fetchInventory = async () => {
@@ -37,6 +38,28 @@ const Profile = () => {
         }
     },[session]);
 
+    const handleSell = async (i:number,gift:any) => {
+        setTempoText({text:"Selling...",no:i});
+        try {
+            const response = await fetch("/api/sellgift",{
+                method:"POST",
+                body:JSON.stringify({user:session?.user,gift:gift})
+            })
+            if(response.status === 200){
+                const resJson = await response.json();
+                setTempoText({text:"SOLD*",no:i});
+                const updatedInventory = inventory.map((e:any, i:number) => (e === gift ? { ...e, isSold: true } : e));
+                setInventory(updatedInventory);
+                console.log("UPDATED",updatedInventory);
+            }else{
+                console.log(response);
+                setTempoText(null);
+            }
+        } catch (error) {
+            console.log("Problem var",error)
+        }
+    }
+
     return ( 
         <div className={p.profile}>
             <div id={p.black}></div>
@@ -50,7 +73,7 @@ const Profile = () => {
                     </div>
                 </div>
                 <div className={p.profile_kernel_line}>
-                    <span>INVENTORY</span>
+                    <span>INVENTORY {tempoText && tempoText.text}</span>
                 </div>
                 <div className={p.profile_kernel_inventory}>
                     {
@@ -60,10 +83,22 @@ const Profile = () => {
                             <Image src={item.giftURL} alt={"inventory item"} width={45} height={45} />
                             <div id={p.act}>
                                 <div id={p.dollar}>$</div>
+                                <button style={{opacity:item.isSold ? "0" : "1"}} disabled={item.isSold ?? false} id={p.sell} onClick={()=>handleSell(i,item)}>SELL</button>
+                                {
+                                    item.isSold && 
+                                    <span style={{fontSize:"12px",fontWeight:"600"}}>SOLD</span>
+                                }
                             </div>
                             <div id={p.text}>
-                                <span>{item.giftName}</span>
-                                <span>{formatter(item.giftPrice)}</span>
+                                {
+                                    (tempoText && tempoText.no === i ) ?
+                                    <span id={tempoText.text === "Selling..." ? p.shine : ""}>{tempoText.text}</span>          
+                                                                        :
+                                    <>
+                                    <span>{item.giftName}</span>
+                                    <span>{formatter(item.giftPrice)}</span>
+                                    </>
+                                }
                             </div>
                         </button>
                         )
@@ -79,6 +114,9 @@ const Profile = () => {
                             </div>
                         </button>
                         )
+                    }
+                    {
+                        inventory && inventory.length === 0 && <h1>No items in the inventory</h1>
                     }
                 </div>
             </div>
