@@ -14,7 +14,6 @@ export const formatter = (price: number): string => {
 
 
  export  const generateRandomNumber = () => {
-    // Generates a random number between 10 (inclusive) and 90 (exclusive)
     const randomNumber = Math.floor(Math.random() * 115) + 5;
     return randomNumber;
   }
@@ -37,4 +36,13 @@ export  const colorGenerator = (price:string | number) => {
     if(price > 500 ){
       return "red"
     }
+}
+
+
+
+export const  shuffleArray = (array:any[]) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
 }

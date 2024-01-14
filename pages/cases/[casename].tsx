@@ -9,7 +9,7 @@ import { useRouter } from 'next/router';
 import Modal from "../../components/modal";
 import { useDispatch,useSelector } from "react-redux";
 import { note_balanceChange } from "../../redux/loginSlice";
-import { colorGenerator, formatter, generateRandomNumber } from "../../tools";
+import { colorGenerator, formatter, generateRandomNumber, shuffleArray } from "../../tools";
 
 const Case_page = () => {
     const { data: session } = useSession();
@@ -132,6 +132,46 @@ const Case_page = () => {
     const sellButtonText = (tempoText === "Selling..." || tempoText === "SOLD") ? tempoText : `SELL FOR ${formatter(won && won.giftPrice)}`;
     const sellButtonDisabled = !!tempoText;
     const payButtonDisabled = (won || tempoText) ? true : false;
+    const [repetitionCurve,setRepetitiveCurve] = useState<null | any[]>(null);
+
+    const makeOccuranceRate = (gifts:any[]) => {
+        const prices:any[] = [];
+        const finals:any[] = [];
+        const totalPrice = gifts.reduce((total,gift) => total + parseFloat(gift.giftProbability), 0);
+        const unit = 50 / totalPrice;
+        gifts.map((g,i) => prices.push(
+             {probability:parseFloat(g.giftProbability),code:g.code}
+        ));
+        prices.sort();
+        let reTotal = 0;
+
+        gifts.map(gf=>reTotal = reTotal + Math.floor(unit*(parseFloat(gf.giftProbability))));
+
+        prices.forEach((dual) => {
+            const repetition = Math.floor(unit*(parseFloat(dual.probability)));
+            for (let i = 0; i < repetition; i++) {
+                finals.push(dual)
+            }
+        });
+
+        if(reTotal < 50){
+            const diffetence = 50 - reTotal;
+            for (let i = 0; i < diffetence; i++) {
+                finals.push(
+                    prices[prices.length-1]
+                )
+            }
+        }
+        shuffleArray(finals);
+
+        return finals
+    }
+
+    useEffect(()=>{
+        if(caseInfo){
+            setRepetitiveCurve(makeOccuranceRate(caseInfo.caseGifts))
+        }
+    },[caseInfo]);
 
     return ( 
         <>
@@ -158,32 +198,30 @@ const Case_page = () => {
                     <div id={placeholders === 50 ? c.slide : ""} className={c.casepage_case_kernel_spinner} 
                     style={{ transform: `translateX(${placeholders === 50 ? indexShift : "0px"})`}}
                     >
-                    {
-                       [...Array(placeholders)].map((e,i) =>
-                        <button id={caseInfo ? "" : c.loading} key={i} style={{
-                            backgroundImage: (caseInfo && caseInfo.caseGifts && i !== 44 ) ? `linear-gradient(to bottom, rgb(26, 25, 25), 
-                            ${colorGenerator(caseInfo.caseGifts[makeNumber((i+1),caseInfo.caseGifts.length)].giftPrice)} ` :
-                            i === 44 ? `linear-gradient(to bottom, rgb(26, 25, 25), ${colorGenerator(won.giftPrice)}`
-                            : "none"
-                            
-                        }}>
-                            {
-                                caseInfo &&
-                                <Image src={( won && i === 44) ? won.giftURL : (caseInfo && caseInfo.caseGifts) ? 
-                                    caseInfo.caseGifts[makeNumber((i+1),caseInfo.caseGifts.length)].giftURL : ""} 
-                                 alt={"051 logo"} width={45} height={45} priority />
-
-                            }
-                            {
-                                caseInfo &&
-                                <div id={c.text}>
-                                    <span>{(won && i === 44) ? won.giftName : caseInfo.caseGifts[makeNumber((i+1),caseInfo.caseGifts.length)].giftName}</span>
-                                </div>
-
-                            }
-                        </button>
-                        )
-                    }
+                        {
+                            repetitionCurve ? repetitionCurve.map((e,i) =>
+                                <button id={repetitionCurve ? "" : c.loading} key={i}
+                                    style={{
+                                    backgroundImage: 
+                                    (i !== 44 ) ? `linear-gradient(to bottom, rgb(26, 25, 25), 
+                                    ${colorGenerator(caseInfo.caseGifts.find((gf:any) => gf.code === e.code).giftPrice)} ` :
+                                    (i === 44 && won) ? `linear-gradient(to bottom, rgb(26, 25, 25), ${colorGenerator(won.giftPrice)}`
+                                    : "none"
+                                }}
+                                >
+                                    <Image src={(i === 44 && won) ? won.giftURL : caseInfo.caseGifts.find((gf:any) => gf.code === e.code).giftURL}
+                                        alt={"051 logo"} width={45} height={45} priority />
+                                    <div id={c.text}>
+                                        <span>{(won && i === 44) ? won.giftName : caseInfo.caseGifts.find((gf:any) => gf.code === e.code).giftName}</span>
+                                    </div>
+                                </button>
+                            )
+                            : 
+                            [...Array(placeholders)].map((e,i)=>
+                            <button id={repetitionCurve ? "" : c.loading} key={i}>
+                            </button>
+                            )
+                        }
                     </div>
                 </div>
                 <div id={c.actions}>
