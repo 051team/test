@@ -1,5 +1,5 @@
 .home{
-    background-color: black;
+    background-image: radial-gradient(closest-side at 50% 15%,#1c0c16 0%, #070707 100%);
     user-select: none;
     padding-bottom: 20px;
     &_navbar{
@@ -125,7 +125,7 @@
             #deposit{
                 position: absolute;
                 width: 150px;
-                right: 220px;
+                right: 250px;
                 background: #008754;
                 font-weight: bold;
                 color: whitesmoke;
@@ -141,9 +141,10 @@
             display: flex;
             justify-content: center;
             padding: 5px 0;
+            background-image: linear-gradient(to left,#091117, #090d0e);
             &_kernel{
                 width: 1060px;
-                height: 40px;
+                height: 50px;
                 background-color: #061118;
                 border-radius: 5px;
                 display: flex;
@@ -152,7 +153,7 @@
                 padding-right: 0;
                 position: relative;
                 #join{
-                    background-color: #c90022;
+                    background-color: #b81d2b;
                     color: whitesmoke;
                     border-radius: inherit;
                     padding: 5px 20px;
@@ -172,7 +173,7 @@
                         column-gap: 5px;
                         color: whitesmoke;
                         font-weight: 500;
-                        font-size: 14px;
+                        font-size: 12px;
                         padding: 5px 10px;
                         transition: color 0.3s ease, box-shadow 0.3s ease;
                         img{
@@ -180,7 +181,6 @@
                         }
                         &:hover{
                             color: crimson;
-                            box-shadow: 0 0 2px 1px crimson;
                         }
                     }
                 }
@@ -189,13 +189,12 @@
         &_slider{
             //background-color: rgba($color:yellow, $alpha: 0.4);
             display: flex;
-            padding: 5px 0;
             overflow: hidden;
-            column-gap: 5px;
+            column-gap: 1px;
             width: fit-content;
             button{
-                height: 100px;
-                width: 100px !important;
+                height: 110px;
+                width: 110px !important;
                 color:whitesmoke;
                 display: grid;
                 grid-template-rows: 2fr 1fr;
@@ -213,9 +212,9 @@
                     position: relative;
                     top:-5px;
                     span{
-                        font-size: 12px;
+                        font-size: 10px;
                         font-weight: 500;
-                        line-height: 15px;
+                        line-height: 12px;
                     }
                 }
             }
@@ -226,17 +225,20 @@
         justify-items: center;
         overflow: hidden;
         &_kernel{
-            //background-color: rgba($color: yellow, $alpha: 0.3);
             padding-top: 30px;
             color: whitesmoke !important;
+            width: 1400px;
+            h1{
+                font-weight: 800;
+            }
             &_group{
                 display: grid;
                 grid-template-columns: repeat(5, 1fr);
-                gap: 15px;
+                gap: 20px;
                 padding-top: 10px;
                 &_each{
-                    width: 200px;
-                    height: 250px;
+                    //width: 200px;
+                    height: 300px;
                     position: relative;
                     border-radius: 10px;
                     cursor: pointer;
@@ -251,6 +253,16 @@
                         position: absolute;
                         bottom: 20px; left: 20px;
                         width: 100px;
+                    }
+                    h4{
+                        color: white;
+                        position: absolute;
+                        right: 10px;
+                        top:10px;
+                        background-color: #061118;
+                        padding: 3px 10px;
+                        border-radius: 3px;
+                        font-size: small;
                     }
                     &:hover{
                         box-shadow: 0 0 5px 1px silver;
@@ -327,6 +339,7 @@
                 display: flex;
                 column-gap: 10px;
                 border-radius: inherit;
+                position: relative;
                 input{
                     height: 100%;
                     width: 70%;
@@ -344,7 +357,17 @@
                     border-radius: inherit;
                     color: whitesmoke;
                     font-size: large;
-                    padding-left: 30px;
+                    &:hover{
+                        filter: brightness(1.2);
+                        color: whitesmoke;
+                    }
+                }
+                #text{
+                    position: absolute;
+                    bottom:-30px;
+                    color: white;
+                    font-size: small;
+                    padding-left: 10px;
                 }
             }
         }

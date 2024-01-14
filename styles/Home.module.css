@@ -1,5 +1,5 @@
 .home {
-  background-color: black;
+  background-image: radial-gradient(closest-side at 50% 15%, #1c0c16 0%, #070707 100%);
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
@@ -140,7 +140,7 @@
 .home_navbar_bottom #deposit {
   position: absolute;
   width: 150px;
-  right: 220px;
+  right: 250px;
   background: #008754;
   font-weight: bold;
   color: whitesmoke;
@@ -155,10 +155,11 @@
   display: flex;
   justify-content: center;
   padding: 5px 0;
+  background-image: linear-gradient(to left, #091117, #090d0e);
 }
 .home_navbar_tabs_kernel {
   width: 1060px;
-  height: 40px;
+  height: 50px;
   background-color: #061118;
   border-radius: 5px;
   display: flex;
@@ -168,7 +169,7 @@
   position: relative;
 }
 .home_navbar_tabs_kernel #join {
-  background-color: #c90022;
+  background-color: #b81d2b;
   color: whitesmoke;
   border-radius: inherit;
   padding: 5px 20px;
@@ -191,7 +192,7 @@
        column-gap: 5px;
   color: whitesmoke;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 12px;
   padding: 5px 10px;
   transition: color 0.3s ease, box-shadow 0.3s ease;
 }
@@ -200,21 +201,19 @@
 }
 .home_navbar_tabs_kernel #right button:hover {
   color: crimson;
-  box-shadow: 0 0 2px 1px crimson;
 }
 .home_navbar_slider {
   display: flex;
-  padding: 5px 0;
   overflow: hidden;
-  -moz-column-gap: 5px;
-       column-gap: 5px;
+  -moz-column-gap: 1px;
+       column-gap: 1px;
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
 }
 .home_navbar_slider button {
-  height: 100px;
-  width: 100px !important;
+  height: 110px;
+  width: 110px !important;
   color: whitesmoke;
   display: grid;
   grid-template-rows: 2fr 1fr;
@@ -234,9 +233,9 @@
   top: -5px;
 }
 .home_navbar_slider button #text span {
-  font-size: 12px;
+  font-size: 10px;
   font-weight: 500;
-  line-height: 15px;
+  line-height: 12px;
 }
 .home_cases {
   display: grid;
@@ -246,16 +245,19 @@
 .home_cases_kernel {
   padding-top: 30px;
   color: whitesmoke !important;
+  width: 1400px;
+}
+.home_cases_kernel h1 {
+  font-weight: 800;
 }
 .home_cases_kernel_group {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 15px;
+  gap: 20px;
   padding-top: 10px;
 }
 .home_cases_kernel_group_each {
-  width: 200px;
-  height: 250px;
+  height: 300px;
   position: relative;
   border-radius: 10px;
   cursor: pointer;
@@ -273,6 +275,16 @@
   bottom: 20px;
   left: 20px;
   width: 100px;
+}
+.home_cases_kernel_group_each h4 {
+  color: white;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  background-color: #061118;
+  padding: 3px 10px;
+  border-radius: 3px;
+  font-size: small;
 }
 .home_cases_kernel_group_each:hover {
   box-shadow: 0 0 5px 1px silver;
@@ -357,6 +369,7 @@
   -moz-column-gap: 10px;
        column-gap: 10px;
   border-radius: inherit;
+  position: relative;
 }
 .home_modal_kernel #row2 input {
   height: 100%;
@@ -376,7 +389,17 @@
   border-radius: inherit;
   color: whitesmoke;
   font-size: large;
-  padding-left: 30px;
+}
+.home_modal_kernel #row2 button:hover {
+  filter: brightness(1.2);
+  color: whitesmoke;
+}
+.home_modal_kernel #row2 #text {
+  position: absolute;
+  bottom: -30px;
+  color: white;
+  font-size: small;
+  padding-left: 10px;
 }
 
 @-webkit-keyframes drop {

@@ -2,6 +2,7 @@ import h from "../styles/Home.module.css";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { formatter } from "../tools";
 
 
 const Cases = () => {
@@ -34,9 +35,8 @@ const Cases = () => {
                     <Link href={`/cases/cs?cat=${cs.caseCategory}&name=${cs.caseName}`} key={index}>
                     <div className={h.home_cases_kernel_group_each}>
                         <Image priority src={cs.caseImageURL} alt={cs.caseName} width={200} height={250} />
-                        <h5>
-                            {cs.caseName}
-                        </h5>
+                        <h5>{cs.caseName}</h5>
+                        <h4>{formatter(cs.casePrice)}</h4>
                     </div></Link>
                     )
                 }

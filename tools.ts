@@ -22,19 +22,19 @@ export const formatter = (price: number): string => {
 export  const colorGenerator = (price:string | number) => {
     price = parseFloat(price as string);
     if(price < 11){
-        return "navy"
+        return "linear-gradient(rgb(5 5 18), #0b1649)"
     }
     if(price > 10 && price < 61 ){
-      return "purple"
+      return "linear-gradient(rgb(16 2 16), #2b0741)"
     }
     if(price > 60 && price < 101 ){
-      return "darkgreen"
+      return "linear-gradient(rgb(3 8 3), #072f1c)"
     }
     if(price > 100 && price < 501 ){
-      return "orange"
+      return "linear-gradient(rgb(28 17 2), #a37610)"
     }
     if(price > 500 ){
-      return "red"
+      return "linear-gradient(rgb(8 1 1), #4b051f)"
     }
 }
 

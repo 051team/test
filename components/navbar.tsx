@@ -77,18 +77,10 @@ const Navbar = () => {
                     console.log(resJson);
                     setFeedback(()=>resJson);
                     dispatch(note_balanceChange((pr:boolean) => !pr));
-                    setPromoModalOpen((pr:any)=>!pr);
-                    setTimeout(() => {
-                        setFeedback(()=>undefined)
-                    }, 1500);
                    }else{
                     const resJson = await response.json();
                     console.log(resJson)
                     setFeedback(()=>resJson);
-                    setPromoModalOpen((pr:any)=>!pr);
-                    setTimeout(() => {
-                        setFeedback(()=>undefined)
-                    }, 1500);
                    }
             } catch (error) {
                 console.log("Sorun lu ki:",error)
@@ -104,10 +96,6 @@ const Navbar = () => {
     return ( 
     <>
             {
-                feedback &&
-                <Modal feedback={feedback} />
-            }
-            {
                 promoModal &&
                 <div className={h.home_modal}>
                     <div className={h.home_modal_kernel} ref={core}>
@@ -122,7 +110,15 @@ const Navbar = () => {
                         </div>
                         <div id={h.row2}>
                             <input type="text" placeholder="Enter promo code..." ref={promo} />
-                            <button onClick={handleUseCoupon}>APPLY</button>
+                            <button onClick={handleUseCoupon}>
+                                {feedback && feedback.message.includes("Uploading") ? <span style={{fontSize:"small", color:"silver"}}>Confirming...</span> : "APPLY" }
+                            </button>
+                            {
+                                feedback &&
+                                <div id={h.text} style={{color:feedback.color}}>
+                                    {feedback.message}
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>
@@ -137,7 +133,7 @@ const Navbar = () => {
             <div className={h.home_navbar_bottom}>
                 <Link href={"/"}>
                 <Image src={_051} alt={"051 logo"} width={90} height={50} /></Link>
-                <input type="text" placeholder="Search for safe..." />
+                <input type="text" placeholder="Search for case..." />
                 <button onClick={handleLogIn} id={h.profile}>
                     <input type="checkbox" id="open"/>
                     <label htmlFor="open"></label>
@@ -168,9 +164,9 @@ const Navbar = () => {
             </div>
             <div className={h.home_navbar_slider}>
                 <button key={99}>
-                        <Image priority src={"/assets/live.png"} alt={"051 logo"} width={45} height={45} style={{filter:"brightness(1.2)"}} />
+                        <Image priority src={"/assets/live.png"} alt={"051 logo"} width={60} height={60} style={{filter:"brightness(1.9)"}} />
                         <div id={h.text} style={{position:"relative",top:"-15px", color:"darkorange"}}>
-                            <span><strong>LIVEDROP</strong></span>
+                            <span style={{fontWeight:"bolder"}}>LIVEDROP</span>
                         </div>
                     </button>
                 {

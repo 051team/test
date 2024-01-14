@@ -203,9 +203,8 @@ const Case_page = () => {
                                 <button id={repetitionCurve ? "" : c.loading} key={i}
                                     style={{
                                     backgroundImage: 
-                                    (i !== 44 ) ? `linear-gradient(to bottom, rgb(26, 25, 25), 
-                                    ${colorGenerator(caseInfo.caseGifts.find((gf:any) => gf.code === e.code).giftPrice)} ` :
-                                    (i === 44 && won) ? `linear-gradient(to bottom, rgb(26, 25, 25), ${colorGenerator(won.giftPrice)}`
+                                    (i !== 44 ) ? colorGenerator(caseInfo.caseGifts.find((gf:any) => gf.code === e.code).giftPrice) :
+                                    (i === 44 && won) ? colorGenerator(won.giftPrice)
                                     : "none"
                                 }}
                                 >
@@ -255,10 +254,7 @@ const Case_page = () => {
                     {
                         caseInfo.caseGifts.map((gf:any,i:number) =>
                         <button key={i} style={{
-                            backgroundImage:`linear-gradient(to bottom, rgb(26, 25, 25), 
-                            ${ (caseInfo && caseInfo.caseGifts) ? 
-                                colorGenerator(caseInfo.caseGifts[i].giftPrice) 
-                                : "red"})`
+                            backgroundImage:colorGenerator(caseInfo.caseGifts[i].giftPrice)
                         }}>
                             <Image src={gf.giftURL} alt={"051 logo"} width={45} height={45} />
                             <div id={c.luck}>
@@ -285,7 +281,7 @@ const Case_page = () => {
             resultVisible &&
             <>
                 <div className={c.casepage_case_result}>
-                    <div id={c.btn} style={{backgroundImage:`linear-gradient(to bottom, rgb(26, 25, 25),${colorGenerator(won.giftPrice)}`}}>
+                    <div id={c.btn} style={{backgroundImage:colorGenerator(won.giftPrice)}}>
                         <div id={c.chance}>Chance <br /> {won.giftProbability/100000*100}% </div>
                         <Image src={won.giftURL} alt={"won this gift"} width={90} height={90} />
                         <div id={c.text}>

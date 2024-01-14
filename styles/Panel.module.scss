@@ -3,6 +3,7 @@
     display: grid;
     justify-content: center;
     padding-top: 10%;
+    background-image: radial-gradient(closest-side at 50% 15%,#1c0c16 0%, #070707 100%);
     &_kernel{
         width: 800px;
         min-height: 300px;

@@ -1,8 +1,9 @@
 .profile{
+    background-image: radial-gradient(closest-side at 50% 15%,#1c0c16 0%, #070707 100%);
     #black{
         position: fixed;
         top: 0; bottom: 0; left: 0; right: 0;
-        background-color: black;
+        background-image: radial-gradient(closest-side at 50% 15%,#1c0c16 0%, #070707 100%);
         z-index: -1;
     }
     display: grid;
