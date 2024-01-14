@@ -71,6 +71,10 @@
                     }
                 }
             }
+            #slide{
+                position: relative;
+                animation: slide 6s 1 forwards;
+            }
         }
         &_result{
             position: absolute;
@@ -98,7 +102,6 @@
                 justify-items: center;
                 align-items: center;
                 filter: brightness(1.1);
-                background-image: linear-gradient(to bottom, rgb(26, 25, 25), #006c7d);
                 padding-top: 30px;
                 #chance{
                     position: absolute;
@@ -331,4 +334,9 @@
             }
         }
     }
+}
+
+@keyframes slide {
+    0%{left: 0;}
+    100%{left: -125*40px;}
 }

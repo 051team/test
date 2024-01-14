@@ -18,3 +18,23 @@ export const formatter = (price: number): string => {
     const randomNumber = Math.floor(Math.random() * 105) + 5;
     return randomNumber;
   }
+
+
+export  const colorGenerator = (price:string | number) => {
+    price = parseFloat(price as string);
+    if(price < 11){
+        return "navy"
+    }
+    if(price > 10 && price < 61 ){
+      return "purple"
+    }
+    if(price > 60 && price < 101 ){
+      return "darkgreen"
+    }
+    if(price > 100 && price < 501 ){
+      return "orange"
+    }
+    if(price > 500 ){
+      return "red"
+    }
+}

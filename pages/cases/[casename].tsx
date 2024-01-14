@@ -9,7 +9,7 @@ import { useRouter } from 'next/router';
 import Modal from "../../components/modal";
 import { useDispatch,useSelector } from "react-redux";
 import { note_balanceChange } from "../../redux/loginSlice";
-import { formatter, generateRandomNumber } from "../../tools";
+import { colorGenerator, formatter, generateRandomNumber } from "../../tools";
 
 const Case_page = () => {
     const { data: session } = useSession();
@@ -74,7 +74,7 @@ const Case_page = () => {
             }, 500);
             setTimeout(() => {
                 setTempoText(null);
-            }, 8000);
+            }, 7000);
         }else{
             try {
                 const resJson = await response.json();
@@ -151,14 +151,14 @@ const Case_page = () => {
             <>
                     
                 <div className={c.casepage_case_kernel}>
-                    <div className={c.casepage_case_kernel_spinner} style={{position:"relative", left:placeholders === 10 ? -(placeholders-10)*125 : -(((placeholders-10)*125)+generateRandomNumber())}}>
+                    <div id={placeholders === 50 ? c.slide : ""} className={c.casepage_case_kernel_spinner} 
+                    //style={{position:"relative", left:placeholders === 10 ? -(placeholders-10)*125 : -(((placeholders-10)*125)+generateRandomNumber())}}
+                    >
                     {
                        [...Array(placeholders)].map((e,i) =>
                         <button key={i} style={{
-                            backgroundImage:i%2 === 0 ? "linear-gradient(to bottom, rgb(26, 25, 25), darkorange)"
-                                                    : i%3 === 0 ? "linear-gradient(to bottom, rgb(26, 25, 25), lightgreen)"
-                                                    : i%5 === 0 ? "linear-gradient(to bottom, rgb(26, 25, 25), purple)"
-                                                    : "linear-gradient(to bottom, rgb(26, 25, 25), #00a262)"
+                            backgroundImage:`linear-gradient(to bottom, rgb(26, 25, 25), 
+                            ${ (caseInfo && caseInfo.caseGifts) ? colorGenerator(caseInfo.caseGifts[makeNumber((i+1),caseInfo.caseGifts.length)].giftPrice) : "red"})`
                         }}>
                             <Image src={
                                !caseInfo ? "/loading.png" : ( won && i === 44) ? won.giftURL : (caseInfo && caseInfo.caseGifts) ? caseInfo.caseGifts[makeNumber((i+1),caseInfo.caseGifts.length)].giftURL : ""} 
@@ -202,10 +202,10 @@ const Case_page = () => {
                     {
                         caseInfo.caseGifts.map((gf:any,i:number) =>
                         <button key={i} style={{
-                            backgroundImage:i%2 === 0 ? "linear-gradient(to bottom, rgb(26, 25, 25), darkorange)"
-                                                    : i%3 === 0 ? "linear-gradient(to bottom, rgb(26, 25, 25), blue)"
-                                                    : i%5 === 0 ? "linear-gradient(to bottom, rgb(26, 25, 25), purple)"
-                                                    : "linear-gradient(to bottom, rgb(26, 25, 25), #00a262)"
+                            backgroundImage:`linear-gradient(to bottom, rgb(26, 25, 25), 
+                            ${ (caseInfo && caseInfo.caseGifts) ? 
+                                colorGenerator(caseInfo.caseGifts[i].giftPrice) 
+                                : "red"})`
                         }}>
                             <Image src={gf.giftURL} alt={"051 logo"} width={45} height={45} />
                             <div id={c.luck}>
@@ -232,7 +232,7 @@ const Case_page = () => {
             resultVisible &&
             <>
                 <div className={c.casepage_case_result}>
-                    <div id={c.btn}>
+                    <div id={c.btn} style={{backgroundImage:`linear-gradient(to bottom, rgb(26, 25, 25),${colorGenerator(won.giftPrice)}`}}>
                         <div id={c.chance}>Chance <br /> {won.giftProbability/100000*100}% </div>
                         <Image src={won.giftURL} alt={"won this gift"} width={90} height={90} />
                         <div id={c.text}>
@@ -290,21 +290,21 @@ const Case_page = () => {
             }
 
 
-                <div className={c.casepage_case_kernel} id={c.bottombanner}>
-                    <Image src={_051} alt={"051 logo"} width={63} height={35} />
-                    <div>
-                        <Link href={"/"}>AFFILIATE PROGRAM </Link>
-                        <Link href={"/"}>PROJECT PARTNERSHIP </Link>
-                        <Link href={"/"}>CUSTOMER SUPPORT </Link>
-                        <Link href={"/"}>PROVABLY FAIR </Link>
-                    </div>
-                    <div id={c.right}>
-                        <span>&#x2622;</span>
-                        <span>&#x211A;</span>
-                        <span>&#x213F;</span>
-                        <span>&#x260E;</span>
-                    </div>
+            <div className={c.casepage_case_kernel} id={c.bottombanner}>
+                <Image src={_051} alt={"051 logo"} width={63} height={35} />
+                <div>
+                    <Link href={"/"}>AFFILIATE PROGRAM </Link>
+                    <Link href={"/"}>PROJECT PARTNERSHIP </Link>
+                    <Link href={"/"}>CUSTOMER SUPPORT </Link>
+                    <Link href={"/"}>PROVABLY FAIR </Link>
                 </div>
+                <div id={c.right}>
+                    <span>&#x2622;</span>
+                    <span>&#x211A;</span>
+                    <span>&#x213F;</span>
+                    <span>&#x260E;</span>
+                </div>
+            </div>
             </div>
         </div>
         </>
