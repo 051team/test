@@ -33,7 +33,6 @@ const Case_page = () => {
                 if(response.status === 200){
                     const resJson = await response.json();
                     setCaseInfo(resJson.data);
-                    console.log(resJson.data)
                 }
             } catch (error) {
                 console.log(error)
@@ -41,6 +40,7 @@ const Case_page = () => {
         }
         if(cat && name){
             fetchCase();
+            console.log("hello")
         }
     },[cat,name])
 
@@ -132,7 +132,7 @@ const Case_page = () => {
     const sellButtonText = (tempoText === "Selling..." || tempoText === "SOLD") ? tempoText : `SELL FOR ${formatter(won && won.giftPrice)}`;
     const sellButtonDisabled = !!tempoText;
     const payButtonDisabled = (won || tempoText) ? true : false;
-    const [repetitionCurve,setRepetitiveCurve] = useState<null | any[]>(null);
+    const [repetitionCurve,setRepetitiveCurve] = useState<null | any[]>();
 
     const makeOccuranceRate = (gifts:any[]) => {
         const prices:any[] = [];
@@ -168,8 +168,8 @@ const Case_page = () => {
     }
 
     useEffect(()=>{
-        if(caseInfo){
-            setRepetitiveCurve(makeOccuranceRate(caseInfo.caseGifts))
+        if(caseInfo && !repetitionCurve){
+            setRepetitiveCurve(makeOccuranceRate(caseInfo.caseGifts));
         }
     },[caseInfo]);
 
