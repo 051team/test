@@ -46,11 +46,14 @@
 .casepage_case_kernel_spinner {
   height: 120px;
   display: flex;
+  -moz-column-gap: 2px;
+       column-gap: 2px;
   justify-items: flex-start;
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
   transition: left 6s cubic-bezier(0.55, 1, 1, 1);
+  position: relative;
 }
 .casepage_case_kernel_spinner button {
   width: 125px;
@@ -76,6 +79,13 @@
   font-size: 12px;
   font-weight: 500;
   line-height: 15px;
+}
+.casepage_case_kernel_spinner #loading {
+  background-image: linear-gradient(to right, #071118 10%, #420c1c 55%, #071118 100%) !important;
+  background-size: 200% 100%;
+  -webkit-animation: gradientMovement 1s linear infinite;
+          animation: gradientMovement 1s linear infinite;
+  background-color: #e11963;
 }
 .casepage_case_kernel #slide {
   position: relative;
@@ -345,7 +355,7 @@
     left: 0;
   }
   100% {
-    left: -5000px;
+    left: -5080px;
   }
 }
 
@@ -354,6 +364,22 @@
     left: 0;
   }
   100% {
-    left: -5000px;
+    left: -5080px;
+  }
+}
+@-webkit-keyframes gradientMovement {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 200% 0%;
+  }
+}
+@keyframes gradientMovement {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 200% 0%;
   }
 }/*# sourceMappingURL=Casepage.module.css.map */

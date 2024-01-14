@@ -42,9 +42,11 @@
             &_spinner{
                 height: 120px;
                 display: flex;
+                column-gap: 2px;
                 justify-items: flex-start;
                 width: fit-content;                
                 transition: left 6s cubic-bezier(0.55, 1, 1, 1);
+                position: relative;
                 button{
                     width: 125px;
                     height: 150px;
@@ -69,6 +71,12 @@
                             line-height: 15px;
                         }
                     }
+                }
+                #loading{
+                    background-image: linear-gradient(to right, #071118 10%, #420c1c 55%, #071118 100%) !important;
+                    background-size: 200% 100%;
+                    animation: gradientMovement 1s linear infinite;
+                    background-color: #e11963;
                 }
             }
             #slide{
@@ -338,5 +346,14 @@
 
 @keyframes slide {
     0%{left: 0;}
-    100%{left: -125*40px;}
+    100%{left: -127*40px;}
 }
+
+@keyframes gradientMovement {
+    0% {
+      background-position: 0% 0%;
+    }
+    100% {
+      background-position: 200% 0%;
+    }
+  }

@@ -21,6 +21,7 @@ const Case_page = () => {
     const [feedback,setFeedback] = useState<{message:string,color:string}>();
     const [tempoText, setTempoText] = useState<string | null>();
     const balance = useSelector((state:any) => state.loginSlice.balance);
+    const [indexShift, setIndexShift] = useState<string>("0px");
 
     const dispatch = useDispatch();
 
@@ -71,9 +72,12 @@ const Case_page = () => {
             setPlaceholders(50);
             setTimeout(() => {
                 dispatch(note_balanceChange((pr:any)=>!pr));
-            }, 500);
+                const randomShift = generateRandomNumber();
+                setIndexShift(`${-randomShift}px`)
+            }, 1000);
             setTimeout(() => {
                 setTempoText(null);
+                setIndexShift("0px")
             }, 7000);
         }else{
             try {
@@ -152,20 +156,31 @@ const Case_page = () => {
                     
                 <div className={c.casepage_case_kernel}>
                     <div id={placeholders === 50 ? c.slide : ""} className={c.casepage_case_kernel_spinner} 
-                    //style={{position:"relative", left:placeholders === 10 ? -(placeholders-10)*125 : -(((placeholders-10)*125)+generateRandomNumber())}}
+                    style={{ transform: `translateX(${placeholders === 50 ? indexShift : "0px"})`}}
                     >
                     {
                        [...Array(placeholders)].map((e,i) =>
-                        <button key={i} style={{
-                            backgroundImage:`linear-gradient(to bottom, rgb(26, 25, 25), 
-                            ${ (caseInfo && caseInfo.caseGifts) ? colorGenerator(caseInfo.caseGifts[makeNumber((i+1),caseInfo.caseGifts.length)].giftPrice) : "red"})`
+                        <button id={caseInfo ? "" : c.loading} key={i} style={{
+                            backgroundImage: (caseInfo && caseInfo.caseGifts && i !== 44 ) ? `linear-gradient(to bottom, rgb(26, 25, 25), 
+                            ${colorGenerator(caseInfo.caseGifts[makeNumber((i+1),caseInfo.caseGifts.length)].giftPrice)} ` :
+                            i === 44 ? `linear-gradient(to bottom, rgb(26, 25, 25), ${colorGenerator(won.giftPrice)}`
+                            : "none"
+                            
                         }}>
-                            <Image src={
-                               !caseInfo ? "/loading.png" : ( won && i === 44) ? won.giftURL : (caseInfo && caseInfo.caseGifts) ? caseInfo.caseGifts[makeNumber((i+1),caseInfo.caseGifts.length)].giftURL : ""} 
-                            alt={"051 logo"} width={45} height={45} priority />
-                            <div id={c.text}>
-                                <span>{ !caseInfo ? "loading.." : (won && i === 44) ? won.giftName : caseInfo.caseGifts[makeNumber((i+1),caseInfo.caseGifts.length)].giftName}</span>
-                            </div>
+                            {
+                                caseInfo &&
+                                <Image src={( won && i === 44) ? won.giftURL : (caseInfo && caseInfo.caseGifts) ? 
+                                    caseInfo.caseGifts[makeNumber((i+1),caseInfo.caseGifts.length)].giftURL : ""} 
+                                 alt={"051 logo"} width={45} height={45} priority />
+
+                            }
+                            {
+                                caseInfo &&
+                                <div id={c.text}>
+                                    <span>{(won && i === 44) ? won.giftName : caseInfo.caseGifts[makeNumber((i+1),caseInfo.caseGifts.length)].giftName}</span>
+                                </div>
+
+                            }
                         </button>
                         )
                     }
@@ -184,7 +199,7 @@ const Case_page = () => {
                                 tempoText ? tempoText : 
                                 (caseInfo && balance && (caseInfo.casePrice <= balance )) ? `Pay $${caseInfo.casePrice}`:
                                 (caseInfo && balance && caseInfo.casePrice > balance) ? `+ $${caseInfo.casePrice - balance} needed` :
-                                !session ? "Login required!" : "Please wait..."
+                                !session ? "Login required!" : (session && balance === 0) ? "No balance!" : "Please wait..."
                             }
                         </button>
                 </div>
@@ -267,10 +282,10 @@ const Case_page = () => {
                     {
                         caseInfo && caseInfo.caseGifts.map((gf:any,i:number) =>
                         <button key={i} style={{
-                            backgroundImage:i%2 === 0 ? "linear-gradient(to bottom, rgb(26, 25, 25), darkorange)"
-                                                    : i%3 === 0 ? "linear-gradient(to bottom, rgb(26, 25, 25), blue)"
-                                                    : i%5 === 0 ? "linear-gradient(to bottom, rgb(26, 25, 25), purple)"
-                                                    : "linear-gradient(to bottom, rgb(26, 25, 25), #00a262)"
+                            backgroundImage:`linear-gradient(to bottom, rgb(26, 25, 25), 
+                            ${ (caseInfo && caseInfo.caseGifts) ? 
+                                colorGenerator(caseInfo.caseGifts[i].giftPrice) 
+                                : "red"})`
                         }}>
                             <Image src={gf.giftURL} alt={"051 logo"} width={45} height={45} />
                             <div id={c.luck}>
