@@ -8,8 +8,9 @@ import { useEffect, useState } from "react";
 import { useRouter } from 'next/router';
 import Modal from "../../components/modal";
 import { useDispatch,useSelector } from "react-redux";
-import { note_balanceChange } from "../../redux/loginSlice";
+import { note_balanceChange, note_universal_modal } from "../../redux/loginSlice";
 import { colorGenerator, formatter, generateRandomNumber, shuffleArray } from "../../tools";
+import Universal_modal from "../../components/universal_modal";
 
 const Case_page = () => {
     const { data: session } = useSession();
@@ -22,6 +23,7 @@ const Case_page = () => {
     const [tempoText, setTempoText] = useState<string | null>();
     const balance = useSelector((state:any) => state.loginSlice.balance);
     const [indexShift, setIndexShift] = useState<string>("0px");
+    const universalModal = useSelector((state:any) => state.loginSlice.universal_modal);
 
     const dispatch = useDispatch();
 
@@ -249,11 +251,11 @@ const Case_page = () => {
                     CASE CONTENT
                 </h3>
                 <div className={c.casepage_case_kernel} id={c.gifts}>
-                    <div className={c.casepage_case_kernel_spinner} id={c.content} 
-                        style={{justifyContent:caseInfo && caseInfo.caseGifts.length > 6 ? "flex-start" : "center" }}>
+                    <div className={c.casepage_case_kernel_spinner} id={c.content}>
+                    <button id={c.odds} onClick={()=>dispatch(note_universal_modal(true))}>CHECK ODDS RANGE</button>
                     {
                         caseInfo.caseGifts.map((gf:any,i:number) =>
-                        <button key={i} style={{
+                        <button id={c.each} key={i} style={{
                             backgroundImage:colorGenerator(caseInfo.caseGifts[i].giftPrice)
                         }}>
                             <Image src={gf.giftURL} alt={"051 logo"} width={45} height={45} />
@@ -336,6 +338,8 @@ const Case_page = () => {
             }
 
 
+
+
             <div className={c.casepage_case_kernel} id={c.bottombanner}>
                 <Image src={_051} alt={"051 logo"} width={63} height={35} />
                 <div>
@@ -352,6 +356,34 @@ const Case_page = () => {
                 </div>
             </div>
             </div>
+
+            {
+                universalModal && 
+                
+                <Universal_modal>
+                <div id={c.odds}>
+                    <button id={c.close}>x</button>
+                    <div id={c.row} key={99999} style={{backgroundColor:"black"}}>
+                        <span>Item</span>
+                        <span></span>
+                        <span>Price</span>
+                        <span>Chance</span>
+                    </div>
+                    {
+                        caseInfo && caseInfo.caseGifts.map((gf:any,i:number) =>
+                        <div id={c.row} key={i} style={{backgroundColor:i%2 ? "black" : "rgb(49 48 48)"}}>
+                            <Image src={gf.giftURL} alt={"XXX"} width={50} height={50} priority />
+                            <span>{gf.giftName}</span>
+                            <span style={{color:"gold", fontWeight:"bold"}}>{formatter(gf.giftPrice)}</span>
+                            <span>%{gf.giftProbability/100000*100}</span>
+                        </div>
+                        )
+                    }
+                </div>
+                </Universal_modal>
+            }
+            
+
         </div>
         </>
      );

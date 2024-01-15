@@ -3,6 +3,7 @@ import { createSlice,PayloadAction } from '@reduxjs/toolkit';
 const initialState = {
   balanceChange:false,
   balance:null,
+  universal_modal:false,
   universal_feedback:{message:"",color:"whitesmoke"}
 }
 
@@ -20,9 +21,12 @@ export const loginSlice = createSlice({
     note_universal_feedback: (state, action) => {
       state.universal_feedback = action.payload;
     },
+    note_universal_modal: (state, action) => {
+      state.universal_modal = action.payload;
+    },
   },
 });
 
-export const { note_balanceChange,note_balance,note_universal_feedback} = loginSlice.actions
+export const { note_balanceChange,note_balance,note_universal_modal} = loginSlice.actions
 
 export default loginSlice.reducer

@@ -100,6 +100,17 @@
   font-weight: 500;
   line-height: 15px;
 }
+.casepage_case_kernel_spinner button #luck {
+  position: absolute;
+  right: 10px;
+  top: 5px;
+  font-size: 10px !important;
+  line-height: 14px;
+  color: whitesmoke !important;
+  text-align: center;
+  font-weight: 500;
+  display: grid;
+}
 .casepage_case_kernel_spinner #loading {
   background-image: linear-gradient(to right, #071118 10%, #420c1c 55%, #071118 100%) !important;
   background-size: 200% 100%;
@@ -140,16 +151,7 @@
   align-items: center;
   filter: brightness(1.1);
   padding-top: 30px;
-}
-.casepage_case_result #btn #chance {
-  position: absolute;
-  right: 10px;
-  top: 5px;
-  font-size: 12px;
-  line-height: 14px;
-  color: white;
-  text-align: center;
-  font-weight: 500;
+  position: relative;
 }
 .casepage_case_result #btn img {
   filter: drop-shadow(0 0 2px gray);
@@ -302,7 +304,7 @@
 }
 .casepage_case #gifts {
   overflow: visible;
-  width: 1000px;
+  width: 1400px;
   border-top: 1px solid orange;
   padding-top: 20px;
 }
@@ -316,25 +318,38 @@
   height: auto;
   position: relative;
   top: -10px;
-  max-width: 1000px;
 }
-.casepage_case #gifts #content button {
+.casepage_case #gifts #content #odds {
+  position: absolute;
+  top: -65px;
+  color: whitesmoke;
+  border: 1.5px solid silver;
+  border-radius: 5px;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  padding: 10px;
+}
+.casepage_case #gifts #content #odds:hover {
+  background-image: linear-gradient(to right, purple, black);
+}
+.casepage_case #gifts #content #each {
   width: 200px;
   height: 160px;
   border-radius: 5px;
   padding-top: 30px;
 }
-.casepage_case #gifts #content button #text {
+.casepage_case #gifts #content #each #text {
   top: 0;
   color: whitesmoke;
 }
-.casepage_case #gifts #content button #luck {
+.casepage_case #gifts #content #each #luck {
   position: absolute;
   top: 5px;
   right: 10px;
   display: grid;
 }
-.casepage_case #gifts #content button #luck span {
+.casepage_case #gifts #content #each #luck span {
   color: white;
   font-weight: 600;
   font-size: 10px;
@@ -378,6 +393,28 @@
           animation: gradientMovement 1s linear infinite;
   background-color: #e11963;
   box-shadow: none !important;
+}
+.casepage #odds {
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  align-items: flex-start;
+  border-top: 1px solid rgb(49, 48, 48);
+}
+.casepage #odds #row {
+  display: grid;
+  grid-template-columns: 1fr 4fr 1fr 1fr;
+  padding: 10px 20px;
+  align-items: center;
+  height: 70px;
+}
+.casepage #odds #row img {
+  -o-object-fit: contain;
+     object-fit: contain;
+  filter: brightness(1.4);
+}
+.casepage #odds #row span {
+  color: whitesmoke;
 }
 
 @-webkit-keyframes slide {

@@ -51,6 +51,29 @@
     }
 }
 
+.universal{
+  background-color: rgba($color: black, $alpha: 0.85);
+  position: fixed;
+  top: 0; bottom: 0; left: 0; right: 0;
+  z-index: 99999;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  &_kernel{
+      width: 800px;
+      position: relative;
+      padding: 20px;
+      padding-top: 50px;
+      background-color: #141414;
+      #close{
+          position: absolute;
+          top:10px; right: 20px;
+          color: whitesmoke;
+          font-size: large;
+      }
+  }
+}
+
 
 @keyframes shine {
     0%{filter:brightness(1);}
