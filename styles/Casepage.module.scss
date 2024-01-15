@@ -10,9 +10,26 @@
         justify-items: center;
         position: relative;
         padding-top: 50px;
-        h3{
-            color: whitesmoke;   
-            margin-bottom: 30px;  
+        #caseDemo{
+            width: 170px;
+            height: 210px;
+            display: grid;
+            justify-items: center;
+            align-items: center;
+            color: whitesmoke;
+            font-weight: 500;
+            filter: brightness(1.1);
+            margin-bottom: 20px;
+            position: relative;
+            box-shadow: (0 0 2px gray);
+            img{
+                filter: drop-shadow(0 0 2px gray);
+                position: relative;
+                top:-5px;
+            }
+            &:hover{
+                filter: brightness(1.3);
+            }
         }
         &_kernel{
             display: grid;
@@ -342,6 +359,13 @@
                     font-size: larger;
                 }
             }
+        }
+        .loading{
+            background-image: linear-gradient(to right, #071118 10%, #420c1c 55%, #071118 100%) !important;
+            background-size: 200% 100%;
+            animation: gradientMovement 1s linear infinite;
+            background-color: #e11963;
+            box-shadow: none !important;
         }
     }
 }

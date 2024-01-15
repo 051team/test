@@ -40,14 +40,8 @@ const Case_page = () => {
         }
         if(cat && name){
             fetchCase();
-            console.log("hello")
         }
     },[cat,name])
-
-    const makeNumber = (n:number,lng:number) => {
-        const remainder = n%lng;
-        return remainder
-    }
 
     const handleOpenCase = async () => {
         if(!session){confirm("Login required");return}
@@ -183,9 +177,12 @@ const Case_page = () => {
         <div className={c.casepage}>
             <div id={c.black}></div>
             <div className={c.casepage_case}>
-                <h3>
-                    {(caseInfo && caseInfo.caseName.toUpperCase()) ?? "LOADING..."}
-                </h3>
+            <div id={c.caseDemo} className={ !caseInfo ? c.loading : ""}>
+                {(caseInfo && caseInfo.caseName.toUpperCase()) ?? "LOADING..."}
+                {
+                    caseInfo && <Image src={caseInfo.caseImageURL} alt={"051 logo"} width={150} height={175} priority />
+                }
+            </div>
             {
             sliderVisible  &&
             <>
