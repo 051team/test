@@ -67,7 +67,7 @@ const Case_page = () => {
             setWon(resJson.lucky);
             setPlaceholders(100);
             setTimeout(() => {
-                dispatch(note_balanceChange((pr:any)=>!pr));
+                dispatch(note_balanceChange(((pr:boolean)=>!pr)));
                 const randomShift = generateRandomNumber();
                 setIndexShift(`${-randomShift}px`)
             }, 1000);
@@ -103,11 +103,12 @@ const Case_page = () => {
                 if(response.status === 200){
                     const resJson = await response.json();
                     console.log(resJson);
-                    dispatch(note_balanceChange((pr:any)=>!pr));
+                    dispatch(note_balanceChange((pr:boolean)=>!pr));
                     setTempoText(()=>"SOLD")
                     setTimeout(() => {
                         setTempoText(()=>null);
                         setWon(()=>null);
+                        setRepetitiveCurve(makeOccuranceRate(caseInfo.caseGifts));
                         setPlaceholders(10);
                     }, 1000);
                 }else{
@@ -134,24 +135,32 @@ const Case_page = () => {
         const prices:any[] = [];
         const finals:any[] = [];
         const totalPrice = gifts.reduce((total,gift) => total + parseFloat(gift.giftProbability), 0);
-        const unit = 100 / totalPrice;
         gifts.map((g,i) => prices.push(
              {probability:parseFloat(g.giftProbability),code:g.code}
         ));
         prices.sort();
+
         let reTotal = 0;
+
+        const repForEach = Math.floor(100/gifts.length);
+        const giftNumber = gifts.length;
+        const minReps = giftNumber > 15 ? 4 : giftNumber > 9 ? 5 : giftNumber > 6 ? 7 : giftNumber > 2 ? 15 : 30;
+        const unit = (100 - minReps * giftNumber) / totalPrice;
 
         gifts.map(gf=>reTotal = reTotal + Math.floor(unit*(parseFloat(gf.giftProbability))));
 
         prices.forEach((dual) => {
             const repetition = Math.floor(unit*(parseFloat(dual.probability)));
+            for (let i = 0; i < minReps; i++) {
+                finals.push(dual)
+            }
             for (let i = 0; i < repetition; i++) {
                 finals.push(dual)
             }
         });
 
-        if(reTotal < 100){
-            const diffetence = 100 - reTotal;
+        if(reTotal < (100 - minReps * giftNumber)){
+            const diffetence = (100 - minReps * giftNumber) - reTotal;
             for (let i = 0; i < diffetence; i++) {
                 finals.push(
                     prices[prices.length-1]
@@ -159,6 +168,7 @@ const Case_page = () => {
             }
         }
         shuffleArray(finals);
+        console.log(finals, finals.length)
 
         return finals
     }
@@ -169,7 +179,6 @@ const Case_page = () => {
         }
     },[caseInfo]);
 
-    const canPlay = true;
 
 /*     useEffect(() => {
         let intervalId:any;
@@ -195,7 +204,7 @@ const Case_page = () => {
         return () => {
             clearInterval(intervalId);
         };
-    }, [canPlay]); */
+    }, []); */
 
     return ( 
         <>
@@ -391,7 +400,6 @@ const Case_page = () => {
 
             {
                 universalModal && 
-                
                 <Universal_modal>
                 <div id={c.odds}>
                     <button id={c.close}>x</button>
