@@ -177,12 +177,15 @@ const Case_page = () => {
         <div className={c.casepage}>
             <div id={c.black}></div>
             <div className={c.casepage_case}>
+            {
+            !resultVisible && 
             <div id={c.caseDemo} className={ !caseInfo ? c.loading : ""}>
                 <span>{(caseInfo && caseInfo.caseName.toUpperCase()) ?? "LOADING..."}</span>
                 {
                     caseInfo && <Image src={caseInfo.caseImageURL} alt={"051 logo"} width={170} height={190} priority />
                 }
             </div>
+            }
             {
             sliderVisible  &&
             <>
