@@ -4,7 +4,7 @@ import Navbar from "../../components/navbar";
 import c from "../../styles/Casepage.module.css";
 import _051 from "../../public/051.jpg";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState,useRef } from "react";
 import { useRouter } from 'next/router';
 import Modal from "../../components/modal";
 import { useDispatch,useSelector } from "react-redux";
@@ -169,6 +169,34 @@ const Case_page = () => {
         }
     },[caseInfo]);
 
+    const canPlay = true;
+
+/*     useEffect(() => {
+        let intervalId:any;
+        const tick = new Audio('/tick.mp3');
+        let timePast = 0;
+
+        if (canPlay) {
+            intervalId = setInterval(() => {
+                tick.play();
+                timePast += 1;
+                console.log(timePast);
+
+                if (timePast >= 2000) {
+                    clearInterval(intervalId);
+                }
+            }, 100);
+        } else {
+            clearInterval(intervalId);
+            tick.pause();
+            tick.currentTime = 0;
+        }
+
+        return () => {
+            clearInterval(intervalId);
+        };
+    }, [canPlay]); */
+
     return ( 
         <>
         <Navbar/>
@@ -182,7 +210,7 @@ const Case_page = () => {
             {
             !resultVisible && 
             <div id={c.caseDemo} className={ !caseInfo ? c.loading : ""}>
-                <span>{(caseInfo && caseInfo.caseName.toUpperCase()) ?? "LOADING..."}</span>
+                <span>{(caseInfo && caseInfo.caseName.toUpperCase()) ?? ""}</span>
                 {
                     caseInfo && <Image src={caseInfo.caseImageURL} alt={"051 logo"} width={170} height={190} priority />
                 }
@@ -194,6 +222,10 @@ const Case_page = () => {
                     
                 <div className={c.casepage_case_kernel}>
                     <div id={c.index}>
+                        <span>&#9660;</span>
+                        <span>&#9650;</span>
+                    </div>
+                    <div id={c.index2}>
                         <span>&#9660;</span>
                         <span>&#9650;</span>
                     </div>
@@ -258,7 +290,7 @@ const Case_page = () => {
                         <button id={c.each} key={i} style={{
                             backgroundImage:colorGenerator(caseInfo.caseGifts[i].giftPrice)
                         }}>
-                            <Image src={gf.giftURL} alt={"051 logo"} width={45} height={45} />
+                            <Image src={gf.giftURL} alt={"051 logo"} width={90} height={100} />
                             <div id={c.luck}>
                                 <span>Chance</span>
                                 <span> %{gf.giftProbability/1000}</span>
@@ -283,7 +315,7 @@ const Case_page = () => {
             resultVisible &&
             <>
                 <div className={c.casepage_case_result}>
-                    <div id={c.btn} style={{backgroundImage:colorGenerator(won.giftPrice)}}>
+                    <div id={c.tata} style={{backgroundImage:colorGenerator(won.giftPrice)}}>
                         <div id={c.chance}>Chance <br /> {won.giftProbability/100000*100}% </div>
                         <Image src={won.giftURL} alt={"won this gift"} width={90} height={100} />
                         <div id={c.text}>
@@ -320,7 +352,7 @@ const Case_page = () => {
                         <button key={i} style={{
                             backgroundImage:colorGenerator(caseInfo.caseGifts[i].giftPrice)
                         }}>
-                            <Image src={gf.giftURL} alt={"051 logo"} width={45} height={45} />
+                            <Image src={gf.giftURL} alt={"051 logo"} width={90} height={100} />
                             <div id={c.luck}>
                                 <span>Chance</span>
                                 <span> %{gf.giftProbability/1000}</span>

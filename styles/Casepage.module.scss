@@ -40,16 +40,16 @@
             width: 1400px;
             overflow: hidden;
             position: relative;
-            #index{
+            box-shadow: 0 0 4px 1px gray;
+            #index,#index2{
                 position: absolute;
                 z-index: 99 !important;
                 top:-5px;
-                height: 205px;
-                color: orange;
+                height: 212px;
+                color: darkgoldenrod;
                 font-size: x-large;
                 display: grid;
                 justify-self: center;
-                text-shadow: 0 0 3px white;
                 span:nth-child(1){
                     position: absolute;
                     top:0;
@@ -59,6 +59,12 @@
                     bottom:0;
                 }
             }
+            #index2{
+                font-size: large;
+                color: orange;
+                top:-2px; left:calc(50% + 3px);
+                height: 205px;
+            }
             &_spinner{
                 display: flex;
                 column-gap: 2px;
@@ -67,8 +73,8 @@
                 transition: left 6s cubic-bezier(0.55, 1, 1, 1);
                 position: relative;
                 button{
-                    width: 170px;
-                    height: 190px;
+                    width: 200px;
+                    height: 200px !important;
                     padding-top: 20px;
                     display: grid;
                     justify-items: center;
@@ -134,7 +140,7 @@
                     filter: brightness(1.2);
                 }
             }
-            #btn{
+            #tata{
                 width: 250px;
                 height: 200px;
                 display: grid;
@@ -148,6 +154,17 @@
                 }
                 &:hover{
                     filter: brightness(1.3);
+                }
+                #chance{
+                    position: absolute;
+                    right: 10px;
+                    top:5px;
+                    font-size: 10px !important;
+                    line-height: 14px;
+                    color: whitesmoke !important;
+                    text-align: center;
+                    font-weight: 500;
+                    display: grid;
                 }
                 #text{
                     display: grid;
@@ -318,6 +335,7 @@
                     border-radius: 5px;
                     height: fit-content;
                     padding: 10px;
+                    height: fit-content !important;
                     &:hover{
                         background-image: linear-gradient(to right, purple, black);
                     }

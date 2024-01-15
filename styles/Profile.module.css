@@ -13,7 +13,7 @@
   z-index: -1;
 }
 .profile_kernel {
-  width: 1000px;
+  width: 1400px;
   padding-top: 40px;
   display: grid;
   row-gap: 30px;
@@ -64,8 +64,8 @@
 }
 .profile_kernel_inventory {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  width: 1000px;
+  grid-template-columns: repeat(8, 1fr);
+  width: 1400px;
   overflow: hidden;
   gap: 20px;
   overflow: visible;

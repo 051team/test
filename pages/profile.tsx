@@ -110,7 +110,7 @@ const Profile = () => {
                         </button>
                         )
                         :
-                        [...Array(6)].map((item:any,i:number)=>
+                        [...Array(8)].map((item:any,i:number)=>
                         <button key={i}>
                             <Image src={"/loading.png"} alt={"inventory loading"} width={45} height={45} />
                             <div id={p.act}>

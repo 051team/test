@@ -43,25 +43,32 @@
   width: 1400px;
   overflow: hidden;
   position: relative;
+  box-shadow: 0 0 4px 1px gray;
 }
-.casepage_case_kernel #index {
+.casepage_case_kernel #index, .casepage_case_kernel #index2 {
   position: absolute;
   z-index: 99 !important;
   top: -5px;
-  height: 205px;
-  color: orange;
+  height: 212px;
+  color: darkgoldenrod;
   font-size: x-large;
   display: grid;
   justify-self: center;
-  text-shadow: 0 0 3px white;
 }
-.casepage_case_kernel #index span:nth-child(1) {
+.casepage_case_kernel #index span:nth-child(1), .casepage_case_kernel #index2 span:nth-child(1) {
   position: absolute;
   top: 0;
 }
-.casepage_case_kernel #index span:nth-child(2) {
+.casepage_case_kernel #index span:nth-child(2), .casepage_case_kernel #index2 span:nth-child(2) {
   position: absolute;
   bottom: 0;
+}
+.casepage_case_kernel #index2 {
+  font-size: large;
+  color: orange;
+  top: -2px;
+  left: calc(50% + 3px);
+  height: 205px;
 }
 .casepage_case_kernel_spinner {
   display: flex;
@@ -75,8 +82,8 @@
   position: relative;
 }
 .casepage_case_kernel_spinner button {
-  width: 170px;
-  height: 190px;
+  width: 200px;
+  height: 200px !important;
   padding-top: 20px;
   display: grid;
   justify-items: center;
@@ -143,7 +150,7 @@
   height: 215px;
   filter: brightness(1.2);
 }
-.casepage_case_result #btn {
+.casepage_case_result #tata {
   width: 250px;
   height: 200px;
   display: grid;
@@ -153,19 +160,30 @@
   padding-top: 30px;
   position: relative;
 }
-.casepage_case_result #btn img {
+.casepage_case_result #tata img {
   filter: drop-shadow(0 0 2px gray);
 }
-.casepage_case_result #btn:hover {
+.casepage_case_result #tata:hover {
   filter: brightness(1.3);
 }
-.casepage_case_result #btn #text {
+.casepage_case_result #tata #chance {
+  position: absolute;
+  right: 10px;
+  top: 5px;
+  font-size: 10px !important;
+  line-height: 14px;
+  color: whitesmoke !important;
+  text-align: center;
+  font-weight: 500;
+  display: grid;
+}
+.casepage_case_result #tata #text {
   display: grid;
   position: relative;
   top: -20px;
   color: whitesmoke !important;
 }
-.casepage_case_result #btn #text span {
+.casepage_case_result #tata #text span {
   font-size: 12px;
   font-weight: 500;
   line-height: 15px;
@@ -329,6 +347,7 @@
   height: -moz-fit-content;
   height: fit-content;
   padding: 10px;
+  height: fit-content !important;
 }
 .casepage_case #gifts #content #odds:hover {
   background-image: linear-gradient(to right, purple, black);
