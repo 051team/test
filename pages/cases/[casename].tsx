@@ -65,7 +65,7 @@ const Case_page = () => {
             const resJson = await response.json();
             console.log(resJson.lucky);
             setWon(resJson.lucky);
-            setPlaceholders(50);
+            setPlaceholders(100);
             setTimeout(() => {
                 dispatch(note_balanceChange((pr:any)=>!pr));
                 const randomShift = generateRandomNumber();
@@ -74,7 +74,7 @@ const Case_page = () => {
             setTimeout(() => {
                 setTempoText(null);
                 setIndexShift("0px")
-            }, 7000);
+            }, 11000);
         }else{
             try {
                 const resJson = await response.json();
@@ -134,7 +134,7 @@ const Case_page = () => {
         const prices:any[] = [];
         const finals:any[] = [];
         const totalPrice = gifts.reduce((total,gift) => total + parseFloat(gift.giftProbability), 0);
-        const unit = 50 / totalPrice;
+        const unit = 100 / totalPrice;
         gifts.map((g,i) => prices.push(
              {probability:parseFloat(g.giftProbability),code:g.code}
         ));
@@ -150,8 +150,8 @@ const Case_page = () => {
             }
         });
 
-        if(reTotal < 50){
-            const diffetence = 50 - reTotal;
+        if(reTotal < 100){
+            const diffetence = 100 - reTotal;
             for (let i = 0; i < diffetence; i++) {
                 finals.push(
                     prices[prices.length-1]
@@ -229,23 +229,23 @@ const Case_page = () => {
                         <span>&#9660;</span>
                         <span>&#9650;</span>
                     </div>
-                    <div id={placeholders === 50 ? c.slide : ""} className={c.casepage_case_kernel_spinner} 
-                    style={{ transform: `translateX(${placeholders === 50 ? indexShift : "0px"})`}}
+                    <div id={placeholders === 100 ? c.slide : ""} className={c.casepage_case_kernel_spinner} 
+                    style={{ transform: `translateX(${placeholders === 100 ? indexShift : "0px"})`}}
                     >
                         {
                             repetitionCurve ? repetitionCurve.map((e,i) =>
                                 <button id={repetitionCurve ? "" : c.loading} key={i}
                                     style={{
                                     backgroundImage: 
-                                    (i !== 44 ) ? colorGenerator(caseInfo.caseGifts.find((gf:any) => gf.code === e.code).giftPrice) :
-                                    (i === 44 && won) ? colorGenerator(won.giftPrice)
+                                    (i !== 94 ) ? colorGenerator(caseInfo.caseGifts.find((gf:any) => gf.code === e.code).giftPrice) :
+                                    (i === 94 && won) ? colorGenerator(won.giftPrice)
                                     : "none"
                                 }}
                                 >
-                                    <Image src={(i === 44 && won) ? won.giftURL : caseInfo.caseGifts.find((gf:any) => gf.code === e.code).giftURL}
+                                    <Image src={(i === 94 && won) ? won.giftURL : caseInfo.caseGifts.find((gf:any) => gf.code === e.code).giftURL}
                                         alt={"051 logo"} width={90} height={100} priority />
                                     <div id={c.text}>
-                                        <span>{(won && i === 44) ? won.giftName : caseInfo.caseGifts.find((gf:any) => gf.code === e.code).giftName}</span>
+                                        <span>{(won && i === 94) ? won.giftName : caseInfo.caseGifts.find((gf:any) => gf.code === e.code).giftName}</span>
                                     </div>
                                 </button>
                             )
@@ -324,7 +324,7 @@ const Case_page = () => {
                     </div>
 
                     <div id={c.ops}>
-                        <button onClick={()=> {setPlaceholders(10);setWon(()=>null)}}>OPEN AGAIN <Image src={"/redo.png"} alt={"re-open the case"} width={20} height={20} /> </button>
+                        <button onClick={()=> {setPlaceholders(10);setWon(()=>null);setRepetitiveCurve(makeOccuranceRate(caseInfo.caseGifts));}}>OPEN AGAIN <Image src={"/redo.png"} alt={"re-open the case"} width={20} height={20} /> </button>
                         <button disabled={sellButtonDisabled} onClick={handleSellGift}>{sellButtonText}</button>
                     </div>
                 </div>

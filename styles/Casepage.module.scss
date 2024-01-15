@@ -34,6 +34,9 @@
                 filter: brightness(1.3);
             }
         }
+        h3{
+            color: whitesmoke;
+        }
         &_kernel{
             display: grid;
             align-items: flex-start;
@@ -69,7 +72,7 @@
                 column-gap: 2px;
                 justify-items: flex-start;
                 width: fit-content;                
-                transition: left 6s cubic-bezier(0.55, 1, 1, 1);
+                //transition: left 6s cubic-bezier(0.55, 1, 1, 1);
                 position: relative;
                 button{
                     width: 200px;
@@ -117,7 +120,7 @@
             }
             #slide{
                 position: relative;
-                animation: slide 6s 1 forwards;
+                animation: slide 10s 1 forwards;
             }
         }
         #main{
@@ -339,7 +342,7 @@
                     padding: 10px;
                     height: fit-content !important;
                     &:hover{
-                        background-image: linear-gradient(to right, purple, black);
+                        background-image: linear-gradient(to right, rgba(139, 0, 0, 0.638) , black);
                     }
                 }
                 #each{
@@ -427,7 +430,7 @@
 
 @keyframes slide {
     0%{left: 0;}
-    100%{left: -205*40px;}
+    100%{left: -203.3*90px;}
 }
 
 @keyframes gradientMovement {

@@ -155,12 +155,10 @@
   display: flex;
   justify-content: center;
   padding: 5px 0;
-  background-image: linear-gradient(to left, #091117, #090d0e);
 }
 .home_navbar_tabs_kernel {
-  width: 1060px;
+  width: 1400px;
   height: 50px;
-  background-color: #061118;
   border-radius: 5px;
   display: flex;
   align-items: center;
@@ -181,7 +179,6 @@
 .home_navbar_tabs_kernel #right {
   position: absolute;
   right: 20px;
-  border: 2px solid black;
   display: flex;
   -moz-column-gap: 40px;
        column-gap: 40px;

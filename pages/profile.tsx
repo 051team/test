@@ -87,14 +87,11 @@ const Profile = () => {
                         
                         inventory ? inventory.map((item:any,i:number)=>
                         <button key={i}>
-                            <Image src={item.giftURL} alt={"inventory item"} width={45} height={45} />
+                            <Image src={item.giftURL} alt={"inventory item"} width={120} height={120} />
                             <div id={p.act}>
                                 <div id={p.dollar}>$</div>
-                                <button style={{opacity:item.isSold ? "0" : "1"}} disabled={item.isSold ?? false} id={p.sell} onClick={()=>handleSell(i,item)}>SELL</button>
-                                {
-                                    item.isSold && 
-                                    <span style={{fontSize:"12px",fontWeight:"600"}}>SOLD</span>
-                                }
+                                <button style={{opacity:item.isSold ? "0" : "1"}} disabled={item.isSold ?? false} id={p.sell} 
+                                    onClick={()=>handleSell(i,item)}>SELL</button>
                             </div>
                             <div id={p.text}>
                                 {
@@ -104,6 +101,10 @@ const Profile = () => {
                                     <>
                                     <span>{item.giftName}</span>
                                     <span>{formatter(item.giftPrice)}</span>
+                                    {
+                                    item.isSold && 
+                                        <span style={{fontWeight:"600",color:"crimson"}}>SOLD</span>
+                                    }
                                     </>
                                 }
                             </div>
