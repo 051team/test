@@ -72,7 +72,7 @@
 .casepage_case_kernel_spinner button #text {
   display: grid;
   position: relative;
-  top: -30px;
+  top: -20px;
   color: whitesmoke !important;
 }
 .casepage_case_kernel_spinner button #text span {

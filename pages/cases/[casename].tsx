@@ -209,7 +209,7 @@ const Case_page = () => {
                                 }}
                                 >
                                     <Image src={(i === 44 && won) ? won.giftURL : caseInfo.caseGifts.find((gf:any) => gf.code === e.code).giftURL}
-                                        alt={"051 logo"} width={60} height={60} priority />
+                                        alt={"051 logo"} width={90} height={100} priority />
                                     <div id={c.text}>
                                         <span>{(won && i === 44) ? won.giftName : caseInfo.caseGifts.find((gf:any) => gf.code === e.code).giftName}</span>
                                     </div>
@@ -283,7 +283,7 @@ const Case_page = () => {
                 <div className={c.casepage_case_result}>
                     <div id={c.btn} style={{backgroundImage:colorGenerator(won.giftPrice)}}>
                         <div id={c.chance}>Chance <br /> {won.giftProbability/100000*100}% </div>
-                        <Image src={won.giftURL} alt={"won this gift"} width={90} height={90} />
+                        <Image src={won.giftURL} alt={"won this gift"} width={90} height={100} />
                         <div id={c.text}>
                             <span>{won.giftName}</span>
                         </div>
