@@ -185,16 +185,16 @@ const Case_page = () => {
             <div className={c.casepage_case}>
                 <h3>
                     {(caseInfo && caseInfo.caseName.toUpperCase()) ?? "LOADING..."}
-                    <div id={c.index}>
-                        <span>&#9660;</span>
-                        <span>&#9650;</span>
-                    </div>
                 </h3>
             {
             sliderVisible  &&
             <>
                     
                 <div className={c.casepage_case_kernel}>
+                    <div id={c.index}>
+                        <span>&#9660;</span>
+                        <span>&#9650;</span>
+                    </div>
                     <div id={placeholders === 50 ? c.slide : ""} className={c.casepage_case_kernel_spinner} 
                     style={{ transform: `translateX(${placeholders === 50 ? indexShift : "0px"})`}}
                     >
@@ -316,10 +316,7 @@ const Case_page = () => {
                     {
                         caseInfo && caseInfo.caseGifts.map((gf:any,i:number) =>
                         <button key={i} style={{
-                            backgroundImage:`linear-gradient(to bottom, rgb(26, 25, 25), 
-                            ${ (caseInfo && caseInfo.caseGifts) ? 
-                                colorGenerator(caseInfo.caseGifts[i].giftPrice) 
-                                : "red"})`
+                            backgroundImage:colorGenerator(caseInfo.caseGifts[i].giftPrice)
                         }}>
                             <Image src={gf.giftURL} alt={"051 logo"} width={45} height={45} />
                             <div id={c.luck}>
