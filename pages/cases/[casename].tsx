@@ -178,9 +178,9 @@ const Case_page = () => {
             <div id={c.black}></div>
             <div className={c.casepage_case}>
             <div id={c.caseDemo} className={ !caseInfo ? c.loading : ""}>
-                {(caseInfo && caseInfo.caseName.toUpperCase()) ?? "LOADING..."}
+                <span>{(caseInfo && caseInfo.caseName.toUpperCase()) ?? "LOADING..."}</span>
                 {
-                    caseInfo && <Image src={caseInfo.caseImageURL} alt={"051 logo"} width={150} height={175} priority />
+                    caseInfo && <Image src={caseInfo.caseImageURL} alt={"051 logo"} width={170} height={190} priority />
                 }
             </div>
             {

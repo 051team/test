@@ -12,7 +12,7 @@
         padding-top: 50px;
         #caseDemo{
             width: 170px;
-            height: 210px;
+            height: 190px;
             display: grid;
             justify-items: center;
             align-items: center;
@@ -21,11 +21,14 @@
             filter: brightness(1.1);
             margin-bottom: 20px;
             position: relative;
-            box-shadow: (0 0 2px gray);
+            font-size: large;
+            span{
+                position: absolute;
+                bottom:5px;
+                z-index: 99;
+            }
             img{
                 filter: drop-shadow(0 0 2px gray);
-                position: relative;
-                top:-5px;
             }
             &:hover{
                 filter: brightness(1.3);
