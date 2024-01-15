@@ -209,7 +209,7 @@ const Case_page = () => {
                                 }}
                                 >
                                     <Image src={(i === 44 && won) ? won.giftURL : caseInfo.caseGifts.find((gf:any) => gf.code === e.code).giftURL}
-                                        alt={"051 logo"} width={45} height={45} priority />
+                                        alt={"051 logo"} width={60} height={60} priority />
                                     <div id={c.text}>
                                         <span>{(won && i === 44) ? won.giftName : caseInfo.caseGifts.find((gf:any) => gf.code === e.code).giftName}</span>
                                     </div>

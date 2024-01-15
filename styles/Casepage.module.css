@@ -57,6 +57,7 @@
 .casepage_case_kernel_spinner button {
   width: 170px;
   height: 190px;
+  padding-top: 20px;
   display: grid;
   justify-items: center;
   align-items: center;
