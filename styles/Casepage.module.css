@@ -43,7 +43,6 @@
   width: 1400px;
   overflow: hidden;
   position: relative;
-  box-shadow: 0 0 4px 1px gray;
 }
 .casepage_case_kernel #index, .casepage_case_kernel #index2 {
   position: absolute;
@@ -129,6 +128,9 @@
   position: relative;
   -webkit-animation: slide 6s 1 forwards;
           animation: slide 6s 1 forwards;
+}
+.casepage_case #main {
+  box-shadow: 0 0 4px 1px gray;
 }
 .casepage_case_result {
   position: absolute;

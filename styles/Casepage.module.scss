@@ -40,7 +40,6 @@
             width: 1400px;
             overflow: hidden;
             position: relative;
-            box-shadow: 0 0 4px 1px gray;
             #index,#index2{
                 position: absolute;
                 z-index: 99 !important;
@@ -120,6 +119,9 @@
                 position: relative;
                 animation: slide 6s 1 forwards;
             }
+        }
+        #main{
+            box-shadow: 0 0 4px 1px gray;
         }
         &_result{
             position: absolute;

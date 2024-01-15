@@ -220,7 +220,7 @@ const Case_page = () => {
             sliderVisible  &&
             <>
                     
-                <div className={c.casepage_case_kernel}>
+                <div className={c.casepage_case_kernel} id={c.main}>
                     <div id={c.index}>
                         <span>&#9660;</span>
                         <span>&#9650;</span>
