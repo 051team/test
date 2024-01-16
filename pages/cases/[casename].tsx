@@ -168,6 +168,7 @@ const Case_page = () => {
             }
         }
         shuffleArray(finals);
+        shuffleArray(finals);
         console.log(finals, finals.length)
 
         return finals
@@ -402,7 +403,6 @@ const Case_page = () => {
                 universalModal && 
                 <Universal_modal>
                 <div id={c.odds}>
-                    <button id={c.close}>x</button>
                     <div id={c.row} key={99999} style={{backgroundColor:"black"}}>
                         <span>Item</span>
                         <span></span>
@@ -411,10 +411,10 @@ const Case_page = () => {
                     </div>
                     {
                         caseInfo && caseInfo.caseGifts.map((gf:any,i:number) =>
-                        <div id={c.row} key={i} style={{backgroundColor:i%2 ? "black" : "rgb(49 48 48)"}}>
+                        <div id={c.row} key={i} style={{backgroundColor:i%2 ? "black" : "rgb(25 25 25)"}}>
                             <Image src={gf.giftURL} alt={"XXX"} width={50} height={50} priority />
                             <span>{gf.giftName}</span>
-                            <span style={{color:"gold", fontWeight:"bold"}}>{formatter(gf.giftPrice)}</span>
+                            <span style={{fontWeight:"bold"}}>{formatter(gf.giftPrice)}</span>
                             <span>%{gf.giftProbability/100000*100}</span>
                         </div>
                         )

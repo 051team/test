@@ -4,7 +4,7 @@ import p from "../styles/Profile.module.css";
 import { useSession } from 'next-auth/react';
 import { useSelector,useDispatch } from "react-redux";
 import { formatter } from "../tools";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { note_balanceChange } from "../redux/loginSlice";
 
 const Profile = () => {
@@ -15,6 +15,8 @@ const Profile = () => {
     const dispatch = useDispatch();
     const [inventory,setInventory] = useState<any>();
     const [tempoText,setTempoText] = useState<{text:string,no:number} | null>();
+    const [filterItems, setFilter] = useState<boolean>(true);
+    const slider = useRef<HTMLInputElement>(null);
 
     useEffect(()=>{
         const fetchInventory = async () => {
@@ -26,8 +28,12 @@ const Profile = () => {
                 try {
                     const resJson = await response.json();
                     if(response.status === 200){
+                        const propertyAddedResJson = resJson.map((item:any) => {
+                            return { ...item, isSold: item.isSold !== true ? false : item.isSold }});
+                        const sortedResJson = propertyAddedResJson.sort((a:any,b:any)=> {return a.isSold - b.isSold});
                         console.log(resJson);
-                        setInventory(resJson);
+                        console.log(sortedResJson)
+                        setInventory(sortedResJson);
                     }
                 } catch (error) {
                     console.log("Response not in json format")
@@ -67,6 +73,16 @@ const Profile = () => {
         }
     }
 
+    const handleSliderChange = () => {
+        setFilter((pr)=>!pr);
+    }
+    const handleShowAll = () => {
+        setFilter(false);
+        if(slider.current && slider.current.checked){
+            slider.current.checked = false;
+        }
+    }
+
     return ( 
         <div className={p.profile}>
             <div id={p.black}></div>
@@ -80,14 +96,25 @@ const Profile = () => {
                     </div>
                 </div>
                 <div className={p.profile_kernel_line}>
-                    <span>INVENTORY {tempoText && tempoText.text}</span>
+                    <span id={p.title}>INVENTORY {tempoText && tempoText.text}</span>
+                    <div id={p.sorting}>
+                        <span>Show Active Items</span>
+                        <div>
+                            <label htmlFor="showactive"></label>
+                            <input onChange={handleSliderChange} type="checkbox" id={"showactive"} defaultChecked ref={slider}/>
+                            <div id={p.shift}>
+                                <div id={p.ball}></div>
+                            </div>
+                        </div>
+                        <button onClick={handleShowAll}>Show All</button>
+                    </div>
                 </div>
                 <div className={p.profile_kernel_inventory}>
                     {
                         
-                        inventory ? inventory.map((item:any,i:number)=>
+                        inventory ? (filterItems ? inventory.filter((e:any) => e.isSold === false) : inventory).map((item:any,i:number)=>
                         <button key={i}>
-                            <Image src={item.giftURL} alt={"inventory item"} width={120} height={120} />
+                            <Image src={item.giftURL} alt={"inventory item"} width={90} height={100} />
                             <div id={p.act}>
                                 <div id={p.dollar}>$</div>
                                 <button style={{opacity:item.isSold ? "0" : "1"}} disabled={item.isSold ?? false} id={p.sell} 
@@ -111,7 +138,7 @@ const Profile = () => {
                         </button>
                         )
                         :
-                        [...Array(8)].map((item:any,i:number)=>
+                        [...Array(7)].map((item:any,i:number)=>
                         <button key={i}>
                             <Image src={"/loading.png"} alt={"inventory loading"} width={45} height={45} />
                             <div id={p.act}>

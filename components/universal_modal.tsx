@@ -18,7 +18,7 @@ const Universal_modal = ({children}:any) => {
     return ( 
         <div className={u.universal}>
                 <div className={u.universal_kernel} ref={core}>
-                <button id={u.close} onClick={()=>dispatch(note_universal_modal(false))}>x</button>
+                <button id={u.close} onClick={()=>dispatch(note_universal_modal(false))}>❌</button>
                     {children}
                 </div>
         </div>

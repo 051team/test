@@ -48,9 +48,67 @@
             font-weight: bolder;
             background-image: linear-gradient(to right, #071118 30%, #4d0f22 60%, #071118 100%);
             filter: brightness(1.2);
-            span{
+            position: relative;
+            #title{
                 border-bottom: 2px solid orange;
                 filter: brightness(1.1);
+            }
+            #sorting{
+                position: absolute;
+                right: 20px;
+                height: 30px;
+                display: flex;
+                align-items: center;
+                column-gap: 30px;
+                input{
+                    display: none;
+                }
+                label{
+                    position: absolute;
+                    height: 100%;
+                    z-index: 99;
+                    opacity: 0;
+                }
+                input:checked ~ #shift{
+                    justify-content: flex-end;
+                    #ball{
+                        background-color: lawngreen;
+                    }
+                }
+                label,#shift{
+                    border: 1px solid gray;
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-start;
+                    background-color: black;
+                    width: 60px;
+                    border-radius: 20px;
+                    padding: 1px;
+                    cursor: pointer;
+                    #ball{
+                        background-color: gray;
+                        border-radius: 50%;
+                        height: 25px; width: 25px;
+                        position: relative;
+                    }
+                }
+                span{
+                    font-weight: 500;
+                }
+                button{
+                    background-color: #003e55;
+                    color: whitesmoke;
+                    font-size: small;
+                    font-weight: 500;
+                    height: 30px;
+                    width: 120px;
+                    border-radius: 20px;
+                    filter: brightness(1.1);
+                    &:hover{
+                        filter: brightness(1.4);
+                    }
+
+                }
             }
         }
         &_inventory{
