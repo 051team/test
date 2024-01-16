@@ -20,6 +20,8 @@ export default async function handler(
       gift.isSold = false
     }
 
+    console.log(gift);
+
     const resultSold = await users.updateOne(
         {
             cdpUser:{$eq:user.name},

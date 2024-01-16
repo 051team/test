@@ -112,7 +112,11 @@ const Case_page = () => {
                         setPlaceholders(10);
                     }, 1000);
                 }else{
-                    console.log("Problem var", response)
+                    console.log("Problem var", response);
+                    setTempoText("Failed to sell...");
+                    setTimeout(() => {
+                        setTempoText(()=>null);
+                    }, 1500);
                 }
             } catch (error) {
                 console.log("resJson failed");
@@ -124,9 +128,9 @@ const Case_page = () => {
     }
 
     const caseOpenDisabled = !balance || !caseInfo || ( caseInfo && balance && caseInfo.casePrice > balance);
-    const sliderVisible = !won || (tempoText && tempoText !== "Selling..." && tempoText !== "SOLD");
-    const resultVisible = won && (!tempoText || tempoText === "Selling..." || tempoText === "SOLD");
-    const sellButtonText = (tempoText === "Selling..." || tempoText === "SOLD") ? tempoText : `SELL FOR ${formatter(won && won.giftPrice)}`;
+    const sliderVisible = !won || (tempoText && tempoText !== "Selling..." && tempoText !== "SOLD" && tempoText !== "Failed to sell...");
+    const resultVisible = won && (!tempoText || tempoText === "Selling..." || tempoText === "SOLD" || tempoText === "Failed to sell...");
+    const sellButtonText = (tempoText === "Selling..." || tempoText === "SOLD") ? tempoText : tempoText === "Failed to sell..." ? "Failed" : `SELL FOR ${formatter(won && won.giftPrice)}`;
     const sellButtonDisabled = !!tempoText;
     const payButtonDisabled = (won || tempoText) ? true : false;
     const [repetitionCurve,setRepetitiveCurve] = useState<null | any[]>();

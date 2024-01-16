@@ -14,7 +14,7 @@ const Profile = () => {
     const bchange = useSelector((state:any) => state.loginSlice.bchange);
     const dispatch = useDispatch();
     const [inventory,setInventory] = useState<any>();
-    const [tempoText,setTempoText] = useState<{text:string,no:number} | null>();
+    const [tempoText,setTempoText] = useState<{text:string,no:number|null} | null>();
     const [filterItems, setFilter] = useState<boolean>(true);
     const slider = useRef<HTMLInputElement>(null);
 
@@ -50,9 +50,10 @@ const Profile = () => {
     const handleSell = async (i:number,gift:any) => {
         setTempoText({text:"Selling...",no:i});
         try {
+            const { isSold, ...giftWithoutIsSold } = gift;
             const response = await fetch("/api/sellgift",{
                 method:"POST",
-                body:JSON.stringify({user:session?.user,gift:gift})
+                body:JSON.stringify({user:session?.user,gift:giftWithoutIsSold})
             })
             if(response.status === 200){
                 const resJson = await response.json();
@@ -76,10 +77,41 @@ const Profile = () => {
     const handleSliderChange = () => {
         setFilter((pr)=>!pr);
     }
-    const handleShowAll = () => {
-        setFilter(false);
-        if(slider.current && slider.current.checked){
-            slider.current.checked = false;
+    const handleWholeSale = async () => {
+        let itemsToSell = false;
+        itemsToSell = inventory.some((item:any) => item.isSold === false);
+        if(!itemsToSell){
+            alert("No items to sell...");
+            return
+        }
+        setTempoText({text:"Selling all items...", no:null})
+        try {
+            const response = await fetch("/api/wholesale",{
+                method:"POST",
+                body:JSON.stringify({
+                    user:session?.user
+                })
+            })
+            try {
+                const resJson = await response.json();
+                setTempoText({text:resJson.message, no:null});
+                dispatch(note_balanceChange((pr:boolean)=>!pr));
+                setInventory((prevInventory:any) => {
+                    prevInventory.forEach((item:any) => {
+                      item.isSold = true;
+                    });
+                    return [...prevInventory];
+                });
+                setTimeout(() => {
+                    setTempoText(null)
+                }, 1500);
+                
+            } catch (error) {
+                console.log("REsponse not in json format!");
+                setTempoText({text:"Response not Json", no:null});
+            }
+        } catch (error) {
+            console.log(error);
         }
     }
 
@@ -96,7 +128,11 @@ const Profile = () => {
                     </div>
                 </div>
                 <div className={p.profile_kernel_line}>
-                    <span id={p.title}>INVENTORY {tempoText && tempoText.text}</span>
+                    {
+                        tempoText &&
+                        <div id={p.feedback}>{tempoText && tempoText.text}</div>
+                    }
+                    <span id={p.title}>INVENTORY</span>
                     <div id={p.sorting}>
                         <span>Show Active Items</span>
                         <div>
@@ -106,7 +142,7 @@ const Profile = () => {
                                 <div id={p.ball}></div>
                             </div>
                         </div>
-                        <button onClick={handleShowAll}>Show All</button>
+                        <button onClick={handleWholeSale}>SELL All</button>
                     </div>
                 </div>
                 <div className={p.profile_kernel_inventory}>
@@ -152,6 +188,9 @@ const Profile = () => {
                     }
                     {
                         inventory && inventory.length === 0 && <h1>No items in the inventory</h1>
+                    }
+                                        {
+                        inventory && !tempoText?.text && filterItems && inventory.filter((e:any) => e.isSold === false).length === 0 && <h1>No Active Items</h1>
                     }
                 </div>
             </div>
