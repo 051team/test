@@ -66,14 +66,15 @@ const Case_page = () => {
             console.log(resJson.lucky);
             setWon(resJson.lucky);
             setPlaceholders(100);
+            playSound();
             setTimeout(() => {
                 dispatch(note_balanceChange(((pr:boolean)=>!pr)));
                 const randomShift = generateRandomNumber();
-                setIndexShift(`${-randomShift}px`)
+                setIndexShift(`${-randomShift}px`);
             }, 1000);
             setTimeout(() => {
                 setTempoText(null);
-                setIndexShift("0px")
+                setIndexShift("0px");
             }, 11000);
         }else{
             try {
@@ -184,6 +185,70 @@ const Case_page = () => {
         }
     },[caseInfo]);
 
+const playSound = () => {
+  const audio = new Audio('/tick.mp3');
+  audio.loop = true;
+  audio.playbackRate = 1;
+  audio.play();
+  //first 2 seconds
+  let timePast = 4000;
+    setTimeout(() => {
+        const slowdownInterval1 = setInterval(() => {
+            audio.playbackRate += 0.004;
+            timePast += 100
+            if (audio.playbackRate >=1.3) {
+              clearInterval(slowdownInterval1);
+            }
+            }, 130);
+    }, timePast);
+
+    setTimeout(() => {
+        const  slowdownInterval2 = setInterval(() => {
+            audio.playbackRate -= 0.004;
+            timePast += 100
+            if (audio.playbackRate <=0.8) {
+              clearInterval(slowdownInterval2);
+            }
+            }, 130);
+    }, timePast);
+
+    setTimeout(() => {
+        const slowdownInterval3 = setInterval(() => {
+            audio.playbackRate -= 0.02;
+            timePast += 100
+            if (audio.playbackRate <=0.2) {
+              clearInterval(slowdownInterval3);
+              audio.pause();
+            }
+            }, 120);
+    }, timePast);
+    
+
+/*     
+    setTimeout(() => {
+        const  slowdownInterval4 = setInterval(() => {
+            audio.playbackRate -= 0.01;
+            timePast += 100
+            if (audio.playbackRate <=0.3) {
+              clearInterval(slowdownInterval4);
+            }
+            }, 100);
+    }, timePast);
+
+    setTimeout(() => {
+        const slowdownInterval5 = setInterval(() => {
+            audio.playbackRate -= 0.005;
+            timePast += 100
+            if (audio.playbackRate <=0.2) {
+              clearInterval(slowdownInterval5);
+            }
+            }, 100);
+    }, timePast); */
+
+
+
+
+};
 
 /*     useEffect(() => {
         let intervalId:any;
@@ -226,7 +291,7 @@ const Case_page = () => {
             <div id={c.caseDemo} className={ !caseInfo ? c.loading : ""}>
                 <span>{(caseInfo && caseInfo.caseName.toUpperCase()) ?? ""}</span>
                 {
-                    caseInfo && <Image src={caseInfo.caseImageURL} alt={"051 logo"} width={170} height={190} priority />
+                    caseInfo && <Image onClick={playSound} src={caseInfo.caseImageURL} alt={"051 logo"} width={170} height={190} priority />
                 }
             </div>
             }
@@ -342,19 +407,21 @@ const Case_page = () => {
                         <button disabled={sellButtonDisabled} onClick={handleSellGift}>{sellButtonText}</button>
                     </div>
                 </div>
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
+                <div>
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                </div>
                 <h3>
                     CASE CONTENT
                 </h3>
@@ -382,9 +449,6 @@ const Case_page = () => {
                 </div>
             </>
             }
-
-
-
 
             <div className={c.casepage_case_kernel} id={c.bottombanner}>
                 <Image src={_051} alt={"051 logo"} width={63} height={35} />
@@ -427,7 +491,6 @@ const Case_page = () => {
                 </Universal_modal>
             }
             
-
         </div>
         </>
      );

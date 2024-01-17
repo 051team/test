@@ -49,7 +49,6 @@ const Livedrop = () => {
                 try {
                     const resJson = await response.json();
                     if(response.status === 200){
-                        console.log(resJson);
                         if(!inventory){
                             setInventory(resJson);
                         }

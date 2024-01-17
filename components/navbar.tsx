@@ -37,7 +37,6 @@ const Navbar = () => {
                 const resJson = await response.json();
                 const userBalance = resJson.balance;
                 if( resJson && userBalance){
-                    console.log(userBalance,userBalance,userBalance)
                     dispatch(note_balance((userBalance)));
                 }else{
                     dispatch(note_balance(0));
