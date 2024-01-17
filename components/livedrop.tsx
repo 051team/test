@@ -12,7 +12,8 @@ const Livedrop = () => {
 
     const [inventory,setInventory] = useState<any>(null);
     
-    useEffect(() => {
+    //Livedrop actions
+/*     useEffect(() => {
         const dropInterval = setInterval(() => {
             setDropId(()=>"drop");
         }, 3000);
@@ -36,7 +37,7 @@ const Livedrop = () => {
         setTimeout(() => {
             setDropId("");
         }, 1000);
-    },[dropId])
+    },[dropId]) */
 
     useEffect(()=>{
         const fetchInventory = async () => {
@@ -66,7 +67,7 @@ const Livedrop = () => {
     },[session]);
 
     return ( 
-        <div className={h.home_navbar_slider} style={{width:(inventory && inventory.length+1)*110 ?? "fit-content"}}>
+        <div className={h.home_navbar_slider} style={{width:(inventory && inventory.length+1)*110 ?? "fit-content", minWidth:!inventory ? "2300px" : "none"}}>
             <button key={99} id={h.usual}>
                     <Image priority src={"/assets/live.png"} alt={"051 logo"} width={60} height={60} style={{filter:"brightness(1.9)"}} />
                     <div id={h.text} style={{position:"relative",top:"-15px", color:"darkorange"}}>
@@ -88,6 +89,14 @@ const Livedrop = () => {
                         <span>Item no</span>
                         <span>$ 0.50</span>
                     </div>
+                </button>
+                )
+            }
+                        {
+            !inventory && [...Array(20)].map((e:any,i:number) =>
+                <button id={h.placeholder} key={i} style={{ width:"110px", height:"110px"
+                }}>
+                    
                 </button>
                 )
             }
