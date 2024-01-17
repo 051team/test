@@ -159,6 +159,8 @@
   justify-content: center;
   padding: 5px 0;
   width: 1400px;
+  position: relative;
+  left: calc(50vw - 700px);
 }
 .home_navbar_tabs_kernel {
   width: 1400px;
