@@ -18,14 +18,19 @@ const Livedrop = () => {
                 hopit.current.checked = true;
             }
             setDropId(()=>"drop");
-            const randomIndex = Math.floor(Math.random() * inventory.length-1);
-            const newItem = inventory[randomIndex];
-            setInventory(()=>[newItem,...inventory])
             setTimeout(() => {
                 setDropId("");
                 hopit.current!.checked = false;
             }, 1000);
     }
+
+    useEffect(()=>{
+        if(dropId === "drop"){
+            const randomIndex = Math.floor(Math.random() * inventory.length-1);
+            const newItem = inventory[randomIndex];
+            setInventory(()=>[newItem,...inventory])
+        }
+    },[dropId])
 
     useEffect(()=>{
         const fetchInventory = async () => {
@@ -70,11 +75,11 @@ const Livedrop = () => {
         {
            inventory && inventory.map((e:any,i:number) =>
             <button id={ (i === 0 && dropId === "drop") ? h.drop : h.usual} key={i} style={{
-                backgroundImage: e.giftId === 1 ? "linear-gradient(rgb(5 5 18), #0b1649)" : 
-                                 e.giftId === 2 ?   "linear-gradient(rgb(16 2 16), #2b0741)" :
-                                 e.giftId === 3 ?   "linear-gradient(rgb(3 8 3), #072f1c)" :
-                                 e.giftId === 4 ?   "linear-gradient(rgb(28 17 2), #a37610)" :
-                                 e.giftId === 5 ?   "linear-gradient(rgb(8 1 1), #4b051f)" :
+                backgroundImage: e.giftId && e.giftId === 1 ? "linear-gradient(rgb(5 5 18), #0b1649)" : 
+                                 e.giftId && e.giftId === 2 ?   "linear-gradient(rgb(16 2 16), #2b0741)" :
+                                 e.giftId && e.giftId === 3 ?   "linear-gradient(rgb(3 8 3), #072f1c)" :
+                                 e.giftId && e.giftId === 4 ?   "linear-gradient(rgb(28 17 2), #a37610)" :
+                                 e.giftId && e.giftId === 5 ?   "linear-gradient(rgb(8 1 1), #4b051f)" :
                                  "linear-gradient(rgb(8 1 1), gold)"
             }}>
                 <Image priority={i < 10 ? true : false} src={(inventory && inventory[i].giftURL )?? "/loading.png"} alt={"051 logo"} width={45} height={45} />
