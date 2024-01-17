@@ -11,6 +11,7 @@
   display: grid;
   align-items: center;
   grid-template-rows: 40px 90px;
+  overflow: hidden;
 }
 .home_navbar_top {
   padding-left: 40px;
@@ -39,6 +40,7 @@
   display: flex;
   align-items: center;
   padding: 0 40px;
+  width: 100vw !important;
 }
 .home_navbar_bottom input {
   margin-left: 50px;
@@ -155,6 +157,7 @@
   display: flex;
   justify-content: center;
   padding: 5px 0;
+  width: 1400px;
 }
 .home_navbar_tabs_kernel {
   width: 1400px;
@@ -201,14 +204,13 @@
 }
 .home_navbar_slider {
   display: flex;
+  justify-items: flex-end;
   overflow: hidden;
   -moz-column-gap: 1px;
        column-gap: 1px;
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
+  transition: width 0.5s ease-out;
 }
-.home_navbar_slider button {
+.home_navbar_slider #usual {
   height: 110px;
   width: 110px !important;
   color: whitesmoke;
@@ -218,18 +220,52 @@
   align-items: center;
   filter: brightness(1.1);
 }
-.home_navbar_slider button img {
+.home_navbar_slider #usual img {
   filter: drop-shadow(0 0 2px gray);
 }
-.home_navbar_slider button:hover {
+.home_navbar_slider #usual:hover {
   filter: brightness(1.3);
 }
-.home_navbar_slider button #text {
+.home_navbar_slider #usual #text {
   display: grid;
   position: relative;
   top: -5px;
 }
-.home_navbar_slider button #text span {
+.home_navbar_slider #usual #text span {
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 12px;
+}
+.home_navbar_slider input {
+  display: none;
+  z-index: -1;
+}
+.home_navbar_slider input:checked ~ #drop {
+  width: 110px !important;
+}
+.home_navbar_slider #drop {
+  position: relative;
+  -webkit-animation: hop 1s 1;
+          animation: hop 1s 1;
+  color: whitesmoke;
+  display: grid;
+  grid-template-rows: 2fr 1fr;
+  justify-items: center;
+  align-items: center;
+  filter: brightness(1.1);
+}
+.home_navbar_slider #drop img {
+  filter: drop-shadow(0 0 2px gray);
+}
+.home_navbar_slider #drop:hover {
+  filter: brightness(1.3);
+}
+.home_navbar_slider #drop #text {
+  display: grid;
+  position: relative;
+  top: -5px;
+}
+.home_navbar_slider #drop #text span {
   font-size: 10px;
   font-weight: 500;
   line-height: 12px;
@@ -454,5 +490,17 @@
   }
   100% {
     background-position: 200% 0%;
+  }
+}
+@keyframes hop {
+  0% {
+    opacity: 0;
+    scale: 0.6;
+    filter: invert(90%);
+  }
+  100% {
+    opacity: 1;
+    scale: 1;
+    filter: invert(0%);
   }
 }/*# sourceMappingURL=Home.module.css.map */

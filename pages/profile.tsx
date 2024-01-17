@@ -187,10 +187,13 @@ const Profile = () => {
                         )
                     }
                     {
-                        inventory && inventory.length === 0 && <h1>No items in the inventory</h1>
+                        inventory && inventory.length === 0 && <h1>You don&apos;t have any active items! <br /> 
+                        <span>Open the cases</span> </h1>
                     }
                                         {
-                        inventory && !tempoText?.text && filterItems && inventory.filter((e:any) => e.isSold === false).length === 0 && <h1>No Active Items</h1>
+                        inventory && !tempoText?.text && filterItems && inventory.filter((e:any) => e.isSold === false).length === 0 && 
+                        <h1>You don&apos;t have any active items! <br /> 
+                        <span>Open the cases</span></h1>
                     }
                 </div>
             </div>
