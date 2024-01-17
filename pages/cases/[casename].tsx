@@ -188,15 +188,15 @@ const Case_page = () => {
 const playSound = () => {
   const audio = new Audio('/tick.mp3');
   audio.loop = true;
-  audio.playbackRate = 1;
+  audio.playbackRate = 1.2;
   audio.play();
   //first 2 seconds
-  let timePast = 4000;
+  let timePast = 3000;
     setTimeout(() => {
         const slowdownInterval1 = setInterval(() => {
             audio.playbackRate += 0.004;
             timePast += 100
-            if (audio.playbackRate >=1.3) {
+            if (audio.playbackRate >=1.4) {
               clearInterval(slowdownInterval1);
             }
             }, 130);
@@ -206,7 +206,7 @@ const playSound = () => {
         const  slowdownInterval2 = setInterval(() => {
             audio.playbackRate -= 0.004;
             timePast += 100
-            if (audio.playbackRate <=0.8) {
+            if (audio.playbackRate <=0.6) {
               clearInterval(slowdownInterval2);
             }
             }, 130);
