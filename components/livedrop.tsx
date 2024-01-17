@@ -1,6 +1,6 @@
 import h from "../styles/Home.module.css";
 import Image from "next/image";
-import { useEffect, useState,useRef } from "react";
+import { useEffect, useState,useRef, useCallback } from "react";
 import _051 from "../public/051.jpg";
 import { useSession } from 'next-auth/react';
 import { colorGenerator } from "../tools";
@@ -8,27 +8,37 @@ import { colorGenerator } from "../tools";
 
 const Livedrop = () => {
     const { data: session } = useSession();
-    const hopit = useRef<HTMLInputElement>(null);
     const [dropId, setDropId] = useState("");
 
-    const [inventory,setInventory] = useState<any>();
+    const [inventory,setInventory] = useState<any>(null);
     
     const handleDrop = () => {
-            if(hopit.current){
-                hopit.current.checked = true;
-            }
             setDropId(()=>"drop");
     }
+    useEffect(() => {
+        const dropInterval = setInterval(() => {
+            setDropId(()=>"drop");
+        }, 3000);
+
+        return () => {
+            clearInterval(dropInterval);
+        };
+    }, []);
 
     useEffect(()=>{
-        if(dropId === "drop"){
+        if(dropId === "drop" && inventory){
             const newItem = inventory[10];
-            setInventory(()=>[newItem,...inventory]);
-            setTimeout(() => {
-                setDropId("");
-                hopit.current!.checked = false;
-            }, 1000);
+            setInventory((prevInventory:any) => {
+                const newItem = inventory[10];
+                return [newItem, ...prevInventory];
+            });
         }
+    },[dropId]);
+
+    useEffect(()=>{
+        setTimeout(() => {
+            setDropId("");
+        }, 1000);
     },[dropId])
 
     useEffect(()=>{
@@ -41,12 +51,10 @@ const Livedrop = () => {
                 try {
                     const resJson = await response.json();
                     if(response.status === 200){
-                        const propertyAddedResJson = resJson.map((item:any) => {
-                            return { ...item, isSold: item.isSold !== true ? false : item.isSold }});
-                        const sortedResJson = propertyAddedResJson.sort((a:any,b:any)=> {return a.isSold - b.isSold});
                         console.log(resJson);
-                        console.log(sortedResJson)
-                        setInventory(sortedResJson);
+                        if(!inventory){
+                            setInventory(resJson);
+                        }
                     }
                 } catch (error) {
                     console.log("Response not in json format")
@@ -60,36 +68,33 @@ const Livedrop = () => {
         }
     },[session]);
 
-
-
     return ( 
-        <div className={h.home_navbar_slider} style={{width:(inventory && inventory.length+1)*110}}>
-        <button key={99} onClick={handleDrop} id={h.usual}>
-                <Image priority src={"/assets/live.png"} alt={"051 logo"} width={60} height={60} style={{filter:"brightness(1.9)"}} />
-                <div id={h.text} style={{position:"relative",top:"-15px", color:"darkorange"}}>
-                    <span style={{fontWeight:"bolder"}}>LIVEDROP</span>
-                </div>
-        </button>
-        <input id="cx" type="checkbox" ref={hopit} />
-        {
-           inventory && inventory.map((e:any,i:number) =>
-            <button id={ (i === 0 && dropId === "drop") ? h.drop : h.usual} key={i} style={{
-                backgroundImage: e.giftId && e.giftId === 1 ? "linear-gradient(rgb(5 5 18), #0b1649)" : 
-                                 e.giftId && e.giftId === 2 ?   "linear-gradient(rgb(16 2 16), #2b0741)" :
-                                 e.giftId && e.giftId === 3 ?   "linear-gradient(rgb(3 8 3), #072f1c)" :
-                                 e.giftId && e.giftId === 4 ?   "linear-gradient(rgb(28 17 2), #a37610)" :
-                                 e.giftId && e.giftId === 5 ?   "linear-gradient(rgb(8 1 1), #4b051f)" :
-                                 "linear-gradient(rgb(8 1 1), gold)"
-            }}>
-                <Image priority={i < 10 ? true : false} src={(inventory && inventory[i].giftURL )?? "/loading.png"} alt={"051 logo"} width={45} height={45} />
-                <div id={h.text}>
-                    <span>Item no</span>
-                    <span>$ 0.50</span>
-                </div>
+        <div className={h.home_navbar_slider} style={{width:(inventory && inventory.length+1)*110 ?? "fit-content"}}>
+            <button key={99} id={h.usual}>
+                    <Image priority src={"/assets/live.png"} alt={"051 logo"} width={60} height={60} style={{filter:"brightness(1.9)"}} />
+                    <div id={h.text} style={{position:"relative",top:"-15px", color:"darkorange"}}>
+                        <span style={{fontWeight:"bolder"}}>LIVEDROP</span>
+                    </div>
             </button>
-            )
-        }
-    </div>
+            {
+            inventory && inventory.map((e:any,i:number) =>
+                <button id={ (i === 0 && dropId === "drop") ? h.drop : h.usual} key={i} style={{
+                    backgroundImage: e.giftId && e.giftId === 1 ? "linear-gradient(rgb(5 5 18), #0b1649)" : 
+                                    e.giftId && e.giftId === 2 ?   "linear-gradient(rgb(16 2 16), #2b0741)" :
+                                    e.giftId && e.giftId === 3 ?   "linear-gradient(rgb(3 8 3), #072f1c)" :
+                                    e.giftId && e.giftId === 4 ?   "linear-gradient(rgb(28 17 2), #a37610)" :
+                                    e.giftId && e.giftId === 5 ?   "linear-gradient(rgb(8 1 1), #4b051f)" :
+                                    "linear-gradient(rgb(8 1 1), gold)"
+                }}>
+                    <Image priority={i < 10 ? true : false} src={(inventory && inventory[i].giftURL )?? "/loading.png"} alt={"051 logo"} width={45} height={45} />
+                    <div id={h.text}>
+                        <span>Item no</span>
+                        <span>$ 0.50</span>
+                    </div>
+                </button>
+                )
+            }
+        </div>
      );
 }
  

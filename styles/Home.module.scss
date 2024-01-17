@@ -223,9 +223,6 @@
                 display: none;
                 z-index: -1;
             }
-            input:checked ~ #drop{
-                width: 110px !important;  
-            }
             #drop{
                 position: relative;
                 animation: hop 1s 1;
@@ -235,6 +232,7 @@
                 justify-items: center;
                 align-items: center;
                 filter: brightness(1.1);
+                width: 110px;
                 img{
                     filter: drop-shadow(0 0 2px gray);
                 }
@@ -430,12 +428,10 @@
 
   @keyframes hop {
     0%{
-        opacity: 0;
         scale: 0.6;
-        filter: invert(90%);
+        filter: invert(50%);
     }
     100%{
-        opacity: 1;
         scale: 1;
         filter: invert(0%);
     }
