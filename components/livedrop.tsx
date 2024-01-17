@@ -18,17 +18,16 @@ const Livedrop = () => {
                 hopit.current.checked = true;
             }
             setDropId(()=>"drop");
-            setTimeout(() => {
-                setDropId("");
-                hopit.current!.checked = false;
-            }, 1000);
     }
 
     useEffect(()=>{
         if(dropId === "drop"){
-            const randomIndex = Math.floor(Math.random() * inventory.length-1);
-            const newItem = inventory[randomIndex];
-            setInventory(()=>[newItem,...inventory])
+            const newItem = inventory[10];
+            setInventory(()=>[newItem,...inventory]);
+            setTimeout(() => {
+                setDropId("");
+                hopit.current!.checked = false;
+            }, 1000);
         }
     },[dropId])
 
