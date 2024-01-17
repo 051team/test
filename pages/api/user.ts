@@ -24,7 +24,7 @@ export default async function handler(
     });
 
     if(existingUser){
-      console.log("User already exists");
+      console.log("User already exists",existingUser);
       res.status(200).json({ name: 'Existing User', balance:existingUser.balance })
     }else{
       const result = await members.insertOne({

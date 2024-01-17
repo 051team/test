@@ -12,6 +12,7 @@
   align-items: center;
   grid-template-rows: 40px 90px;
   overflow: hidden;
+  max-width: 100vw;
 }
 .home_navbar_top {
   padding-left: 40px;

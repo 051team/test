@@ -6,7 +6,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  console.log("Selling Case....");
+  console.log("Fetching inventory..")
 
   const {name,email} = req.query;
 

@@ -36,10 +36,9 @@ const Navbar = () => {
                 });
                 const resJson = await response.json();
                 const userBalance = resJson.balance;
-                dispatch(note_balance((userBalance)));
                 if( resJson && userBalance){
                     console.log(userBalance,userBalance,userBalance)
-                    dispatch(note_balance((pr:number) =>userBalance));
+                    dispatch(note_balance((userBalance)));
                 }else{
                     dispatch(note_balance(0));
                 }
@@ -148,7 +147,7 @@ const Navbar = () => {
                         session && 
                         <>
                         <span><strong>{session && session.user?.name} <br />
-                            {balance ? formatter(balance)  : ""} {formatter(balance)} </strong> 
+                            {balance ? formatter(balance)  : ""} {balance === 0 && "$0:00"} </strong> 
                         </span>
                         <Image src={session!.user!.image as string} alt={"discord profile image"} width={50} height={50} />
                         <div id={h.dropdown}>

@@ -12,9 +12,6 @@ const Livedrop = () => {
 
     const [inventory,setInventory] = useState<any>(null);
     
-    const handleDrop = () => {
-            setDropId(()=>"drop");
-    }
     useEffect(() => {
         const dropInterval = setInterval(() => {
             setDropId(()=>"drop");
