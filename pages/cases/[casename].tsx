@@ -283,7 +283,8 @@ const playSound = () => {
             <Modal feedback={feedback} />
         }
         <div className={c.casepage}>
-            <div id={c.black}></div>
+{/*             <div id={c.black}></div>
+ */}            <div id={c.bg}></div>
             <div className={c.casepage_case}>
             {
             !resultVisible && 
