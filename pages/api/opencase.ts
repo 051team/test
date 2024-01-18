@@ -25,10 +25,8 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  console.log("Opening Case....");
 
-  const { cat, name, user, email } = JSON.parse(req.body);
-  console.log(cat,name,user,email);
+  const { cat, name, user } = JSON.parse(req.body);
 
   let client;
 
@@ -46,14 +44,14 @@ export default async function handler(
       const lotteryResult = mockLotteryDraw(caseToOpen.caseGifts);
       console.log(lotteryResult);
       const casePrice = caseToOpen.casePrice;
-      const accountOwner = await users.findOne({cdpUser:{$eq:user}, cdpEmail:{$eq:email}});
+      const accountOwner = await users.findOne({cdpUserDID:{$eq:user.id}});
       if(accountOwner){
         const balance = accountOwner.balance;
         const balanceEnough = balance > casePrice || balance === casePrice;
         console.log("Case price: ",casePrice, " Balance: ", balance);
         console.log("Enough Balance = ", balance > casePrice);
         if(balanceEnough){
-          const result = await users.updateOne({cdpUser:{$eq:user}, cdpEmail:{$eq:email}},
+          const result = await users.updateOne({cdpUserDID:{$eq:user.id}},
             { 
               $inc:{balance:-casePrice},
               $push: { inventory: lotteryResult }

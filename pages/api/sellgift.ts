@@ -24,8 +24,7 @@ export default async function handler(
 
     const resultSold = await users.updateOne(
         {
-            cdpUser:{$eq:user.name},
-            cdpEmail:{$eq:user.email},
+            cdpUserDID:{$eq:user.id},
             inventory: gift,
         },
         {

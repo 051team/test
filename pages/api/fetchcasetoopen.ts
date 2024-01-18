@@ -7,11 +7,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  console.log("Case to Open Endpoint accessed");
-
   const { cat, name } = req.query;
-  console.log(cat,name);
-
   let client;
 
   try {

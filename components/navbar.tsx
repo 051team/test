@@ -64,7 +64,7 @@ const Navbar = () => {
 
     const handleLogIn = () => {
         if(!session){
-            signIn()
+            signIn('discord');
         }
     }
     const handleUseCoupon = async () => {
@@ -148,7 +148,7 @@ const Navbar = () => {
                         session && 
                         <>
                         <span><strong>{session && session.user?.name} <br />
-                            {balance ? formatter(balance)  : ""} {balance === 0 && "$0:00"} </strong> 
+                            {balance ? formatter(balance)  : ""} {balance === 0 && "$0.00"} </strong> 
                         </span>
                         <Image src={session!.user!.image as string} alt={"discord profile image"} width={50} height={50} />
                         <div id={h.dropdown}>

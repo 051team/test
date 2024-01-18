@@ -16,11 +16,10 @@ export default async function handler(
     const data_base = client.db('casadepapel');
     const users = data_base.collection('cdp_users');
 
-    const existingUser = await users.findOne(
-        {            
-            cdpUser:{$eq:user.name},
-            cdpEmail:{$eq:user.email}
-        })
+    const existingUser = await users.findOne({
+      cdpUserDID:{$eq:user.id}
+    });
+
     if(existingUser && existingUser.inventory){
         const inventory = existingUser.inventory;
         let totalRevenuefromsale = 0;

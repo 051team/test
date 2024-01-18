@@ -6,9 +6,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  console.log("Fetching inventory..")
-
-  const {name,email} = req.query;
+  const userId = JSON.parse(req.body).id;
 
   let client;
 
@@ -17,12 +15,10 @@ export default async function handler(
     const data_base = client.db('casadepapel');
     const users = data_base.collection('cdp_users');
 
-    const user = await users.findOne(
-        {
-            cdpUser:{$eq:name},
-            cdpEmail:{$eq:email},
-        }
-    )
+    const user = await users.findOne({
+      cdpUserDID:{$eq:userId}
+    });
+
     if(user){
         const inventory = user.inventory ?? [];
         res.status(200).json(inventory);

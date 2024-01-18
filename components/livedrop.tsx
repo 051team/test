@@ -41,7 +41,10 @@ const Livedrop = () => {
     useEffect(()=>{
         const fetchInventory = async () => {
             try {
-                const response = await fetch(`/api/fetchinventory?name=${session?.user?.name}&email=${session?.user?.email}`);
+                const response = await fetch("/api/fetchinventory",{
+                    method:"POST",
+                    body:JSON.stringify(session?.user)
+                });
                 if(!response.ok){
                     console.log("no inventory yet");
                 }

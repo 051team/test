@@ -12,8 +12,6 @@ export default async function handler(
   const name = user_from_session.name;
   const email = user_from_session.email;
   const userId = user_from_session.id;
-
-  console.log("ID ====" , userId);
   
   let client;
 

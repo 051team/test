@@ -7,8 +7,6 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  console.log("Fetch all Coupons Endpoint accessed");
-
   let client;
 
   try {
