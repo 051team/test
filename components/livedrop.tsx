@@ -10,8 +10,7 @@ const Livedrop = () => {
     const { data: session } = useSession();
     const [dropId, setDropId] = useState("");
 
-    const [inventory,setInventory] = useState<any>(null);
-    
+    const [inventory,setInventory] = useState<any>(null);    
     //Livedrop actions
 /*     useEffect(() => {
         const dropInterval = setInterval(() => {
@@ -44,7 +43,7 @@ const Livedrop = () => {
             try {
                 const response = await fetch(`/api/fetchinventory?name=${session?.user?.name}&email=${session?.user?.email}`);
                 if(!response.ok){
-                    alert("Couldn't fetch inventory")
+                    console.log("no inventory yet");
                 }
                 try {
                     const resJson = await response.json();
@@ -74,7 +73,7 @@ const Livedrop = () => {
                     </div>
             </button>
             {
-            inventory && inventory.map((e:any,i:number) =>
+            inventory && inventory.slice(0,15).map((e:any,i:number) =>
                 <button id={ (i === 0 && dropId === "drop") ? h.drop : h.usual} key={i} style={{
                     backgroundImage: e.giftId && e.giftId === 1 ? "linear-gradient(rgb(5 5 18), #0b1649)" : 
                                     e.giftId && e.giftId === 2 ?   "linear-gradient(rgb(16 2 16), #2b0741)" :

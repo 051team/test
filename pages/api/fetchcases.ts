@@ -7,7 +7,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  console.log("Fetch CASES Endpoint accessed");
+  //console.log("Fetch CASES Endpoint accessed");
   let client;
   try {
     client = await connectToDatabase();
@@ -15,7 +15,6 @@ export default async function handler(
     const cases = data_base.collection('cdp_cases');
 
     const allCases = await cases.find().toArray();
-    console.log(allCases);
     res.status(200).json({data:allCases});
 
   } catch (error) {

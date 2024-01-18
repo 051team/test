@@ -11,4 +11,13 @@ export default NextAuth({
       authorization: {params: {scope: scopes.join(' ')}},
     }),
   ],
+  callbacks: {
+    session: ({ session, token }) => ({
+      ...session,
+      user: {
+        ...session.user,
+        id: token.sub,
+      },
+    }),
+  },
 })

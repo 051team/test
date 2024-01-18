@@ -35,6 +35,7 @@ const Navbar = () => {
                     body:JSON.stringify(session)
                 });
                 const resJson = await response.json();
+                console.log(resJson)
                 const userBalance = resJson.balance;
                 if( resJson && userBalance){
                     dispatch(note_balance((userBalance)));
@@ -47,6 +48,7 @@ const Navbar = () => {
         }
         if(session){
             fetch_create_user();
+            console.log(session)
         }
     },[session,bChange]);
 
