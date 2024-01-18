@@ -34,7 +34,7 @@ export default async function handler(
       //if active coupon exists, check if it was used by the user before
       const coupon_used_before = await cdp_users.findOne(
         {
-            cdpUser: user,
+          cdpUserDID: user.id,
             'coupons_used.coupon': coupon_to_USE
         },
         {
@@ -114,7 +114,7 @@ export default async function handler(
           // NOW CAN UPDATE USER BALANCE && Coupons used property
           const resultUserUpdated = await cdp_users.updateOne(
             {
-                cdpUser: user,
+              cdpUserDID: user.id,
                 'coupons_used.coupon': coupon_to_USE
             },
             {

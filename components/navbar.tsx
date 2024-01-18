@@ -73,7 +73,7 @@ const Navbar = () => {
             try {
                 const response = await fetch("/api/usecoupon",{
                     method:"POST",
-                    body:JSON.stringify({promo:promo.current.value,user:session.user?.name})
+                    body:JSON.stringify({promo:promo.current.value,user:session?.user})
                    });
                    if(response.status === 200){
                     const resJson = await response.json();
