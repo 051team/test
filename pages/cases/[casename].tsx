@@ -11,6 +11,7 @@ import { useDispatch,useSelector } from "react-redux";
 import { note_balanceChange, note_universal_modal } from "../../redux/loginSlice";
 import { colorGenerator, formatter, generateRandomNumber, shuffleArray } from "../../tools";
 import Universal_modal from "../../components/universal_modal";
+import Slot from "../../components/sliderslot";
 
 const Case_page = () => {
     const { data: session } = useSession();
@@ -65,7 +66,6 @@ const Case_page = () => {
             console.log(resJson.lucky);
             setWon(resJson.lucky);
             setPlaceholders(100);
-            playSound();
             setTimeout(() => {
                 dispatch(note_balanceChange(((pr:boolean)=>!pr)));
                 const randomShift = generateRandomNumber();
@@ -135,6 +135,7 @@ const Case_page = () => {
     const payButtonDisabled = (won || tempoText) ? true : false;
     const [repetitionCurve,setRepetitiveCurve] = useState<null | any[]>();
 
+
     const makeOccuranceRate = (gifts:any[]) => {
         const prices:any[] = [];
         const finals:any[] = [];
@@ -184,96 +185,30 @@ const Case_page = () => {
         }
     },[caseInfo]);
 
-const playSound = () => {
-  const audio = new Audio('/tick.mp3');
-  audio.loop = true;
-  audio.playbackRate = 1.2;
-  audio.play();
-  //first 2 seconds
-  let timePast = 3000;
-    setTimeout(() => {
-        const slowdownInterval1 = setInterval(() => {
-            audio.playbackRate += 0.004;
-            timePast += 100
-            if (audio.playbackRate >=1.4) {
-              clearInterval(slowdownInterval1);
+
+    const slider = useRef<HTMLDivElement>(null);
+    const [sliderOffset, setSliderOffset] = useState(0);
+
+
+    useEffect(() => {
+        const updateOffsetLeft = () => {
+          if (slider.current) {
+            const currentOffsetLeft = slider.current.offsetLeft;
+            setSliderOffset(currentOffsetLeft);
+            if (placeholders === 0) {
+              console.log("Bitti");
+              console.log(currentOffsetLeft);
+              clearInterval(intervalId);
             }
-            }, 130);
-    }, timePast);
-
-    setTimeout(() => {
-        const  slowdownInterval2 = setInterval(() => {
-            audio.playbackRate -= 0.004;
-            timePast += 100
-            if (audio.playbackRate <=0.6) {
-              clearInterval(slowdownInterval2);
-            }
-            }, 130);
-    }, timePast);
-
-    setTimeout(() => {
-        const slowdownInterval3 = setInterval(() => {
-            audio.playbackRate -= 0.02;
-            timePast += 100
-            if (audio.playbackRate <=0.2) {
-              clearInterval(slowdownInterval3);
-              audio.pause();
-            }
-            }, 120);
-    }, timePast);
-    
-
-/*     
-    setTimeout(() => {
-        const  slowdownInterval4 = setInterval(() => {
-            audio.playbackRate -= 0.01;
-            timePast += 100
-            if (audio.playbackRate <=0.3) {
-              clearInterval(slowdownInterval4);
-            }
-            }, 100);
-    }, timePast);
-
-    setTimeout(() => {
-        const slowdownInterval5 = setInterval(() => {
-            audio.playbackRate -= 0.005;
-            timePast += 100
-            if (audio.playbackRate <=0.2) {
-              clearInterval(slowdownInterval5);
-            }
-            }, 100);
-    }, timePast); */
-
-
-
-
-};
-
-/*     useEffect(() => {
-        let intervalId:any;
-        const tick = new Audio('/tick.mp3');
-        let timePast = 0;
-
-        if (canPlay) {
-            intervalId = setInterval(() => {
-                tick.play();
-                timePast += 1;
-                console.log(timePast);
-
-                if (timePast >= 2000) {
-                    clearInterval(intervalId);
-                }
-            }, 100);
-        } else {
-            clearInterval(intervalId);
-            tick.pause();
-            tick.currentTime = 0;
-        }
-
-        return () => {
-            clearInterval(intervalId);
+          }
         };
-    }, []); */
+      
+        const intervalId = setInterval(updateOffsetLeft, 50);
+      
+        return () => {
+          clearInterval(intervalId);
+        };
+      }, [placeholders]);
 
     return ( 
         <>
@@ -291,7 +226,7 @@ const playSound = () => {
             <div id={c.caseDemo} className={ !caseInfo ? c.loading : ""}>
                 <span>{(caseInfo && caseInfo.caseName.toUpperCase()) ?? ""}</span>
                 {
-                    caseInfo && <Image onClick={playSound} src={caseInfo.caseImageURL} alt={"051 logo"} width={200} height={200} priority />
+                    caseInfo && <Image src={caseInfo.caseImageURL} alt={"051 logo"} width={200} height={200} priority />
                 }
             </div>
             }
@@ -308,12 +243,12 @@ const playSound = () => {
                         <span>&#9660;</span>
                         <span>&#9650;</span>
                     </div>
-                    <div id={placeholders === 100 ? c.slide : ""} className={c.casepage_case_kernel_spinner} 
+                    <div id={placeholders === 100 ? c.slide : ""} className={c.casepage_case_kernel_spinner} ref={slider}
                     style={{ transform: `translateX(${placeholders === 100 ? indexShift : "0px"})`}}
                     >
                         {
                             repetitionCurve ? repetitionCurve.map((e,i) =>
-                                <button id={repetitionCurve ? "" : c.loading} key={i}
+/*                                 <button id={repetitionCurve ? "" : c.loading} key={i}
                                     style={{
                                     backgroundImage: 
                                     (i !== 94 ) ? colorGenerator(caseInfo.caseGifts.find((gf:any) => gf.code === e.code).giftPrice) :
@@ -326,7 +261,12 @@ const playSound = () => {
                                     <div id={c.text}>
                                         <span>{(won && i === 94) ? won.giftName : caseInfo.caseGifts.find((gf:any) => gf.code === e.code).giftName}</span>
                                     </div>
-                                </button>
+                                </button> */
+                                <Slot 
+                                    id={repetitionCurve ? "" : c.loading} i={i} 
+                                    won={won} caseInfo={caseInfo} e={e}
+                                    key={i} sliderOffset={sliderOffset}
+                                />
                             )
                             : 
                             [...Array(placeholders)].map((e,i)=>

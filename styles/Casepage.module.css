@@ -101,6 +101,7 @@
   justify-items: center;
   align-items: center;
   filter: brightness(1.1);
+  position: relative;
 }
 .casepage_case_kernel_spinner button img {
   filter: drop-shadow(0 0 2px gray);
