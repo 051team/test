@@ -16,7 +16,6 @@ const Slot = ({id,e,i,caseInfo,won,sliderOffset}:any) => {
     useEffect(() => {
         if (currentSlot.current && i > 4) {
           const currentOffsetLeft = currentSlot.current.offsetLeft;
-          console.log(`'Slot no ${i} to left:'`, currentOffsetLeft);
           setSlotOffet(currentOffsetLeft);
         }
     }, []);
@@ -25,11 +24,10 @@ const Slot = ({id,e,i,caseInfo,won,sliderOffset}:any) => {
         if(sliderOffset && slotOffet && !passed){
             if((-sliderOffset+806) > slotOffet){
                 setPassed(true);
-                const tick = new Audio("/tick.mp3");
-                tick.playbackRate = 0.7;
+                const tick = new Audio("/tick1.mp3");
+                tick.playbackRate = 1;
                 tick.loop = false;
                 tick.play();
-                console.log(i," geçti")
             }
         }
       }, [sliderOffset,passed]);
