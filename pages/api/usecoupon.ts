@@ -66,7 +66,7 @@ export default async function handler(
         if(resultCouponUpdated.matchedCount === 1 && resultCouponUpdated.modifiedCount === 1){
           const resultUserUpdated = await cdp_users.updateOne(
             {
-                cdpUser: user
+              cdpUserDID: user.id
             },
             {
                 $inc: {
