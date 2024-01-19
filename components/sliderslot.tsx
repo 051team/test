@@ -25,8 +25,8 @@ const Slot = ({id,e,i,caseInfo,won,sliderOffset}:any) => {
         if(sliderOffset && slotOffet && !passed){
             if((-sliderOffset+800) > slotOffet){
                 setPassed(true);
-                const tick = new Audio("/tick.mp3");
-                tick.playbackRate = 0.5;
+                const tick = new Audio("/tick1.mp3");
+                tick.playbackRate = 1;
                 tick.loop = false;
                 tick.play();
                 console.log(i," geçti")

@@ -16,6 +16,7 @@ import Slot from "../../components/sliderslot";
 const Case_page = () => {
     const { data: session } = useSession();
     const [placeholders,setPlaceholders] = useState<number>(10);
+    const howmanyPlaceholder = 100;
     const router = useRouter();
     const {cat,name} = router.query;
     const [caseInfo, setCaseInfo] = useState<any>();
@@ -65,7 +66,7 @@ const Case_page = () => {
             const resJson = await response.json();
             console.log(resJson.lucky);
             setWon(resJson.lucky);
-            setPlaceholders(100);
+            setPlaceholders(howmanyPlaceholder);
             setTimeout(() => {
                 dispatch(note_balanceChange(((pr:boolean)=>!pr)));
                 const randomShift = generateRandomNumber();
@@ -147,10 +148,10 @@ const Case_page = () => {
 
         let reTotal = 0;
 
-        const repForEach = Math.floor(100/gifts.length);
+        const repForEach = Math.floor(howmanyPlaceholder/gifts.length);
         const giftNumber = gifts.length;
         const minReps = giftNumber > 15 ? 4 : giftNumber > 9 ? 5 : giftNumber > 6 ? 7 : giftNumber > 2 ? 15 : 30;
-        const unit = (100 - minReps * giftNumber) / totalPrice;
+        const unit = (howmanyPlaceholder - minReps * giftNumber) / totalPrice;
 
         gifts.map(gf=>reTotal = reTotal + Math.floor(unit*(parseFloat(gf.giftProbability))));
 
@@ -164,8 +165,8 @@ const Case_page = () => {
             }
         });
 
-        if(reTotal < (100 - minReps * giftNumber)){
-            const diffetence = (100 - minReps * giftNumber) - reTotal;
+        if(reTotal < (howmanyPlaceholder - minReps * giftNumber)){
+            const diffetence = (howmanyPlaceholder - minReps * giftNumber) - reTotal;
             for (let i = 0; i < diffetence; i++) {
                 finals.push(
                     prices[prices.length-1]
@@ -243,8 +244,8 @@ const Case_page = () => {
                         <span>&#9660;</span>
                         <span>&#9650;</span>
                     </div>
-                    <div id={placeholders === 100 ? c.slide : ""} className={c.casepage_case_kernel_spinner} ref={slider}
-                    style={{ transform: `translateX(${placeholders === 100 ? indexShift : "0px"})`}}
+                    <div id={placeholders === howmanyPlaceholder ? c.slide : ""} className={c.casepage_case_kernel_spinner} ref={slider}
+                    style={{ transform: `translateX(${placeholders === howmanyPlaceholder ? indexShift : "0px"})`}}
                     >
                         {
                             repetitionCurve ? repetitionCurve.map((e,i) =>
