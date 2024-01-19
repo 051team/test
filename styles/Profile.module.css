@@ -1,6 +1,5 @@
 .profile {
   display: grid;
-  justify-items: center;
 }
 .profile #black {
   position: fixed;
@@ -14,7 +13,9 @@
   width: 1400px;
   padding-top: 40px;
   display: grid;
+  justify-self: center;
   row-gap: 30px;
+  position: relative;
 }
 .profile_kernel_card {
   display: flex;

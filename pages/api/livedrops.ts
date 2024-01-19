@@ -15,7 +15,8 @@ export default async function handler(
     const livedrop = data_base.collection('livedrop');
 
     const drops = await livedrop.find().toArray();
-    res.status(200).json(drops);
+    const readytoSend = drops.sort((a:any,b:any)=> b.dropTime - a.dropTime).slice(0,15);
+    res.status(200).json(readytoSend);
 
   } catch (error) {
     console.log(error);

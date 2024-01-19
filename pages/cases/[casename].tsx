@@ -249,20 +249,6 @@ const Case_page = () => {
                     >
                         {
                             repetitionCurve ? repetitionCurve.map((e,i) =>
-/*                                 <button id={repetitionCurve ? "" : c.loading} key={i}
-                                    style={{
-                                    backgroundImage: 
-                                    (i !== 94 ) ? colorGenerator(caseInfo.caseGifts.find((gf:any) => gf.code === e.code).giftPrice) :
-                                    (i === 94 && won) ? colorGenerator(won.giftPrice)
-                                    : "none"
-                                }}
-                                >
-                                    <Image src={(i === 94 && won) ? won.giftURL : caseInfo.caseGifts.find((gf:any) => gf.code === e.code).giftURL}
-                                        alt={"051 logo"} width={90} height={100} priority />
-                                    <div id={c.text}>
-                                        <span>{(won && i === 94) ? won.giftName : caseInfo.caseGifts.find((gf:any) => gf.code === e.code).giftName}</span>
-                                    </div>
-                                </button> */
                                 <Slot 
                                     id={repetitionCurve ? "" : c.loading} i={i} 
                                     won={won} caseInfo={caseInfo} e={e}

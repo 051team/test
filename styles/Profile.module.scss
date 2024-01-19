@@ -5,12 +5,13 @@
         background: black;
     }
     display: grid;
-    justify-items: center;
     &_kernel{
         width: 1400px;
         padding-top: 40px;
         display: grid;
+        justify-self: center;
         row-gap: 30px;
+        position: relative;
         &_card{
             display: flex;
             align-items: center;

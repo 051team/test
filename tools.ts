@@ -46,3 +46,8 @@ export const  shuffleArray = (array:any[]) => {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
+
+export const compareObjects = (obj1:any, obj2:any,) => {
+  return obj1.dropTime === obj2.dropTime;
+}

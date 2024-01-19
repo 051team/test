@@ -1,6 +1,16 @@
 import { createSlice,PayloadAction } from '@reduxjs/toolkit';
 
-const initialState = {
+interface AppState {
+  balanceChange: boolean;
+  balance: number | null;
+  universal_modal: boolean;
+  universal_feedback: {
+    message: string;
+    color: string;
+  };
+}
+
+const initialState:AppState = {
   balanceChange:false,
   balance:null,
   universal_modal:false,

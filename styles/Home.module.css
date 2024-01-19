@@ -160,7 +160,6 @@
   padding: 5px 0;
   width: 1400px;
   position: relative;
-  left: calc(50vw - 700px);
 }
 .home_navbar_tabs_kernel {
   width: 1400px;
@@ -171,6 +170,7 @@
   padding: 20px;
   padding-right: 0;
   position: relative;
+  left: 20px;
 }
 .home_navbar_tabs_kernel #join {
   background-color: #b81d2b;
