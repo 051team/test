@@ -204,7 +204,7 @@ const Case_page = () => {
           }
         };
       
-        const intervalId = setInterval(updateOffsetLeft, 50);
+        const intervalId = setInterval(updateOffsetLeft, 10);
       
         return () => {
           clearInterval(intervalId);
