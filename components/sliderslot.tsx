@@ -23,7 +23,7 @@ const Slot = ({id,e,i,caseInfo,won,sliderOffset}:any) => {
 
     useEffect(() => {
         if(sliderOffset && slotOffet && !passed){
-            if((-sliderOffset+800) > slotOffet){
+            if((-sliderOffset+806) > slotOffet){
                 setPassed(true);
                 const tick = new Audio("/tick1.mp3");
                 tick.playbackRate = 1;
