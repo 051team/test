@@ -14,7 +14,7 @@ export const formatter = (price: number): string => {
 
 
  export  const generateRandomNumber = () => {
-    const randomNumber = Math.floor(Math.random() * 140) + 5;
+    const randomNumber = Math.floor(Math.random() * 140) + 20;
     return randomNumber;
   }
 
