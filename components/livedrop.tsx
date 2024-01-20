@@ -80,14 +80,14 @@ const Livedrop = () => {
             });
             setNewdrops((prevNewDrops:any) => prevNewDrops.slice(1));
             setTimeout(() => {
-                setDropId("");
+                setDropId(()=>"");
             }, 1000);
         }
     },[dropId,newDrops]);
 
     return ( 
         <div className={h.home_navbar_slider} style={{width:drops ? (drops.length+1)*310 : "fit-content", minWidth:!drops ? "2300px" : "none"}}>
-            <button key={99} id={h.usual}>
+            <button key={99} id={h.usual} style={{zIndex:99}}>
                     <Image priority src={"/assets/live.png"} alt={"051 logo"} width={60} height={60} style={{filter:"brightness(1.9)"}} />
                     <div id={h.text} style={{position:"relative",top:"-15px", color:"darkorange"}}>
                         <span style={{fontWeight:"bolder"}}>LIVEDROP</span>

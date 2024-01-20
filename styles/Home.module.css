@@ -496,10 +496,8 @@
 @keyframes hop {
   0% {
     scale: 0.6;
-    filter: invert(50%);
   }
   100% {
     scale: 1;
-    filter: invert(0%);
   }
 }/*# sourceMappingURL=Home.module.css.map */

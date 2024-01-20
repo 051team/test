@@ -58,9 +58,6 @@ export default async function handler(
           },
           );
           if(result.matchedCount === 1 && result.matchedCount === 1){
-            const livedrop = data_base.collection('livedrop');
-            const dropTime = (new Date()).getTime();
-            const resultDrop = await livedrop.insertOne({...lotteryResult,dropTime:dropTime});
             res.status(200).json({lucky:lotteryResult});
           }else{
             res.status(500).json({ message: 'Failed to update balance',color:"red" });
