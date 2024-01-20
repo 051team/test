@@ -15,12 +15,16 @@ export default async function handler(
     const livedrop = data_base.collection('livedrop');
 
     const drops = await livedrop.find().toArray();
-    const readytoSend = drops.sort((a:any,b:any)=> b.dropTime - a.dropTime).slice(0,30);
-    res.status(200).json(readytoSend);
+    if(drops){
+        const randomIndex = Math.floor(Math.random()*drops.length);
+        const lastDrop = drops[randomIndex];
+        console.log(lastDrop);
+    }
+    res.status(200).json({message:"last drop route"});
 
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Couldn't get live drops " })
+    res.status(500).json({ message: "Couldn't get last drop item" })
   }
   finally{
     if (client) {

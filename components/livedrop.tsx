@@ -9,7 +9,6 @@ import { colorGenerator, compareObjects, formatter } from "../tools";
 const Livedrop = () => {
     const [dropId, setDropId] = useState("");
     const [drops, setDrops] = useState<any[]>();   
-    const [newDrops, setNewdrops] = useState<any[]>([]);
 
     // initial fetch to populate livedrop
     useEffect(()=>{
@@ -30,77 +29,13 @@ const Livedrop = () => {
         fetchDrops();
     },[])
 
-    const fetchNewDrops = async () => {
-        try {
-            const response = await fetch("/api/livedrops");
-            if(!response.ok){alert("Fetch opearation failed!"); return}
-            if(response.status === 200){
-                const newAllDrops = await response.json();
-                const itemsNotInOlds = newAllDrops.filter((newbie:any) => !drops?.some((old:any) => compareObjects(old, newbie)));
-                if(itemsNotInOlds.length !== 0){
-                    setNewdrops(itemsNotInOlds)
-                }
-                if(itemsNotInOlds.length === 0 && drops){
-                    const randomIndex = Math.floor(Math.random()*drops?.length)
-                    const randomDrop = drops[randomIndex];
-                    setNewdrops([randomDrop])
-                }
-            }else{
-                console.log(response.status, response)
-            }
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
     useEffect(()=>{
-        let intervalNewDrops:any;
-        if(drops){
-            intervalNewDrops = setInterval(()=>{
-                fetchNewDrops();
-            },(newDrops && newDrops.length !== 0 ? newDrops.length*5000 : 5000))
-        }
-        return () => {
-            clearInterval(intervalNewDrops);
-        }
-    },[drops])
-
-    useEffect(() => {
-        if (newDrops) {
-            const dropInterval = setInterval(() => {
-                if (newDrops.length === 0) {
-                    clearInterval(dropInterval);
-                } else {
-                    setDropId(() => "drop");
-                }
-            }, 3000);    
-            return () => {
-                clearInterval(dropInterval);
-            };
-        }
-    }, [newDrops]);
-    
-
-    useEffect(()=>{
-        if(dropId === "drop" && drops && newDrops && newDrops.length > 0){
-            const newItem = newDrops[0]
-            setDrops((prevInventory:any) => {
-                return [newItem, ...prevInventory];
-            });
-            setNewdrops((prevNewDrops:any) => prevNewDrops.slice(1));
-            setTimeout(() => {
-                setDropId(()=>"");
-            }, 1000);
-        }
-    },[dropId,newDrops]);
-
-/*     useEffect(()=>{
         if(dropId === "drop"){
             setTimeout(() => {
                 setDropId("");
             }, 1000);
         }
-    },[dropId]) */
+    },[dropId])
 
     return ( 
         <div className={h.home_navbar_slider} style={{width:drops ? (drops.length+1)*110 : "fit-content", minWidth:!drops ? "2300px" : "none"}}>
