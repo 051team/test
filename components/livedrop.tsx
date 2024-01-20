@@ -9,7 +9,7 @@ import { colorGenerator, compareObjects, formatter } from "../tools";
 const Livedrop = () => {
     const [dropId, setDropId] = useState("");
     const [drops, setDrops] = useState<any[]>();   
-    const [newDrops, setNewdrops] = useState<any[]>();
+    const [newDrops, setNewdrops] = useState<any[]>([]);
 
     // initial fetch to populate livedrop
     useEffect(()=>{
@@ -60,17 +60,21 @@ const Livedrop = () => {
         }
     },[drops])
 
-    useEffect(()=>{
-        if(newDrops){
+    useEffect(() => {
+        if (newDrops) {
             const dropInterval = setInterval(() => {
-                setDropId(()=>"drop");
-            }, 3000);
-    
+                if (newDrops.length === 0) {
+                    clearInterval(dropInterval);
+                } else {
+                    setDropId(() => "drop");
+                }
+            }, 3000);    
             return () => {
                 clearInterval(dropInterval);
             };
         }
-    },[newDrops])
+    }, [newDrops]);
+    
 
     useEffect(()=>{
         if(dropId === "drop" && drops && newDrops && newDrops.length > 0){
@@ -85,8 +89,16 @@ const Livedrop = () => {
         }
     },[dropId,newDrops]);
 
+/*     useEffect(()=>{
+        if(dropId === "drop"){
+            setTimeout(() => {
+                setDropId("");
+            }, 1000);
+        }
+    },[dropId]) */
+
     return ( 
-        <div className={h.home_navbar_slider} style={{width:drops ? (drops.length+1)*310 : "fit-content", minWidth:!drops ? "2300px" : "none"}}>
+        <div className={h.home_navbar_slider} style={{width:drops ? (drops.length+1)*110 : "fit-content", minWidth:!drops ? "2300px" : "none"}}>
             <button key={99} id={h.usual} style={{zIndex:99}}>
                     <Image priority src={"/assets/live.png"} alt={"051 logo"} width={60} height={60} style={{filter:"brightness(1.9)"}} />
                     <div id={h.text} style={{position:"relative",top:"-15px", color:"darkorange"}}>

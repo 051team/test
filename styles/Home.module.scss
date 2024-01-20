@@ -227,14 +227,15 @@
             }
             #drop{
                 position: relative;
-                animation: hop 1s 1;
+                animation: hop 0.7s 1 forwards;
                 color:whitesmoke;
                 display: grid;
                 grid-template-rows: 2fr 1fr;
                 justify-items: center;
                 align-items: center;
-                filter: brightness(1.1);
+                filter: brightness(1.8) !important;
                 width: 110px;
+                top:-30px;
                 img{
                     filter: drop-shadow(0 0 2px gray);
                 }
@@ -430,9 +431,11 @@
 
   @keyframes hop {
     0%{
-        scale: 0.6;
+        filter: brightness(1.8);
+        top:-30px;
     }
     100%{
-        scale: 1;
+        filter: brightness(1.1);
+        top:0;
     }
   }
