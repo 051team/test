@@ -20,8 +20,8 @@
         position: relative;
         padding-top: 50px;
         #caseDemo{
-            width: 200px;
-            height: 200px;
+            width: 204px;
+            height: 274px;
             display: grid;
             justify-items: center;
             align-items: center;
@@ -31,6 +31,8 @@
             margin-bottom: 20px;
             position: relative;
             font-size: large;
+            overflow: hidden;
+            border-radius: 10px;
             span{
                 position: absolute;
                 bottom:5px;
@@ -38,9 +40,26 @@
             }
             img{
                 filter: drop-shadow(0 0 2px gray);
+                border-radius: 10px;
+                background-color: black;
             }
             &:hover{
                 filter: brightness(1.3);
+            }
+            &::before, &:after{
+                content: "";
+                z-index: -1;
+                position: absolute;
+                width: 500px;
+                height: 700px;
+                background-image:conic-gradient(transparent,transparent,transparent,purple);
+                animation: spin 4s linear infinite;
+                filter: brightness(2);
+                border-radius: 10px;
+            }
+            &:after{
+                background-image:conic-gradient(transparent,transparent,transparent,green);
+                animation-delay: -2s;
             }
         }
         h3{
@@ -122,10 +141,12 @@
                     }
                 }
                 #loading{
-                    background-image: linear-gradient(to right, #071118 10%, #420c1c 55%, #071118 100%) !important;
+                    background-image: linear-gradient(to right, #0a0a0a 10%, #333333 55%, #0a0a0a 100%);
                     background-size: 200% 100%;
                     animation: gradientMovement 1s linear infinite;
-                    background-color: #e11963;
+                    &:hover{
+                        box-shadow: none;
+                    }
                 }
             }
             #slide{
@@ -410,11 +431,15 @@
             }
         }
         .loading{
-            background-image: linear-gradient(to right, #071118 10%, #420c1c 55%, #071118 100%) !important;
+            background-image: linear-gradient(to right, #0a0a0a 10%, #333333 55%, #0a0a0a 100%);
             background-size: 200% 100%;
             animation: gradientMovement 1s linear infinite;
-            background-color: #e11963;
-            box-shadow: none !important;
+            &:before, &:after{
+                display: none;
+            }
+            &:hover{
+                box-shadow: none;
+            }
         }
     }
     #odds{
@@ -451,3 +476,12 @@
       background-position: 200% 0%;
     }
   }
+
+@keyframes spin {
+    0%{
+        transform: rotate(0deg);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
+}

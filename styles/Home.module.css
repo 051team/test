@@ -428,7 +428,7 @@
   padding-left: 10px;
 }
 .home #placeholder {
-  background-image: linear-gradient(to right, #1a1a1a 10%, #333333 55%, #1a1a1a 100%);
+  background-image: linear-gradient(to right, #0a0a0a 10%, #333333 55%, #0a0a0a 100%);
   background-size: 200% 100%;
   -webkit-animation: gradientMovement 1s linear infinite;
           animation: gradientMovement 1s linear infinite;
