@@ -245,8 +245,8 @@
 }
 .home_navbar_slider #drop {
   position: relative;
-  -webkit-animation: hop 0.7s 1 forwards;
-          animation: hop 0.7s 1 forwards;
+  -webkit-animation: hop 1s 1 forwards;
+          animation: hop 1s 1 forwards;
   color: whitesmoke;
   display: grid;
   grid-template-rows: 2fr 1fr;
