@@ -40,6 +40,11 @@ const Livedrop = () => {
                 if(itemsNotInOlds.length !== 0){
                     setNewdrops(itemsNotInOlds)
                 }
+                if(itemsNotInOlds.length === 0 && drops){
+                    const randomIndex = Math.floor(Math.random()*drops?.length)
+                    const randomDrop = drops[randomIndex];
+                    setNewdrops([randomDrop])
+                }
             }else{
                 console.log(response.status, response)
             }
@@ -53,7 +58,7 @@ const Livedrop = () => {
         if(drops){
             intervalNewDrops = setInterval(()=>{
                 fetchNewDrops();
-            },5000)
+            },(newDrops && newDrops.length !== 0 ? newDrops.length*5000 : 5000))
         }
         return () => {
             clearInterval(intervalNewDrops);
