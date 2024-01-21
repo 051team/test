@@ -12,7 +12,7 @@ import { formatter } from "../tools";
 import crazy from "../public/assets/promo.png";
 import Modal from "./modal";
 import { useSelector,useDispatch } from "react-redux";
-import { note_balanceChange, note_balance } from "./../redux/loginSlice";
+import { note_balanceChange, note_balance,note_TotalCasesOpened } from "./../redux/loginSlice";
 import Link from "next/link";
 import Livedrop from "./livedrop";
 
@@ -22,10 +22,12 @@ const Navbar = () => {
     const promo = useRef<HTMLInputElement>(null);
     const [promoModal,setPromoModalOpen] = useState(false);
     const [feedback,setFeedback] = useState<{message:string,color:string}>();
-    const dispatch = useDispatch();
 
+    const dispatch = useDispatch();
     const balance = useSelector((state:any) => state.loginSlice.balance);
     const bChange = useSelector((state:any) => state.loginSlice.balanceChange);
+
+    const totalCasesOpened = useSelector((state:any)=> state.loginSlice.totalCasesOpened);
 
     useEffect(()=>{
         const fetch_create_user = async () => {
@@ -61,12 +63,34 @@ const Navbar = () => {
         window.addEventListener("click", handleOutsideClick)
     },[]);
 
+    useEffect( ()=>{
+        const fetchTotalCaseOpened =async () => {
+            try {
+                const response = await fetch("/api/totalcasesopened");
+                if(!response.ok){
+                    alert("Fetch for Total Cases Opened failed");
+                    return
+                }
+                if(response.status === 200){
+                    const resJson = await response.json();
+                    const total = resJson.totalCasesOpened;
+                    console.log(total)
+                    dispatch(note_TotalCasesOpened(total));
+                }
+            } catch (error) {
+                console.log("Sorun var!", error)
+            }
+        }
+        fetchTotalCaseOpened();
+    },[])
+
 
     const handleLogIn = () => {
         if(!session){
             signIn('discord');
         }
     }
+
     const handleUseCoupon = async () => {
         if(promo.current?.value && session){
             setFeedback({message:"Uploading balance from the coupon", color:"gray"});
@@ -96,6 +120,7 @@ const Navbar = () => {
             }
         }
     }
+
     return ( 
     <>
             {
@@ -128,10 +153,8 @@ const Navbar = () => {
             }
         <div className={h.home_navbar}>
             <div className={h.home_navbar_top}>
-                <span id={h.each}><span id={h.dot}>&#x2022;</span> 2551 <span style={{color:"#00bc3e"}}>Online</span> </span>
-                <span id={h.each}><span>&#9729;</span> $56,124 <span style={{color:"#009fb3"}}>24h Volume</span></span>
-                <span id={h.each}><span>&#9729;</span> $1,245,621 <span style={{color:"#009fb3"}}>30D Volume</span></span>
-                <span id={h.each}><span>&#9729;</span> $1,245,621 <span style={{color:"#009fb3"}}>Case Opened</span></span>
+                <span id={h.each}><span id={h.dot}>&#x2022;</span> {session?.activeUsersCount ?? 0} <span style={{color:"#00bc3e"}}>Online</span> </span>
+                <span id={h.each}><span>&#9729;</span> {totalCasesOpened ?? "..."} <span style={{color:"#009fb3"}}>Case Opened</span></span>
             </div>
             <div className={h.home_navbar_bottom}>
                 <Link href={"/"}>
