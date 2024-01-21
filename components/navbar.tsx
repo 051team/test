@@ -12,9 +12,16 @@ import { formatter } from "../tools";
 import crazy from "../public/assets/promo.png";
 import Modal from "./modal";
 import { useSelector,useDispatch } from "react-redux";
-import { note_balanceChange, note_balance,note_TotalCasesOpened, note_searchBy } from "./../redux/loginSlice";
+import { note_balanceChange, note_balance,note_TotalCasesOpened, note_searchBy, note_activeUserCount } from "./../redux/loginSlice";
 import Link from "next/link";
 import Livedrop from "./livedrop";
+
+type User = {
+    name?: string | null | undefined;
+    email?: string | null | undefined;
+    image?: string | null | undefined;
+    id: string; // Make sure 'id' is defined
+  };
 
 const Navbar = () => {
     const { data: session } = useSession();
@@ -32,6 +39,8 @@ const Navbar = () => {
     const searchResultNo = useSelector((state:any)=> state.loginSlice.searchResultNo);
     const resultText = (searchResultNo && searchResultNo !== 0) ? searchResultNo + " items found!" : (searchResultNo === 0) ? "No items found" : "";
 
+    const activeUserCount = useSelector((state:any) => state.loginSlice.activeUserCount);
+
     useEffect(()=>{
         const fetch_create_user = async () => {
             try {
@@ -42,10 +51,13 @@ const Navbar = () => {
                 const resJson = await response.json();
                 console.log(resJson)
                 const userBalance = resJson.balance;
+                const activeUserCount = resJson.activeUserCount;
                 if( resJson && userBalance){
                     dispatch(note_balance((userBalance)));
+                    dispatch(note_activeUserCount(activeUserCount));
                 }else{
                     dispatch(note_balance(0));
+                    dispatch(note_activeUserCount(activeUserCount));
                 }
             } catch (error) {
                 console.log(error)
@@ -132,6 +144,17 @@ const Navbar = () => {
         }, 500);
     }
 
+    const handleLogOut = async () => {
+        signOut();
+        if(session){
+            const user = session.user as User;
+            const logoutResponse = await fetch(`/api/user?who=${user}`);
+            if(logoutResponse.status === 200){
+                dispatch(note_activeUserCount(activeUserCount-1));
+            }
+        }
+    }
+
     return ( 
     <>
             {
@@ -164,7 +187,7 @@ const Navbar = () => {
             }
         <div className={h.home_navbar}>
             <div className={h.home_navbar_top}>
-                <span id={h.each}><span id={h.dot}>&#x2022;</span> {session?.activeUsersCount ?? ""} <span style={{color:"#00bc3e"}}>Online</span> </span>
+                <span id={h.each}><span id={h.dot}>&#x2022;</span> {activeUserCount ?? ""} <span style={{color:"#00bc3e"}}>Online</span> </span>
                 <span id={h.each}><span>&#9729;</span> {totalCasesOpened ?? "..."}<span style={{color:"#009fb3"}}>Case Opened</span></span>
             </div>
             <div className={h.home_navbar_bottom}>
@@ -192,7 +215,7 @@ const Navbar = () => {
                                 <Image src={profile} alt={"profile icon"} width={25} height={25} />
                                 <span>Profile</span>
                             </div></Link>
-                            <div onClick={()=>signOut()}>
+                            <div onClick={handleLogOut}>
                                 <Image src={logout} alt={"logout icon"} width={25} height={25} />
                                 <span>Sign out</span>
                             </div>

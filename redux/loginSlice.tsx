@@ -3,8 +3,9 @@ import { createSlice,PayloadAction } from '@reduxjs/toolkit';
 interface AppState {
   balanceChange: boolean;
   balance: number | null;
+  activeUserCount:number | null,
   searchBy:string;
-  searchResultNo:number | null
+  searchResultNo:number | null,
   universal_modal: boolean;
   universal_feedback: {
     message: string;
@@ -16,6 +17,7 @@ interface AppState {
 const initialState:AppState = {
   balanceChange:false,
   balance:null,
+  activeUserCount:null,
   searchBy:"",
   searchResultNo:null,
   universal_modal:false,
@@ -33,6 +35,9 @@ export const loginSlice = createSlice({
     },
     note_balance: (state, action) => {
       state.balance = action.payload;
+    },
+    note_activeUserCount: (state, action) => {
+      state.activeUserCount = action.payload;
     },
     note_searchBy: (state, action) => {
       state.searchBy = action.payload;
@@ -52,6 +57,6 @@ export const loginSlice = createSlice({
   },
 });
 
-export const { note_balanceChange,note_balance,note_universal_modal,note_TotalCasesOpened,note_searchBy,note_searchResultNo} = loginSlice.actions
+export const { note_balanceChange,note_balance,note_universal_modal,note_TotalCasesOpened,note_searchBy,note_searchResultNo,note_activeUserCount} = loginSlice.actions
 
 export default loginSlice.reducer

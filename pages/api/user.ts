@@ -2,16 +2,31 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import {connectToDatabase, closeDatabaseConnection} from "./mdb";
 
+let activeUsers:string[] = [];
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  //console.log("User Endpoint accessed")
+  if(req.method === "GET"){
+    const {who} = req.query;
+    if(who){
+      activeUsers = activeUsers.filter((user) => user !== who);
+      res.status(200).json({ message: "User logged out." });
+    }else{
+      res.status(404).json({message:"Log out failed"});
+    }
+    return
+  } 
+  console.log("TEST NUMBER is : ",activeUsers.length)
   const user_from_session = JSON.parse(req.body).user;
   const name = user_from_session.name;
   const email = user_from_session.email;
   const userId = user_from_session.id;
+
+  if(!activeUsers.includes(userId)){
+    activeUsers.push(userId);
+  }
   
   let client;
 
@@ -20,17 +35,13 @@ export default async function handler(
     const data_base = client.db('casadepapel');
     const members = data_base.collection('cdp_users');
 
-/*     const existingUser = await members.findOne({
-      cdpUser:{$eq:name}, cdpEmail:{$eq:email}
-    }); */
-
     const existingUser = await members.findOne({
       cdpUserDID:{$eq:userId}
     });
 
     if(existingUser){
-      console.log("User already exists",existingUser.cdpUser);
-      res.status(200).json({ name: 'Existing User', balance:existingUser.balance })
+      //console.log("User already exists",existingUser.cdpUser);
+      res.status(200).json({ name: 'Existing User', balance:existingUser.balance, activeUserCount:activeUsers.length })
     }else{
       const result = await members.updateOne(
         { cdpUserDID: userId },
@@ -47,7 +58,7 @@ export default async function handler(
         { upsert: true }
       );
       console.log(result);
-      res.status(200).json({ name: 'New User' })
+      res.status(200).json({ activeUserCount: activeUsers.length })
     }
 
   } catch (error) {
