@@ -230,7 +230,7 @@ const Case_page = () => {
  */}            <div id={c.bg}></div>
             <div className={c.casepage_case}>
             {
-            !resultVisible && 
+            /* !resultVisible &&  */
             <div id={c.caseDemo} className={ !caseInfo ? c.loading : ""}>
                 <span>{(caseInfo && caseInfo.caseName.toUpperCase()) ?? ""}</span>
                 {
@@ -318,53 +318,54 @@ const Case_page = () => {
                     </div>
                 </div>
                 </>
-
                 }                    
             </>
             }
 
-
             {
             resultVisible &&
             <>
-                <div className={c.casepage_case_result}>
-                    <div id={c.tata} style={{backgroundImage:colorGenerator(won.giftPrice)}}>
-                        <div id={c.chance}>Chance <br /> {won.giftProbability/100000*100}% </div>
-                        <Image src={won.giftURL} alt={"won this gift"} width={90} height={100} />
-                        <div id={c.text}>
-                            <span>{won.giftName}</span>
-                        </div>
-                    </div>
-
-                    <div id={c.ops}>
-                        <button onClick={()=> {setPlaceholders(10);setWon(()=>null);setRepetitiveCurve(makeOccuranceRate(caseInfo.caseGifts));}}>OPEN AGAIN <Image src={"/redo.png"} alt={"re-open the case"} width={20} height={20} /> </button>
-                        <button disabled={sellButtonDisabled} onClick={handleSellGift}>{sellButtonText}</button>
+                    
+                <div className={c.casepage_case_kernel} id={c.main} style={{justifyItems:"center"}}>
+                    <div className={c.casepage_case_kernel_spinner}>
+                        <button style={{backgroundImage:colorGenerator(won.giftPrice)}} id={c.shinewon}
+                        >
+                            <Image src={won.giftURL} alt={"051 logo"} width={90} height={100} />
+                            <div id={c.luck}>
+                                <span>Chance</span>
+                                <span> %{won.giftProbability/1000}</span>
+                            </div>
+                            <div id={c.text}>
+                                <span>{won.giftName}</span>
+                                <span>${won.giftPrice}</span>
+                            </div>
+                        </button>
                     </div>
                 </div>
-                <div>
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
+                <div id={c.actions}>
+                        <button id={c.shaped3} style={{color:"white"}}
+                        onClick={()=> {setPlaceholders(10);setWon(()=>null);setRepetitiveCurve(makeOccuranceRate(caseInfo.caseGifts));}}
+                        >
+                            OPEN AGAIN <Image src={"/redo.png"} alt={"re-open the case"} width={20} height={20} />
+                        </button>
+                        <button id={c.shaped2} style={{color:"white"}} onClick={handleSellGift} disabled={sellButtonDisabled}>
+                            {sellButtonText}
+                        </button>
                 </div>
+                <br />
+                <br />
+                {
+                caseInfo && 
+                <>
                 <h3>
                     CASE CONTENT
                 </h3>
                 <div className={c.casepage_case_kernel} id={c.gifts}>
-                    <div className={c.casepage_case_kernel_spinner} id={c.content} 
-                        style={{justifyContent:caseInfo && caseInfo.caseGifts.length > 6 ? "flex-start" : "center" }}>
+                    <div className={c.casepage_case_kernel_spinner} id={c.content}>
+                    <button id={c.odds} onClick={()=>dispatch(note_universal_modal(true))}>CHECK ODDS RANGE</button>
                     {
-                        caseInfo && caseInfo.caseGifts.map((gf:any,i:number) =>
-                        <button key={i} style={{
+                        caseInfo.caseGifts.map((gf:any,i:number) =>
+                        <button id={c.each} key={i} style={{
                             backgroundImage:colorGenerator(caseInfo.caseGifts[i].giftPrice)
                         }}>
                             <Image src={gf.giftURL} alt={"051 logo"} width={90} height={100} />
@@ -381,6 +382,8 @@ const Case_page = () => {
                     }
                     </div>
                 </div>
+                </>
+                }                    
             </>
             }
 
