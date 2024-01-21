@@ -63,6 +63,12 @@
 .home_navbar_bottom input::placeholder {
   color: rgba(64, 224, 208, 0.517);
 }
+.home_navbar_bottom #found {
+  position: relative;
+  font-size: small;
+  left: -90px;
+  filter: brightness(1.2);
+}
 .home_navbar_bottom #profile {
   position: absolute;
   right: 40px;
@@ -157,8 +163,8 @@
 .home_navbar_tabs {
   display: flex;
   justify-content: center;
-  padding: 5px 0;
   width: 1400px;
+  height: 50px;
   position: relative;
   position: relative;
   left: calc((100vw - 1400px) / 2);
@@ -167,14 +173,11 @@
 }
 .home_navbar_tabs_kernel {
   width: 1400px;
-  height: 50px;
   border-radius: 5px;
   display: flex;
   align-items: center;
-  padding: 20px;
   padding-right: 0;
   position: relative;
-  left: 20px;
 }
 .home_navbar_tabs_kernel #join {
   background-color: #b81d2b;

@@ -48,6 +48,12 @@
                     color: rgba(64, 224, 208, 0.517);
                 }
             }
+            #found{
+                position: relative;
+                font-size: small;
+                left: -90px;
+                filter: brightness(1.2);
+            }
             #profile{
                 position: absolute;
                 right: 40px;
@@ -139,12 +145,13 @@
                     filter: brightness(1.5);
                 }
             }
+
         }
         &_tabs{
             display: flex;
             justify-content: center;
-            padding: 5px 0;
             width: 1400px;
+            height: 50px;
             position: relative;
             position: relative;
             left: calc((100vw - 1400px)/2);
@@ -152,14 +159,11 @@
             border-radius: 10px;
             &_kernel{
                 width: 1400px;
-                height: 50px;
                 border-radius: 5px;
                 display: flex;
                 align-items: center;
-                padding: 20px;
                 padding-right: 0;
                 position: relative;
-                left: 20px;
                 #join{
                     background-color: #b81d2b;
                     color: whitesmoke;

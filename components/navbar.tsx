@@ -29,6 +29,8 @@ const Navbar = () => {
     const totalCasesOpened = useSelector((state:any)=> state.loginSlice.totalCasesOpened);
 
     const search = useRef<HTMLInputElement>(null);
+    const searchResultNo = useSelector((state:any)=> state.loginSlice.searchResultNo);
+    const resultText = (searchResultNo && searchResultNo !== 0) ? searchResultNo + " items found!" : (searchResultNo === 0) ? "No items found" : "";
 
     useEffect(()=>{
         const fetch_create_user = async () => {
@@ -125,7 +127,6 @@ const Navbar = () => {
     const handleSearch = () => {
         setTimeout(() => {
             if(search.current){
-                console.log(search.current.value);
                 dispatch(note_searchBy(search.current!.value.toLocaleLowerCase()));
             }
         }, 500);
@@ -170,6 +171,7 @@ const Navbar = () => {
                 <Link href={"/"}>
                 <Image src={_051} alt={"051 logo"} width={90} height={50} /></Link>
                 <input type="text" placeholder="Search for case..." onChange={handleSearch} ref={search} />
+                <span id={h.found} style={{color:searchResultNo === 0 ? "crimson" : "green"}}>{resultText}</span>
                 <button onClick={handleLogIn} id={h.profile}>
                     <input type="checkbox" id="open"/>
                     <label htmlFor="open"></label>
