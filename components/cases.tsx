@@ -3,10 +3,12 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { formatter } from "../tools";
-
+import { useSelector } from "react-redux";
 
 const Cases = () => {
     const [allCases, setAllCases] = useState<any[] | null>();
+    const searchBy = useSelector((state:any)=>state.loginSlice.searchBy);
+
     const handleFetchCases = async () => {
                 try {
                     const response = await fetch("/api/fetchcases");
@@ -28,10 +30,10 @@ const Cases = () => {
     return ( 
         <div className={h.home_cases}>
         <div className={h.home_cases_kernel}>
-            <h1>POPULAR CASES</h1>
+            <h1>POPULAR CASES {searchBy && searchBy}</h1>
             <div className={h.home_cases_kernel_group}>
                 {
-                    allCases && allCases.filter( (c) => c.caseCategory === "popularcases").map((cs,index)=>
+                    allCases && allCases.filter( (c) => c.caseCategory === "popularcases").filter((e) => e.caseName.toLowerCase().includes(searchBy)).map((cs,index)=>
                     <Link href={`/cases/cs?cat=${cs.caseCategory}&name=${cs.caseName}`} key={index}>
                     <div className={h.home_cases_kernel_group_each}>
                         <Image priority src={cs.caseImageURL} alt={cs.caseName} width={200} height={250} />

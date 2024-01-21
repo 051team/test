@@ -12,7 +12,7 @@ import { formatter } from "../tools";
 import crazy from "../public/assets/promo.png";
 import Modal from "./modal";
 import { useSelector,useDispatch } from "react-redux";
-import { note_balanceChange, note_balance,note_TotalCasesOpened } from "./../redux/loginSlice";
+import { note_balanceChange, note_balance,note_TotalCasesOpened, note_searchBy } from "./../redux/loginSlice";
 import Link from "next/link";
 import Livedrop from "./livedrop";
 
@@ -26,8 +26,9 @@ const Navbar = () => {
     const dispatch = useDispatch();
     const balance = useSelector((state:any) => state.loginSlice.balance);
     const bChange = useSelector((state:any) => state.loginSlice.balanceChange);
-
     const totalCasesOpened = useSelector((state:any)=> state.loginSlice.totalCasesOpened);
+
+    const search = useRef<HTMLInputElement>(null);
 
     useEffect(()=>{
         const fetch_create_user = async () => {
@@ -74,7 +75,6 @@ const Navbar = () => {
                 if(response.status === 200){
                     const resJson = await response.json();
                     const total = resJson.totalCasesOpened;
-                    console.log(total)
                     dispatch(note_TotalCasesOpened(total));
                 }
             } catch (error) {
@@ -121,6 +121,16 @@ const Navbar = () => {
         }
     }
 
+
+    const handleSearch = () => {
+        setTimeout(() => {
+            if(search.current){
+                console.log(search.current.value);
+                dispatch(note_searchBy(search.current!.value.toLocaleLowerCase()));
+            }
+        }, 500);
+    }
+
     return ( 
     <>
             {
@@ -154,12 +164,12 @@ const Navbar = () => {
         <div className={h.home_navbar}>
             <div className={h.home_navbar_top}>
                 <span id={h.each}><span id={h.dot}>&#x2022;</span> {session?.activeUsersCount ?? 0} <span style={{color:"#00bc3e"}}>Online</span> </span>
-                <span id={h.each}><span>&#9729;</span> {totalCasesOpened ?? "..."} <span style={{color:"#009fb3"}}>Case Opened</span></span>
+                <span id={h.each}><span>&#9729;</span> {totalCasesOpened ?? "..."}<span style={{color:"#009fb3"}}>Case Opened</span></span>
             </div>
             <div className={h.home_navbar_bottom}>
                 <Link href={"/"}>
                 <Image src={_051} alt={"051 logo"} width={90} height={50} /></Link>
-                <input type="text" placeholder="Search for case..." />
+                <input type="text" placeholder="Search for case..." onChange={handleSearch} ref={search} />
                 <button onClick={handleLogIn} id={h.profile}>
                     <input type="checkbox" id="open"/>
                     <label htmlFor="open"></label>

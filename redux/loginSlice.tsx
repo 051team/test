@@ -3,6 +3,7 @@ import { createSlice,PayloadAction } from '@reduxjs/toolkit';
 interface AppState {
   balanceChange: boolean;
   balance: number | null;
+  searchBy:string;
   universal_modal: boolean;
   universal_feedback: {
     message: string;
@@ -14,6 +15,7 @@ interface AppState {
 const initialState:AppState = {
   balanceChange:false,
   balance:null,
+  searchBy:"",
   universal_modal:false,
   universal_feedback:{message:"",color:"whitesmoke"},
   totalCasesOpened:null
@@ -30,6 +32,9 @@ export const loginSlice = createSlice({
     note_balance: (state, action) => {
       state.balance = action.payload;
     },
+    note_searchBy: (state, action) => {
+      state.searchBy = action.payload;
+    },
     note_universal_feedback: (state, action) => {
       state.universal_feedback = action.payload;
     },
@@ -42,6 +47,6 @@ export const loginSlice = createSlice({
   },
 });
 
-export const { note_balanceChange,note_balance,note_universal_modal,note_TotalCasesOpened} = loginSlice.actions
+export const { note_balanceChange,note_balance,note_universal_modal,note_TotalCasesOpened,note_searchBy} = loginSlice.actions
 
 export default loginSlice.reducer
