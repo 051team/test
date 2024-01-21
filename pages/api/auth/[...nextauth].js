@@ -2,7 +2,7 @@ import NextAuth from 'next-auth'
 import DiscordProvider from 'next-auth/providers/discord'
 
 const scopes = ['identify', 'email']
-let activeUsersCount = 0;
+let activeUsersCount = 1;
 
 export const incrementActiveUsersCount = () => {
   activeUsersCount += 1;

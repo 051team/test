@@ -164,7 +164,7 @@ const Navbar = () => {
             }
         <div className={h.home_navbar}>
             <div className={h.home_navbar_top}>
-                <span id={h.each}><span id={h.dot}>&#x2022;</span> {session?.activeUsersCount ?? 0} <span style={{color:"#00bc3e"}}>Online</span> </span>
+                <span id={h.each}><span id={h.dot}>&#x2022;</span> {session?.activeUsersCount ?? ""} <span style={{color:"#00bc3e"}}>Online</span> </span>
                 <span id={h.each}><span>&#9729;</span> {totalCasesOpened ?? "..."}<span style={{color:"#009fb3"}}>Case Opened</span></span>
             </div>
             <div className={h.home_navbar_bottom}>
