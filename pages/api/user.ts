@@ -10,14 +10,23 @@ export default async function handler(
 ) {
   if(req.method === "GET"){
     const {who} = req.query;
+    const {count} = req.query;
     if(who){
       activeUsers = activeUsers.filter((user) => user !== who);
       res.status(200).json({ message: "User logged out." });
-    }else{
-      res.status(404).json({message:"Log out failed"});
+      return
     }
-    return
+    if(count){
+      res.status(200).json({ activeUserCount:activeUsers.length});
+      return
+    }
+    else{
+      res.status(404).json({message:"Log out failed"});
+      return
+    }
   } 
+
+
   console.log("TEST NUMBER is : ",activeUsers.length)
   const user_from_session = JSON.parse(req.body).user;
   const name = user_from_session.name;
@@ -58,7 +67,7 @@ export default async function handler(
         { upsert: true }
       );
       console.log(result);
-      res.status(200).json({ activeUserCount: activeUsers.length })
+      res.status(200).json({  activeUserCount:activeUsers.length })
     }
 
   } catch (error) {

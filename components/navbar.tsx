@@ -42,6 +42,17 @@ const Navbar = () => {
     const activeUserCount = useSelector((state:any) => state.loginSlice.activeUserCount);
 
     useEffect(()=>{
+        const updateUserCount = async () => {
+            const response = await fetch(`/api/user?count=${true}`);
+            if(response.status === 200){
+                const resJson = await response.json();
+                dispatch(note_activeUserCount(resJson.activeUserCount))
+            }
+        }
+        updateUserCount();
+    },[])
+
+    useEffect(()=>{
         const fetch_create_user = async () => {
             try {
                 const response = await fetch("/api/user",{
@@ -65,7 +76,6 @@ const Navbar = () => {
         }
         if(session){
             fetch_create_user();
-            console.log(session)
         }
     },[session,bChange]);
 
@@ -145,12 +155,14 @@ const Navbar = () => {
     }
 
     const handleLogOut = async () => {
-        signOut();
         if(session){
             const user = session.user as User;
-            const logoutResponse = await fetch(`/api/user?who=${user}`);
+            const logoutResponse = await fetch(`/api/user?who=${user.id}`);
+            const resJson = await logoutResponse.json();
+            console.log(resJson);
             if(logoutResponse.status === 200){
                 dispatch(note_activeUserCount(activeUserCount-1));
+                signOut();
             }
         }
     }
