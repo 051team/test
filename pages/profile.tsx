@@ -6,6 +6,7 @@ import { useSelector,useDispatch } from "react-redux";
 import { formatter } from "../tools";
 import { useEffect, useRef, useState } from "react";
 import { note_balanceChange } from "../redux/loginSlice";
+import Link from "next/link";
 
 const Profile = () => {
     const { data: session } = useSession();
@@ -145,7 +146,7 @@ const Profile = () => {
                                 <div id={p.ball}></div>
                             </div>
                         </div>
-                        <button onClick={handleWholeSale}>SELL All</button>
+                        <button onClick={handleWholeSale}>SELL ALL</button>
                     </div>
                 </div>
                 <div className={p.profile_kernel_inventory}>
@@ -191,12 +192,13 @@ const Profile = () => {
                     }
                     {
                         inventory && inventory.length === 0 && <h1>You don&apos;t have any active items! <br /> 
-                        <span>Open the cases</span> </h1>
+                        <Link href={"/"}><span>Open the cases</span></Link>
+                         </h1>
                     }
                                         {
                         inventory && !tempoText?.text && filterItems && inventory.filter((e:any) => e.isSold === false).length === 0 && 
                         <h1>You don&apos;t have any active items! <br /> 
-                        <span>Open the cases</span></h1>
+                        <Link href={"/"}><span>Open the cases</span></Link></h1>
                     }
                 </div>
             </div>

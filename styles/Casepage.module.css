@@ -168,6 +168,7 @@
 }
 .casepage_case #main {
   box-shadow: 0 0 4px 1px gray;
+  height: 200px;
 }
 .casepage_case_result {
   position: absolute;
@@ -177,8 +178,8 @@
   display: grid;
   justify-items: center;
   align-items: center;
-  background-color: black;
   padding-top: 10px;
+  border: 3px solid yellow;
 }
 .casepage_case_result h3 {
   position: absolute;
@@ -301,7 +302,7 @@
   -moz-column-gap: 50px;
        column-gap: 50px;
 }
-.casepage_case #actions #shaped, .casepage_case #actions #shaped2 {
+.casepage_case #actions #shaped, .casepage_case #actions #shaped2, .casepage_case #actions #shaped3 {
   width: 220px;
   height: 60px;
   display: flex;
@@ -310,14 +311,14 @@
   font-size: small;
   font-weight: 500;
 }
-.casepage_case #actions #shaped button, .casepage_case #actions #shaped2 button {
+.casepage_case #actions #shaped button, .casepage_case #actions #shaped2 button, .casepage_case #actions #shaped3 button {
   background-color: purple;
   width: 60px;
   height: 60px;
   position: relative;
   color: white;
 }
-.casepage_case #actions #shaped button:nth-child(1):before, .casepage_case #actions #shaped2 button:nth-child(1):before {
+.casepage_case #actions #shaped button:nth-child(1):before, .casepage_case #actions #shaped2 button:nth-child(1):before, .casepage_case #actions #shaped3 button:nth-child(1):before {
   content: "";
   position: absolute;
   top: 0;
@@ -326,7 +327,7 @@
   border-style: solid;
   border-color: transparent purple transparent transparent;
 }
-.casepage_case #actions #shaped button:nth-child(5):after, .casepage_case #actions #shaped2 button:nth-child(5):after {
+.casepage_case #actions #shaped button:nth-child(5):after, .casepage_case #actions #shaped2 button:nth-child(5):after, .casepage_case #actions #shaped3 button:nth-child(5):after {
   content: "";
   position: absolute;
   top: 0;
@@ -336,11 +337,11 @@
   border-color: transparent purple transparent transparent;
   transform: rotate(180deg);
 }
-.casepage_case #actions #shaped2 {
+.casepage_case #actions #shaped2, .casepage_case #actions #shaped3 {
   position: relative;
   background-color: #e11963;
 }
-.casepage_case #actions #shaped2:before {
+.casepage_case #actions #shaped2:before, .casepage_case #actions #shaped3:before {
   content: "";
   position: absolute;
   top: 0;
@@ -349,7 +350,7 @@
   border-style: solid;
   border-color: transparent #e11963 transparent transparent;
 }
-.casepage_case #actions #shaped2:after {
+.casepage_case #actions #shaped2:after, .casepage_case #actions #shaped3:after {
   content: "";
   position: absolute;
   top: 0;
@@ -358,6 +359,20 @@
   border-style: solid;
   border-color: transparent #e11963 transparent transparent;
   transform: rotate(180deg);
+}
+.casepage_case #actions #shaped3 {
+  background-color: purple;
+  -moz-column-gap: 10px;
+       column-gap: 10px;
+}
+.casepage_case #actions #shaped3 img {
+  filter: invert(100%);
+}
+.casepage_case #actions #shaped3:before {
+  border-color: transparent purple transparent transparent;
+}
+.casepage_case #actions #shaped3:after {
+  border-color: transparent purple transparent transparent;
 }
 .casepage_case #gifts {
   overflow: visible;
@@ -478,6 +493,10 @@
 .casepage #odds #row span {
   color: whitesmoke;
 }
+.casepage #shinewon {
+  -webkit-animation: shine 2s infinite linear;
+          animation: shine 2s infinite linear;
+}
 
 @-webkit-keyframes slide {
   0% {
@@ -526,5 +545,51 @@
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes shine {
+  0% {
+    filter: brightness(1.2);
+  }
+  50% {
+    filter: brightness(2.2);
+  }
+  60% {
+    filter: brightness(1.2);
+  }
+  70% {
+    filter: brightness(2.2);
+  }
+  80% {
+    filter: brightness(1.2);
+  }
+  90% {
+    filter: brightness(2.2);
+  }
+  100% {
+    filter: brightness(1.2);
+  }
+}
+@keyframes shine {
+  0% {
+    filter: brightness(1.2);
+  }
+  50% {
+    filter: brightness(2.2);
+  }
+  60% {
+    filter: brightness(1.2);
+  }
+  70% {
+    filter: brightness(2.2);
+  }
+  80% {
+    filter: brightness(1.2);
+  }
+  90% {
+    filter: brightness(2.2);
+  }
+  100% {
+    filter: brightness(1.2);
   }
 }/*# sourceMappingURL=Casepage.module.css.map */

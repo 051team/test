@@ -156,6 +156,7 @@
         }
         #main{
             box-shadow: 0 0 4px 1px gray;
+            height: 200px;
         }
         &_result{
             position: absolute;
@@ -165,8 +166,9 @@
             display: grid;
             justify-items: center;
             align-items: center;
-            background-color: black;
+            //background-color: black;
             padding-top: 10px;
+            border: 3px solid yellow;
             h3{
                 position: absolute;
                 top:-30px;
@@ -285,7 +287,7 @@
             display: flex;
             justify-content: center;
             column-gap: 50px;
-            #shaped, #shaped2{
+            #shaped, #shaped2, #shaped3{
                 width: 220px;
                 height: 60px;
                 display: flex;
@@ -324,7 +326,7 @@
                     }
                 }
             }
-            #shaped2{
+            #shaped2,#shaped3{
                 position: relative;
                 background-color: #e11963;
                 &:before{
@@ -345,6 +347,19 @@
                     border-style: solid;
                     border-color: transparent #e11963 transparent transparent;
                     transform: rotate(180deg);
+                }
+            }
+            #shaped3{
+                background-color: purple;
+                column-gap: 10px;
+                img{
+                    filter: invert(100%);
+                }
+                &:before{
+                    border-color: transparent purple transparent transparent;
+                }
+                &:after{
+                    border-color: transparent purple transparent transparent;
                 }
             }
         }
@@ -461,6 +476,10 @@
             }
         }
     }
+    #shinewon{
+        animation: shine 2s infinite linear;
+
+    }
 }
 
 @keyframes slide {
@@ -483,5 +502,29 @@
     }
     100%{
         transform: rotate(360deg);
+    }
+}
+
+@keyframes shine {
+    0%{
+        filter: brightness(1.2);
+    }
+    50%{
+        filter: brightness(2.2);
+    }
+    60%{
+        filter: brightness(1.2);
+    }
+    70%{
+        filter: brightness(2.2);
+    }
+    80%{
+        filter: brightness(1.2);
+    }
+    90%{
+        filter: brightness(2.2);
+    }
+    100%{
+        filter: brightness(1.2);
     }
 }

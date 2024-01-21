@@ -160,6 +160,10 @@
   padding: 5px 0;
   width: 1400px;
   position: relative;
+  position: relative;
+  left: calc((100vw - 1400px) / 2);
+  background-image: linear-gradient(to left, #121212, #080b10);
+  border-radius: 10px;
 }
 .home_navbar_tabs_kernel {
   width: 1400px;
