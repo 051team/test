@@ -279,6 +279,23 @@
   font-weight: 500;
   line-height: 12px;
 }
+.home #widget {
+  position: absolute;
+  bottom: 100px;
+  background-color: #ffc107;
+  box-shadow: 0 0 4px 2px black;
+  width: 300px;
+  height: 75px;
+  right: 0;
+  z-index: 999999;
+  -webkit-animation: widget 2s infinite linear;
+          animation: widget 2s infinite linear;
+  display: flex;
+  justify-content: center;
+  -moz-column-gap: 20px;
+       column-gap: 20px;
+  align-items: center;
+}
 .home_cases {
   display: grid;
   justify-items: center;
@@ -509,5 +526,27 @@
   100% {
     filter: brightness(1.1);
     top: 0;
+  }
+}
+@-webkit-keyframes widget {
+  0% {
+    right: -300px;
+  }
+  30% {
+    right: 0;
+  }
+  100% {
+    right: 0;
+  }
+}
+@keyframes widget {
+  0% {
+    right: -300px;
+  }
+  30% {
+    right: 0;
+  }
+  100% {
+    right: 0;
   }
 }/*# sourceMappingURL=Home.module.css.map */

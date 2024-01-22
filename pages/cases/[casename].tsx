@@ -8,7 +8,7 @@ import { useEffect, useState,useRef } from "react";
 import { useRouter } from 'next/router';
 import Modal from "../../components/modal";
 import { useDispatch,useSelector } from "react-redux";
-import { note_balanceChange, note_ownDrop, note_universal_modal } from "../../redux/loginSlice";
+import { note_balanceChange, note_ownDrop, note_TotalCasesOpened, note_universal_modal } from "../../redux/loginSlice";
 import { colorGenerator, formatter, generateRandomNumber, shuffleArray } from "../../tools";
 import Universal_modal from "../../components/universal_modal";
 import Slot from "../../components/sliderslot";
@@ -26,6 +26,7 @@ const Case_page = () => {
     const balance = useSelector((state:any) => state.loginSlice.balance);
     const [indexShift, setIndexShift] = useState<string>("0px");
     const universalModal = useSelector((state:any) => state.loginSlice.universal_modal);
+    const totalCasesOpened = useSelector((state:any)=> state.loginSlice.totalCasesOpened);
 
     const dispatch = useDispatch();
 
@@ -82,6 +83,7 @@ const Case_page = () => {
                 setTempoText(null);
                 setIndexShift("0px");
                 dispatch(note_ownDrop(resJson.lucky));
+                dispatch(note_TotalCasesOpened(totalCasesOpened+1))
             }, 11000);
         }else{
             try {

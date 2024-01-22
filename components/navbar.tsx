@@ -20,7 +20,7 @@ type User = {
     name?: string | null | undefined;
     email?: string | null | undefined;
     image?: string | null | undefined;
-    id: string; // Make sure 'id' is defined
+    id: string;
   };
 
 const Navbar = () => {
@@ -40,7 +40,7 @@ const Navbar = () => {
     const resultText = (searchResultNo && searchResultNo !== 0) ? searchResultNo + " items found!" : (searchResultNo === 0) ? "No items found" : "";
     const activeUserCount = useSelector((state:any) => state.loginSlice.activeUserCount);
 
-
+    //Updated user count regularly
     useEffect(()=>{
         const updateUserCount = async () => {
             const response = await fetch(`/api/user?count=${true}`);
@@ -60,6 +60,7 @@ const Navbar = () => {
         }
     },[])
 
+    // fetch user balance and handle login
     useEffect(()=>{
         const fetch_create_user = async () => {
             try {
@@ -86,6 +87,7 @@ const Navbar = () => {
         }
     },[session,bChange]);
 
+    //handle outside modal click
     useEffect(()=>{
         const handleOutsideClick = (e:any) => {
             if (!core.current?.contains(e.target) && e.target.tagName !== 'BUTTON') {
@@ -95,6 +97,7 @@ const Navbar = () => {
         window.addEventListener("click", handleOutsideClick)
     },[]);
 
+    //update total cases opened
     useEffect( ()=>{
         const fetchTotalCaseOpened =async () => {
             try {
@@ -266,6 +269,9 @@ const Navbar = () => {
                     </div>
                 </div>
             </div>
+        </div>
+        <div id={h.widget}>
+            <Image src={"/notification.png"} alt="notification" width={40} height={40} />  Message to the user
         </div>
     </>
      );
