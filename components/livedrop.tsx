@@ -41,7 +41,7 @@ const Livedrop = () => {
                         const resJson = await response.json();
                         const lastDrop = resJson.lastDrop;
                         setDrops((previous:any)=>{
-                            const updatedDrops = [lastDrop, ...previous];
+                            const updatedDrops = [lastDrop, ...previous.slice(0,previous.length-1)];
                             return updatedDrops;
                         })
                         setDropId("drop");
