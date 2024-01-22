@@ -270,9 +270,6 @@ const Navbar = () => {
                 </div>
             </div>
         </div>
-        <div id={h.widget}>
-            <Image src={"/notification.png"} alt="notification" width={40} height={40} />  Message to the user
-        </div>
     </>
      );
 }

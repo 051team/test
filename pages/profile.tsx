@@ -7,6 +7,7 @@ import { formatter } from "../tools";
 import { useEffect, useRef, useState } from "react";
 import { note_balanceChange } from "../redux/loginSlice";
 import Link from "next/link";
+import Notification from "../components/notifybox";
 
 const Profile = () => {
     const { data: session } = useSession();
@@ -202,6 +203,7 @@ const Profile = () => {
                     }
                 </div>
             </div>
+            <Notification />
         </div>
      );
 }

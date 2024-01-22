@@ -8,12 +8,14 @@ import Link from "next/link";
 import Modal from "./modal";
 import Cases from "./cases";
 import Navbar from "./navbar";
+import Notification from "./notifybox";
 
 const Homie = () => {
     return ( 
         <div className={h.home}>
             <Navbar />
             <Cases />
+            <Notification />
         </div>
      );
 }

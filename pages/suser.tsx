@@ -29,6 +29,7 @@ const Super_user = () => {
     const caseCategory = useRef<HTMLSelectElement>(null);
     const caseImage = useRef<HTMLInputElement>(null);
     const casePrice = useRef<HTMLInputElement>(null);
+    const caseIndex = useRef<HTMLInputElement>(null);
 
 
     const [gifts, setGifts] = useState
@@ -153,7 +154,6 @@ const Super_user = () => {
         }
     }
 
-
     const handleDeleteCoupon = async (coupon:any) => {
         if(confirm(`Are you sure to delete the coupon titled ${coupon.couponName} ?`)){
             setFeedback({message:"Deleting coupon...",color:"gray"})
@@ -215,8 +215,6 @@ const Super_user = () => {
 
 
     const containerName = process.env.NEXT_PUBLIC_CONTAINER_NAME!;
-    const sasToken = process.env.NEXT_PUBLIC_STORAGESASTOKEN;
-    const storageAccountName = process.env.NEXT_PUBLIC_STORAGERESOURCENAME;
 
     const uploadFileToBlob = async (file: File | null, newFileName: string) => {
         if (!file) {
@@ -268,6 +266,9 @@ const Super_user = () => {
           if (!casePrice.current?.value) {
             warnings.push("Please enter case price!");
           }
+          if (!caseIndex.current?.value) {
+            warnings.push("Please enter case index!");
+          }
           if(!allGiftshaveImage || !gifts.canAddGift){
             warnings.push("Please check gift fields");
           }
@@ -276,7 +277,7 @@ const Super_user = () => {
           }
           const warningMessage = warnings.join('\n');
         
-        const ready = [caseName,caseCategory,casePrice].every((rf) => rf.current?.value) && caseImage.current?.files![0] 
+        const ready = [caseName,caseCategory,casePrice,caseIndex].every((rf) => rf.current?.value) && caseImage.current?.files![0] 
                         && gifts.canAddGift && totalProbability === 100000 && allGiftshaveImage;
         
         if(!ready){
@@ -329,6 +330,7 @@ const Super_user = () => {
             caseImageURL: caseImageURL,
             casePrice:parseFloat(casePrice.current?.value!),
             caseGifts:gifts.addedgifts,
+            caseIndex:parseInt(caseIndex.current?.value as string)
         }
         try {
             const response = await fetch("/api/createcase",{
@@ -500,6 +502,7 @@ const Super_user = () => {
                                     </select>
                                 </div>
                                 <button id={s.addgift} onClick={handleAddGift}>Add Gift</button>
+                                <input id={s.caseindex} type="number" min={1} max={999} ref={caseIndex} placeholder="Case index..."/>
                             </div>
                             <div id={s.gifts}>
                                 <div id={s.titles}>
@@ -548,6 +551,7 @@ const Super_user = () => {
                                             <div id={s.casevalues}>
                                                 <p style={{color:"silver"}}>{c.caseName}</p>
                                                 <p>{c.caseCategory}</p>
+                                                <p>{c.caseIndex}</p>
                                                 <p style={{color:"lightgreen"}}>${c.casePrice}</p>
                                                 <p style={{color:"yellow"}}>{c.caseGifts.length}</p>
                                                 <button>

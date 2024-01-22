@@ -82,6 +82,27 @@
   font-size: large;
 }
 
+.widget {
+  position: fixed;
+  bottom: 100px;
+  right: 0;
+  z-index: 999999;
+}
+.widget_kernel {
+  position: relative;
+  background-color: #ffc107;
+  box-shadow: 0 0 4px 2px black;
+  width: 300px;
+  height: 60px;
+  -webkit-animation: widget 2s infinite linear;
+          animation: widget 2s infinite linear;
+  display: flex;
+  justify-content: center;
+  -moz-column-gap: 20px;
+       column-gap: 20px;
+  align-items: center;
+}
+
 @-webkit-keyframes shine {
   0% {
     filter: brightness(1);
@@ -187,5 +208,27 @@
   }
   87% {
     box-shadow: 0.2em -0.2em 0 0 currentcolor;
+  }
+}
+@-webkit-keyframes widget {
+  0% {
+    right: -300px;
+  }
+  30% {
+    right: 0;
+  }
+  100% {
+    right: 0;
+  }
+}
+@keyframes widget {
+  0% {
+    right: -300px;
+  }
+  30% {
+    right: 0;
+  }
+  100% {
+    right: 0;
   }
 }/*# sourceMappingURL=Modal.module.css.map */

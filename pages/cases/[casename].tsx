@@ -12,6 +12,7 @@ import { note_balanceChange, note_ownDrop, note_TotalCasesOpened, note_universal
 import { colorGenerator, formatter, generateRandomNumber, shuffleArray } from "../../tools";
 import Universal_modal from "../../components/universal_modal";
 import Slot from "../../components/sliderslot";
+import Notification from "../../components/notifybox";
 
 const Case_page = () => {
     const { data: session } = useSession();
@@ -429,6 +430,7 @@ const Case_page = () => {
                 </div>
                 </Universal_modal>
             }
+            <Notification />
             
         </div>
         </>

@@ -6,7 +6,7 @@
   background-image: radial-gradient(closest-side at 50% 15%, #1c0c16 0%, #070707 100%);
 }
 .panel_kernel {
-  width: 800px;
+  width: 1200px;
   min-height: 300px;
   position: relative;
   padding-top: 30px;
@@ -247,13 +247,19 @@
 }
 .panel_kernel #coupons #createcase #caseoptions #addgift {
   width: 200px;
-  height: 90px;
+  height: 45px;
   position: absolute;
   right: 25px;
   top: 30px;
   background-color: darkorange;
   color: black;
   font-weight: 500;
+}
+.panel_kernel #coupons #createcase #caseoptions #caseindex {
+  position: absolute;
+  top: 85px;
+  right: 25px;
+  width: 200px;
 }
 .panel_kernel #coupons #createcase #caseoptions input, .panel_kernel #coupons #createcase #caseoptions select {
   height: 30px;
@@ -358,7 +364,7 @@
 }
 .panel_kernel #coupons #listcases #titles {
   display: grid;
-  grid-template-columns: 1.3fr 1fr 1fr 80px 50px 50px;
+  grid-template-columns: 1.3fr 1fr 1fr 80px 80px 50px 50px;
   padding-bottom: 10px;
 }
 .panel_kernel #coupons #listcases #allcases {
@@ -373,7 +379,7 @@
 }
 .panel_kernel #coupons #listcases #allcases #eachcase #casevalues {
   display: grid;
-  grid-template-columns: 1.3fr 1fr 1fr 80px 50px 50px;
+  grid-template-columns: 1.3fr 1fr 1fr 80px 80px 50px 50px;
   padding: 5px 0;
   font-size: 14px;
   font-weight: 500;

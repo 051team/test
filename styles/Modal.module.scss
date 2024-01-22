@@ -74,6 +74,25 @@
   }
 }
 
+.widget{
+  position: fixed;
+  bottom: 100px;
+  right: 0;
+  z-index: 999999;
+  &_kernel{
+    position: relative;
+    background-color: #ffc107;
+    box-shadow: 0 0 4px 2px black;
+    width: 300px;
+    height: 60px;
+    animation: widget 2s infinite linear;
+    display: flex;
+    justify-content: center;
+    column-gap: 20px;
+    align-items: center;
+  }
+}
+
 
 @keyframes shine {
     0%{filter:brightness(1);}
@@ -127,4 +146,14 @@
     }
   }
 
-  
+  @keyframes widget {
+    0%{
+        right: -300px;
+    }
+    30%{
+        right: 0;
+    }
+    100%{
+        right: 0;
+    }
+  }
