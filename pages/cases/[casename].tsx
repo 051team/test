@@ -8,7 +8,7 @@ import { useEffect, useState,useRef } from "react";
 import { useRouter } from 'next/router';
 import Modal from "../../components/modal";
 import { useDispatch,useSelector } from "react-redux";
-import { note_balanceChange, note_universal_modal } from "../../redux/loginSlice";
+import { note_balanceChange, note_ownDrop, note_universal_modal } from "../../redux/loginSlice";
 import { colorGenerator, formatter, generateRandomNumber, shuffleArray } from "../../tools";
 import Universal_modal from "../../components/universal_modal";
 import Slot from "../../components/sliderslot";
@@ -73,15 +73,15 @@ const Case_page = () => {
                 setIndexShift(`${-randomShift}px`);
             }, 1000);
             setTimeout( async () => {
-/*                 const responseLiveDrop = await fetch("/api/addtolivedrop",{
+                const responseLiveDrop = await fetch("/api/addtolivedrop",{
                     method:"POST",
                     body:JSON.stringify(resJson.lucky)
                 })
-                console.log(responseLiveDrop); */
             }, 7000);
             setTimeout(() => {
                 setTempoText(null);
                 setIndexShift("0px");
+                dispatch(note_ownDrop(resJson.lucky));
             }, 11000);
         }else{
             try {

@@ -4,63 +4,79 @@ import { useEffect, useState,useRef, useCallback } from "react";
 import _051 from "../public/051.jpg";
 import { useSession } from 'next-auth/react';
 import { colorGenerator, compareObjects, formatter } from "../tools";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { note_ownDrop } from "../redux/loginSlice";
 
 
 const Livedrop = () => {
     const [dropId, setDropId] = useState("");
     const [drops, setDrops] = useState<any>(null);   
-    const fetchDrops = async () => {
-        try {
-            const response = await fetch("/api/livedrops");
-            if(!response.ok){alert("Fetch opearation failed!"); return}
-            if(response.status === 200){
-                const allDrops = await response.json();
-                setDrops(allDrops);
-            }else{
-                console.log(response.status, response)
-            }
-        } catch (error) {
-            console.log(error)
+    const ownDrop = useSelector((state:any)=> state.loginSlice.ownDrop);
+    const dispatch = useDispatch();
+
+    useEffect(()=>{
+        if(ownDrop){
+            setDrops((previous:any)=>{
+                const updatedDrops = [ownDrop, ...previous.slice(0,previous.length-1)];
+                return updatedDrops;
+            })
+            setDropId("drop");
+            dispatch(note_ownDrop(null));
         }
-    }
+    },[ownDrop])
+
     // initial fetch to populate livedrop
     useEffect(()=>{
-        if(!drops){
-            fetchDrops();
+        const fetchDrops = async () => {
+            try {
+                const response = await fetch("/api/livedrops");
+                if(!response.ok){alert("Fetch opearation failed!"); return}
+                if(response.status === 200){
+                    const allDrops = await response.json();
+                    setDrops(allDrops);
+                }else{
+                    console.log(response.status, response)
+                }
+            } catch (error) {
+                console.log(error)
+            }
         }
+        fetchDrops();
     },[])
 
-        // bring latest drop
-        const [intervalSpan,setSpan] = useState(5000);
-        useEffect(()=>{
-            const fetchLastDrop = async () => {
-                try {
-                    const response = await fetch("/api/lastdrop");
-                    if(!response.ok){alert("Fetch opearation failed!"); return}
-                    if(response.status === 200){
-                        const resJson = await response.json();
-                        const lastDrop = resJson.lastDrop;
-                        setDrops((previous:any)=>{
-                            const updatedDrops = [lastDrop, ...previous.slice(0,previous.length-1)];
-                            return updatedDrops;
-                        })
-                        setDropId("drop");
-                        setSpan(3000 + Math.floor(Math.random()*4000));
-                    }else{
-                        console.log(response.status, response)
-                    }
-                } catch (error) {
-                    console.log(error)
+    // bring latest drop
+    const [intervalSpan,setSpan] = useState(5000);
+    useEffect(()=>{
+        const fetchLastDrop = async () => {
+            try {
+                const response = await fetch("/api/lastdrop");
+                if(!response.ok){alert("Fetch opearation failed!"); return}
+                if(response.status === 200){
+                    const resJson = await response.json();
+                    const lastDrop = resJson.lastDrop;
+                    setDrops((previous:any)=>{
+                        const updatedDrops = [lastDrop, ...previous.slice(0,previous.length-1)];
+                        return updatedDrops;
+                    })
+                    setDropId("drop");
+                    setSpan(3000 + Math.floor(Math.random()*4000));
+                }else{
+                    console.log(response.status, response)
                 }
+            } catch (error) {
+                console.log(error)
             }
-            const interval = setInterval(()=>{
+        }
+        const interval = setInterval(()=>{
+            if(!ownDrop){
                 fetchLastDrop();
-            },intervalSpan)
-            return () => {
-                clearInterval(interval);
             }
-        },[intervalSpan])
-
+        },intervalSpan)
+        return () => {
+            clearInterval(interval);
+        }
+    },[intervalSpan,ownDrop])
 
 
     useEffect(()=>{
