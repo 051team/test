@@ -73,11 +73,11 @@ const Case_page = () => {
                 setIndexShift(`${-randomShift}px`);
             }, 1000);
             setTimeout( async () => {
-                const responseLiveDrop = await fetch("/api/addtolivedrop",{
+/*                 const responseLiveDrop = await fetch("/api/addtolivedrop",{
                     method:"POST",
                     body:JSON.stringify(resJson.lucky)
                 })
-                console.log(responseLiveDrop);
+                console.log(responseLiveDrop); */
             }, 7000);
             setTimeout(() => {
                 setTempoText(null);

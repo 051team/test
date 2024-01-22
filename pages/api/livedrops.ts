@@ -15,8 +15,11 @@ export default async function handler(
     const livedrop = data_base.collection('livedrop');
 
     const drops = await livedrop.find().toArray();
-    const readytoSend = drops.sort((a:any,b:any)=> b.dropTime - a.dropTime).slice(0,30);
-    res.status(200).json(readytoSend);
+    const randomDrops = await livedrop.aggregate([{ $sample: { size: 30 } }]).toArray();
+
+   // const readytoSend = drops.sort((a:any,b:any)=> b.dropTime - a.dropTime).slice(0,30);
+    console.log("Sent drops")
+    res.status(200).json(randomDrops);
 
   } catch (error) {
     console.log(error);

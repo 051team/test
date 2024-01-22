@@ -8,26 +8,60 @@ import { colorGenerator, compareObjects, formatter } from "../tools";
 
 const Livedrop = () => {
     const [dropId, setDropId] = useState("");
-    const [drops, setDrops] = useState<any[]>();   
-
+    const [drops, setDrops] = useState<any>(null);   
+    const fetchDrops = async () => {
+        try {
+            const response = await fetch("/api/livedrops");
+            if(!response.ok){alert("Fetch opearation failed!"); return}
+            if(response.status === 200){
+                const allDrops = await response.json();
+                setDrops(allDrops);
+            }else{
+                console.log(response.status, response)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
     // initial fetch to populate livedrop
     useEffect(()=>{
-        const fetchDrops = async () => {
-            try {
-                const response = await fetch("/api/livedrops");
-                if(!response.ok){alert("Fetch opearation failed!"); return}
-                if(response.status === 200){
-                    const allDrops = await response.json();
-                    setDrops(allDrops);
-                }else{
-                    console.log(response.status, response)
-                }
-            } catch (error) {
-                console.log(error)
-            }
+        if(!drops){
+            fetchDrops();
         }
-        fetchDrops();
     },[])
+
+        // bring latest drop
+        const [intervalSpan,setSpan] = useState(5000);
+        useEffect(()=>{
+            const fetchLastDrop = async () => {
+                try {
+                    const response = await fetch("/api/lastdrop");
+                    if(!response.ok){alert("Fetch opearation failed!"); return}
+                    if(response.status === 200){
+                        const resJson = await response.json();
+                        const lastDrop = resJson.lastDrop;
+                        setDrops((previous:any)=>{
+                            const updatedDrops = [lastDrop, ...previous];
+                            return updatedDrops;
+                        })
+                        setDropId("drop");
+                        setSpan(3000 + Math.floor(Math.random()*4000));
+                    }else{
+                        console.log(response.status, response)
+                    }
+                } catch (error) {
+                    console.log(error)
+                }
+            }
+            const interval = setInterval(()=>{
+                fetchLastDrop();
+            },intervalSpan)
+            return () => {
+                clearInterval(interval);
+            }
+        },[intervalSpan])
+
+
 
     useEffect(()=>{
         if(dropId === "drop"){
@@ -42,7 +76,7 @@ const Livedrop = () => {
             <button key={99} id={h.usual} style={{zIndex:99}}>
                     <Image priority src={"/assets/live.png"} alt={"051 logo"} width={60} height={60} style={{filter:"brightness(1.9)"}} />
                     <div id={h.text} style={{position:"relative",top:"-15px", color:"darkorange"}}>
-                        <span style={{fontWeight:"bolder"}}>LIVEDROP</span>
+                        <span style={{fontWeight:"bolder"}}>LIVEDROP {drops && drops.length}</span>
                     </div>
             </button>
             {

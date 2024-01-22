@@ -14,13 +14,10 @@ export default async function handler(
     const data_base = client.db('casadepapel');
     const livedrop = data_base.collection('livedrop');
 
-    const drops = await livedrop.find().toArray();
-    if(drops){
-        const randomIndex = Math.floor(Math.random()*drops.length);
-        const lastDrop = drops[randomIndex];
-        console.log(lastDrop);
+    const randomDrop = await livedrop.aggregate([{ $sample: { size: 1 } }]).toArray();
+    if(randomDrop){
+      res.status(200).json({lastDrop:randomDrop[0]});
     }
-    res.status(200).json({message:"last drop route"});
 
   } catch (error) {
     console.log(error);

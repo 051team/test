@@ -27,7 +27,6 @@ export default async function handler(
   } 
 
 
-  console.log("TEST NUMBER is : ",activeUsers.length)
   const user_from_session = JSON.parse(req.body).user;
   const name = user_from_session.name;
   const email = user_from_session.email;

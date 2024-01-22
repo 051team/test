@@ -38,8 +38,8 @@ const Navbar = () => {
     const search = useRef<HTMLInputElement>(null);
     const searchResultNo = useSelector((state:any)=> state.loginSlice.searchResultNo);
     const resultText = (searchResultNo && searchResultNo !== 0) ? searchResultNo + " items found!" : (searchResultNo === 0) ? "No items found" : "";
-
     const activeUserCount = useSelector((state:any) => state.loginSlice.activeUserCount);
+
 
     useEffect(()=>{
         const updateUserCount = async () => {
@@ -49,7 +49,15 @@ const Navbar = () => {
                 dispatch(note_activeUserCount(resJson.activeUserCount))
             }
         }
-        updateUserCount();
+        if(!activeUserCount){
+            updateUserCount();
+        }
+        const interval = setInterval(()=>{
+            updateUserCount();
+        },5000);
+        return () => {
+            clearInterval(interval)
+        }
     },[])
 
     useEffect(()=>{
@@ -60,7 +68,6 @@ const Navbar = () => {
                     body:JSON.stringify(session)
                 });
                 const resJson = await response.json();
-                console.log(resJson)
                 const userBalance = resJson.balance;
                 const activeUserCount = resJson.activeUserCount;
                 if( resJson && userBalance){
@@ -105,7 +112,9 @@ const Navbar = () => {
                 console.log("Sorun var!", error)
             }
         }
-        fetchTotalCaseOpened();
+        if(!totalCasesOpened){
+            fetchTotalCaseOpened();
+        }
     },[])
 
 

@@ -7,7 +7,7 @@ import { useSelector,useDispatch } from "react-redux";
 import { note_searchResultNo } from "../redux/loginSlice";
 
 const Cases = () => {
-    const [allCases, setAllCases] = useState<any[] | null>();
+    const [allCases, setAllCases] = useState<any[] | null>(null);
     const searchBy = useSelector((state:any)=>state.loginSlice.searchBy);
     const searchResultNo = useSelector((state:any)=> state.loginSlice.searchResultNo);
     const dispatch = useDispatch();
@@ -34,8 +34,10 @@ const Cases = () => {
                     try {
                         const resJson = await response.json();
                         const cases = resJson.data;
-                        setAllCases(cases);
-                        console.log(cases);
+                        if(allCases === null){
+                            setAllCases(cases);
+                        }
+                        console.log(cases)
                     } catch (error) {
                         console.log("Response object not JSON",error)
                     }
@@ -43,9 +45,13 @@ const Cases = () => {
                     console.log("Fetch request failed...",error)
                 }
     }
+
     useEffect(()=>{
-        handleFetchCases();
+        if(!allCases){
+            handleFetchCases();
+        }
     },[])
+
     return ( 
         <div className={h.home_cases}>
         <div className={h.home_cases_kernel}>
