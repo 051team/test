@@ -477,7 +477,7 @@
         }
     }
     #shinewon{
-        animation: shine 2s infinite linear;
+        animation: shine 1s infinite linear;
 
     }
 }
@@ -509,22 +509,7 @@
     0%{
         filter: brightness(1.2);
     }
-    50%{
-        filter: brightness(2.2);
-    }
-    60%{
-        filter: brightness(1.2);
-    }
-    70%{
-        filter: brightness(2.2);
-    }
-    80%{
-        filter: brightness(1.2);
-    }
-    90%{
-        filter: brightness(2.2);
-    }
     100%{
-        filter: brightness(1.2);
+        filter: brightness(2.2);
     }
 }
