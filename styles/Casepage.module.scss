@@ -52,13 +52,13 @@
                 position: absolute;
                 width: 500px;
                 height: 700px;
-                background-image:conic-gradient(transparent,transparent,transparent,purple);
+                background-image:conic-gradient(transparent,transparent,transparent,#670606);
                 animation: spin 4s linear infinite;
                 filter: brightness(2);
                 border-radius: 10px;
             }
             &:after{
-                background-image:conic-gradient(transparent,transparent,transparent,green);
+                background-image:conic-gradient(transparent,transparent,transparent,#c9561b);
                 animation-delay: -2s;
             }
         }
@@ -508,7 +508,7 @@
         }
     }
     #shinewon{
-        animation: shine 30s infinite linear;
+        animation: shine 2.5s infinite linear;
 
     }
 }
@@ -537,10 +537,10 @@
 }
 
 @keyframes shine {
-    0%{
+    0%,100%{
         filter: brightness(1.2);
     }
-    100%{
+    50%{
         filter: brightness(2.2);
     }
 }

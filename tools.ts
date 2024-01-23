@@ -21,23 +21,25 @@ export const formatter = (price: number): string => {
 
 export  const colorGenerator = (price:string | number) => {
     price = parseFloat(price as string);
-    if(price < 11){
-        return "linear-gradient(rgb(5 5 18), #0b1649)"
+    if(price < 6){
+        return "linear-gradient(rgb(36 37 43), rgb(16 16 16))"
     }
-    if(price > 10 && price < 61 ){
-      return "linear-gradient(rgb(16 2 16), #2b0741)"
+    if(price > 5 && price < 21 ){
+      return "linear-gradient(rgb(17 69 57), rgb(7, 47, 28))"
     }
-    if(price > 60 && price < 101 ){
-      return "linear-gradient(rgb(3 8 3), #072f1c)"
+    if(price > 21 && price < 61 ){
+      return "linear-gradient(rgb(18 47 85), rgb(19 18 97))"
     }
-    if(price > 100 && price < 501 ){
-      return "linear-gradient(rgb(28 17 2), #a37610)"
+    if(price > 61 && price < 101 ){
+      return "linear-gradient(#200435, #490b42)"
     }
-    if(price > 500 ){
-      return "linear-gradient(rgb(8 1 1), #4b051f)"
+    if(price > 101 && price < 401 ){
+      return "linear-gradient(rgb(207 159 11)"
+    }
+    if(price > 400 ){
+      return "linear-gradient(rgb(129 7 7), rgb(77 2 2))"
     }
 }
-
 
 
 export const  shuffleArray = (array:any[]) => {
