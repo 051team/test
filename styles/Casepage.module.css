@@ -104,7 +104,7 @@
   left: calc(50% + 3px);
   height: 205px;
 }
-.casepage_case_kernel_spinner {
+.casepage_case_kernel_spinner, .casepage_case_kernel_verticalspinner {
   display: flex;
   -moz-column-gap: 2px;
        column-gap: 2px;
@@ -114,7 +114,7 @@
   width: fit-content;
   position: relative;
 }
-.casepage_case_kernel_spinner button {
+.casepage_case_kernel_spinner button, .casepage_case_kernel_verticalspinner button {
   width: 200px;
   height: 200px !important;
   padding-top: 20px;
@@ -124,24 +124,24 @@
   filter: brightness(1.1);
   position: relative;
 }
-.casepage_case_kernel_spinner button img {
+.casepage_case_kernel_spinner button img, .casepage_case_kernel_verticalspinner button img {
   filter: drop-shadow(0 0 2px gray);
 }
-.casepage_case_kernel_spinner button:hover {
+.casepage_case_kernel_spinner button:hover, .casepage_case_kernel_verticalspinner button:hover {
   filter: brightness(1.3);
 }
-.casepage_case_kernel_spinner button #text {
+.casepage_case_kernel_spinner button #text, .casepage_case_kernel_verticalspinner button #text {
   display: grid;
   position: relative;
   top: -20px;
   color: whitesmoke !important;
 }
-.casepage_case_kernel_spinner button #text span {
+.casepage_case_kernel_spinner button #text span, .casepage_case_kernel_verticalspinner button #text span {
   font-size: 12px;
   font-weight: 500;
   line-height: 15px;
 }
-.casepage_case_kernel_spinner button #luck {
+.casepage_case_kernel_spinner button #luck, .casepage_case_kernel_verticalspinner button #luck {
   position: absolute;
   right: 10px;
   top: 5px;
@@ -152,23 +152,58 @@
   font-weight: 500;
   display: grid;
 }
-.casepage_case_kernel_spinner #loading {
+.casepage_case_kernel_spinner #loading, .casepage_case_kernel_verticalspinner #loading {
   background-image: linear-gradient(to right, #0a0a0a 10%, #333333 55%, #0a0a0a 100%);
   background-size: 200% 100%;
   -webkit-animation: gradientMovement 1s linear infinite;
           animation: gradientMovement 1s linear infinite;
 }
-.casepage_case_kernel_spinner #loading:hover {
+.casepage_case_kernel_spinner #loading:hover, .casepage_case_kernel_verticalspinner #loading:hover {
   box-shadow: none;
+}
+.casepage_case_kernel_verticalspinner {
+  display: grid;
+  justify-items: flex-start;
 }
 .casepage_case_kernel #slide {
   position: relative;
   -webkit-animation: slide 10s 1 forwards;
           animation: slide 10s 1 forwards;
 }
+.casepage_case_kernel #slidevertical {
+  position: relative;
+  -webkit-animation: slidevertical 10s 1 forwards ease;
+          animation: slidevertical 10s 1 forwards ease;
+}
 .casepage_case #main {
   box-shadow: 0 0 4px 1px gray;
   height: 200px;
+}
+.casepage_case #kernelvertical {
+  display: flex;
+  justify-items: center;
+  -moz-column-gap: 10px;
+       column-gap: 10px;
+  align-items: flex-start;
+  box-shadow: 0 0 4px 1px gray;
+  height: 200px;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  padding: 0 50px;
+  position: relative;
+}
+.casepage_case #kernelvertical #leftindex, .casepage_case #kernelvertical #rightindex {
+  position: absolute;
+  left: 0;
+  display: grid;
+  align-self: center;
+  color: orange;
+  font-size: x-large;
+}
+.casepage_case #kernelvertical #rightindex {
+  right: 0;
+  left: unset;
 }
 .casepage_case_result {
   position: absolute;
@@ -301,6 +336,7 @@
   justify-content: center;
   -moz-column-gap: 50px;
        column-gap: 50px;
+  margin-bottom: 60px;
 }
 .casepage_case #actions #shaped, .casepage_case #actions #shaped2, .casepage_case #actions #shaped3 {
   width: 220px;
@@ -494,8 +530,8 @@
   color: whitesmoke;
 }
 .casepage #shinewon {
-  -webkit-animation: shine 1s infinite linear;
-          animation: shine 1s infinite linear;
+  -webkit-animation: shine 30s infinite linear;
+          animation: shine 30s infinite linear;
 }
 
 @-webkit-keyframes slide {
@@ -503,7 +539,7 @@
     left: 0;
   }
   100% {
-    left: -18297px;
+    left: -18000px;
   }
 }
 
@@ -512,7 +548,7 @@
     left: 0;
   }
   100% {
-    left: -18297px;
+    left: -18000px;
   }
 }
 @-webkit-keyframes gradientMovement {
@@ -561,5 +597,21 @@
   }
   100% {
     filter: brightness(2.2);
+  }
+}
+@-webkit-keyframes slidevertical {
+  0% {
+    top: 0;
+  }
+  100% {
+    top: -8000px;
+  }
+}
+@keyframes slidevertical {
+  0% {
+    top: 0;
+  }
+  100% {
+    top: -8000px;
   }
 }/*# sourceMappingURL=Casepage.module.css.map */

@@ -4,7 +4,7 @@ import _051 from "../../public/051.jpg";
 import { useEffect, useState,useRef } from "react";
 import { colorGenerator, formatter, generateRandomNumber, shuffleArray } from "./../tools";
 
-const Slot = ({id,e,i,caseInfo,won,sliderOffset}:any) => {
+const Slot = ({id,e,i,caseInfo,won,sliderOffset,vertical, bingoposition}:any) => {
     let startRate = 2;
     let minRate = 0.2;
     let step = 0.1;
@@ -37,16 +37,16 @@ const Slot = ({id,e,i,caseInfo,won,sliderOffset}:any) => {
     <button id={id} key={i} ref={currentSlot}
         style={{
         backgroundImage: 
-        (i !== 94 ) ? colorGenerator(caseInfo.caseGifts.find((gf:any) => gf.code === e.code).giftPrice) :
-        (i === 94 && won) ? colorGenerator(won.giftPrice)
-        : "none"
+        (i !== bingoposition ) ? colorGenerator(caseInfo.caseGifts.find((gf:any) => gf.code === e.code).giftPrice) :
+        (i === bingoposition && won) ? colorGenerator(won.giftPrice)
+        : colorGenerator(caseInfo.caseGifts.find((gf:any) => gf.code === e.code).giftPrice)
     }}
     >
-        <Image src={(i === 94 && won) ? won.giftURL : caseInfo.caseGifts.find((gf:any) => gf.code === e.code).giftURL}
+        <Image src={(i === bingoposition && won) ? won.giftURL : caseInfo.caseGifts.find((gf:any) => gf.code === e.code).giftURL}
             alt={"051 logo"} width={90} height={100} priority />
         <div id={c.text}>
-            <span>{(won && i === 94) ? won.giftName : caseInfo.caseGifts.find((gf:any) => gf.code === e.code).giftName}</span>
-            <span></span>
+            <span>{(won && i === bingoposition) ? won.giftName : caseInfo.caseGifts.find((gf:any) => gf.code === e.code).giftName}</span>
+            <span>{i}</span>
         </div>
     </button>
      );

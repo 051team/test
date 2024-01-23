@@ -95,12 +95,11 @@
                 top:-2px; left:calc(50% + 3px);
                 height: 205px;
             }
-            &_spinner{
+            &_spinner, &_verticalspinner{
                 display: flex;
                 column-gap: 2px;
                 justify-items: flex-start;
                 width: fit-content;                
-                //transition: left 6s cubic-bezier(0.55, 1, 1, 1);
                 position: relative;
                 button{
                     width: 200px;
@@ -149,14 +148,45 @@
                     }
                 }
             }
+            &_verticalspinner{
+                display: grid;
+                justify-items: flex-start;
+            }
             #slide{
                 position: relative;
                 animation: slide 10s 1 forwards;
+            }
+            #slidevertical{
+                position: relative;
+                animation: slidevertical 10s 1 forwards ease;
             }
         }
         #main{
             box-shadow: 0 0 4px 1px gray;
             height: 200px;
+        }
+        #kernelvertical{
+            display: flex;
+            justify-items: center;
+            column-gap: 10px;
+            align-items: flex-start;
+            box-shadow: 0 0 4px 1px gray;
+            height: 200px;
+            width: fit-content;
+            padding: 0 50px;
+            position: relative;
+            #leftindex, #rightindex{
+                position: absolute;
+                left: 0;
+                display: grid;
+                align-self: center;
+                color: orange;
+                font-size: x-large;
+            }
+            #rightindex{
+                right: 0;
+                left: unset;
+            }
         }
         &_result{
             position: absolute;
@@ -287,6 +317,7 @@
             display: flex;
             justify-content: center;
             column-gap: 50px;
+            margin-bottom: 60px;
             #shaped, #shaped2, #shaped3{
                 width: 220px;
                 height: 60px;
@@ -477,14 +508,14 @@
         }
     }
     #shinewon{
-        animation: shine 1s infinite linear;
+        animation: shine 30s infinite linear;
 
     }
 }
 
 @keyframes slide {
     0%{left: 0;}
-    100%{left: -203.3*90px;}
+    100%{left: -200*90px;}
 }
 
 @keyframes gradientMovement {
@@ -512,4 +543,9 @@
     100%{
         filter: brightness(2.2);
     }
+}
+
+@keyframes slidevertical {
+    0%{top: 0;}
+    100%{top: -200*40px;}
 }

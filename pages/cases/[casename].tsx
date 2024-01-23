@@ -13,10 +13,17 @@ import { colorGenerator, formatter, generateRandomNumber, shuffleArray } from ".
 import Universal_modal from "../../components/universal_modal";
 import Slot from "../../components/sliderslot";
 import Notification from "../../components/notifybox";
+import CaseContent from "../../components/casecontent";
+import Odds from "../../components/odds";
+import BottomBanner from "../../components/bottombanner";
+import CaseInfo from "../../components/caseinfo";
+import VerticalSlider from "../../components/vslider";
+import Slider from "../../components/slider";
 
 const Case_page = () => {
     const { data: session } = useSession();
     const [placeholders,setPlaceholders] = useState<number>(10);
+    const [verticalplaceholders,setVerticalPlaceholders] = useState<number>(1);
     const howmanyPlaceholder = 100;
     const router = useRouter();
     const {cat,name} = router.query;
@@ -138,13 +145,20 @@ const Case_page = () => {
         }
     }
 
-    const caseOpenDisabled = !balance || !caseInfo || ( caseInfo && balance && caseInfo.casePrice > balance);
+    const [multiplier,setMultplier] = useState<number | null>(null);
+    const caseOpenDisabled = !balance || !caseInfo 
+                            || ( caseInfo && balance && caseInfo.casePrice > balance)
+                            || ( caseInfo && balance && multiplier && caseInfo.casePrice*multiplier > balance);
     const sliderVisible = !won || (tempoText && tempoText !== "Selling..." && tempoText !== "SOLD" && tempoText !== "Failed to sell...");
     const resultVisible = won && (!tempoText || tempoText === "Selling..." || tempoText === "SOLD" || tempoText === "Failed to sell...");
     const sellButtonText = (tempoText === "Selling..." || tempoText === "SOLD") ? tempoText : tempoText === "Failed to sell..." ? "Failed" : `SELL FOR ${formatter(won && won.giftPrice)}`;
     const sellButtonDisabled = !!tempoText;
     const payButtonDisabled = (won || tempoText) ? true : false;
     const [repetitionCurve,setRepetitiveCurve] = useState<null | any[]>();
+
+    const [horizontal,setHorizontal] = useState(true);
+    const [vertical,setVertical] = useState(false);
+    const XbuttonDisabled = tempoText ? true : false;
 
 
     const makeOccuranceRate = (gifts:any[]) => {
@@ -200,6 +214,8 @@ const Case_page = () => {
     const slider = useRef<HTMLDivElement>(null);
     const [sliderOffset, setSliderOffset] = useState(0);
 
+    const [verticalSpin,setVerticalSpin] = useState(false);
+
 
     useEffect(() => {
         const updateOffsetLeft = () => {
@@ -221,6 +237,28 @@ const Case_page = () => {
         };
       }, [placeholders]);
 
+    const handleMultiIndex = (index:number) => {
+        setVerticalSpin(false);
+        setMultplier(null);
+        setVertical(true);
+        setHorizontal(false);
+        setMultplier(index);
+    }
+
+    const handleOpenMultipleCase = async () => {
+        if(!session){confirm("Login required");return}
+        if(caseOpenDisabled){
+            confirm("Insufficient balance!");
+            return
+        };
+        setVerticalSpin(true);
+        setTempoText("Opening...");
+        setTimeout(() => {
+            setTempoText(null);
+        }, 11000);
+
+    }
+
     return ( 
         <>
         <Navbar/>
@@ -229,106 +267,69 @@ const Case_page = () => {
             <Modal feedback={feedback} />
         }
         <div className={c.casepage}>
-{/*             <div id={c.black}></div>
- */}            <div id={c.bg}></div>
+           <div id={c.bg}></div>
             <div className={c.casepage_case}>
-            {
-            /* !resultVisible &&  */
-            <div id={c.caseDemo} className={ !caseInfo ? c.loading : ""}>
-                <span>{(caseInfo && caseInfo.caseName.toUpperCase()) ?? ""}</span>
-                {
-                    caseInfo && <Image src={caseInfo.caseImageURL} alt={"051 logo"} width={200} height={270} priority />
-                }
-            </div>
-            }
+
+            <CaseInfo caseInfo={caseInfo}/>
             {
             sliderVisible  &&
             <>
-                    
-                <div className={c.casepage_case_kernel} id={c.main}>
-                    <div id={c.index}>
-                        <span>&#9660;</span>
-                        <span>&#9650;</span>
-                    </div>
-                    <div id={c.index2}>
-                        <span>&#9660;</span>
-                        <span>&#9650;</span>
-                    </div>
-                    <div id={placeholders === howmanyPlaceholder ? c.slide : ""} className={c.casepage_case_kernel_spinner} ref={slider}
-                    style={{ transform: `translateX(${placeholders === howmanyPlaceholder ? indexShift : "0px"})`}}
-                    >
-                        {
-                            repetitionCurve ? repetitionCurve.map((e,i) =>
-                                <Slot 
-                                    id={repetitionCurve ? "" : c.loading} i={i} 
-                                    won={won} caseInfo={caseInfo} e={e}
-                                    key={i} sliderOffset={sliderOffset}
-                                />
-                            )
-                            : 
-                            [...Array(placeholders)].map((e,i)=>
-                            <button id={repetitionCurve ? "" : c.loading} key={i}>
-                            </button>
-                            )
-                        }
-                    </div>
-                </div>
+                {
+                    horizontal &&
+                    <Slider 
+                        caseInfo = {caseInfo}
+                        sliderOffset = {sliderOffset}
+                        placeholders = {placeholders}
+                        howmanyPlaceholder = {howmanyPlaceholder}
+                        indexShift = {indexShift}
+                        repetitionCurve = {repetitionCurve}
+                        won = {won}
+                        multiplier = {multiplier}
+                    />
+                }
+                {
+                    vertical &&
+                    <VerticalSlider 
+                        caseInfo = {caseInfo}
+                        multiplier = {multiplier}
+                        repetitionCurve = {repetitionCurve}
+                        won = {won}
+                        placeholders = {verticalplaceholders}
+                        howmanyPlaceholder = {howmanyPlaceholder}
+                        sliderOffset = {sliderOffset}
+                        verticalSpin={verticalSpin}
+                    />
+                }
+
                 <div id={c.actions}>
                         <div id={c.shaped}>
-                            <button>x1</button>
-                            <button>x2</button>
-                            <button>x3</button>
-                            <button>x4</button>
-                            <button>x5</button>
+                            <button disabled={XbuttonDisabled} onClick={()=>{setHorizontal(true);setVertical(false);setMultplier(null)}}>x1</button>
+                            <button disabled={XbuttonDisabled} onClick={()=>handleMultiIndex(2)}>x2</button>
+                            <button disabled={XbuttonDisabled} onClick={()=>handleMultiIndex(3)}>x3</button>
+                            <button disabled={XbuttonDisabled} onClick={()=>handleMultiIndex(4)}>x4</button>
+                            <button disabled={XbuttonDisabled} onClick={()=>handleMultiIndex(5)}>x5</button>
                         </div>
-                        <button id={c.shaped2} style={{color:"white"}} onClick={handleOpenCase} disabled={payButtonDisabled}>
+                        <button id={c.shaped2} style={{color:"white"}} 
+                            onClick={ horizontal ? handleOpenCase : handleOpenMultipleCase} 
+                            disabled={payButtonDisabled}>
                             {
                                 tempoText ? tempoText : 
-                                (caseInfo && balance && (caseInfo.casePrice <= balance )) ? `Pay $${caseInfo.casePrice}`:
+                                (caseInfo && balance && (caseInfo.casePrice <= balance )) && horizontal ? `Pay $${caseInfo.casePrice}`:
+                                (caseInfo && balance && (caseInfo.casePrice*multiplier! <= balance )) && vertical ? `Pay $${caseInfo.casePrice*multiplier!}`:
+                                (caseInfo && balance && (caseInfo.casePrice*multiplier! > balance )) && vertical ? `+ $${caseInfo.casePrice*multiplier! - balance} needed`:
                                 (caseInfo && balance && caseInfo.casePrice > balance) ? `+ $${caseInfo.casePrice - balance} needed` :
                                 !session ? "Login required!" : (session && balance === 0) ? "No balance!" : "Please wait..."
                             }
                         </button>
-                </div>
-                <br />
-                <br />
-                {
-                caseInfo && 
-                <>
-                <h3>
-                    CASE CONTENT
-                </h3>
-                <div className={c.casepage_case_kernel} id={c.gifts}>
-                    <div className={c.casepage_case_kernel_spinner} id={c.content}>
-                    <button id={c.odds} onClick={()=>dispatch(note_universal_modal(true))}>CHECK ODDS RANGE</button>
-                    {
-                        caseInfo.caseGifts.map((gf:any,i:number) =>
-                        <button id={c.each} key={i} style={{
-                            backgroundImage:colorGenerator(caseInfo.caseGifts[i].giftPrice)
-                        }}>
-                            <Image src={gf.giftURL} alt={"051 logo"} width={90} height={100} />
-                            <div id={c.luck}>
-                                <span>Chance</span>
-                                <span> %{gf.giftProbability/1000}</span>
-                            </div>
-                            <div id={c.text}>
-                                <span>{gf.giftName}</span>
-                                <span>${gf.giftPrice}</span>
-                            </div>
-                        </button>
-                        )
-                    }
-                    </div>
-                </div>
-                </>
-                }                    
+                </div>                 
             </>
             }
+
+
 
             {
             resultVisible &&
             <>
-                    
                 <div className={c.casepage_case_kernel} id={c.main} style={{justifyItems:"center"}}>
                     <div className={c.casepage_case_kernel_spinner}>
                         <button style={{backgroundImage:colorGenerator(won.giftPrice)}} id={c.shinewon}
@@ -355,79 +356,17 @@ const Case_page = () => {
                             {sellButtonText}
                         </button>
                 </div>
-                <br />
-                <br />
-                {
-                caseInfo && 
-                <>
-                <h3>
-                    CASE CONTENT
-                </h3>
-                <div className={c.casepage_case_kernel} id={c.gifts}>
-                    <div className={c.casepage_case_kernel_spinner} id={c.content}>
-                    <button id={c.odds} onClick={()=>dispatch(note_universal_modal(true))}>CHECK ODDS RANGE</button>
-                    {
-                        caseInfo.caseGifts.map((gf:any,i:number) =>
-                        <button id={c.each} key={i} style={{
-                            backgroundImage:colorGenerator(caseInfo.caseGifts[i].giftPrice)
-                        }}>
-                            <Image src={gf.giftURL} alt={"051 logo"} width={90} height={100} />
-                            <div id={c.luck}>
-                                <span>Chance</span>
-                                <span> %{gf.giftProbability/1000}</span>
-                            </div>
-                            <div id={c.text}>
-                                <span>{gf.giftName}</span>
-                                <span>${gf.giftPrice}</span>
-                            </div>
-                        </button>
-                        )
-                    }
-                    </div>
-                </div>
-                </>
-                }                    
             </>
             }
 
-            <div className={c.casepage_case_kernel} id={c.bottombanner}>
-                <Image src={_051} alt={"051 logo"} width={63} height={35} />
-                <div>
-                    <Link href={"/"}>AFFILIATE PROGRAM </Link>
-                    <Link href={"/"}>PROJECT PARTNERSHIP </Link>
-                    <Link href={"/"}>CUSTOMER SUPPORT </Link>
-                    <Link href={"/"}>PROVABLY FAIR </Link>
-                </div>
-                <div id={c.right}>
-                    <span>&#x2622;</span>
-                    <span>&#x211A;</span>
-                    <span>&#x213F;</span>
-                    <span>&#x260E;</span>
-                </div>
-            </div>
+            { caseInfo && <CaseContent caseInfo = {caseInfo}/> } 
+            < BottomBanner />
             </div>
 
             {
                 universalModal && 
                 <Universal_modal>
-                <div id={c.odds}>
-                    <div id={c.row} key={99999} style={{backgroundColor:"black"}}>
-                        <span>Item</span>
-                        <span></span>
-                        <span>Price</span>
-                        <span>Chance</span>
-                    </div>
-                    {
-                        caseInfo && caseInfo.caseGifts.map((gf:any,i:number) =>
-                        <div id={c.row} key={i} style={{backgroundColor:i%2 ? "black" : "rgb(25 25 25)"}}>
-                            <Image src={gf.giftURL} alt={"XXX"} width={50} height={50} priority />
-                            <span>{gf.giftName}</span>
-                            <span style={{fontWeight:"bold"}}>{formatter(gf.giftPrice)}</span>
-                            <span>%{gf.giftProbability/100000*100}</span>
-                        </div>
-                        )
-                    }
-                </div>
+                    <Odds caseInfo={caseInfo}/>
                 </Universal_modal>
             }
             <Notification />
