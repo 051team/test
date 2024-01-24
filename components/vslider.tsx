@@ -5,8 +5,8 @@ import c from "./../styles/Casepage.module.css";
 import Slot from "./sliderslot";
 
 
-const VerticalSlider = ({caseInfo,verticalSpin, placeholders,won,multiplier}:any) => {
-    let howmany = 0;
+const VerticalSlider = ({caseInfo,verticalSpin, multiWon,multiplier}:any) => {
+    let howmany = 100;
     const slider = useRef<HTMLDivElement>(null);
     const [sliderOffset, setSliderOffset] = useState(0);
 
@@ -97,11 +97,12 @@ const VerticalSlider = ({caseInfo,verticalSpin, placeholders,won,multiplier}:any
                 repset && repset.map((e:any,i:any) =>
                     <Slot 
                         id={""} i={i} 
-                        won={won} caseInfo={caseInfo} e={e}
+                        caseInfo={caseInfo} e={e}
                         key={i} sliderOffset={sliderOffset}                         
-                        bingoposition={40}
+                        bingoposition={90}
                         vertical={true}
                         slidertoplay = {ii}
+                        wonM ={multiWon && multiWon[ii]}
                     />
                 )
             }

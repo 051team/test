@@ -531,7 +531,7 @@
     left: 0;
   }
   100% {
-    left: -18000px;
+    left: -18297px;
   }
 }
 
@@ -540,7 +540,7 @@
     left: 0;
   }
   100% {
-    left: -18000px;
+    left: -18297px;
   }
 }
 @-webkit-keyframes gradientMovement {
@@ -596,7 +596,7 @@
     top: 0;
   }
   100% {
-    top: -9000px;
+    top: -18000px;
   }
 }
 @keyframes slidevertical {
@@ -604,6 +604,6 @@
     top: 0;
   }
   100% {
-    top: -9000px;
+    top: -18000px;
   }
 }/*# sourceMappingURL=Casepage.module.css.map */

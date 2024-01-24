@@ -4,11 +4,7 @@ import _051 from "../../public/051.jpg";
 import { useEffect, useState,useRef } from "react";
 import { colorGenerator, formatter, generateRandomNumber, shuffleArray } from "./../tools";
 
-const Slot = ({id,e,i,caseInfo,won,sliderOffset,vertical, bingoposition,slidertoplay}:any) => {
-    let startRate = 2;
-    let minRate = 0.2;
-    let step = 0.1;
-
+const Slot = ({id,e,i,caseInfo,won,sliderOffset,vertical,wonM, bingoposition,slidertoplay}:any) => {
     const currentSlot = useRef<HTMLButtonElement>(null);
     const [slotOffet, setSlotOffet] = useState<number>();
     const [passed, setPassed] = useState<boolean>(false);
@@ -21,7 +17,7 @@ const Slot = ({id,e,i,caseInfo,won,sliderOffset,vertical, bingoposition,sliderto
     }, []);
 
     useEffect(() => {
-        if(sliderOffset && slotOffet && !passed){
+        if(sliderOffset && slotOffet && !passed && !vertical){
             if((-sliderOffset+806) > slotOffet){
                 setPassed(true);
                 const tick = new Audio("/tick1.mp3");
@@ -30,7 +26,7 @@ const Slot = ({id,e,i,caseInfo,won,sliderOffset,vertical, bingoposition,sliderto
                 tick.play();
             }
         }
-      }, [sliderOffset,passed]);
+      }, [sliderOffset,passed,vertical]);
 
       useEffect(() => {
         if(sliderOffset && vertical && slidertoplay === 0){
@@ -42,7 +38,7 @@ const Slot = ({id,e,i,caseInfo,won,sliderOffset,vertical, bingoposition,sliderto
                 tick.play();
             }
         }
-      }, [sliderOffset,vertical]);
+      }, [sliderOffset,vertical,passed]);
       
 
     return ( 
@@ -50,15 +46,15 @@ const Slot = ({id,e,i,caseInfo,won,sliderOffset,vertical, bingoposition,sliderto
         style={{
         backgroundImage: 
         (i !== bingoposition ) ? colorGenerator(caseInfo.caseGifts.find((gf:any) => gf.code === e.code).giftPrice) :
-        (i === bingoposition && won) ? colorGenerator(won.giftPrice)
+        (i === bingoposition && (won ?? wonM)) ? colorGenerator((won ?? wonM).giftPrice)
         : colorGenerator(caseInfo.caseGifts.find((gf:any) => gf.code === e.code).giftPrice)
     }}
     >
-        <Image src={(i === bingoposition && won) ? won.giftURL : caseInfo.caseGifts.find((gf:any) => gf.code === e.code).giftURL}
+        <Image src={(i === bingoposition && (won ?? wonM)) ? (won ?? wonM).giftURL : caseInfo.caseGifts.find((gf:any) => gf.code === e.code).giftURL}
             alt={"051 logo"} width={90} height={100} priority />
         <div id={c.text}>
-            <span>{(won && i === bingoposition) ? won.giftName : caseInfo.caseGifts.find((gf:any) => gf.code === e.code).giftName}</span>
-            <span>{i}</span>
+            <span>{((won ?? wonM) && i === bingoposition) ? (won ?? wonM).giftName : caseInfo.caseGifts.find((gf:any) => gf.code === e.code).giftName}</span>
+            <span>{i}-{bingoposition}</span>
         </div>
     </button>
      );

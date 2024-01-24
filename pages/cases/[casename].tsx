@@ -341,10 +341,10 @@ const Case_page = () => {
                 caseInfo = {caseInfo}
                 multiplier = {multiplier}
                 repetitionCurve = {repetitionCurve}
-                won = {won}
                 placeholders = {verticalplaceholders}
                 howmanyPlaceholder = {howmanyPlaceholder}
                 verticalSpin={verticalSpin}
+                multiWon={multiWon}
             /> 
             <div id={c.actions}>
                     <div id={c.shaped}>

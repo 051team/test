@@ -47,6 +47,7 @@ const Slider = ({caseInfo, placeholders,howmanyPlaceholder, indexShift, repetiti
                         id={repetitionCurve ? "" : c.loading} i={i} 
                         won={won} caseInfo={caseInfo} e={e}
                         key={i} sliderOffset={sliderOffset}
+                        bingoposition={94}
                     />
                 )
                 : 
