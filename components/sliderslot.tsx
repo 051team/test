@@ -4,7 +4,7 @@ import _051 from "../../public/051.jpg";
 import { useEffect, useState,useRef } from "react";
 import { colorGenerator, formatter, generateRandomNumber, shuffleArray } from "./../tools";
 
-const Slot = ({id,e,i,caseInfo,won,sliderOffset,vertical, bingoposition}:any) => {
+const Slot = ({id,e,i,caseInfo,won,sliderOffset,vertical, bingoposition,slidertoplay}:any) => {
     let startRate = 2;
     let minRate = 0.2;
     let step = 0.1;
@@ -31,6 +31,18 @@ const Slot = ({id,e,i,caseInfo,won,sliderOffset,vertical, bingoposition}:any) =>
             }
         }
       }, [sliderOffset,passed]);
+
+      useEffect(() => {
+        if(sliderOffset && vertical && slidertoplay === 0){
+            if(sliderOffset < -(i*200+100) && !passed){
+                setPassed(true);
+                const tick = new Audio("/tick1.mp3");
+                tick.playbackRate = 1;
+                tick.loop = false;
+                tick.play();
+            }
+        }
+      }, [sliderOffset,vertical]);
       
 
     return ( 

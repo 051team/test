@@ -1,12 +1,33 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState,useRef } from "react";
 import { isAnyArrayBuffer } from "util/types";
 import { shuffleArray } from "../tools";
 import c from "./../styles/Casepage.module.css";
 import Slot from "./sliderslot";
 
 
-const VerticalSlider = ({caseInfo,verticalSpin, placeholders,sliderOffset,won,multiplier}:any) => {
+const VerticalSlider = ({caseInfo,verticalSpin, placeholders,won,multiplier}:any) => {
     let howmany = 0;
+    const slider = useRef<HTMLDivElement>(null);
+    const [sliderOffset, setSliderOffset] = useState(0);
+
+    useEffect(() => {
+        const updateOffsetTop = () => {
+          if (slider.current) {
+            const currentOffsetTop = slider.current.offsetTop;
+            setSliderOffset(currentOffsetTop);
+            //console.log(currentOffsetTop);
+            if (currentOffsetTop === - 8000 || !verticalSpin) {
+              clearInterval(intervalId);
+            }
+          }
+        };
+      
+        const intervalId = setInterval(updateOffsetTop, 10);
+      
+        return () => {
+          clearInterval(intervalId);
+        };
+      }, [verticalSpin]);
 
     const makeOccuranceRate = (gifts:any[]) => {
         const prices:any[] = [];
@@ -52,6 +73,7 @@ const VerticalSlider = ({caseInfo,verticalSpin, placeholders,sliderOffset,won,mu
     }
 
     const [repetitionSets, setRepSets] = useState<any[]>();
+
     useEffect(()=>{
         const reps = [];
         if(caseInfo && multiplier){
@@ -60,24 +82,26 @@ const VerticalSlider = ({caseInfo,verticalSpin, placeholders,sliderOffset,won,mu
                 reps.push(rc)
             }
             setRepSets(reps);
-            console.log(reps);
         }
 
-    },[caseInfo, multiplier])
+    },[caseInfo, multiplier]);
+
     return (
     <div className={c.casepage_case_kernel} id={c.kernelvertical}>
         <span id={c.leftindex}>&#9654;</span>
         <span id={c.rightindex}>&#9664;</span>
         {
-           repetitionSets &&  repetitionSets.map((repset,i)=>
-            <div className={c.casepage_case_kernel_verticalspinner} id={verticalSpin ? c.slidevertical : ""} key={i} >
+           repetitionSets &&  repetitionSets.map((repset,ii)=>
+            <div className={c.casepage_case_kernel_verticalspinner} id={verticalSpin ? c.slidevertical : ""} key={ii} ref={slider} >
             {
                 repset && repset.map((e:any,i:any) =>
                     <Slot 
-                        id={c.loading} i={i} 
+                        id={""} i={i} 
                         won={won} caseInfo={caseInfo} e={e}
                         key={i} sliderOffset={sliderOffset}                         
                         bingoposition={40}
+                        vertical={true}
+                        slidertoplay = {ii}
                     />
                 )
             }

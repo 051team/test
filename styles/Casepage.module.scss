@@ -1,10 +1,4 @@
 .casepage{
-/*     #black{
-        position: fixed;
-        top: 0; bottom: 0; left: 0; right: 0;
-        background-image: radial-gradient(closest-side at 50% 15%,#1c0c16 0%, #070707 100%);
-        z-index: -1;
-    } */
     #bg{
         position: fixed;
         background-color: black;
@@ -158,7 +152,7 @@
             }
             #slidevertical{
                 position: relative;
-                animation: slidevertical 10s 1 forwards ease;
+                animation: slidevertical 10s 1 forwards;
             }
         }
         #main{
@@ -547,5 +541,5 @@
 
 @keyframes slidevertical {
     0%{top: 0;}
-    100%{top: -200*40px;}
+    100%{top: -200*45px;}
 }

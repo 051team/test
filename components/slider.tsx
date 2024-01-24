@@ -6,9 +6,28 @@ import Slot from "./../components/sliderslot";
 
 
 
-const Slider = ({caseInfo, placeholders,howmanyPlaceholder,sliderOffset, indexShift, repetitionCurve,won,multiplier}:any) => {
+const Slider = ({caseInfo, placeholders,howmanyPlaceholder, indexShift, repetitionCurve,won,multiplier}:any) => {
     const slider = useRef<HTMLDivElement>(null);
-
+    const [sliderOffset, setSliderOffset] = useState(0);
+    useEffect(() => {
+        const updateOffsetLeft = () => {
+          if (slider.current) {
+            const currentOffsetLeft = slider.current.offsetLeft;
+            setSliderOffset(currentOffsetLeft);
+            if (placeholders === 0) {
+              console.log("Bitti");
+              console.log(currentOffsetLeft);
+              clearInterval(intervalId);
+            }
+          }
+        };
+      
+        const intervalId = setInterval(updateOffsetLeft, 10);
+      
+        return () => {
+          clearInterval(intervalId);
+        };
+      }, [placeholders]);
     return ( 
     <div className={c.casepage_case_kernel} id={c.main}>
         <div id={c.index}>

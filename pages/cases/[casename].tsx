@@ -3,15 +3,13 @@ import { useSession } from 'next-auth/react';
 import Navbar from "../../components/navbar";
 import c from "../../styles/Casepage.module.css";
 import _051 from "../../public/051.jpg";
-import Link from "next/link";
 import { useEffect, useState,useRef } from "react";
 import { useRouter } from 'next/router';
 import Modal from "../../components/modal";
 import { useDispatch,useSelector } from "react-redux";
-import { note_balanceChange, note_ownDrop, note_TotalCasesOpened, note_universal_modal } from "../../redux/loginSlice";
+import { note_balanceChange, note_ownDrop, note_TotalCasesOpened } from "../../redux/loginSlice";
 import { colorGenerator, formatter, generateRandomNumber, shuffleArray } from "../../tools";
 import Universal_modal from "../../components/universal_modal";
-import Slot from "../../components/sliderslot";
 import Notification from "../../components/notifybox";
 import CaseContent from "../../components/casecontent";
 import Odds from "../../components/odds";
@@ -29,6 +27,7 @@ const Case_page = () => {
     const {cat,name} = router.query;
     const [caseInfo, setCaseInfo] = useState<any>();
     const [won,setWon] = useState<any>();
+    const [multiWon,setMultiWon] = useState<any>();
     const [feedback,setFeedback] = useState<{message:string,color:string}>();
     const [tempoText, setTempoText] = useState<string | null>();
     const balance = useSelector((state:any) => state.loginSlice.balance);
@@ -149,10 +148,19 @@ const Case_page = () => {
     const caseOpenDisabled = !balance || !caseInfo 
                             || ( caseInfo && balance && caseInfo.casePrice > balance)
                             || ( caseInfo && balance && multiplier && caseInfo.casePrice*multiplier > balance);
-    const sliderVisible = !won || (tempoText && tempoText !== "Selling..." && tempoText !== "SOLD" && tempoText !== "Failed to sell...");
+    const sliderVisible = (!multiWon && !won ) || (tempoText && tempoText !== "Selling..." && tempoText !== "SOLD" && tempoText !== "Failed to sell...");
+    const verticalsliderVisible = (!multiWon && !won ) || (tempoText && tempoText !== "Selling..." && tempoText !== "SOLD" && tempoText !== "Failed to sell...");
+
     const resultVisible = won && (!tempoText || tempoText === "Selling..." || tempoText === "SOLD" || tempoText === "Failed to sell...");
-    const sellButtonText = (tempoText === "Selling..." || tempoText === "SOLD") ? tempoText : tempoText === "Failed to sell..." ? "Failed" : `SELL FOR ${formatter(won && won.giftPrice)}`;
-    const sellButtonDisabled = !!tempoText;
+    const multiresultVisible = multiWon && (!tempoText || tempoText === "Selling..." || tempoText === "SOLD" || tempoText === "Failed to sell...");
+
+    const sellButtonText = (tempoText === "Selling..." || tempoText === "SOLD") ? tempoText : tempoText === "Failed to sell..." ? "Failed" 
+                : `SELL FOR ${formatter(won && won.giftPrice)}`;
+    const sellMultiButtonText = (tempoText === "Selling..." || tempoText === "SOLD") ? tempoText : tempoText === "Failed to sell..." ? "Failed" 
+                : `SELL FOR ${formatter(multiWon && multiWon.reduce((accumulator:any, currentItem:any) => {
+        return accumulator + parseFloat(currentItem.giftPrice)}, 0))}`;
+
+    const sellButtonDisabled = tempoText ? true : false;
     const payButtonDisabled = (won || tempoText) ? true : false;
     const [repetitionCurve,setRepetitiveCurve] = useState<null | any[]>();
 
@@ -210,32 +218,8 @@ const Case_page = () => {
         }
     },[caseInfo]);
 
-
-    const slider = useRef<HTMLDivElement>(null);
-    const [sliderOffset, setSliderOffset] = useState(0);
-
     const [verticalSpin,setVerticalSpin] = useState(false);
 
-
-    useEffect(() => {
-        const updateOffsetLeft = () => {
-          if (slider.current) {
-            const currentOffsetLeft = slider.current.offsetLeft;
-            setSliderOffset(currentOffsetLeft);
-            if (placeholders === 0) {
-              console.log("Bitti");
-              console.log(currentOffsetLeft);
-              clearInterval(intervalId);
-            }
-          }
-        };
-      
-        const intervalId = setInterval(updateOffsetLeft, 10);
-      
-        return () => {
-          clearInterval(intervalId);
-        };
-      }, [placeholders]);
 
     const handleMultiIndex = (index:number) => {
         setVerticalSpin(false);
@@ -253,10 +237,53 @@ const Case_page = () => {
         };
         setVerticalSpin(true);
         setTempoText("Opening...");
+        try {
+            const response = await fetch("/api/openmulticase",{
+                method:"POST",
+                body:JSON.stringify({
+                    cat:cat,
+                    name:name,
+                    user:session?.user,
+                    multiplier:multiplier
+                })
+            });
+            if(response.status === 200){
+                const resJson = await response.json();
+                const wonItems = resJson.wonItems;
+                setMultiWon(wonItems);
+            }else{
+                console.log(response);
+            }
+        } catch (error) {
+            console.log(error)
+        }
         setTimeout(() => {
             setTempoText(null);
+            setVerticalSpin(false);
+            dispatch(note_balanceChange((pr:boolean)=>!pr));
         }, 11000);
+    }
 
+
+    const handleMultiSellGift = async () => {
+        if(!multiWon || tempoText === "Selling..."){return};
+        setTempoText("Selling...");
+        try {
+            const response = await fetch("/api/sellmultigift", {
+                method:"POST",
+                body:JSON.stringify({gifts:multiWon,user:session?.user})
+            });
+            if(response.status === 200){
+                setTempoText("SOLD");
+                dispatch(note_balanceChange((pr:any)=>!pr));
+                setTimeout(() => {
+                    setTempoText(null);
+                    setMultiWon(null);
+                }, 2000);
+            }
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     return ( 
@@ -271,105 +298,157 @@ const Case_page = () => {
             <div className={c.casepage_case}>
 
             <CaseInfo caseInfo={caseInfo}/>
-            {
-            sliderVisible  &&
+            
+        {
+            horizontal && sliderVisible &&
             <>
-                {
-                    horizontal &&
-                    <Slider 
-                        caseInfo = {caseInfo}
-                        sliderOffset = {sliderOffset}
-                        placeholders = {placeholders}
-                        howmanyPlaceholder = {howmanyPlaceholder}
-                        indexShift = {indexShift}
-                        repetitionCurve = {repetitionCurve}
-                        won = {won}
-                        multiplier = {multiplier}
-                    />
-                }
-                {
-                    vertical &&
-                    <VerticalSlider 
-                        caseInfo = {caseInfo}
-                        multiplier = {multiplier}
-                        repetitionCurve = {repetitionCurve}
-                        won = {won}
-                        placeholders = {verticalplaceholders}
-                        howmanyPlaceholder = {howmanyPlaceholder}
-                        sliderOffset = {sliderOffset}
-                        verticalSpin={verticalSpin}
-                    />
-                }
-
-                <div id={c.actions}>
-                        <div id={c.shaped}>
-                            <button disabled={XbuttonDisabled} onClick={()=>{setHorizontal(true);setVertical(false);setMultplier(null)}}>x1</button>
-                            <button disabled={XbuttonDisabled} onClick={()=>handleMultiIndex(2)}>x2</button>
-                            <button disabled={XbuttonDisabled} onClick={()=>handleMultiIndex(3)}>x3</button>
-                            <button disabled={XbuttonDisabled} onClick={()=>handleMultiIndex(4)}>x4</button>
-                            <button disabled={XbuttonDisabled} onClick={()=>handleMultiIndex(5)}>x5</button>
-                        </div>
-                        <button id={c.shaped2} style={{color:"white"}} 
-                            onClick={ horizontal ? handleOpenCase : handleOpenMultipleCase} 
-                            disabled={payButtonDisabled}>
-                            {
-                                tempoText ? tempoText : 
-                                (caseInfo && balance && (caseInfo.casePrice <= balance )) && horizontal ? `Pay $${caseInfo.casePrice}`:
-                                (caseInfo && balance && (caseInfo.casePrice*multiplier! <= balance )) && vertical ? `Pay $${caseInfo.casePrice*multiplier!}`:
-                                (caseInfo && balance && (caseInfo.casePrice*multiplier! > balance )) && vertical ? `+ $${caseInfo.casePrice*multiplier! - balance} needed`:
-                                (caseInfo && balance && caseInfo.casePrice > balance) ? `+ $${caseInfo.casePrice - balance} needed` :
-                                !session ? "Login required!" : (session && balance === 0) ? "No balance!" : "Please wait..."
-                            }
-                        </button>
-                </div>                 
+            <Slider 
+                caseInfo = {caseInfo}
+                placeholders = {placeholders}
+                howmanyPlaceholder = {howmanyPlaceholder}
+                indexShift = {indexShift}
+                repetitionCurve = {repetitionCurve}
+                won = {won}
+                multiplier = {multiplier}
+            />
+            <div id={c.actions}>
+                    <div id={c.shaped}>
+                        <button disabled={XbuttonDisabled} onClick={()=>{setHorizontal(true);setVertical(false);setMultplier(null)}}>x1</button>
+                        <button disabled={XbuttonDisabled} onClick={()=>handleMultiIndex(2)}>x2</button>
+                        <button disabled={XbuttonDisabled} onClick={()=>handleMultiIndex(3)}>x3</button>
+                        <button disabled={XbuttonDisabled} onClick={()=>handleMultiIndex(4)}>x4</button>
+                        <button disabled={XbuttonDisabled} onClick={()=>handleMultiIndex(5)}>x5</button>
+                    </div>
+                    <button id={c.shaped2} style={{color:"white"}} 
+                        onClick={ horizontal ? handleOpenCase : handleOpenMultipleCase} 
+                        disabled={payButtonDisabled}>
+                        {
+                            tempoText ? tempoText : 
+                            (caseInfo && balance && (caseInfo.casePrice <= balance )) && horizontal ? `Pay $${caseInfo.casePrice}`:
+                            (caseInfo && balance && (caseInfo.casePrice*multiplier! <= balance )) && vertical ? `Pay $${caseInfo.casePrice*multiplier!}`:
+                            (caseInfo && balance && (caseInfo.casePrice*multiplier! > balance )) && vertical ? `+ $${caseInfo.casePrice*multiplier! - balance} needed`:
+                            (caseInfo && balance && caseInfo.casePrice > balance) ? `+ $${caseInfo.casePrice - balance} needed` :
+                            !session ? "Login required!" : (session && balance === 0) ? "No balance!" : "Please wait..."
+                        }
+                    </button>
+            </div> 
             </>
-            }
-
-
-
-            {
-            resultVisible &&
+        }
+        {
+            vertical && verticalsliderVisible &&
             <>
-                <div className={c.casepage_case_kernel} id={c.main} style={{justifyItems:"center"}}>
-                    <div className={c.casepage_case_kernel_spinner}>
-                        <button style={{backgroundImage:colorGenerator(won.giftPrice)}} id={c.shinewon}
+            <VerticalSlider 
+                caseInfo = {caseInfo}
+                multiplier = {multiplier}
+                repetitionCurve = {repetitionCurve}
+                won = {won}
+                placeholders = {verticalplaceholders}
+                howmanyPlaceholder = {howmanyPlaceholder}
+                verticalSpin={verticalSpin}
+            /> 
+            <div id={c.actions}>
+                    <div id={c.shaped}>
+                        <button disabled={XbuttonDisabled} onClick={()=>{setHorizontal(true);setVertical(false);setMultplier(null)}}>x1</button>
+                        <button disabled={XbuttonDisabled} onClick={()=>handleMultiIndex(2)}>x2</button>
+                        <button disabled={XbuttonDisabled} onClick={()=>handleMultiIndex(3)}>x3</button>
+                        <button disabled={XbuttonDisabled} onClick={()=>handleMultiIndex(4)}>x4</button>
+                        <button disabled={XbuttonDisabled} onClick={()=>handleMultiIndex(5)}>x5</button>
+                    </div>
+                    <button id={c.shaped2} style={{color:"white"}} 
+                        onClick={ horizontal ? handleOpenCase : handleOpenMultipleCase} 
+                        disabled={payButtonDisabled}>
+                        {
+                            tempoText ? tempoText : 
+                            (caseInfo && balance && (caseInfo.casePrice <= balance )) && horizontal ? `Pay $${caseInfo.casePrice}`:
+                            (caseInfo && balance && (caseInfo.casePrice*multiplier! <= balance )) && vertical ? `Pay $${caseInfo.casePrice*multiplier!}`:
+                            (caseInfo && balance && (caseInfo.casePrice*multiplier! > balance )) && vertical ? `+ $${caseInfo.casePrice*multiplier! - balance} needed`:
+                            (caseInfo && balance && caseInfo.casePrice > balance) ? `+ $${caseInfo.casePrice - balance} needed` :
+                            !session ? "Login required!" : (session && balance === 0) ? "No balance!" : "Please wait..."
+                        }
+                    </button>
+            </div> 
+            </>
+        }                
+
+        {
+        resultVisible &&
+        <>
+            <div className={c.casepage_case_kernel} id={c.main} style={{justifyItems:"center"}}>
+                <div className={c.casepage_case_kernel_spinner}>
+                    <button style={{backgroundImage:colorGenerator(won.giftPrice)}} id={c.shinewon}
+                    >
+                        <Image src={won.giftURL} alt={"051 logo"} width={90} height={100} />
+                        <div id={c.luck}>
+                            <span>Chance</span>
+                            <span> %{won.giftProbability/1000}</span>
+                        </div>
+                        <div id={c.text}>
+                            <span>{won.giftName}</span>
+                            <span>${won.giftPrice}</span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+            <div id={c.actions}>
+                    <button id={c.shaped3} style={{color:"white"}}
+                    onClick={()=> {setPlaceholders(10);setWon(()=>null);setRepetitiveCurve(makeOccuranceRate(caseInfo.caseGifts));}}
+                    >
+                        OPEN AGAIN <Image src={"/redo.png"} alt={"re-open the case"} width={20} height={20} />
+                    </button>
+                    <button id={c.shaped2} style={{color:"white"}} onClick={handleSellGift} disabled={sellButtonDisabled}>
+                        {sellButtonText}
+                    </button>
+            </div>
+        </>
+        }
+            
+        {
+        multiresultVisible &&
+        <>
+            <div className={c.casepage_case_kernel} id={c.main} style={{justifyItems:"center"}}>
+                <div className={c.casepage_case_kernel_spinner}>
+                    {
+                        multiWon.map((wn:any,i:any)=> 
+                        <button style={{backgroundImage:colorGenerator(wn.giftPrice)}} id={c.shinewon} key={i}
                         >
-                            <Image src={won.giftURL} alt={"051 logo"} width={90} height={100} />
+                            <Image src={wn.giftURL} alt={"051 logo"} width={90} height={100} />
                             <div id={c.luck}>
                                 <span>Chance</span>
-                                <span> %{won.giftProbability/1000}</span>
+                                <span> %{wn.giftProbability/1000}</span>
                             </div>
                             <div id={c.text}>
-                                <span>{won.giftName}</span>
-                                <span>${won.giftPrice}</span>
+                                <span>{wn.giftName}</span>
+                                <span>${wn.giftPrice}</span>
                             </div>
                         </button>
-                    </div>
+                        )
+                    }
                 </div>
-                <div id={c.actions}>
-                        <button id={c.shaped3} style={{color:"white"}}
-                        onClick={()=> {setPlaceholders(10);setWon(()=>null);setRepetitiveCurve(makeOccuranceRate(caseInfo.caseGifts));}}
-                        >
-                            OPEN AGAIN <Image src={"/redo.png"} alt={"re-open the case"} width={20} height={20} />
-                        </button>
-                        <button id={c.shaped2} style={{color:"white"}} onClick={handleSellGift} disabled={sellButtonDisabled}>
-                            {sellButtonText}
-                        </button>
-                </div>
-            </>
-            }
-
-            { caseInfo && <CaseContent caseInfo = {caseInfo}/> } 
-            < BottomBanner />
             </div>
+            <div id={c.actions}>
+                    <button id={c.shaped3} style={{color:"white"}}
+                    onClick={()=> {setMultiWon(()=>null);}}
+                    >
+                        OPEN AGAIN <Image src={"/redo.png"} alt={"re-open the case"} width={20} height={20} />
+                    </button>
+                    <button id={c.shaped2} style={{color:"white"}} onClick={handleMultiSellGift} disabled={sellButtonDisabled}>
+                        {sellMultiButtonText}
+                    </button>
+            </div>
+        </>
+        }
 
-            {
-                universalModal && 
-                <Universal_modal>
-                    <Odds caseInfo={caseInfo}/>
-                </Universal_modal>
-            }
-            <Notification />
+        { caseInfo && <CaseContent caseInfo = {caseInfo}/> } 
+        < BottomBanner />
+        </div>
+
+        {
+            universalModal && 
+            <Universal_modal>
+                <Odds caseInfo={caseInfo}/>
+            </Universal_modal>
+        }
+        {/* <Notification /> */}
             
         </div>
         </>

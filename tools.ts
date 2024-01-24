@@ -34,7 +34,7 @@ export  const colorGenerator = (price:string | number) => {
       return "linear-gradient(#200435, #490b42)"
     }
     if(price > 101 && price < 401 ){
-      return "linear-gradient(rgb(207 159 11)"
+      return "linear-gradient(rgb(207 159 11), rgb(169 98 11))"
     }
     if(price > 400 ){
       return "linear-gradient(rgb(129 7 7), rgb(77 2 2))"

@@ -1,11 +1,3 @@
-.casepage {
-  /*     #black{
-          position: fixed;
-          top: 0; bottom: 0; left: 0; right: 0;
-          background-image: radial-gradient(closest-side at 50% 15%,#1c0c16 0%, #070707 100%);
-          z-index: -1;
-      } */
-}
 .casepage #bg {
   position: fixed;
   background-color: black;
@@ -172,8 +164,8 @@
 }
 .casepage_case_kernel #slidevertical {
   position: relative;
-  -webkit-animation: slidevertical 10s 1 forwards ease;
-          animation: slidevertical 10s 1 forwards ease;
+  -webkit-animation: slidevertical 10s 1 forwards;
+          animation: slidevertical 10s 1 forwards;
 }
 .casepage_case #main {
   box-shadow: 0 0 4px 1px gray;
@@ -604,7 +596,7 @@
     top: 0;
   }
   100% {
-    top: -8000px;
+    top: -9000px;
   }
 }
 @keyframes slidevertical {
@@ -612,6 +604,6 @@
     top: 0;
   }
   100% {
-    top: -8000px;
+    top: -9000px;
   }
 }/*# sourceMappingURL=Casepage.module.css.map */
