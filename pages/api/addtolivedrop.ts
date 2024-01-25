@@ -10,6 +10,7 @@ export default async function handler(
   let client;
 
   const itemtoAddtoLivedrop = JSON.parse(req.body);
+  console.log("Addtolivedrop Endpoint");
 
   try {
     client = await connectToDatabase();

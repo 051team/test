@@ -104,7 +104,7 @@ const Navbar = () => {
             try {
                 const response = await fetch("/api/totalcasesopened");
                 if(!response.ok){
-                    alert("Fetch for Total Cases Opened failed");
+                    alert(response.status);
                     return
                 }
                 if(response.status === 200){

@@ -64,7 +64,9 @@ const Livedrop = () => {
                 console.log(error)
             }
         }
-        fetchDrops();
+        if(!drops){
+            fetchDrops();
+        }
     },[])
 
     // bring latest drop

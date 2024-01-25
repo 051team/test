@@ -17,6 +17,8 @@ export default async function handler(
     const currentCount = await totalCount.findOne({duty:"keepcount"});
     if(currentCount){
       res.status(200).json({totalCasesOpened:currentCount.totalNumber});
+    }else{
+      res.status(404).json({message:"total case count not found"});
     }
   } catch (error) {
     console.log(error);

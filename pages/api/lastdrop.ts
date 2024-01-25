@@ -21,8 +21,8 @@ export default async function handler(
       ]).toArray();
       if(randomDrop){
       const dropTime = (new Date()).getTime();
-      const resultDrop = await livedrop.insertOne({...randomDrop[0],dropTime:dropTime,isF:true});
-      const resultCount = await totalCount.updateOne({duty:"keepcount"},{$inc:{totalNumber:1}});
+      //const resultDrop = await livedrop.insertOne({...randomDrop[0],dropTime:dropTime,isF:true});
+      //const resultCount = await totalCount.updateOne({duty:"keepcount"},{$inc:{totalNumber:1}});
       res.status(200).json({lastDrop:randomDrop[0]});
     }
 
