@@ -97,15 +97,17 @@ const Livedrop = () => {
                 console.log(error)
             }
         }
-        interval = setInterval(()=>{
-            if(!ownDrop){
+        if(!ownDrop){
+            interval = setInterval(()=>{
                 fetchLastDrop();
-            }
-        },intervalSpan)
+            },intervalSpan)
+        }else{
+            dispatch(note_TotalCasesOpened(totalCasesOpened+1))
+        }
         return () => {
             clearInterval(interval);
         }
-    },[intervalSpan,ownDrop,totalCasesOpened])
+    },[intervalSpan,ownDrop])
 
 
     return ( 

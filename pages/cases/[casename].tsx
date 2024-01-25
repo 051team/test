@@ -85,12 +85,16 @@ const Case_page = () => {
                     method:"POST",
                     body:JSON.stringify(resJson.lucky)
                 })
+                if(responseLiveDrop.status === 200){
+                    setTimeout(() => {
+                        dispatch(note_ownDrop(resJson.lucky));
+                        dispatch(note_TotalCasesOpened(totalCasesOpened+1))
+                    }, 4000);
+                }
             }, 7000);
             setTimeout(() => {
                 setTempoText(null);
                 setIndexShift("0px");
-                dispatch(note_ownDrop(resJson.lucky));
-                dispatch(note_TotalCasesOpened(totalCasesOpened+1))
             }, 11000);
         }else{
             try {
