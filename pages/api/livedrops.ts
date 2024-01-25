@@ -13,8 +13,12 @@ export default async function handler(
     client = await connectToDatabase();
     const data_base = client.db('casadepapel');
     const livedrop = data_base.collection('livedrop');
-    const randomDrops = await livedrop.aggregate([{ $sample: { size: 30 } }]).toArray();
-    res.status(200).json(randomDrops);
+    //const lastDrops = await livedrop.aggregate([{ $sample: { size: 30 } }]).toArray();
+
+    const drops = await livedrop.find().toArray();
+    const lastDrops = drops.sort((a:any,b:any)=> b.dropTime - a.dropTime).slice(0,30);
+
+    res.status(200).json(lastDrops);
 
   } catch (error) {
     console.log(error);
