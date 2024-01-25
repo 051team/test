@@ -110,7 +110,25 @@ const Livedrop = () => {
         }
     },[intervalSpan]) */
 
+    const [gift,setGift] = useState<any>();
+    const [ES,setES] = useState<EventSource>();
 
+    useEffect(() => {
+        const eventSource = new EventSource('/api/sse');
+        setES(eventSource);
+        eventSource.onmessage = (event) => {
+            const eventData = JSON.parse(event.data);
+            setDrops((previous:any)=>{
+                const updatedDrops = [eventData, ...previous.slice(0,previous.length-1)];
+                return updatedDrops;
+            })
+        };
+        return () => {
+          eventSource.close();
+        };
+      }, []);
+    
+    
     return ( 
         <div className={h.home_navbar_slider} style={{width:drops ? (drops.length+1)*110 : "fit-content", minWidth:!drops ? "2300px" : "none"}}>
             <button key={99} id={h.usual} style={{zIndex:99}}>
