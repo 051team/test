@@ -7,7 +7,8 @@ const Test = () => {
         const eventSource = new EventSource('/api/sse');
         eventSource.onmessage = (event) => {
             const eventData = JSON.parse(event.data);
-            setGift(eventData);
+            //setGift(eventData);
+            console.log(eventData);
         };
         return () => {
           eventSource.close();

@@ -70,58 +70,28 @@ const Livedrop = () => {
         }
     },[])
 
-    // bring latest drop
-/*     const [intervalSpan,setSpan] = useState(5000);
-    useEffect(()=>{
-        let interval: NodeJS.Timeout
-        const fetchLastDrop = async () => {
-            try {
-                const response = await fetch("/api/lastdrop");
-                if(!response.ok){alert("Fetch opearation failed!"); return}
-                if(response.status === 200){
-                    const resJson = await response.json();
-                    const lastDrop = resJson.lastDrop;
-                    setDrops((previous:any)=>{
-                        const updatedDrops = [lastDrop, ...previous.slice(0,previous.length-1)];
-                        return updatedDrops;
-                    })
-                    setDropId("drop");
-                    setTimeout(() => {
-                        setDropId("");
-                    }, 1000);
-                    if(totalCasesOpened){
-                        dispatch(note_TotalCasesOpened(totalCasesOpened+1));
-                    }
-                    setSpan(5000 + Math.floor(Math.random()*4000));
-                }else{
-                    console.log(response.status, response)
-                }
-            } catch (error) {
-                console.log(error)
-            }
-        }
-        if(!ownDrop){
-            interval = setInterval(()=>{
-                fetchLastDrop();
-            },intervalSpan)
-        }
-        return () => {
-            clearInterval(interval);
-        }
-    },[intervalSpan]) */
-
     const [gift,setGift] = useState<any>();
     const [ES,setES] = useState<EventSource>();
 
     useEffect(() => {
         const eventSource = new EventSource('/api/sse');
         setES(eventSource);
+        const addItem = (item: any) => {
+            setDrops((previous: any) => {
+                setDropId(()=>"drop");
+                const updatedDrops = [item, ...previous.slice(0, previous.length - 1)];
+                setTimeout(() => {
+                    setDropId("");
+                }, 1000);
+                return updatedDrops;
+            });
+        };
         eventSource.onmessage = (event) => {
             const eventData = JSON.parse(event.data);
-            setDrops((previous:any)=>{
-                const updatedDrops = [eventData, ...previous.slice(0,previous.length-1)];
-                return updatedDrops;
-            })
+            console.log(eventData)
+            eventData.forEach((item:any, index:any) => {
+                setTimeout(() => addItem(item), index * 1200);
+            });
         };
         return () => {
           eventSource.close();

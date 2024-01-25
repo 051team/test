@@ -21,12 +21,20 @@ export default function handler(req: NextApiRequest, res: NextApiResponse): Prom
                 .limit(30)            
                 .toArray();
 
+            const pickRandomElements = (arr:any, count:any) => {
+            const shuffled = [...arr].sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, count);
+            }
+
+            const randomDrops = pickRandomElements(lastDrops, 5);
+
+
             const sendCurrentTime = () => {
-                const randomItem = Math.floor(Math.random() * lastDrops.length);
-                res.write(`data: ${JSON.stringify(lastDrops[randomItem])}\n\n`);
+                res.write(`data: ${JSON.stringify(randomDrops)}\n\n`);
+                res.end();
             };
 
-            intervalId = setInterval(sendCurrentTime, 400) as NodeJS.Timer;
+            intervalId = setInterval(sendCurrentTime, 2000) as NodeJS.Timer;
 
             req.on('close', async () => {
                 console.log('Client disconnected');
