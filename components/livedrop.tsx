@@ -68,7 +68,7 @@ const Livedrop = () => {
     },[])
 
     // bring latest drop
-    const [intervalSpan,setSpan] = useState(5000);
+/*     const [intervalSpan,setSpan] = useState(5000);
     useEffect(()=>{
         let interval: NodeJS.Timeout
         const fetchLastDrop = async () => {
@@ -101,13 +101,11 @@ const Livedrop = () => {
             interval = setInterval(()=>{
                 fetchLastDrop();
             },intervalSpan)
-        }else{
-            dispatch(note_TotalCasesOpened(totalCasesOpened+1))
         }
         return () => {
             clearInterval(interval);
         }
-    },[intervalSpan,ownDrop])
+    },[intervalSpan]) */
 
 
     return ( 

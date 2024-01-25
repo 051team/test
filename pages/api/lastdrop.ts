@@ -8,7 +8,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   let client;
-
+  console.log("Last drop endpoint accessed")
   try {
     client = await connectToDatabase();
     const data_base = client.db('casadepapel');

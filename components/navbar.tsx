@@ -116,10 +116,9 @@ const Navbar = () => {
                 console.log("Sorun var!", error)
             }
         }
-        if(!totalCasesOpened){
-            fetchTotalCaseOpened();
-        }
-    },[ownDrop])
+        console.log("initial case number load")
+        fetchTotalCaseOpened();
+    },[])
 
 
     const handleLogIn = () => {
