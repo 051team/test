@@ -4,9 +4,9 @@ import _051 from "../../public/051.jpg";
 import { useEffect, useState,useRef } from "react";
 import { colorGenerator, formatter, generateRandomNumber, shuffleArray } from "./../tools";
 
-const Slot = ({id,e,i,caseInfo,won,sliderOffset,vertical,wonM, bingoposition,slidertoplay}:any) => {
+const Slot = ({id,e,i,caseInfo,won,sliderOffset,sliderOffsetVertical,vertical,wonM, bingoposition,slidertoplay}:any) => {
     const currentSlot = useRef<HTMLButtonElement>(null);
-    const [slotOffet, setSlotOffet] = useState<number>();
+    const [slotOffet, setSlotOffet] = useState<number>(0);
     const [passed, setPassed] = useState<boolean>(false);
 
     useEffect(() => {
@@ -26,11 +26,11 @@ const Slot = ({id,e,i,caseInfo,won,sliderOffset,vertical,wonM, bingoposition,sli
                 tick.play();
             }
         }
-      }, [sliderOffset,passed,vertical]);
+      }, [sliderOffset,vertical]);
 
       useEffect(() => {
-        if(sliderOffset && vertical && slidertoplay === 0){
-            if(sliderOffset < -(i*200+100) && !passed){
+        if(sliderOffsetVertical && slidertoplay === 0){
+            if(sliderOffsetVertical < -(i*200+100) && !passed){
                 setPassed(true);
                 const tick = new Audio("/tick1.mp3");
                 tick.playbackRate = 1;
@@ -38,7 +38,7 @@ const Slot = ({id,e,i,caseInfo,won,sliderOffset,vertical,wonM, bingoposition,sli
                 tick.play();
             }
         }
-      }, [sliderOffset,vertical,passed]);
+      }, [sliderOffsetVertical]);
       
 
     return ( 

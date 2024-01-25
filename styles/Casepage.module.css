@@ -174,16 +174,16 @@
 .casepage_case #kernelvertical {
   display: flex;
   justify-items: center;
-  -moz-column-gap: 10px;
-       column-gap: 10px;
+  -moz-column-gap: 3px;
+       column-gap: 3px;
   align-items: flex-start;
   box-shadow: 0 0 4px 1px gray;
   height: 200px;
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
-  padding: 0 50px;
   position: relative;
+  border-radius: 20px;
 }
 .casepage_case #kernelvertical #leftindex, .casepage_case #kernelvertical #rightindex {
   position: absolute;
@@ -192,6 +192,7 @@
   align-self: center;
   color: orange;
   font-size: x-large;
+  z-index: 999;
 }
 .casepage_case #kernelvertical #rightindex {
   right: 0;

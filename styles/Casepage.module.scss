@@ -162,13 +162,13 @@
         #kernelvertical{
             display: flex;
             justify-items: center;
-            column-gap: 10px;
+            column-gap: 3px;
             align-items: flex-start;
             box-shadow: 0 0 4px 1px gray;
             height: 200px;
             width: fit-content;
-            padding: 0 50px;
             position: relative;
+            border-radius: 20px;
             #leftindex, #rightindex{
                 position: absolute;
                 left: 0;
@@ -176,6 +176,7 @@
                 align-self: center;
                 color: orange;
                 font-size: x-large;
+                z-index: 999;
             }
             #rightindex{
                 right: 0;

@@ -8,14 +8,13 @@ import Slot from "./sliderslot";
 const VerticalSlider = ({caseInfo,verticalSpin, multiWon,multiplier}:any) => {
     let howmany = 100;
     const slider = useRef<HTMLDivElement>(null);
-    const [sliderOffset, setSliderOffset] = useState(0);
+    const [sliderOffsetVertical, setSliderOffsetVertical] = useState(0);
 
     useEffect(() => {
         const updateOffsetTop = () => {
           if (slider.current) {
             const currentOffsetTop = slider.current.offsetTop;
-            setSliderOffset(currentOffsetTop);
-            //console.log(currentOffsetTop);
+            setSliderOffsetVertical(currentOffsetTop);
             if (currentOffsetTop === - 8000 || !verticalSpin) {
               clearInterval(intervalId);
             }
@@ -27,7 +26,8 @@ const VerticalSlider = ({caseInfo,verticalSpin, multiWon,multiplier}:any) => {
         return () => {
           clearInterval(intervalId);
         };
-      }, [verticalSpin]);
+      }, [verticalSpin,multiplier]);
+
 
     const makeOccuranceRate = (gifts:any[]) => {
         const prices:any[] = [];
@@ -98,7 +98,7 @@ const VerticalSlider = ({caseInfo,verticalSpin, multiWon,multiplier}:any) => {
                     <Slot 
                         id={""} i={i} 
                         caseInfo={caseInfo} e={e}
-                        key={i} sliderOffset={sliderOffset}                         
+                        key={i} sliderOffsetVertical={sliderOffsetVertical}                         
                         bingoposition={90}
                         vertical={true}
                         slidertoplay = {ii}

@@ -144,7 +144,7 @@ const Case_page = () => {
         }
     }
 
-    const [multiplier,setMultplier] = useState<number | null>(null);
+    const [multiplier,setMultplier] = useState<number | null>(2);
     const caseOpenDisabled = !balance || !caseInfo 
                             || ( caseInfo && balance && caseInfo.casePrice > balance)
                             || ( caseInfo && balance && multiplier && caseInfo.casePrice*multiplier > balance);
@@ -222,11 +222,9 @@ const Case_page = () => {
 
 
     const handleMultiIndex = (index:number) => {
-        setVerticalSpin(false);
-        setMultplier(null);
-        setVertical(true);
-        setHorizontal(false);
-        setMultplier(index);
+        setMultplier(()=>index);
+        setVertical(()=>true);
+        setHorizontal(()=>false);
     }
 
     const handleOpenMultipleCase = async () => {
@@ -279,6 +277,8 @@ const Case_page = () => {
                 setTimeout(() => {
                     setTempoText(null);
                     setMultiWon(null);
+                    setVertical(false);
+                    setHorizontal(true);
                 }, 2000);
             }
         } catch (error) {
@@ -340,9 +340,6 @@ const Case_page = () => {
             <VerticalSlider 
                 caseInfo = {caseInfo}
                 multiplier = {multiplier}
-                repetitionCurve = {repetitionCurve}
-                placeholders = {verticalplaceholders}
-                howmanyPlaceholder = {howmanyPlaceholder}
                 verticalSpin={verticalSpin}
                 multiWon={multiWon}
             /> 
@@ -427,7 +424,7 @@ const Case_page = () => {
             </div>
             <div id={c.actions}>
                     <button id={c.shaped3} style={{color:"white"}}
-                    onClick={()=> {setMultiWon(()=>null);}}
+                    onClick={()=> {setMultiWon(()=>null);setVertical(false); setHorizontal(true)}}
                     >
                         OPEN AGAIN <Image src={"/redo.png"} alt={"re-open the case"} width={20} height={20} />
                     </button>
