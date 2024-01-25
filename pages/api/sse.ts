@@ -23,6 +23,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const sendCurrentTime = () => {
             const randomItem = Math.floor(Math.random() * lastDrops.length);
             res.write(`data: ${JSON.stringify(lastDrops[randomItem])}\n\n`);
+            res.end();
         };
 
         intervalId = setInterval(sendCurrentTime, 1000) as NodeJS.Timer;
