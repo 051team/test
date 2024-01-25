@@ -26,7 +26,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             res.end();
         };
 
-        intervalId = setInterval(sendCurrentTime, 1000) as NodeJS.Timer;
+        intervalId = setInterval(sendCurrentTime, 400) as NodeJS.Timer;
 
         req.on('close', async () => {
             console.log('Client disconnected');
