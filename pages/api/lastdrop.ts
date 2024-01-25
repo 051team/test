@@ -13,9 +13,16 @@ export default async function handler(
     client = await connectToDatabase();
     const data_base = client.db('casadepapel');
     const livedrop = data_base.collection('livedrop');
+    const totalCount = data_base.collection('totalOpenedCaseNumber');
 
-    const randomDrop = await livedrop.aggregate([{ $sample: { size: 1 } }]).toArray();
-    if(randomDrop){
+    const randomDrop = await livedrop.aggregate([
+      { $sample: { size: 1 } },
+      { $project: { _id: 0 } }
+      ]).toArray();
+      if(randomDrop){
+      const dropTime = (new Date()).getTime();
+      const resultDrop = await livedrop.insertOne({...randomDrop[0],dropTime:dropTime,isF:true});
+      const resultCount = await totalCount.updateOne({duty:"keepcount"},{$inc:{totalNumber:1}});
       res.status(200).json({lastDrop:randomDrop[0]});
     }
 

@@ -34,6 +34,7 @@ const Navbar = () => {
     const balance = useSelector((state:any) => state.loginSlice.balance);
     const bChange = useSelector((state:any) => state.loginSlice.balanceChange);
     const totalCasesOpened = useSelector((state:any)=> state.loginSlice.totalCasesOpened);
+    const ownDrop = useSelector((state:any)=> state.loginSlice.ownDrop);
 
     const search = useRef<HTMLInputElement>(null);
     const searchResultNo = useSelector((state:any)=> state.loginSlice.searchResultNo);
@@ -99,7 +100,7 @@ const Navbar = () => {
 
     //update total cases opened
     useEffect( ()=>{
-        const fetchTotalCaseOpened =async () => {
+        const fetchTotalCaseOpened = async () => {
             try {
                 const response = await fetch("/api/totalcasesopened");
                 if(!response.ok){
@@ -118,7 +119,7 @@ const Navbar = () => {
         if(!totalCasesOpened){
             fetchTotalCaseOpened();
         }
-    },[])
+    },[ownDrop])
 
 
     const handleLogIn = () => {

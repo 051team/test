@@ -6,7 +6,7 @@ import { useSession } from 'next-auth/react';
 import { colorGenerator, compareObjects, formatter } from "../tools";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { note_ownDrop } from "../redux/loginSlice";
+import { note_ownDrop, note_TotalCasesOpened } from "../redux/loginSlice";
 
 
 const Livedrop = () => {
@@ -14,14 +14,36 @@ const Livedrop = () => {
     const [drops, setDrops] = useState<any>(null);   
     const ownDrop = useSelector((state:any)=> state.loginSlice.ownDrop);
     const dispatch = useDispatch();
+    const totalCasesOpened = useSelector((state:any)=> state.loginSlice.totalCasesOpened);
 
+    //handle drop after case opening and animation
     useEffect(()=>{
-        if(ownDrop){
+        if(ownDrop && Array.isArray(ownDrop)){
+            const addItem = (item: any) => {
+                setDrops((previous: any) => {
+                    setDropId(()=>"drop");
+                    const updatedDrops = [item, ...previous.slice(0, previous.length - 1)];
+                    setTimeout(() => {
+                        setDropId("");
+                    }, 1000);
+                    return updatedDrops;
+                });
+            };
+    
+            ownDrop.forEach((item, index) => {
+                setTimeout(() => addItem(item), index * 1200);
+            });
+            dispatch(note_ownDrop(null));
+        }
+        else if(ownDrop && typeof ownDrop === "object"){
             setDrops((previous:any)=>{
                 const updatedDrops = [ownDrop, ...previous.slice(0,previous.length-1)];
                 return updatedDrops;
             })
             setDropId("drop");
+            setTimeout(() => {
+                setDropId("");
+            }, 1000);
             dispatch(note_ownDrop(null));
         }
     },[ownDrop])
@@ -48,6 +70,7 @@ const Livedrop = () => {
     // bring latest drop
     const [intervalSpan,setSpan] = useState(5000);
     useEffect(()=>{
+        let interval: NodeJS.Timeout
         const fetchLastDrop = async () => {
             try {
                 const response = await fetch("/api/lastdrop");
@@ -60,7 +83,13 @@ const Livedrop = () => {
                         return updatedDrops;
                     })
                     setDropId("drop");
-                    setSpan(3000 + Math.floor(Math.random()*4000));
+                    setTimeout(() => {
+                        setDropId("");
+                    }, 1000);
+                    if(totalCasesOpened){
+                        dispatch(note_TotalCasesOpened(totalCasesOpened+1));
+                    }
+                    setSpan(5000 + Math.floor(Math.random()*4000));
                 }else{
                     console.log(response.status, response)
                 }
@@ -68,7 +97,7 @@ const Livedrop = () => {
                 console.log(error)
             }
         }
-        const interval = setInterval(()=>{
+        interval = setInterval(()=>{
             if(!ownDrop){
                 fetchLastDrop();
             }
@@ -76,16 +105,8 @@ const Livedrop = () => {
         return () => {
             clearInterval(interval);
         }
-    },[intervalSpan,ownDrop])
+    },[intervalSpan,ownDrop,totalCasesOpened])
 
-
-    useEffect(()=>{
-        if(dropId === "drop"){
-            setTimeout(() => {
-                setDropId("");
-            }, 1000);
-        }
-    },[dropId])
 
     return ( 
         <div className={h.home_navbar_slider} style={{width:drops ? (drops.length+1)*110 : "fit-content", minWidth:!drops ? "2300px" : "none"}}>

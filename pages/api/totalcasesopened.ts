@@ -12,11 +12,12 @@ export default async function handler(
   try {
     client = await connectToDatabase();
     const data_base = client.db('casadepapel');
-    const livedrop = data_base.collection('livedrop');
+    const totalCount = data_base.collection('totalOpenedCaseNumber');
 
-    const drops = await livedrop.find().toArray();
-    res.status(200).json({totalCasesOpened:drops.length});
-
+    const currentCount = await totalCount.findOne({duty:"keepcount"});
+    if(currentCount){
+      res.status(200).json({totalCasesOpened:currentCount.totalNumber});
+    }
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Couldn't get total number of cases opened " })

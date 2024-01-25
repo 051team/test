@@ -249,6 +249,16 @@ const Case_page = () => {
                 const resJson = await response.json();
                 const wonItems = resJson.wonItems;
                 setMultiWon(wonItems);
+                setTimeout( async () => {
+                    const responseLiveDrop = await fetch("/api/addtolivedrop",{
+                        method:"POST",
+                        body:JSON.stringify(wonItems)
+                    })
+                    if(response.status === 200){
+                        dispatch(note_ownDrop(wonItems));
+                        dispatch(note_TotalCasesOpened(totalCasesOpened+1))
+                    }
+                }, 7000);
             }else{
                 console.log(response);
             }

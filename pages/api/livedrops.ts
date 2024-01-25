@@ -13,11 +13,10 @@ export default async function handler(
     client = await connectToDatabase();
     const data_base = client.db('casadepapel');
     const livedrop = data_base.collection('livedrop');
-    //const lastDrops = await livedrop.aggregate([{ $sample: { size: 30 } }]).toArray();
-
-    const drops = await livedrop.find().toArray();
-    const lastDrops = drops.sort((a:any,b:any)=> b.dropTime - a.dropTime).slice(0,30);
-
+    const lastDrops = await livedrop.find()
+                                .sort({ dropTime: -1 })
+                                .limit(30)            
+                                .toArray();
     res.status(200).json(lastDrops);
 
   } catch (error) {
