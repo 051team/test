@@ -8,7 +8,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   let client;
-  console.log("Last drop endpoint accessed")
+  console.log("All drops accessed")
 
 
   try {
