@@ -9,10 +9,12 @@ export default function handler(req: NextApiRequest, res: NextApiResponse): Prom
     return new Promise(async (resolve, reject) => {
         try {
             // Set response headers
-            res.setHeader('Content-Type', 'text/event-stream');
-            res.setHeader('Cache-Control', 'no-cache');
-            res.setHeader('Connection', 'keep-alive');
-            res.setHeader('Content-Encoding', 'none');
+            res.writeHead(200, {
+                Connection: 'keep-alive',
+                'Content-Encoding': 'none',
+                'Cache-Control': 'no-cache',
+                'Content-Type': 'text/event-stream',
+              });
 
             client = await connectToDatabase();
             const data_base = client.db('casadepapel');
