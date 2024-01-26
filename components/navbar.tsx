@@ -24,7 +24,7 @@ type User = {
 
 const Navbar = () => {
     const { data: session } = useSession();
-
+    
     const core = useRef<HTMLDivElement>(null);
     const promo = useRef<HTMLInputElement>(null);
     const [promoModal,setPromoModalOpen] = useState(false);
@@ -187,7 +187,7 @@ const Navbar = () => {
         <div className={h.home_navbar}>
             <div className={h.home_navbar_top}>
                 <span id={h.each}><span id={h.dot}>&#x2022;</span> {activeUserCount ?? ""} <span style={{color:"#00bc3e"}}>Online</span> </span>
-                <span id={h.each}><span>&#9729;</span> {/* {totalCaseCount && totalCaseCount.total} */}<span style={{color:"#009fb3"}}>Case Opened</span></span>
+                <span id={h.each}><span>&#9729;</span><span style={{color:"#009fb3"}}>Case Opened</span></span>
             </div>
             <div className={h.home_navbar_bottom}>
                 <Link href={"/"}>
