@@ -88,7 +88,6 @@ const Case_page = () => {
                 if(responseLiveDrop.status === 200){
                     setTimeout(() => {
                         dispatch(note_ownDrop(resJson.lucky));
-                        dispatch(note_TotalCasesOpened(totalCasesOpened+1))
                     }, 4000);
                 }
             }, 7000);

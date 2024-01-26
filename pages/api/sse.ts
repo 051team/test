@@ -14,9 +14,12 @@ export default function handler(req: NextApiRequest, res: NextApiResponse): Prom
             res.setHeader('Cache-Control', 'no-cache');
             res.setHeader('Connection', 'keep-alive');
             res.setHeader('Content-Encoding', 'none');
+
             client = await connectToDatabase();
             const data_base = client.db('casadepapel');
             const livedrop = data_base.collection('livedrop');
+            const totalCount = data_base.collection('totalOpenedCaseNumber');
+
             const lastDrops = await livedrop.find({ isF: { $ne: true } })
             .sort({ dropTime: -1 })
             .limit(30)            
@@ -28,7 +31,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse): Prom
             return shuffled.slice(0, count);
             }
 
-            const randomDrops = pickRandomElements(lastDrops, 1).map((drop,i) => {
+            const randomDrops = pickRandomElements(lastDrops, 2).map((drop,i) => {
                 let newDoc = { ...drop };
                 newDoc.dropTime = (new Date()).getTime()+i;
                 newDoc.isF = true;
@@ -37,14 +40,15 @@ export default function handler(req: NextApiRequest, res: NextApiResponse): Prom
             });
 
 
-            const resultAddtoLivedrop = await livedrop.insertMany(randomDrops);
-
             const sendCurrentTime = async () => {
                 res.write(`data: ${JSON.stringify(randomDrops)}\n\n`);
                 res.end();
             };
 
-            intervalId = setInterval(sendCurrentTime, 5000) as NodeJS.Timer;
+            intervalId = setInterval(sendCurrentTime, 3000) as NodeJS.Timer;
+            
+            const resultAddtoLivedrop = await livedrop.insertMany(randomDrops);
+            const resultCount = await totalCount.updateOne({duty:"keepcount"},{$inc:{totalNumber:1}});
 
             req.on('close', async () => {
                 console.log('Client disconnected');

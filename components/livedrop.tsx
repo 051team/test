@@ -34,8 +34,10 @@ const Livedrop = () => {
                 setTimeout(() => addItem(item), index * 1200);
             });
             dispatch(note_ownDrop(null));
+            dispatch(note_TotalCasesOpened(totalCasesOpened+1))
         }
         else if(ownDrop && typeof ownDrop === "object"){
+            dispatch(note_TotalCasesOpened(totalCasesOpened+1))
             setDrops((previous:any)=>{
                 const updatedDrops = [ownDrop, ...previous.slice(0,previous.length-1)];
                 return updatedDrops;
@@ -90,13 +92,14 @@ const Livedrop = () => {
             const eventData = JSON.parse(event.data);
             console.log(eventData)
             eventData.forEach((item:any, index:any) => {
+                dispatch(note_TotalCasesOpened(totalCasesOpened+1))
                 setTimeout(() => addItem(item), index * 1200);
             });
         };
         return () => {
           eventSource.close();
         };
-      }, []);
+      }, [totalCasesOpened]);
     
     
     return ( 
