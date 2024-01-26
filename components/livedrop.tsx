@@ -6,26 +6,13 @@ import { useSession } from 'next-auth/react';
 import { colorGenerator, compareObjects, formatter } from "../tools";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { note_ownDrop, note_TotalCasesOpened } from "../redux/loginSlice";
-import useSWR from 'swr'
-
+import { note_ownDrop } from "../redux/loginSlice";
 
 const Livedrop = () => {
-/*     const fetcher = (url:string) => fetch(url).then(r => r.json());
-    const { data, error, isLoading } = useSWR('/api/othersdrop', fetcher);
-
-    useEffect(()=>{
-        if(data){
-            console.log(data)
-        }
-    },[data]) */
-
-
     const [dropId, setDropId] = useState("");
     const [drops, setDrops] = useState<any>(null);   
     const ownDrop = useSelector((state:any)=> state.loginSlice.ownDrop);
     const dispatch = useDispatch();
-    const totalCasesOpened = useSelector((state:any)=> state.loginSlice.totalCasesOpened);
 
     //handle drop after case opening and animation
     useEffect(()=>{
@@ -45,10 +32,8 @@ const Livedrop = () => {
                 setTimeout(() => addItem(item), index * 1200);
             });
             dispatch(note_ownDrop(null));
-            //dispatch(note_TotalCasesOpened(totalCasesOpened+1))
         }
         else if(ownDrop && typeof ownDrop === "object"){
-            //dispatch(note_TotalCasesOpened(totalCasesOpened+1))
             setDrops((previous:any)=>{
                 const updatedDrops = [ownDrop, ...previous.slice(0,previous.length-1)];
                 return updatedDrops;
@@ -85,6 +70,7 @@ const Livedrop = () => {
 
     const [gift,setGift] = useState<any>();
     const [ES,setES] = useState<EventSource>();
+    
 /* 
     useEffect(() => {
         const eventSource = new EventSource('/api/sse');

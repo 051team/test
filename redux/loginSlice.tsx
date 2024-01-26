@@ -12,7 +12,6 @@ interface AppState {
     message: string;
     color: string;
   };
-  totalCasesOpened:number | null
 }
 
 const initialState:AppState = {
@@ -24,7 +23,6 @@ const initialState:AppState = {
   ownDrop:null,
   universal_modal:false,
   universal_feedback:{message:"",color:"whitesmoke"},
-  totalCasesOpened:null
 }
 
 
@@ -56,13 +54,10 @@ export const loginSlice = createSlice({
     note_universal_modal: (state, action) => {
       state.universal_modal = action.payload;
     },
-    note_TotalCasesOpened: (state, action) => {
-      state.totalCasesOpened = action.payload;
-    },
   },
 });
 
-export const { note_balanceChange,note_balance,note_universal_modal,note_TotalCasesOpened,
+export const { note_balanceChange,note_balance,note_universal_modal,
   note_searchBy,note_searchResultNo,note_activeUserCount,note_ownDrop} = loginSlice.actions
 
 export default loginSlice.reducer

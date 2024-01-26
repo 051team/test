@@ -10,11 +10,11 @@ import profile from "../public/profile.png";
 import logout from "../public/logout.png";
 import { formatter } from "../tools";
 import crazy from "../public/assets/promo.png";
-import Modal from "./modal";
 import { useSelector,useDispatch } from "react-redux";
-import { note_balanceChange, note_balance,note_TotalCasesOpened, note_searchBy, note_activeUserCount } from "./../redux/loginSlice";
+import { note_balanceChange, note_balance, note_searchBy, note_activeUserCount } from "./../redux/loginSlice";
 import Link from "next/link";
 import Livedrop from "./livedrop";
+import useSWR from 'swr';
 
 type User = {
     name?: string | null | undefined;
@@ -24,7 +24,11 @@ type User = {
   };
 
 const Navbar = () => {
+    const fetcher = (url:string) => fetch(url).then(r => r.json());
+    //const { data:totalCaseCount, error, isLoading } = useSWR('/api/totalopenedcase', fetcher, { refreshInterval: 3000 })
+
     const { data: session } = useSession();
+
     const core = useRef<HTMLDivElement>(null);
     const promo = useRef<HTMLInputElement>(null);
     const [promoModal,setPromoModalOpen] = useState(false);
@@ -33,8 +37,6 @@ const Navbar = () => {
     const dispatch = useDispatch();
     const balance = useSelector((state:any) => state.loginSlice.balance);
     const bChange = useSelector((state:any) => state.loginSlice.balanceChange);
-    const totalCasesOpened = useSelector((state:any)=> state.loginSlice.totalCasesOpened);
-    const ownDrop = useSelector((state:any)=> state.loginSlice.ownDrop);
 
     const search = useRef<HTMLInputElement>(null);
     const searchResultNo = useSelector((state:any)=> state.loginSlice.searchResultNo);
@@ -97,29 +99,6 @@ const Navbar = () => {
         }
         window.addEventListener("click", handleOutsideClick)
     },[]);
-
-    //update total cases opened
-    useEffect( ()=>{
-        const fetchTotalCaseOpened = async () => {
-            try {
-                const response = await fetch("/api/totalcasesopened");
-                if(!response.ok){
-                    alert(response.status);
-                    return
-                }
-                if(response.status === 200){
-                    const resJson = await response.json();
-                    const total = resJson.totalCasesOpened;
-                    dispatch(note_TotalCasesOpened(total));
-                }
-            } catch (error) {
-                console.log("Sorun var!", error)
-            }
-        }
-        console.log("initial case number load")
-        fetchTotalCaseOpened();
-    },[])
-
 
     const handleLogIn = () => {
         if(!session){
@@ -212,7 +191,7 @@ const Navbar = () => {
         <div className={h.home_navbar}>
             <div className={h.home_navbar_top}>
                 <span id={h.each}><span id={h.dot}>&#x2022;</span> {activeUserCount ?? ""} <span style={{color:"#00bc3e"}}>Online</span> </span>
-                <span id={h.each}><span>&#9729;</span> {totalCasesOpened ?? "..."}<span style={{color:"#009fb3"}}>Case Opened</span></span>
+                <span id={h.each}><span>&#9729;</span> {/* {totalCaseCount && totalCaseCount.total} */}<span style={{color:"#009fb3"}}>Case Opened</span></span>
             </div>
             <div className={h.home_navbar_bottom}>
                 <Link href={"/"}>

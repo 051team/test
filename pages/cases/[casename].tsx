@@ -7,7 +7,7 @@ import { useEffect, useState,useRef } from "react";
 import { useRouter } from 'next/router';
 import Modal from "../../components/modal";
 import { useDispatch,useSelector } from "react-redux";
-import { note_balanceChange, note_ownDrop, note_TotalCasesOpened } from "../../redux/loginSlice";
+import { note_balanceChange, note_ownDrop } from "../../redux/loginSlice";
 import { colorGenerator, formatter, generateRandomNumber, shuffleArray } from "../../tools";
 import Universal_modal from "../../components/universal_modal";
 import Notification from "../../components/notifybox";
@@ -259,7 +259,6 @@ const Case_page = () => {
                     })
                     if(response.status === 200){
                         dispatch(note_ownDrop(wonItems));
-                        dispatch(note_TotalCasesOpened(totalCasesOpened+1))
                     }
                 }, 7000);
             }else{
