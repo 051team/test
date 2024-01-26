@@ -1,6 +1,7 @@
 import { MongoClient } from 'mongodb';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { connectToDatabase, closeDatabaseConnection } from "./mdb";
+import { v4 as uuidv4 } from 'uuid';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse): Promise<void> {
     let client: MongoClient;
@@ -26,20 +27,26 @@ export default function handler(req: NextApiRequest, res: NextApiResponse): Prom
             return shuffled.slice(0, count);
             }
 
-            const randomDrops = pickRandomElements(lastDrops, 5);
+            const randomDrops = pickRandomElements(lastDrops, 1).map((drop,i) => {
+                let newDoc = { ...drop };
+                newDoc.dropTime = (new Date()).getTime()+i;
+                delete newDoc._id;
+                return newDoc;
+            });
 
+            const resultAddtoLivedrop = await livedrop.insertMany(randomDrops);
 
-            const sendCurrentTime = () => {
+            const sendCurrentTime = async () => {
                 res.write(`data: ${JSON.stringify(randomDrops)}\n\n`);
                 res.end();
             };
 
-            intervalId = setInterval(sendCurrentTime, 2000) as NodeJS.Timer;
+            intervalId = setInterval(sendCurrentTime, 5000) as NodeJS.Timer;
 
             req.on('close', async () => {
                 console.log('Client disconnected');
-                clearInterval(intervalId);
                 await closeDatabaseConnection(client);
+                clearInterval(intervalId);
                 resolve();
                 res.end();
             });
@@ -50,6 +57,12 @@ export default function handler(req: NextApiRequest, res: NextApiResponse): Prom
                 await closeDatabaseConnection(client);
             }
             reject(error);
+        }
+        finally{
+            if (client) {
+                await closeDatabaseConnection(client);
+                console.log("DB closed feedback from SSE")
+            }
         }
     });
 }

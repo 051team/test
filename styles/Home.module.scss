@@ -235,13 +235,13 @@
             }
             #drop{
                 position: relative;
-                animation: hop 1s 1 forwards;
+                animation: hop 0.3s 1 forwards;
                 color:whitesmoke;
                 display: grid;
                 grid-template-rows: 2fr 1fr;
                 justify-items: center;
                 align-items: center;
-                filter: brightness(1.8) !important;
+                filter: brightness(1.3) !important;
                 width: 110px;
                 top:-30px;
                 img{

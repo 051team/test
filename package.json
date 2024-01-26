@@ -26,10 +26,12 @@
     "react-dom": "18.2.0",
     "react-redux": "^9.0.4",
     "redux": "^5.0.1",
-    "typescript": "5.3.3"
+    "typescript": "5.3.3",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@types/formidable": "^3.4.5",
-    "@types/multer": "^1.4.11"
+    "@types/multer": "^1.4.11",
+    "@types/uuid": "^9.0.8"
   }
 }
