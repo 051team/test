@@ -8,7 +8,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   let client;
-  console.log("All drops accessed")
+  console.log("livedrops.ts");
 
 
   try {

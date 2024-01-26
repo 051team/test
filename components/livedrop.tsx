@@ -11,14 +11,14 @@ import useSWR from 'swr'
 
 
 const Livedrop = () => {
-    const fetcher = (url:string) => fetch(url).then(r => r.json());
+/*     const fetcher = (url:string) => fetch(url).then(r => r.json());
     const { data, error, isLoading } = useSWR('/api/othersdrop', fetcher);
 
     useEffect(()=>{
         if(data){
             console.log(data)
         }
-    },[data])
+    },[data]) */
 
 
     const [dropId, setDropId] = useState("");
@@ -45,10 +45,10 @@ const Livedrop = () => {
                 setTimeout(() => addItem(item), index * 1200);
             });
             dispatch(note_ownDrop(null));
-            dispatch(note_TotalCasesOpened(totalCasesOpened+1))
+            //dispatch(note_TotalCasesOpened(totalCasesOpened+1))
         }
         else if(ownDrop && typeof ownDrop === "object"){
-            dispatch(note_TotalCasesOpened(totalCasesOpened+1))
+            //dispatch(note_TotalCasesOpened(totalCasesOpened+1))
             setDrops((previous:any)=>{
                 const updatedDrops = [ownDrop, ...previous.slice(0,previous.length-1)];
                 return updatedDrops;
@@ -112,16 +112,13 @@ const Livedrop = () => {
         };
       }, [totalCasesOpened]); */
     
-    const handleSWRTest = async () => {
-        await fetch(`/api/othersdrop`)
-    }
+
     return ( 
         <div className={h.home_navbar_slider} style={{width:drops ? (drops.length+1)*110 : "fit-content", minWidth:!drops ? "2300px" : "none"}}>
-            <button key={99} id={h.usual} style={{zIndex:99}} onClick={handleSWRTest}>
+            <button key={99} id={h.usual} style={{zIndex:99}}>
                     <Image priority src={"/assets/live.png"} alt={"051 logo"} width={60} height={60} style={{filter:"brightness(1.9)"}} />
                     <div id={h.text} style={{position:"relative",top:"-15px", color:"darkorange"}}>
                         <span style={{fontWeight:"bolder"}}>LIVEDROP {drops && drops.length}</span>
-                        <span>{data && data.name}</span>
                     </div>
             </button>
             {

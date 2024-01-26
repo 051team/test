@@ -7,7 +7,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  //console.log("Fetch CASES Endpoint accessed");
+  console.log("Fetch CASES Endpoint accessed");
   let client;
   try {
     client = await connectToDatabase();

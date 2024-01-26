@@ -8,6 +8,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   let client;
+  console.log("totalcasesopened.ts")
 
   try {
     client = await connectToDatabase();

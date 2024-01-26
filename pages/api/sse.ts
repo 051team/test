@@ -5,6 +5,7 @@ import { connectToDatabase, closeDatabaseConnection } from "./mdb";
 export default function handler(req: NextApiRequest, res: NextApiResponse): Promise<void> {
     let client: MongoClient;
     let intervalId: any;
+    console.log("sse.ts")
     return new Promise(async (resolve, reject) => {
         try {
             // Set response headers
