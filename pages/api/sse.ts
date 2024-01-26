@@ -1,12 +1,10 @@
 import { MongoClient } from 'mongodb';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { connectToDatabase, closeDatabaseConnection } from "./mdb";
-import { v4 as uuidv4 } from 'uuid';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse): Promise<void> {
     let client: MongoClient;
     let intervalId: any;
-
     return new Promise(async (resolve, reject) => {
         try {
             // Set response headers
@@ -46,9 +44,9 @@ export default function handler(req: NextApiRequest, res: NextApiResponse): Prom
             };
 
             intervalId = setInterval(sendCurrentTime, 3000) as NodeJS.Timer;
-            
+
             const resultAddtoLivedrop = await livedrop.insertMany(randomDrops);
-            const resultCount = await totalCount.updateOne({duty:"keepcount"},{$inc:{totalNumber:1}});
+            const resultCount = await totalCount.updateOne({duty:"keepcount"},{$inc:{totalNumber:2}});
 
             req.on('close', async () => {
                 console.log('Client disconnected');
