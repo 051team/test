@@ -14,6 +14,7 @@ import { useSelector,useDispatch } from "react-redux";
 import { note_balanceChange, note_balance, note_searchBy, note_activeUserCount } from "./../redux/loginSlice";
 import Link from "next/link";
 import Livedrop from "./livedrop";
+import useSWR from 'swr';
 
 type User = {
     name?: string | null | undefined;
@@ -23,6 +24,8 @@ type User = {
   };
 
 const Navbar = () => {
+    const fetcher = (url:string) => fetch(url).then(r => r.json());
+    const { data:totalCaseCount, error, isLoading } = useSWR('/api/totalopenedcase', fetcher, { refreshInterval: 3000 })
     const { data: session } = useSession();
     
     const core = useRef<HTMLDivElement>(null);
@@ -187,7 +190,7 @@ const Navbar = () => {
         <div className={h.home_navbar}>
             <div className={h.home_navbar_top}>
                 <span id={h.each}><span id={h.dot}>&#x2022;</span> {activeUserCount ?? ""} <span style={{color:"#00bc3e"}}>Online</span> </span>
-                <span id={h.each}><span>&#9729;</span><span style={{color:"#009fb3"}}>Case Opened</span></span>
+                <span id={h.each}><span>&#9729;</span> {totalCaseCount && totalCaseCount.total}<span style={{color:"#009fb3"}}>Case Opened</span></span>
             </div>
             <div className={h.home_navbar_bottom}>
                 <Link href={"/"}>
