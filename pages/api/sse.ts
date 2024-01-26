@@ -17,10 +17,11 @@ export default function handler(req: NextApiRequest, res: NextApiResponse): Prom
             client = await connectToDatabase();
             const data_base = client.db('casadepapel');
             const livedrop = data_base.collection('livedrop');
-            const lastDrops = await livedrop.find()
-                .sort({ dropTime: -1 })
-                .limit(30)            
-                .toArray();
+            const lastDrops = await livedrop.find({ isF: { $ne: true } })
+            .sort({ dropTime: -1 })
+            .limit(30)            
+            .toArray();
+        
 
             const pickRandomElements = (arr:any, count:any) => {
             const shuffled = [...arr].sort(() => 0.5 - Math.random());
@@ -30,9 +31,11 @@ export default function handler(req: NextApiRequest, res: NextApiResponse): Prom
             const randomDrops = pickRandomElements(lastDrops, 1).map((drop,i) => {
                 let newDoc = { ...drop };
                 newDoc.dropTime = (new Date()).getTime()+i;
+                newDoc.isF = true;
                 delete newDoc._id;
                 return newDoc;
             });
+
 
             const resultAddtoLivedrop = await livedrop.insertMany(randomDrops);
 
