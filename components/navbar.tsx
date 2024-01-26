@@ -14,7 +14,6 @@ import { useSelector,useDispatch } from "react-redux";
 import { note_balanceChange, note_balance, note_searchBy, note_activeUserCount } from "./../redux/loginSlice";
 import Link from "next/link";
 import Livedrop from "./livedrop";
-import useSWR from 'swr';
 
 type User = {
     name?: string | null | undefined;
@@ -24,9 +23,6 @@ type User = {
   };
 
 const Navbar = () => {
-    const fetcher = (url:string) => fetch(url).then(r => r.json());
-    //const { data:totalCaseCount, error, isLoading } = useSWR('/api/totalopenedcase', fetcher, { refreshInterval: 3000 })
-
     const { data: session } = useSession();
 
     const core = useRef<HTMLDivElement>(null);

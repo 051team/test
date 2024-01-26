@@ -33,7 +33,6 @@ const Case_page = () => {
     const balance = useSelector((state:any) => state.loginSlice.balance);
     const [indexShift, setIndexShift] = useState<string>("0px");
     const universalModal = useSelector((state:any) => state.loginSlice.universal_modal);
-    const totalCasesOpened = useSelector((state:any)=> state.loginSlice.totalCasesOpened);
 
     const dispatch = useDispatch();
 
