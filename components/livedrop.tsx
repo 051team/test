@@ -7,12 +7,39 @@ import { colorGenerator, compareObjects, formatter } from "../tools";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { note_ownDrop } from "../redux/loginSlice";
+import Pusher from "pusher-js";
 
 const Livedrop = () => {
     const [dropId, setDropId] = useState("");
     const [drops, setDrops] = useState<any>(null);   
     const ownDrop = useSelector((state:any)=> state.loginSlice.ownDrop);
     const dispatch = useDispatch();
+
+    const [timefromPusher,setTime] = useState("");
+    useEffect(() => {
+        const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
+          cluster: "eu",
+        });
+    
+        const channel = pusher.subscribe("chat");
+    
+        channel.bind("chat-event", (data:any) => {
+          console.log(data.currentTime)
+          setTime(data.currentTime)
+        });
+    
+        return () => {
+          pusher.unsubscribe("chat");
+        };
+      }, []);
+
+      const handleTestPusher = async () => {
+        const response = fetch("/api/pusher", {
+            method:"POST",
+            body:"HELLO PUSHER"
+         })
+      };
+
 
     //handle drop after case opening and animation
     useEffect(()=>{
@@ -101,10 +128,11 @@ const Livedrop = () => {
 
     return ( 
         <div className={h.home_navbar_slider} style={{width:drops ? (drops.length+1)*110 : "fit-content", minWidth:!drops ? "2300px" : "none"}}>
-            <button key={99} id={h.usual} style={{zIndex:99}}>
+            <button key={99} id={h.usual} style={{zIndex:99}} onClick={handleTestPusher}>
                     <Image priority src={"/assets/live.png"} alt={"051 logo"} width={60} height={60} style={{filter:"brightness(1.9)"}} />
                     <div id={h.text} style={{position:"relative",top:"-15px", color:"darkorange"}}>
                         <span style={{fontWeight:"bolder"}}>LIVEDROP {drops && drops.length}</span>
+                        <span>{timefromPusher}</span>
                     </div>
             </button>
             {
