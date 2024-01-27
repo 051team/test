@@ -259,7 +259,6 @@
   grid-template-rows: 2fr 1fr;
   justify-items: center;
   align-items: center;
-  filter: brightness(1.3) !important;
   width: 110px;
   top: -30px;
 }

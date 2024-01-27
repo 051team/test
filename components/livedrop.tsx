@@ -63,7 +63,7 @@ const Livedrop = () => {
                 setTimeout(() => {
                     setDropId(()=>"");
                     setOngoing(()=>false);
-                }, 1000);
+                }, 500);
         };
         if(drops){
             addItem(reserve[reserve.length-1]);
