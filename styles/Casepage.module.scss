@@ -156,8 +156,9 @@
             }
         }
         #main{
-            box-shadow: 0 0 4px 1px gray;
+            box-shadow: 0 0 1px 1px orange;
             height: 200px;
+            border-radius: 10px;
         }
         #kernelvertical{
             display: flex;
