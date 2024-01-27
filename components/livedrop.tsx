@@ -25,13 +25,9 @@ const Livedrop = () => {
           //console.log(data.itemtoAddtoLivedrop);
           const dropReceived = data.itemtoAddtoLivedrop;
           if (Array.isArray(dropReceived)) {
-            // Spread the dropReceived array to add its items individually
             setReserve(reserve => [...dropReceived, ...reserve]);
-            setPumpingGoingOn(false);
             } else {
-                // Add a single item
                 setReserve(reserve => [dropReceived, ...reserve]);
-                setPumpingGoingOn(false);
             }
         });
     
@@ -39,28 +35,40 @@ const Livedrop = () => {
           pusher.unsubscribe("drop");
         };
       }, []);
-    
 
-    const [isPumpingGoingOn, setPumpingGoingOn] = useState<boolean>(true);
+    const [pumpagain,setPumpagain] = useState(0);
+    const [ongoing,setOngoing] = useState(false);
+
+
+    useEffect(()=>{
+        if(reserve.length > 0 && !ongoing ){
+            setTimeout(() => {
+                setPumpagain(()=>pumpagain+1);
+            }, 200);
+        }
+    },[reserve,ongoing]);
+
     useEffect(() => {
         const addItem = (item: any) => {
-            if(!isPumpingGoingOn){
-                setPumpingGoingOn(true);
+                setOngoing(()=>true);
                 setDropId(()=>"drop");
+                setReserve((previous: any) => {
+                    const updatedReserve = previous.slice(0, previous.length - 1);
+                    return updatedReserve;
+                });
                 setDrops((previous: any) => {
                     const updatedDrops = [item, ...previous.slice(0, previous.length - 1)];
                     return updatedDrops;
                 });
                 setTimeout(() => {
-                    setDropId("");
-                    setReserve(reserve => reserve.slice(1));
+                    setDropId(()=>"");
+                    setOngoing(()=>false);
                 }, 1000);
-            }
         };
-        reserve.forEach((item:any, index:any) => {
-            setTimeout(() => {addItem(item);setPumpingGoingOn(false);}, index * 1200);
-        });
-    }, [isPumpingGoingOn]);
+        if(drops){
+            addItem(reserve[reserve.length-1]);
+        }
+    }, [pumpagain]);
 
 
 
@@ -92,7 +100,6 @@ const Livedrop = () => {
                     <Image priority src={"/assets/live.png"} alt={"051 logo"} width={60} height={60} style={{filter:"brightness(1.9)"}} />
                     <div id={h.text} style={{position:"relative",top:"-15px", color:"darkorange"}}>
                         <span style={{fontWeight:"bolder"}}>LIVEDROP {drops && drops.length}</span>
-                        <span>{reserve.length}</span>
                     </div>
             </button>
             {
