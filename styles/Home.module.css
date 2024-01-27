@@ -219,6 +219,7 @@
   -moz-column-gap: 1px;
        column-gap: 1px;
   transition: width 1s ease;
+  margin-bottom: 15px;
 }
 .home_navbar_slider #usual {
   height: 110px;

@@ -373,7 +373,7 @@ const Case_page = () => {
         {
         resultVisible &&
         <>
-            <div className={c.casepage_case_kernel} id={c.main} style={{justifyItems:"center"}}>
+            <div className={c.casepage_case_kernel}  style={{justifyItems:"center"}}>
                 <div className={c.casepage_case_kernel_spinner}>
                     <button style={{backgroundImage:colorGenerator(won.giftPrice)}} id={c.shinewon}
                     >
