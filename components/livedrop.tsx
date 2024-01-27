@@ -13,36 +13,55 @@ const Livedrop = () => {
     const [drops, setDrops] = useState<any>(null);   
     const ownDrop = useSelector((state:any)=> state.loginSlice.ownDrop);
     const dispatch = useDispatch();
+    const [reserve,setReserve] = useState<any[]>([]);
 
+    // add new drops to the live drop, listening to drop channel
     useEffect(() => {
         const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
           cluster: "eu",
         });
-    
         const channel = pusher.subscribe("drop");
-    
         channel.bind("drop-event", (data:any) => {
-          console.log(data.itemtoAddtoLivedrop);
-          if(drops){
-            setDropId("drop");
-            setDrops([data.itemtoAddtoLivedrop,...drops.slice(0,drops.length-1)]);
-            setTimeout(() => {
-              setDropId("");
-            }, 1000);
-          }
+          //console.log(data.itemtoAddtoLivedrop);
+          const dropReceived = data.itemtoAddtoLivedrop;
+          if (Array.isArray(dropReceived)) {
+            // Spread the dropReceived array to add its items individually
+            setReserve(reserve => [...dropReceived, ...reserve]);
+            setPumpingGoingOn(false);
+            } else {
+                // Add a single item
+                setReserve(reserve => [dropReceived, ...reserve]);
+                setPumpingGoingOn(false);
+            }
         });
     
         return () => {
           pusher.unsubscribe("drop");
         };
-      }, [drops]);
+      }, []);
+    
 
-      const handleTestPusher = async () => {
-        const response = fetch("/api/pusher", {
-            method:"POST",
-            body:JSON.stringify(drops[0])
-         })
-      };
+    const [isPumpingGoingOn, setPumpingGoingOn] = useState<boolean>(true);
+    useEffect(() => {
+        const addItem = (item: any) => {
+            if(!isPumpingGoingOn){
+                setPumpingGoingOn(true);
+                setDropId(()=>"drop");
+                setDrops((previous: any) => {
+                    const updatedDrops = [item, ...previous.slice(0, previous.length - 1)];
+                    return updatedDrops;
+                });
+                setTimeout(() => {
+                    setDropId("");
+                    setReserve(reserve => reserve.slice(1));
+                }, 1000);
+            }
+        };
+        reserve.forEach((item:any, index:any) => {
+            setTimeout(() => {addItem(item);setPumpingGoingOn(false);}, index * 1200);
+        });
+    }, [isPumpingGoingOn]);
+
 
 
     // initial fetch to populate livedrop
@@ -69,10 +88,11 @@ const Livedrop = () => {
 
     return ( 
         <div className={h.home_navbar_slider} style={{width:drops ? (drops.length+1)*110 : "fit-content", minWidth:!drops ? "2300px" : "none"}}>
-            <button key={99} id={h.usual} style={{zIndex:99}} onClick={handleTestPusher}>
+            <button key={99} id={h.usual} style={{zIndex:99}}>
                     <Image priority src={"/assets/live.png"} alt={"051 logo"} width={60} height={60} style={{filter:"brightness(1.9)"}} />
                     <div id={h.text} style={{position:"relative",top:"-15px", color:"darkorange"}}>
                         <span style={{fontWeight:"bolder"}}>LIVEDROP {drops && drops.length}</span>
+                        <span>{reserve.length}</span>
                     </div>
             </button>
             {

@@ -251,7 +251,7 @@ const Case_page = () => {
                         method:"POST",
                         body:JSON.stringify(wonItems)
                     })
-                }, 7000);
+                }, 10000);
             }else{
                 console.log(response);
             }
