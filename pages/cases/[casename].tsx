@@ -84,7 +84,7 @@ const Case_page = () => {
                     method:"POST",
                     body:JSON.stringify(resJson.lucky)
                 })
-            }, 7000);
+            }, 10000);
             setTimeout(() => {
                 setTempoText(null);
                 setIndexShift("0px");
