@@ -7,7 +7,7 @@ import { useEffect, useState,useRef } from "react";
 import { useRouter } from 'next/router';
 import Modal from "../../components/modal";
 import { useDispatch,useSelector } from "react-redux";
-import { note_balanceChange, note_ownDrop } from "../../redux/loginSlice";
+import { note_balanceChange } from "../../redux/loginSlice";
 import { colorGenerator, formatter, generateRandomNumber, shuffleArray } from "../../tools";
 import Universal_modal from "../../components/universal_modal";
 import Notification from "../../components/notifybox";
@@ -84,11 +84,6 @@ const Case_page = () => {
                     method:"POST",
                     body:JSON.stringify(resJson.lucky)
                 })
-                if(responseLiveDrop.status === 200){
-                    setTimeout(() => {
-                        dispatch(note_ownDrop(resJson.lucky));
-                    }, 4000);
-                }
             }, 7000);
             setTimeout(() => {
                 setTempoText(null);
@@ -256,9 +251,6 @@ const Case_page = () => {
                         method:"POST",
                         body:JSON.stringify(wonItems)
                     })
-                    if(response.status === 200){
-                        dispatch(note_ownDrop(wonItems));
-                    }
                 }, 7000);
             }else{
                 console.log(response);

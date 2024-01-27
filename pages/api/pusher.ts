@@ -14,11 +14,11 @@ export default async function handler(
 req: NextApiRequest,
 res: NextApiResponse
 ) {
+    const gift = JSON.parse(req.body);
     const currentTime = new Date().toLocaleTimeString();
     const response = await pusher.trigger("chat", "chat-event", {
-        currentTime,
+        gift
     });
-  
-    res.json({ time: currentTime });
+    res.json({ gf: gift });
 }
 

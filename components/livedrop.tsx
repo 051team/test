@@ -6,7 +6,6 @@ import { useSession } from 'next-auth/react';
 import { colorGenerator, compareObjects, formatter } from "../tools";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { note_ownDrop } from "../redux/loginSlice";
 import Pusher from "pusher-js";
 
 const Livedrop = () => {
@@ -15,63 +14,36 @@ const Livedrop = () => {
     const ownDrop = useSelector((state:any)=> state.loginSlice.ownDrop);
     const dispatch = useDispatch();
 
-    const [timefromPusher,setTime] = useState("");
     useEffect(() => {
         const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
           cluster: "eu",
         });
     
-        const channel = pusher.subscribe("chat");
+        const channel = pusher.subscribe("drop");
     
-        channel.bind("chat-event", (data:any) => {
-          console.log(data.currentTime)
-          setTime(data.currentTime)
+        channel.bind("drop-event", (data:any) => {
+          console.log(data.itemtoAddtoLivedrop);
+          if(drops){
+            setDropId("drop");
+            setDrops([data.itemtoAddtoLivedrop,...drops.slice(0,drops.length-1)]);
+            setTimeout(() => {
+              setDropId("");
+            }, 1000);
+          }
         });
     
         return () => {
-          pusher.unsubscribe("chat");
+          pusher.unsubscribe("drop");
         };
-      }, []);
+      }, [drops]);
 
       const handleTestPusher = async () => {
         const response = fetch("/api/pusher", {
             method:"POST",
-            body:"HELLO PUSHER"
+            body:JSON.stringify(drops[0])
          })
       };
 
-
-    //handle drop after case opening and animation
-    useEffect(()=>{
-        if(ownDrop && Array.isArray(ownDrop)){
-            const addItem = (item: any) => {
-                setDrops((previous: any) => {
-                    setDropId(()=>"drop");
-                    const updatedDrops = [item, ...previous.slice(0, previous.length - 1)];
-                    setTimeout(() => {
-                        setDropId("");
-                    }, 1000);
-                    return updatedDrops;
-                });
-            };
-    
-            ownDrop.forEach((item, index) => {
-                setTimeout(() => addItem(item), index * 1200);
-            });
-            dispatch(note_ownDrop(null));
-        }
-        else if(ownDrop && typeof ownDrop === "object"){
-            setDrops((previous:any)=>{
-                const updatedDrops = [ownDrop, ...previous.slice(0,previous.length-1)];
-                return updatedDrops;
-            })
-            setDropId("drop");
-            setTimeout(() => {
-                setDropId("");
-            }, 1000);
-            dispatch(note_ownDrop(null));
-        }
-    },[ownDrop])
 
     // initial fetch to populate livedrop
     useEffect(()=>{
@@ -95,44 +67,12 @@ const Livedrop = () => {
         }
     },[])
 
-    const [gift,setGift] = useState<any>();
-    const [ES,setES] = useState<EventSource>();
-    
-/* 
-    useEffect(() => {
-        const eventSource = new EventSource('/api/sse');
-        setES(eventSource);
-        const addItem = (item: any) => {
-            setDrops((previous: any) => {
-                setDropId(()=>"drop");
-                const updatedDrops = [item, ...previous.slice(0, previous.length - 1)];
-                setTimeout(() => {
-                    setDropId("");
-                }, 1000);
-                return updatedDrops;
-            });
-        };
-        eventSource.onmessage = (event) => {
-            const eventData = JSON.parse(event.data);
-            dispatch(note_TotalCasesOpened(totalCasesOpened+2))
-            console.log(eventData)
-            eventData.forEach((item:any, index:any) => {
-                setTimeout(() => addItem(item), index * 1200);
-            });
-        };
-        return () => {
-          eventSource.close();
-        };
-      }, [totalCasesOpened]); */
-    
-
     return ( 
         <div className={h.home_navbar_slider} style={{width:drops ? (drops.length+1)*110 : "fit-content", minWidth:!drops ? "2300px" : "none"}}>
             <button key={99} id={h.usual} style={{zIndex:99}} onClick={handleTestPusher}>
                     <Image priority src={"/assets/live.png"} alt={"051 logo"} width={60} height={60} style={{filter:"brightness(1.9)"}} />
                     <div id={h.text} style={{position:"relative",top:"-15px", color:"darkorange"}}>
                         <span style={{fontWeight:"bolder"}}>LIVEDROP {drops && drops.length}</span>
-                        <span>{timefromPusher}</span>
                     </div>
             </button>
             {

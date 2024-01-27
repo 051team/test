@@ -1,6 +1,17 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import {connectToDatabase, closeDatabaseConnection} from "./mdb";
+import Pusher from 'pusher';
+
+
+
+const pusher = new Pusher({
+  appId: process.env.PUSHER_APP_ID!,
+  key: process.env.PUSHER_KEY!,
+  secret: process.env.PUSHER_SECRET!,
+  cluster: process.env.PUSHER_CLUSTER!,
+  useTLS: true
+});
 
 export default async function handler(
   req: NextApiRequest,
@@ -25,10 +36,16 @@ export default async function handler(
         // Process each item to add the dropTime
         const itemsWithDropTime = itemtoAddtoLivedrop.map(item => ({ ...item, dropTime: dropTime }));
         const result = await livedrop.insertMany(itemsWithDropTime);
+        const response = await pusher.trigger("drop", "drop-event", {
+          itemtoAddtoLivedrop
+        });
         res.status(200).json({ result });
     } else {
         // Insert a single item
         const resultDrop = await livedrop.insertOne({...itemtoAddtoLivedrop, dropTime: dropTime});
+        const response = await pusher.trigger("drop", "drop-event", {
+          itemtoAddtoLivedrop
+        });
         res.status(200).json({ resultDrop });
     }
 
