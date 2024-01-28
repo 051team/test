@@ -99,7 +99,7 @@ const Livedrop = () => {
             <button key={99} id={h.usual} style={{zIndex:99}}>
                     <Image priority src={"/assets/live.png"} alt={"051 logo"} width={60} height={60} style={{filter:"brightness(1.9)"}} />
                     <div id={h.text} style={{position:"relative",top:"-15px", color:"darkorange"}}>
-                        <span style={{fontWeight:"bolder"}}>LIVEDROP {drops && drops.length}</span>
+                        <span style={{fontWeight:"bolder"}}>LIVEDROP</span>
                     </div>
             </button>
             {

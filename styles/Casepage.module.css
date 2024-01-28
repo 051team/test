@@ -357,9 +357,32 @@
   border-color: transparent #131023 transparent transparent;
   transform: rotate(180deg);
 }
-.casepage_case #actions #shaped .chosen, .casepage_case #actions #shaped2 .chosen, .casepage_case #actions #shaped3 .chosen {
-  background-color: red !important;
-  color: yellow !important;
+.casepage_case #actions #shaped #chosenlast, .casepage_case #actions #shaped2 #chosenlast, .casepage_case #actions #shaped3 #chosenlast {
+  background-color: darkblue !important;
+  filter: grayscale(30%);
+}
+.casepage_case #actions #shaped #chosenlast:after, .casepage_case #actions #shaped2 #chosenlast:after, .casepage_case #actions #shaped3 #chosenlast:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: -15px;
+  border-width: 30px 15px 30px 0;
+  border-style: solid;
+  border-color: transparent darkblue transparent transparent;
+  transform: rotate(180deg);
+}
+.casepage_case #actions #shaped #chosenfirst, .casepage_case #actions #shaped2 #chosenfirst, .casepage_case #actions #shaped3 #chosenfirst {
+  background-color: darkblue !important;
+  filter: grayscale(30%);
+}
+.casepage_case #actions #shaped #chosenfirst:before, .casepage_case #actions #shaped2 #chosenfirst:before, .casepage_case #actions #shaped3 #chosenfirst:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -15px;
+  border-width: 30px 15px 30px 0;
+  border-style: solid;
+  border-color: transparent darkblue transparent transparent;
 }
 .casepage_case #actions #shaped2, .casepage_case #actions #shaped3 {
   position: relative;

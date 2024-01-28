@@ -141,7 +141,7 @@ const Case_page = () => {
         }
     }
 
-    const [multiplier,setMultplier] = useState<number | null>(2);
+    const [multiplier,setMultplier] = useState<number | null>(null);
     const caseOpenDisabled = !balance || !caseInfo 
                             || ( caseInfo && balance && caseInfo.casePrice > balance)
                             || ( caseInfo && balance && multiplier && caseInfo.casePrice*multiplier > balance);
@@ -216,11 +216,12 @@ const Case_page = () => {
     },[caseInfo]);
 
     const [verticalSpin,setVerticalSpin] = useState(false);
+    const [chosen,setChosen] = useState<number>(0);
 
     const handleMultiIndex = (index:number) => {
-        setMultplier(()=>index);
-        setVertical(()=>true);
         setHorizontal(()=>false);
+        setVertical(()=>true);
+        setMultplier(()=>index);
     }
 
     const handleOpenMultipleCase = async () => {
@@ -288,6 +289,13 @@ const Case_page = () => {
         }
     }
 
+    useEffect(()=>{
+        if(multiplier){
+            setChosen(multiplier);
+        }
+    },[multiplier,horizontal,vertical])
+
+
     return ( 
         <>
         <Navbar/>
@@ -300,16 +308,14 @@ const Case_page = () => {
             <div className={c.casepage_case}>
 
             <CaseInfo caseInfo={caseInfo}/>
-            {
-                 sliderVisible && !vertical &&           
-            
-                <div id={c.outerindex}>
-                    <div id={c.index}>
-                        <span>&#9660;</span>
-                        <span>&#9650;</span>
-                    </div>
+         
+            <div id={c.outerindex} style={{visibility:(sliderVisible && !vertical) ? "visible" : "hidden"}}>
+                <div id={c.index}>
+                    <span>&#9660;</span>
+                    <span>&#9650;</span>
                 </div>
-            }            
+            </div>
+                      
         {
             horizontal && sliderVisible &&
             <>
@@ -324,7 +330,7 @@ const Case_page = () => {
             />
             <div id={c.actions}>
                     <div id={c.shaped}>
-                        <button disabled={XbuttonDisabled} onClick={()=>{setHorizontal(true);setVertical(false);setMultplier(null)}}>x1</button>
+                        <button id={(!multiplier) ? c.chosenfirst : ""} disabled={XbuttonDisabled} onClick={()=>{setHorizontal(()=>true);setVertical(()=>false);setMultplier(()=>null)}}>x1</button>
                         <button disabled={XbuttonDisabled} onClick={()=>handleMultiIndex(2)}>x2</button>
                         <button disabled={XbuttonDisabled} onClick={()=>handleMultiIndex(3)}>x3</button>
                         <button disabled={XbuttonDisabled} onClick={()=>handleMultiIndex(4)}>x4</button>
@@ -356,11 +362,11 @@ const Case_page = () => {
             /> 
             <div id={c.actions}>
                     <div id={c.shaped}>
-                        <button disabled={XbuttonDisabled} onClick={()=>{setHorizontal(true);setVertical(false);setMultplier(null)}}>x1</button>
-                        <button disabled={XbuttonDisabled} onClick={()=>handleMultiIndex(2)}>x2</button>
-                        <button disabled={XbuttonDisabled} onClick={()=>handleMultiIndex(3)}>x3</button>
-                        <button disabled={XbuttonDisabled} onClick={()=>handleMultiIndex(4)}>x4</button>
-                        <button id={multiplier === 5 ? c.chosen : ""} disabled={XbuttonDisabled} onClick={()=>handleMultiIndex(5)}>x5</button>
+                        <button disabled={XbuttonDisabled} onClick={()=>{setHorizontal(()=>true);setVertical(()=>false);setMultplier(()=>null)}}>x1</button>
+                        <button id={chosen === 2 ? c.chosenlast : ""} disabled={XbuttonDisabled} onClick={()=>handleMultiIndex(2)}>x2</button>
+                        <button id={chosen === 3 ? c.chosenlast : ""} disabled={XbuttonDisabled} onClick={()=>handleMultiIndex(3)}>x3</button>
+                        <button id={chosen === 4 ? c.chosenlast : ""} disabled={XbuttonDisabled} onClick={()=>handleMultiIndex(4)}>x4</button>
+                        <button id={chosen === 5 ? c.chosenlast : ""} disabled={XbuttonDisabled} onClick={()=>handleMultiIndex(5)}>x5</button>
                     </div>
                     <button id={c.shaped2} style={{color:"white"}} 
                         onClick={ horizontal ? handleOpenCase : handleOpenMultipleCase} 

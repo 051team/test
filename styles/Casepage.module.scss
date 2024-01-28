@@ -343,9 +343,32 @@
                         transform: rotate(180deg);
                     }
                 }
-                .chosen{
-                    background-color: red !important;
-                    color: yellow !important;
+                #chosenlast{
+                    background-color: darkblue !important;
+                    filter: grayscale(30%);
+                    &:after{
+                        content: "";
+                        position: absolute;
+                        top: 0;
+                        right: -15px;
+                        border-width: 30px 15px 30px 0;
+                        border-style: solid;
+                        border-color: transparent darkblue transparent transparent;
+                        transform: rotate(180deg);
+                    }
+                }
+                #chosenfirst{
+                    background-color: darkblue !important;
+                    filter: grayscale(30%);
+                    &:before{
+                        content: "";
+                        position: absolute;
+                        top: 0;
+                        left: -15px;
+                        border-width: 30px 15px 30px 0;
+                        border-style: solid;
+                        border-color: transparent darkblue transparent transparent;
+                    }
                 }
             }
             #shaped2,#shaped3{
