@@ -3,8 +3,6 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import {connectToDatabase, closeDatabaseConnection} from "./mdb";
 import Pusher from 'pusher';
 
-
-
 const pusher = new Pusher({
   appId: process.env.PUSHER_APP_ID!,
   key: process.env.PUSHER_KEY!,
