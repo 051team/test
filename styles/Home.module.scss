@@ -2,6 +2,24 @@
     background-image: radial-gradient(closest-side at 50% 15%,#1c0c16 0%, #070707 100%);
     user-select: none;
     padding-bottom: 20px;
+    #desktoponly{
+        position: absolute;
+        top:0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-image: radial-gradient(closest-side at center, #1c0c16 0%, #070707 100%);
+        z-index: 9999999;
+        display: grid;
+        justify-content: center;
+        align-items: center;
+        display: none;
+        h1{
+            color: white;
+            font-weight: 500;
+            font-size: x-large;
+        }
+    }
     &_navbar{
         position: relative;
         display: grid;
@@ -417,6 +435,22 @@
         }
     }
 }
+
+@media (max-width: 575.98px) { 
+    .home{
+        #desktoponly{
+            display: grid;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+ }
+
+
+
+
+
+
 
 @keyframes drop {
     from{height: 0; opacity: 0;}

@@ -89,7 +89,7 @@ const VerticalSlider = ({caseInfo,verticalSpin, multiWon,multiplier}:any) => {
     return (
     <>
         <div id={c.verticalindex}>
-            <div id={c.indexes} style={{width:multiplier*200+((multiplier-1*2))+40}}>
+            <div id={c.indexes} style={{width:multiplier*200+((multiplier-1*2))+38}}>
                 <span>&#9654;</span>
                 <span>&#9664;</span>
             </div>

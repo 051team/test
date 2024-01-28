@@ -92,7 +92,7 @@
   color: orange;
   font-size: xx-large;
   top: 75px;
-  padding-left: 2px;
+  padding-left: 6px;
 }
 .casepage_case_kernel {
   display: grid;
@@ -340,6 +340,9 @@
   position: relative;
   color: white;
 }
+.casepage_case #actions #shaped button:hover, .casepage_case #actions #shaped2 button:hover, .casepage_case #actions #shaped3 button:hover {
+  background-color: #211c44 !important;
+}
 .casepage_case #actions #shaped button:nth-child(1):before, .casepage_case #actions #shaped2 button:nth-child(1):before, .casepage_case #actions #shaped3 button:nth-child(1):before {
   content: "";
   position: absolute;
@@ -348,6 +351,9 @@
   border-width: 30px 15px 30px 0;
   border-style: solid;
   border-color: transparent #131023 transparent transparent;
+}
+.casepage_case #actions #shaped button:nth-child(1):hover::before, .casepage_case #actions #shaped2 button:nth-child(1):hover::before, .casepage_case #actions #shaped3 button:nth-child(1):hover::before {
+  border-color: transparent #211c44 transparent transparent;
 }
 .casepage_case #actions #shaped button:nth-child(5):after, .casepage_case #actions #shaped2 button:nth-child(5):after, .casepage_case #actions #shaped3 button:nth-child(5):after {
   content: "";
@@ -358,6 +364,9 @@
   border-style: solid;
   border-color: transparent #131023 transparent transparent;
   transform: rotate(180deg);
+}
+.casepage_case #actions #shaped button:nth-child(5):hover::after, .casepage_case #actions #shaped2 button:nth-child(5):hover::after, .casepage_case #actions #shaped3 button:nth-child(5):hover::after {
+  border-color: transparent #211c44 transparent transparent;
 }
 .casepage_case #actions #shaped #chosenlast, .casepage_case #actions #shaped2 #chosenlast, .casepage_case #actions #shaped3 #chosenlast {
   background-color: darkblue !important;

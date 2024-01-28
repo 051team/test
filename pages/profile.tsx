@@ -126,7 +126,7 @@ const Profile = () => {
             <Navbar />
             <div className={p.profile_kernel}>
                 <div className={p.profile_kernel_card}>
-                    <Image src={"/assets/2.png"} alt="profile image" width={100} height={100} />
+                    <Image src={session?.user?.image ?? ""} alt="profile image" width={100} height={100} />
                     <div id={p.info}>
                         <h3>{username.toUpperCase()}</h3>
                         <h4>{formatter(balance)}</h4>

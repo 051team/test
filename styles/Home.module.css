@@ -6,6 +6,24 @@
           user-select: none;
   padding-bottom: 20px;
 }
+.home #desktoponly {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: radial-gradient(closest-side at center, #1c0c16 0%, #070707 100%);
+  z-index: 9999999;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  display: none;
+}
+.home #desktoponly h1 {
+  color: white;
+  font-weight: 500;
+  font-size: x-large;
+}
 .home_navbar {
   position: relative;
   display: grid;
@@ -444,6 +462,13 @@
   box-shadow: none;
 }
 
+@media (max-width: 575.98px) {
+  .home #desktoponly {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+  }
+}
 @-webkit-keyframes drop {
   from {
     height: 0;
@@ -454,7 +479,6 @@
     opacity: 1;
   }
 }
-
 @keyframes drop {
   from {
     height: 0;

@@ -247,6 +247,9 @@ const Navbar = () => {
                 </div>
             </div>
         </div>
+        <div id={h.desktoponly}>
+                <h1>Desktop only for now !!!</h1>
+        </div>
     </>
      );
 }
