@@ -26,6 +26,7 @@ type User = {
 const Navbar = () => {
     const fetcher = (url:string) => fetch(url).then(r => r.json());
     const { data:totalCaseCount, error, isLoading } = useSWR('/api/totalopenedcase', fetcher, { refreshInterval: 3000 })
+
     const { data: session } = useSession();
     
     const core = useRef<HTMLDivElement>(null);
@@ -48,6 +49,7 @@ const Navbar = () => {
             const response = await fetch(`/api/user?count=${true}`);
             if(response.status === 200){
                 const resJson = await response.json();
+                console.log(resJson.activeUserCount);
                 dispatch(note_activeUserCount(resJson.activeUserCount))
             }
         }
@@ -72,13 +74,10 @@ const Navbar = () => {
                 });
                 const resJson = await response.json();
                 const userBalance = resJson.balance;
-                const activeUserCount = resJson.activeUserCount;
                 if( resJson && userBalance){
                     dispatch(note_balance((userBalance)));
-                    dispatch(note_activeUserCount(activeUserCount));
                 }else{
                     dispatch(note_balance(0));
-                    dispatch(note_activeUserCount(activeUserCount));
                 }
             } catch (error) {
                 console.log(error)
