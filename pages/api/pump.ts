@@ -54,7 +54,7 @@ export default async function handler(
       
           if (resultADD.acknowledged === true && resultADD.insertedCount !== 0){
               const totalCount = data_base.collection('totalOpenedCaseNumber');
-              const resultCount = await totalCount.updateOne({duty:"keepcount"},{$inc:{totalNumber:1}});
+              const resultCount = await totalCount.updateOne({duty:"keepcount"},{$inc:{totalNumber:randomQuantity}});
               const response = await pusher.trigger("drop", "drop-event", {
                   itemtoAddtoLivedrop
               });
