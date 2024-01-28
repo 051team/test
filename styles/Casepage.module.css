@@ -79,6 +79,21 @@
 .casepage_case h3 {
   color: whitesmoke;
 }
+.casepage_case #verticalindex {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+.casepage_case #verticalindex #indexes {
+  position: absolute;
+  z-index: 99999;
+  display: flex;
+  justify-content: space-between;
+  color: orange;
+  font-size: xx-large;
+  top: 75px;
+  padding-left: 2px;
+}
 .casepage_case_kernel {
   display: grid;
   align-items: flex-start;
@@ -175,19 +190,6 @@
   width: fit-content;
   position: relative;
   border-radius: 10px;
-}
-.casepage_case #kernelvertical #leftindex, .casepage_case #kernelvertical #rightindex {
-  position: absolute;
-  left: 0;
-  display: grid;
-  align-self: center;
-  color: orange;
-  font-size: x-large;
-  z-index: 999;
-}
-.casepage_case #kernelvertical #rightindex {
-  right: 0;
-  left: unset;
 }
 .casepage_case_result {
   position: absolute;

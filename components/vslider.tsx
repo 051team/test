@@ -87,30 +87,35 @@ const VerticalSlider = ({caseInfo,verticalSpin, multiWon,multiplier}:any) => {
     },[caseInfo, multiplier]);
 
     return (
-    <div className={c.casepage_case_kernel} id={c.kernelvertical}>
-        <span id={c.leftindex}>&#9654;</span>
-        <span id={c.rightindex}>&#9664;</span>
-        {
-           repetitionSets &&  repetitionSets.map((repset,ii)=>
-            <div className={c.casepage_case_kernel_verticalspinner} id={verticalSpin ? c.slidevertical : ""} key={ii} ref={slider} >
+    <>
+        <div id={c.verticalindex}>
+            <div id={c.indexes} style={{width:multiplier*200+((multiplier-1*2))+40}}>
+                <span>&#9654;</span>
+                <span>&#9664;</span>
+            </div>
+        </div>
+        <div className={c.casepage_case_kernel} id={c.kernelvertical}>
             {
-                repset && repset.map((e:any,i:any) =>
-                    <Slot 
-                        id={""} i={i} 
-                        caseInfo={caseInfo} e={e}
-                        key={i} sliderOffsetVertical={sliderOffsetVertical}                         
-                        bingoposition={90}
-                        vertical={true}
-                        slidertoplay = {ii}
-                        wonM ={multiWon && multiWon[ii]}
-                    />
+            repetitionSets &&  repetitionSets.map((repset,ii)=>
+                <div className={c.casepage_case_kernel_verticalspinner} id={verticalSpin ? c.slidevertical : ""} key={ii} ref={slider} >
+                {
+                    repset && repset.map((e:any,i:any) =>
+                        <Slot 
+                            id={""} i={i} 
+                            caseInfo={caseInfo} e={e}
+                            key={i} sliderOffsetVertical={sliderOffsetVertical}                         
+                            bingoposition={90}
+                            vertical={true}
+                            slidertoplay = {ii}
+                            wonM ={multiWon && multiWon[ii]}
+                        />
+                    )
+                }
+                </div>
                 )
             }
-            </div>
-            )
-        }
-    </div>
-
+        </div>
+    </>
       );
 }
  

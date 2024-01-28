@@ -74,6 +74,22 @@
         h3{
             color: whitesmoke;
         }
+        #verticalindex{
+            position: relative;
+            display: flex;
+            justify-content: center;
+            #indexes{
+                position: absolute;
+                z-index: 99999;
+                display: flex;
+                justify-content: space-between;
+                color: orange;
+                font-size: xx-large;
+                top:75px;
+                padding-left: 2px;
+            }
+        }
+
         &_kernel{
             display: grid;
             align-items: flex-start;
@@ -161,19 +177,6 @@
             width: fit-content;
             position: relative;
             border-radius: 10px;
-            #leftindex, #rightindex{
-                position: absolute;
-                left: 0;
-                display: grid;
-                align-self: center;
-                color: orange;
-                font-size: x-large;
-                z-index: 999;
-            }
-            #rightindex{
-                right: 0;
-                left: unset;
-            }
         }
         &_result{
             position: absolute;
