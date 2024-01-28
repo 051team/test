@@ -2,7 +2,7 @@ import h from "../styles/Home.module.css";
 import { signIn, signOut, useSession } from 'next-auth/react';
 import Image from "next/image";
 import { useEffect, useState,useRef } from "react";
-import _051 from "../public/051.jpg";
+import _051 from "../public/051.png";
 import safe from "../public/safe.png";
 import sword from "../public/sword.png";
 import dolar from "../public/dolar.png";

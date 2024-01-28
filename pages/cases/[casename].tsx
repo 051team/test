@@ -217,7 +217,6 @@ const Case_page = () => {
 
     const [verticalSpin,setVerticalSpin] = useState(false);
 
-
     const handleMultiIndex = (index:number) => {
         setMultplier(()=>index);
         setVertical(()=>true);
@@ -301,7 +300,16 @@ const Case_page = () => {
             <div className={c.casepage_case}>
 
             <CaseInfo caseInfo={caseInfo}/>
+            {
+                 sliderVisible && !vertical &&           
             
+                <div id={c.outerindex}>
+                    <div id={c.index}>
+                        <span>&#9660;</span>
+                        <span>&#9650;</span>
+                    </div>
+                </div>
+            }            
         {
             horizontal && sliderVisible &&
             <>
@@ -352,7 +360,7 @@ const Case_page = () => {
                         <button disabled={XbuttonDisabled} onClick={()=>handleMultiIndex(2)}>x2</button>
                         <button disabled={XbuttonDisabled} onClick={()=>handleMultiIndex(3)}>x3</button>
                         <button disabled={XbuttonDisabled} onClick={()=>handleMultiIndex(4)}>x4</button>
-                        <button disabled={XbuttonDisabled} onClick={()=>handleMultiIndex(5)}>x5</button>
+                        <button id={multiplier === 5 ? c.chosen : ""} disabled={XbuttonDisabled} onClick={()=>handleMultiIndex(5)}>x5</button>
                     </div>
                     <button id={c.shaped2} style={{color:"white"}} 
                         onClick={ horizontal ? handleOpenCase : handleOpenMultipleCase} 

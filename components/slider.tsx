@@ -30,14 +30,6 @@ const Slider = ({caseInfo, placeholders,howmanyPlaceholder, indexShift, repetiti
       }, [placeholders]);
     return ( 
     <div className={c.casepage_case_kernel} id={c.main}>
-        <div id={c.index}>
-            <span>&#9660;</span>
-            <span>&#9650;</span>
-        </div>
-        <div id={c.index2}>
-            <span>&#9660;</span>
-            <span>&#9650;</span>
-        </div>
         <div id={placeholders === howmanyPlaceholder ? c.slide : ""} className={c.casepage_case_kernel_spinner} ref={slider}
         style={{ transform: `translateX(${placeholders === howmanyPlaceholder ? indexShift : "0px"})`}}
         >

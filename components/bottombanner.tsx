@@ -1,6 +1,6 @@
 import c from "./../styles/Casepage.module.css";
 import Image from "next/image";
-import _051 from "./../public/051.jpg";
+import _051 from "./../public/051.png";
 import Link from "next/link";
 
 const BottomBanner = () => {

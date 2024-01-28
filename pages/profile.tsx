@@ -181,12 +181,11 @@ const Profile = () => {
                         :
                         [...Array(7)].map((item:any,i:number)=>
                         <button key={i}>
-                            <Image src={"/loading.png"} alt={"inventory loading"} width={45} height={45} />
                             <div id={p.act}>
                                 <div id={p.dollar}>$</div>
                             </div>
                             <div id={p.text}>
-                                <span>loading...</span>
+                                <span className={p.wait}></span>
                             </div>
                         </button>
                         )

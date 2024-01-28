@@ -16,6 +16,21 @@
   position: relative;
   padding-top: 50px;
 }
+.casepage_case #outerindex {
+  position: relative;
+  margin-top: 10px;
+}
+.casepage_case #outerindex #index {
+  position: absolute;
+  top: -20px;
+  height: 245px;
+  z-index: 9999999999 !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-size: xx-large;
+  color: orange;
+}
 .casepage_case #caseDemo {
   width: 204px;
   height: 274px;
@@ -71,31 +86,6 @@
   overflow: hidden;
   position: relative;
 }
-.casepage_case_kernel #index, .casepage_case_kernel #index2 {
-  position: absolute;
-  z-index: 99 !important;
-  top: -7px;
-  height: 217px;
-  color: darkgoldenrod;
-  font-size: xx-large;
-  display: grid;
-  justify-self: center;
-}
-.casepage_case_kernel #index span:nth-child(1), .casepage_case_kernel #index2 span:nth-child(1) {
-  position: absolute;
-  top: 0;
-}
-.casepage_case_kernel #index span:nth-child(2), .casepage_case_kernel #index2 span:nth-child(2) {
-  position: absolute;
-  bottom: 0;
-}
-.casepage_case_kernel #index2 {
-  font-size: x-large;
-  color: orange;
-  top: -3px;
-  left: calc(50% + 4px);
-  height: 208px;
-}
 .casepage_case_kernel_spinner, .casepage_case_kernel_verticalspinner {
   display: flex;
   -moz-column-gap: 2px;
@@ -145,7 +135,7 @@
   display: grid;
 }
 .casepage_case_kernel_spinner #loading, .casepage_case_kernel_verticalspinner #loading {
-  background-image: linear-gradient(to right, #0a0a0a 10%, #333333 55%, #0a0a0a 100%);
+  background-image: linear-gradient(to right, #0a0a0a 10%, #121212 55%, #0a0a0a 100%);
   background-size: 200% 100%;
   -webkit-animation: gradientMovement 1s linear infinite;
           animation: gradientMovement 1s linear infinite;
@@ -178,13 +168,12 @@
   -moz-column-gap: 3px;
        column-gap: 3px;
   align-items: flex-start;
-  box-shadow: 0 0 4px 1px gray;
+  box-shadow: 0 0 1px 1px orange;
   height: 200px;
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
   position: relative;
-  border-radius: 20px;
   border-radius: 10px;
 }
 .casepage_case #kernelvertical #leftindex, .casepage_case #kernelvertical #rightindex {
@@ -343,7 +332,7 @@
   font-weight: 500;
 }
 .casepage_case #actions #shaped button, .casepage_case #actions #shaped2 button, .casepage_case #actions #shaped3 button {
-  background-color: purple;
+  background-color: #131023;
   width: 60px;
   height: 60px;
   position: relative;
@@ -356,7 +345,7 @@
   left: -15px;
   border-width: 30px 15px 30px 0;
   border-style: solid;
-  border-color: transparent purple transparent transparent;
+  border-color: transparent #131023 transparent transparent;
 }
 .casepage_case #actions #shaped button:nth-child(5):after, .casepage_case #actions #shaped2 button:nth-child(5):after, .casepage_case #actions #shaped3 button:nth-child(5):after {
   content: "";
@@ -365,8 +354,12 @@
   right: -15px;
   border-width: 30px 15px 30px 0;
   border-style: solid;
-  border-color: transparent purple transparent transparent;
+  border-color: transparent #131023 transparent transparent;
   transform: rotate(180deg);
+}
+.casepage_case #actions #shaped .chosen, .casepage_case #actions #shaped2 .chosen, .casepage_case #actions #shaped3 .chosen {
+  background-color: red !important;
+  color: yellow !important;
 }
 .casepage_case #actions #shaped2, .casepage_case #actions #shaped3 {
   position: relative;
@@ -491,7 +484,7 @@
   font-size: larger;
 }
 .casepage_case .loading {
-  background-image: linear-gradient(to right, #0a0a0a 10%, #333333 55%, #0a0a0a 100%);
+  background-image: linear-gradient(to right, #0a0a0a 10%, #121212 55%, #0a0a0a 100%);
   background-size: 200% 100%;
   -webkit-animation: gradientMovement 1s linear infinite;
           animation: gradientMovement 1s linear infinite;

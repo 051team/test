@@ -13,6 +13,21 @@
         justify-items: center;
         position: relative;
         padding-top: 50px;
+        #outerindex{
+            position: relative;
+            margin-top: 10px;
+            #index{
+                position: absolute;
+                top:-20px;
+                height: 245px;
+                z-index: 9999999999 !important;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                font-size: xx-large;
+                color: orange;
+            }
+        }
         #caseDemo{
             width: 204px;
             height: 274px;
@@ -65,30 +80,6 @@
             width: 1400px;
             overflow: hidden;
             position: relative;
-            #index,#index2{
-                position: absolute;
-                z-index: 99 !important;
-                top:-7px;
-                height: 217px;
-                color: darkgoldenrod;
-                font-size: xx-large;
-                display: grid;
-                justify-self: center;
-                span:nth-child(1){
-                    position: absolute;
-                    top:0;
-                }
-                span:nth-child(2){
-                    position: absolute;
-                    bottom:0;
-                }
-            }
-            #index2{
-                font-size: x-large;
-                color: orange;
-                top:-3px; left:calc(50% + 4px);
-                height: 208px;
-            }
             &_spinner, &_verticalspinner{
                 display: flex;
                 column-gap: 2px;
@@ -134,7 +125,7 @@
                     }
                 }
                 #loading{
-                    background-image: linear-gradient(to right, #0a0a0a 10%, #333333 55%, #0a0a0a 100%);
+                    background-image: linear-gradient(to right, #0a0a0a 10%, #121212 55%, #0a0a0a 100%);
                     background-size: 200% 100%;
                     animation: gradientMovement 1s linear infinite;
                     &:hover{
@@ -165,11 +156,10 @@
             justify-items: center;
             column-gap: 3px;
             align-items: flex-start;
-            box-shadow: 0 0 4px 1px gray;
+            box-shadow: 0 0 1px 1px orange;
             height: 200px;
             width: fit-content;
             position: relative;
-            border-radius: 20px;
             border-radius: 10px;
             #leftindex, #rightindex{
                 position: absolute;
@@ -324,7 +314,7 @@
                 font-size: small;
                 font-weight: 500;
                 button{
-                    background-color: purple;
+                    background-color: #131023;
                     width: 60px;
                     height: 60px;
                     position: relative;
@@ -338,7 +328,7 @@
                         left: -15px;
                         border-width: 30px 15px 30px 0;
                         border-style: solid;
-                        border-color: transparent purple transparent transparent;
+                        border-color: transparent #131023 transparent transparent;
                     }
                 }
                 button:nth-child(5){
@@ -349,9 +339,13 @@
                         right: -15px;
                         border-width: 30px 15px 30px 0;
                         border-style: solid;
-                        border-color: transparent purple transparent transparent;
+                        border-color: transparent #131023 transparent transparent;
                         transform: rotate(180deg);
                     }
+                }
+                .chosen{
+                    background-color: red !important;
+                    color: yellow !important;
                 }
             }
             #shaped2,#shaped3{
@@ -474,7 +468,7 @@
             }
         }
         .loading{
-            background-image: linear-gradient(to right, #0a0a0a 10%, #333333 55%, #0a0a0a 100%);
+            background-image: linear-gradient(to right, #0a0a0a 10%, #121212 55%, #0a0a0a 100%);
             background-size: 200% 100%;
             animation: gradientMovement 1s linear infinite;
             &:before, &:after{
@@ -506,7 +500,6 @@
     }
     #shinewon{
         animation: shine 2.5s infinite linear;
-
     }
 }
 
