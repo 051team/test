@@ -93,16 +93,6 @@ const Cases = () => {
                     </div></Link>
                     )
                 }
-                {
-                    [...Array(5)].map((e,i)=>
-                    <div className={h.home_cases_kernel_group_each} key={i}>
-                        <Image priority={i < 5 ? true : false} src={`/assets/${i+1}.png`} alt={"051 logo"} width={200} height={250} />
-                        <h5>
-                            Case name heree
-                        </h5>
-                    </div>
-                    )
-                }
             </div>
             <br /><br />
             <h1>HONORARY CASES</h1>
@@ -118,16 +108,6 @@ const Cases = () => {
                     </div></Link>
                     )
                 }
-                {
-                    [...Array(5)].map((e,i)=>
-                    <div className={h.home_cases_kernel_group_each} key={i}>
-                        <Image priority={i < 5 ? true : false} src={`/assets/honorary/${i+1}.png`} alt={"051 logo"} width={200} height={250} />
-                        <h5>
-                            Case name heree
-                        </h5>
-                    </div>
-                    )
-                }
             </div>
             <br /><br />
             <h1>DAO CASES</h1>
@@ -141,16 +121,6 @@ const Cases = () => {
                             {cs.caseName}
                         </h5>
                     </div></Link>
-                    )
-                }
-                {
-                    [...Array(10)].map((e,i)=>
-                    <div className={h.home_cases_kernel_group_each} key={i}>
-                        <Image priority={i < 5 ? true : false} src={`/assets/${i+1}.png`} alt={"051 logo"} width={200} height={250} />
-                        <h5>
-                            Case name heree
-                        </h5>
-                    </div>
                     )
                 }
             </div>
