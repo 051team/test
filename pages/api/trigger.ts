@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 // we import our `helloWorld()` background function
-import triggerPump from "../defer/test";
+import triggerPump from "../../defer/test";
 
 type Data = {
   ok: boolean;
