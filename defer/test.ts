@@ -3,12 +3,13 @@ import { defer } from "@defer/client";
 
 // a background function must be `async`
 async function triggerPump(name: string) {
-  return new Promise((resolve) => {
+  console.log(`Hello ${name}!`);
+/*   return new Promise((resolve) => {
     setTimeout(() => {
       console.log(`Hello ${name}!`);
       resolve("done");
     }, 5000);
-  });
+  }); */
 }
 
 export default defer(triggerPump);
