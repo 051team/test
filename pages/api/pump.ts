@@ -28,7 +28,7 @@ export default async function handler(
           const data_base = client.db('casadepapel');
           const livedrop = data_base.collection('livedrop');
       
-          const probabilities = [1,1,1,2,2,2,3,3,4,5];
+          const probabilities = [2,2,2,3,3,3,3,4,4,4,5,5];
           const randomIndex = Math.floor(Math.random()*probabilities.length);
           const randomQuantity = probabilities[randomIndex];
       
@@ -78,6 +78,6 @@ export default async function handler(
     clearInterval(intervalId);
     intervalId = null;
     console.log('Interval cleared');
- }, 40000); 
+ }, 50000); 
   res.status(200).json({messgae:"Pumnping started"});
 }
