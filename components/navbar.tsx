@@ -175,7 +175,7 @@ const Navbar = () => {
                             <button id={h.selected}><Image alt="BETA COUPON" src={_051} width={20} height={20} />BETA COUPON</button>
                             {
                                 [...Array(7)].map((e,i)=>
-                                <button><Image alt="COUPON" src={"/assets/camera.png"} width={20} height={20} />
+                                <button key={i}><Image alt="COUPON" src={"/assets/camera.png"} width={20} height={20} />
                                     SOL <span>SOON</span>
                                 </button>
                                 )
