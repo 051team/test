@@ -3,13 +3,26 @@ import { defer } from "@defer/client";
 
 // a background function must be `async`
 async function triggerPump(name: string) {
-  console.log(`Hello ${name}!`);
-/*   return new Promise((resolve) => {
-    setTimeout(() => {
-      console.log(`Hello ${name}!`);
-      resolve("done");
-    }, 5000);
-  }); */
+  const baseUrl = process.env.NODE_ENV === 'development' 
+  ? 'http://localhost:3000' 
+  : 'https://casadepapel.vercel.app';
+    try {
+      const response = await fetch(`${baseUrl}/api/pump`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error('Error in fetch request:', error);
+    }
 }
 
 export default defer(triggerPump);
