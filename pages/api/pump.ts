@@ -18,8 +18,8 @@ export default async function handler(
   res: NextApiResponse
 ) {
 
-/*   if(!intervalId){
-    intervalId = setInterval(async () => { */
+  if(!intervalId){
+    intervalId = setInterval(async () => {
         let client;
         console.log("pump.ts");
       
@@ -72,7 +72,12 @@ export default async function handler(
           }
         }
 
-/*     }, 5000); */
+    }, 5000);
   }
-/*   res.status(200).json({messgae:"Pumnping started"});
-} */
+  setTimeout(() => {
+    clearInterval(intervalId);
+    intervalId = null;
+    console.log('Interval cleared');
+ }, 40000); 
+  res.status(200).json({messgae:"Pumnping started"});
+}
