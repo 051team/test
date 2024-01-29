@@ -5,7 +5,8 @@ interface AppState {
   balance: number | null;
   activeUserCount:number | null,
   searchBy:string;
-  searchResultNo:number | null,
+  allCases:null | any[],
+  searchResults:any[] | null,
   notification:string | null;
   universal_modal: boolean;
   universal_feedback: {
@@ -19,7 +20,8 @@ const initialState:AppState = {
   balance:null,
   activeUserCount:null,
   searchBy:"",
-  searchResultNo:null,
+  searchResults:null,
+  allCases:null,
   notification:null,
   universal_modal:false,
   universal_feedback:{message:"",color:"whitesmoke"},
@@ -42,8 +44,11 @@ export const loginSlice = createSlice({
     note_searchBy: (state, action) => {
       state.searchBy = action.payload;
     },
-    note_searchResultNo: (state, action) => {
-      state.searchResultNo = action.payload;
+    note_searchResults: (state, action) => {
+      state.searchResults = action.payload;
+    },
+    note_allCases: (state, action) => {
+      state.allCases = action.payload;
     },
     note_notification: (state, action) => {
       state.notification = action.payload;
@@ -58,6 +63,6 @@ export const loginSlice = createSlice({
 });
 
 export const { note_balanceChange,note_balance,note_universal_modal,
-  note_searchBy,note_searchResultNo,note_activeUserCount,note_notification} = loginSlice.actions
+  note_searchBy,note_activeUserCount,note_notification,note_searchResults,note_allCases} = loginSlice.actions
 
 export default loginSlice.reducer

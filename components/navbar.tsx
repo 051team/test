@@ -14,7 +14,7 @@ import logout from "../public/disconnect.png";
 import { formatter } from "../tools";
 import crazy from "../public/assets/promo.png";
 import { useSelector,useDispatch } from "react-redux";
-import { note_balanceChange, note_balance, note_searchBy, note_activeUserCount,note_notification } from "./../redux/loginSlice";
+import { note_balanceChange, note_balance, note_searchBy, note_activeUserCount,note_notification, note_searchResults, note_allCases } from "./../redux/loginSlice";
 import Link from "next/link";
 import Livedrop from "./livedrop";
 import useSWR from 'swr';
@@ -31,6 +31,7 @@ const Navbar = () => {
     const { data:totalCaseCount, error, isLoading } = useSWR('/api/totalopenedcase', fetcher, { refreshInterval: 3000 })
 
     const { data: session } = useSession();
+    const allCases:any = useSelector((state:any)=>state.loginSlice.allCases);
     
     const core = useRef<HTMLDivElement>(null);
     const promo = useRef<HTMLInputElement>(null);
@@ -42,8 +43,9 @@ const Navbar = () => {
     const bChange = useSelector((state:any) => state.loginSlice.balanceChange);
 
     const search = useRef<HTMLInputElement>(null);
-    const searchResultNo = useSelector((state:any)=> state.loginSlice.searchResultNo);
-    const resultText = (searchResultNo && searchResultNo !== 0) ? searchResultNo + " items found!" : (searchResultNo === 0) ? "No items found" : "";
+    const searchResults = useSelector((state:any)=>state.loginSlice.searchResults);
+    const resultText = (searchResults && searchResults.length > 0) ? `${searchResults.length} items founds` 
+                        : (searchResults && searchResults.length === 0) ? "No item matched!"  : "";
     const activeUserCount = useSelector((state:any) => state.loginSlice.activeUserCount);
     const notification = useSelector((state:any)=> state.loginSlice.notification);
     const cursor = notification && notification === "SOON" ? "not-allowed" : "pointer";
@@ -103,6 +105,28 @@ const Navbar = () => {
         window.addEventListener("click", handleOutsideClick)
     },[]);
 
+    const handleFetchCases = async () => {
+                try {
+                    const response = await fetch("/api/fetchcases");
+                    try {
+                        const resJson = await response.json();
+                        const cases = resJson.data;
+                        dispatch(note_allCases(cases));
+                        console.log(cases)
+                    } catch (error) {
+                        console.log("Response object not JSON",error)
+                    }
+                } catch (error) {
+                    console.log("Fetch request failed...",error)
+                }
+    }
+
+    useEffect(()=>{
+        if(!allCases){
+            handleFetchCases();
+        }
+    },[])
+
     const handleLogIn = () => {
         if(!session){
             signIn('discord');
@@ -145,11 +169,16 @@ const Navbar = () => {
         }
     }
 
-
     const handleSearch = () => {
         setTimeout(() => {
             if(search.current){
-                dispatch(note_searchBy(search.current!.value.toLocaleLowerCase()));
+                const searchBy = search.current.value.toLocaleLowerCase();
+                dispatch(note_searchBy(searchBy));
+                const searchfResults = allCases.filter((e:any) => e.caseName.toLowerCase().includes(searchBy));
+                dispatch(note_searchResults(searchfResults));
+                if(searchBy === ""){
+                    dispatch(note_searchResults(null));
+                }
             }
         }, 500);
     }
@@ -165,6 +194,11 @@ const Navbar = () => {
                 signOut();
             }
         }
+    }
+
+    const handleGotoResult = (r:any) => {
+        dispatch(note_searchResults(null));
+        window.location.href = `/cases/cs?cat=${r.caseCategory}&name=${r.caseName}`;
     }
 
     return ( 
@@ -221,7 +255,22 @@ const Navbar = () => {
                 <Link href={"/"}>
                 <Image src={_051} alt={"051 logo"} width={90} height={50} /></Link>
                 <input type="text" placeholder="Search for case..." onChange={handleSearch} ref={search} />
-                <span id={h.found} style={{color:searchResultNo === 0 ? "crimson" : "green"}}>{resultText}</span>
+                <span id={h.found} style={{color:resultText === "No item matched!" ? "crimson" : "green"}}>{resultText}</span>
+                {
+                    searchResults && searchResults.length > 0 &&
+                    <div id={h.searchdrop}>
+                        {
+                            searchResults.map((r:any,i:number)=>
+                            <button onClick={()=>handleGotoResult(r)} key={i}>
+                                <Image src={r.caseImageURL} width={42} height={56} alt={r.caseName} />
+                                <span>{r.caseName}</span>
+                                <span>{r.caseCategory}</span>
+                                <span>{formatter(r.casePrice)}</span>
+                            </button>
+                            )
+                        }
+                    </div>
+                }
                 <button onClick={handleLogIn} id={h.profile}>
                     <input type="checkbox" id="open"/>
                     <label htmlFor="open"></label>

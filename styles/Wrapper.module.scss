@@ -2,12 +2,13 @@
     background-image: radial-gradient(closest-side at 50% 15%,#1c0c16 0%, #070707 100%);
     user-select: none;
     padding-bottom: 20px;
+    min-height: 100vh;
     &_navbar{
         position: relative;
         display: grid;
         align-items: center;
         grid-template-rows: 40px 90px;
-        overflow: hidden;
+        //overflow: hidden;
         max-width: 100vw;
         &_top{
             padding-left: 40px;
@@ -62,8 +63,32 @@
             #found{
                 position: relative;
                 font-size: small;
-                left: -90px;
+                left: -100px;
                 filter: brightness(1.2);
+            }
+            #searchdrop{
+                width: 450px;
+                background-color: #0b1720;
+                position: absolute;
+                left: 180px;
+                top:70px;
+                z-index: 99999 !important;
+                padding: 10px;
+                display: grid;
+                row-gap: 10px;
+                filter: brightness(1.1);
+                button{
+                    color: whitesmoke;
+                    width: 100%;
+                    display: grid;
+                    grid-template-columns: 50px 1fr 1fr 50px;
+                    justify-content: flex-start;
+                    align-items: center;
+                    column-gap: 20px;
+                    background-color: #0b1720;
+                    filter: brightness(1.3);
+                    text-align: left;
+                }
             }
             #profile{
                 position: absolute;
