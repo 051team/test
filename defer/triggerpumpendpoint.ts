@@ -24,4 +24,4 @@ async function triggerPump() {
     }
 }
 
-export default defer.cron(triggerPump, "*/2 * * * *");
+export default defer.cron(triggerPump, "*/1 * * * *");
