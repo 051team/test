@@ -132,9 +132,15 @@ const Navbar = () => {
             }
         }else{
             if(!session){
-                confirm("Login required!");
+                dispatch(note_notification("Login required!"));
+                setTimeout(() => {
+                    dispatch(note_notification(null));
+                }, 2000);
             }else{
-                confirm("Please enter promo code");
+                dispatch(note_notification("Please enter promo code"));
+                setTimeout(() => {
+                    dispatch(note_notification(null));
+                }, 2000);
             }
         }
     }

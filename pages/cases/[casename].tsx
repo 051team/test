@@ -7,7 +7,7 @@ import { useEffect, useState,useRef } from "react";
 import { useRouter } from 'next/router';
 import Modal from "../../components/modal";
 import { useDispatch,useSelector } from "react-redux";
-import { note_balanceChange } from "../../redux/loginSlice";
+import { note_balanceChange,note_notification } from "../../redux/loginSlice";
 import { colorGenerator, formatter, generateRandomNumber, shuffleArray } from "../../tools";
 import Universal_modal from "../../components/universal_modal";
 import Notification from "../../components/notifybox";
@@ -56,7 +56,12 @@ const Case_page = () => {
     },[cat,name])
 
     const handleOpenCase = async () => {
-        if(!session){confirm("Login required");return}
+        if(!session){
+            dispatch(note_notification("Login required!"));
+            setTimeout(() => {
+                dispatch(note_notification(null));
+            }, 2000);
+            return}
         if(caseOpenDisabled){
             confirm("Insufficient balance!");
             return
@@ -226,7 +231,13 @@ const Case_page = () => {
     }
 
     const handleOpenMultipleCase = async () => {
-        if(!session){confirm("Login required");return}
+        if(!session){
+            dispatch(note_notification("Login required!"));
+            setTimeout(() => {
+                dispatch(note_notification(null));
+            }, 2000);            
+            return
+        }
         if(caseOpenDisabled){
             confirm("Insufficient balance!");
             return
