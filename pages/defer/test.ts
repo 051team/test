@@ -4,9 +4,12 @@ import { defer } from "@defer/client";
 // import fetch from 'node-fetch';
 
 async function triggerPump(name: string) {
+  const baseUrl = process.env.NODE_ENV === 'development' 
+  ? 'http://localhost:3000' 
+  : 'https://casadepapel.vercel.app';
   setInterval(async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/pump', {
+      const response = await fetch(`${baseUrl}/api/pump`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
