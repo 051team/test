@@ -2,7 +2,7 @@
 import { defer } from "@defer/client";
 
 // a background function must be `async`
-async function triggerPump(name: string) {
+async function triggerPump() {
   const baseUrl = process.env.NODE_ENV === 'development' 
   ? 'http://localhost:3000' 
   : 'https://casadepapel.vercel.app';
@@ -12,7 +12,6 @@ async function triggerPump(name: string) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name }),
       });
 
       if (!response.ok) {
@@ -25,4 +24,4 @@ async function triggerPump(name: string) {
     }
 }
 
-export default defer(triggerPump);
+export default defer.cron(triggerPump, "*/2 * * * *");

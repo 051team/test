@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-// we import our `helloWorld()` background function
-import triggerPump from "./../../defer/test";
+import triggerPump from "../../defer/triggerpumpendpoint";
 
 
 
@@ -8,6 +7,6 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  await triggerPump("Charly");
+  await triggerPump();
   res.status(200).json({ message: "trigered" });
 }
