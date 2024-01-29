@@ -35,6 +35,7 @@ export default async function handler(
       
           let itemtoAddtoLivedrop = await livedrop.aggregate([
               { $match: { isF: { $ne: true } } },
+              { $sort: { dropTime: -1 } },
               { $sample: { size: randomQuantity } }
           ]).toArray();
           

@@ -1,4 +1,4 @@
-import h from "../styles/Home.module.css";
+import h from "../styles/Wrapper.module.css";
 import { signIn, signOut, useSession } from 'next-auth/react';
 import Image from "next/image";
 import { useEffect, useState,useRef } from "react";
@@ -6,8 +6,8 @@ import _051 from "../public/051.png";
 import safe from "../public/safe.png";
 import sword from "../public/sword.png";
 import dolar from "../public/dolar.png";
-import profile from "../public/profile.png";
-import logout from "../public/logout.png";
+import profile from "../public/suitcase.png";
+import logout from "../public/disconnect.png";
 import { formatter } from "../tools";
 import crazy from "../public/assets/promo.png";
 import { useSelector,useDispatch } from "react-redux";
@@ -58,7 +58,7 @@ const Navbar = () => {
         }
         const interval = setInterval(()=>{
             updateUserCount();
-        },5000);
+        },30000);
         return () => {
             clearInterval(interval)
         }
@@ -160,8 +160,8 @@ const Navbar = () => {
     <>
             {
                 promoModal &&
-                <div className={h.home_modal}>
-                    <div className={h.home_modal_kernel} ref={core}>
+                <div className={h.wrapper_modal}>
+                    <div className={h.wrapper_modal_kernel} ref={core}>
                         <button id={h.close} onClick={()=>setPromoModalOpen(false)}>x</button>
                         <div id={h.row1}>
                             <Image src={crazy} alt={"crazy professor"} width={156} height={192} priority />
@@ -170,6 +170,16 @@ const Navbar = () => {
                                 <span>Enter &quot;051BETA&quot; promo code</span><br />
                                 <span id={h.bottom}>and activate $1000 BETA balance.</span>
                             </div>
+                        </div>
+                        <div id={h.rowmid}>
+                            <button id={h.selected}><Image alt="BETA COUPON" src={_051} width={20} height={20} />BETA COUPON</button>
+                            {
+                                [...Array(7)].map((e,i)=>
+                                <button><Image alt="COUPON" src={"/assets/camera.png"} width={20} height={20} />
+                                    SOL <span>SOON</span>
+                                </button>
+                                )
+                            }
                         </div>
                         <div id={h.row2}>
                             <input type="text" placeholder="Enter promo code..." ref={promo} />
@@ -186,12 +196,12 @@ const Navbar = () => {
                     </div>
                 </div>
             }
-        <div className={h.home_navbar}>
-            <div className={h.home_navbar_top}>
+        <div className={h.wrapper_navbar}>
+            <div className={h.wrapper_navbar_top}>
                 <span id={h.each}><span id={h.dot}>&#x2022;</span> {activeUserCount ?? ""} <span style={{color:"#00bc3e"}}>Online</span> </span>
                 <span id={h.each}><span>&#9729;</span> {totalCaseCount && totalCaseCount.total}<span style={{color:"#009fb3"}}>Case Opened</span></span>
             </div>
-            <div className={h.home_navbar_bottom}>
+            <div className={h.wrapper_navbar_bottom}>
                 <Link href={"/"}>
                 <Image src={_051} alt={"051 logo"} width={90} height={50} /></Link>
                 <input type="text" placeholder="Search for case..." onChange={handleSearch} ref={search} />
@@ -214,11 +224,11 @@ const Navbar = () => {
                             <Link href={"/profile"}>
                             <div>
                                 <Image src={profile} alt={"profile icon"} width={25} height={25} />
-                                <span>Profile</span>
+                                <span>INVENTORY</span>
                             </div></Link>
                             <div onClick={handleLogOut}>
                                 <Image src={logout} alt={"logout icon"} width={25} height={25} />
-                                <span>Sign out</span>
+                                <span>DISCONNECT</span>
                             </div>
                         </div>
                         </>
@@ -227,8 +237,8 @@ const Navbar = () => {
                 <button id={h.deposit} onClick={()=>setPromoModalOpen(true)}>DEPOSIT</button>
             </div>
             <Livedrop />
-            <div className={h.home_navbar_tabs}>
-                <div className={h.home_navbar_tabs_kernel}>
+            <div className={h.wrapper_navbar_tabs}>
+                <div className={h.wrapper_navbar_tabs_kernel}>
                     <button id={h.join}>JOIN <strong>051DAO</strong> AND WIN MORE</button>
                     <div id={h.right}>
                         <button>
@@ -247,9 +257,7 @@ const Navbar = () => {
                 </div>
             </div>
         </div>
-        <div id={h.desktoponly}>
-                <h1>Desktop only for now !!!</h1>
-        </div>
+
     </>
      );
 }

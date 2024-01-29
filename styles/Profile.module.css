@@ -1,14 +1,6 @@
 .profile {
   display: grid;
 }
-.profile #black {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: black;
-}
 .profile_kernel {
   width: 1400px;
   padding-top: 40px;

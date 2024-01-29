@@ -1,4 +1,4 @@
-import n from "../styles/Modal.module.css";
+import n from "../styles/Wrapper.module.css";
 import Image from "next/image";
 
 const Notification = () => {

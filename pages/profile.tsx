@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import { note_balanceChange } from "../redux/loginSlice";
 import Link from "next/link";
 import Notification from "../components/notifybox";
+import Wrapper from "../components/wrapper";
 
 const Profile = () => {
     const { data: session } = useSession();
@@ -121,9 +122,8 @@ const Profile = () => {
     }
 
     return ( 
+        <Wrapper title="My Inventory">
         <div className={p.profile}>
-            <div id={p.black}></div>
-            <Navbar />
             <div className={p.profile_kernel}>
                 <div className={p.profile_kernel_card}>
                     <Image src={session?.user?.image ?? ""} alt="profile image" width={100} height={100} />
@@ -202,8 +202,8 @@ const Profile = () => {
                     }
                 </div>
             </div>
-            <Notification />
         </div>
+        </Wrapper>
      );
 }
  

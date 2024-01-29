@@ -17,6 +17,7 @@ import BottomBanner from "../../components/bottombanner";
 import CaseInfo from "../../components/caseinfo";
 import VerticalSlider from "../../components/vslider";
 import Slider from "../../components/slider";
+import Wrapper from "../../components/wrapper";
 
 const Case_page = () => {
     const { data: session } = useSession();
@@ -297,8 +298,7 @@ const Case_page = () => {
 
 
     return ( 
-        <>
-        <Navbar/>
+    <Wrapper title="Open Case">
         {
             feedback &&
             <Modal feedback={feedback} />
@@ -453,19 +453,16 @@ const Case_page = () => {
         }
 
         { caseInfo && <CaseContent caseInfo = {caseInfo}/> } 
-        < BottomBanner />
         </div>
 
-        {
-            universalModal && 
-            <Universal_modal>
-                <Odds caseInfo={caseInfo}/>
-            </Universal_modal>
-        }
-        {/* <Notification /> */}
-            
+            {
+                universalModal && 
+                <Universal_modal>
+                    <Odds caseInfo={caseInfo}/>
+                </Universal_modal>
+            }            
         </div>
-        </>
+    </Wrapper>
      );
 }
  

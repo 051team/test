@@ -360,7 +360,7 @@
                     }
                 }
                 #chosenlast{
-                    background-color: darkblue !important;
+                    background-color: #211c44 !important;
                     filter: grayscale(30%);
                     &:after{
                         content: "";
@@ -369,12 +369,12 @@
                         right: -15px;
                         border-width: 30px 15px 30px 0;
                         border-style: solid;
-                        border-color: transparent darkblue transparent transparent;
+                        border-color: transparent #211c44 transparent transparent;
                         transform: rotate(180deg);
                     }
                 }
                 #chosenfirst{
-                    background-color: darkblue !important;
+                    background-color: #211c44  !important;
                     filter: grayscale(30%);
                     &:before{
                         content: "";
@@ -383,7 +383,7 @@
                         left: -15px;
                         border-width: 30px 15px 30px 0;
                         border-style: solid;
-                        border-color: transparent darkblue transparent transparent;
+                        border-color: transparent #211c44  transparent transparent;
                     }
                 }
             }

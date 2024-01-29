@@ -369,7 +369,7 @@
   border-color: transparent #211c44 transparent transparent;
 }
 .casepage_case #actions #shaped #chosenlast, .casepage_case #actions #shaped2 #chosenlast, .casepage_case #actions #shaped3 #chosenlast {
-  background-color: darkblue !important;
+  background-color: #211c44 !important;
   filter: grayscale(30%);
 }
 .casepage_case #actions #shaped #chosenlast:after, .casepage_case #actions #shaped2 #chosenlast:after, .casepage_case #actions #shaped3 #chosenlast:after {
@@ -379,11 +379,11 @@
   right: -15px;
   border-width: 30px 15px 30px 0;
   border-style: solid;
-  border-color: transparent darkblue transparent transparent;
+  border-color: transparent #211c44 transparent transparent;
   transform: rotate(180deg);
 }
 .casepage_case #actions #shaped #chosenfirst, .casepage_case #actions #shaped2 #chosenfirst, .casepage_case #actions #shaped3 #chosenfirst {
-  background-color: darkblue !important;
+  background-color: #211c44 !important;
   filter: grayscale(30%);
 }
 .casepage_case #actions #shaped #chosenfirst:before, .casepage_case #actions #shaped2 #chosenfirst:before, .casepage_case #actions #shaped3 #chosenfirst:before {
@@ -393,7 +393,7 @@
   left: -15px;
   border-width: 30px 15px 30px 0;
   border-style: solid;
-  border-color: transparent darkblue transparent transparent;
+  border-color: transparent #211c44 transparent transparent;
 }
 .casepage_case #actions #shaped2, .casepage_case #actions #shaped3 {
   position: relative;
