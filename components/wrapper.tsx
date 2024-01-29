@@ -7,8 +7,10 @@ import Image from "next/image";
 import _051 from "../public/051.png";
 import discord from "../public/discord.png";
 import x from "../public/twitter.png";
+import { useSelector } from "react-redux";
 
 const Wrapper = ({title,children}:any) => {
+    const notification = useSelector((state:any)=> state.loginSlice.notification);
     return ( 
         <>
      <Head>
@@ -38,7 +40,9 @@ const Wrapper = ({title,children}:any) => {
                 </div>
             </div>
         </div>
-        <Notification />
+        {
+            notification && <Notification text={notification} />
+        }
       </main>
       <footer>
          <BottomBanner />

@@ -3,6 +3,9 @@ import { signIn, signOut, useSession } from 'next-auth/react';
 import Image from "next/image";
 import { useEffect, useState,useRef } from "react";
 import _051 from "../public/051.png";
+import instagram from "../public/instagram.png";
+import discord from "../public/discord.png";
+import facebook from "../public/facebook.png";
 import safe from "../public/safe.png";
 import sword from "../public/sword.png";
 import dolar from "../public/dolar.png";
@@ -11,7 +14,7 @@ import logout from "../public/disconnect.png";
 import { formatter } from "../tools";
 import crazy from "../public/assets/promo.png";
 import { useSelector,useDispatch } from "react-redux";
-import { note_balanceChange, note_balance, note_searchBy, note_activeUserCount } from "./../redux/loginSlice";
+import { note_balanceChange, note_balance, note_searchBy, note_activeUserCount,note_notification } from "./../redux/loginSlice";
 import Link from "next/link";
 import Livedrop from "./livedrop";
 import useSWR from 'swr';
@@ -42,6 +45,8 @@ const Navbar = () => {
     const searchResultNo = useSelector((state:any)=> state.loginSlice.searchResultNo);
     const resultText = (searchResultNo && searchResultNo !== 0) ? searchResultNo + " items found!" : (searchResultNo === 0) ? "No items found" : "";
     const activeUserCount = useSelector((state:any) => state.loginSlice.activeUserCount);
+    const notification = useSelector((state:any)=> state.loginSlice.notification);
+    const cursor = notification && notification === "SOON" ? "not-allowed" : "pointer";
 
     //Updated user count regularly
     useEffect(()=>{
@@ -200,6 +205,11 @@ const Navbar = () => {
             <div className={h.wrapper_navbar_top}>
                 <span id={h.each}><span id={h.dot}>&#x2022;</span> {activeUserCount ?? ""} <span style={{color:"#00bc3e"}}>Online</span> </span>
                 <span id={h.each}><span>&#9729;</span> {totalCaseCount && totalCaseCount.total}<span style={{color:"#009fb3"}}>Case Opened</span></span>
+                <div id={h.right}>
+                    <Image src={instagram} alt="instagram" />
+                    <Image src={discord} alt="discord" />
+                    <Image src={facebook} alt="facebook" />
+                </div>
             </div>
             <div className={h.wrapper_navbar_bottom}>
                 <Link href={"/"}>
@@ -241,15 +251,21 @@ const Navbar = () => {
                 <div className={h.wrapper_navbar_tabs_kernel}>
                     <button id={h.join}>JOIN <strong>051DAO</strong> AND WIN MORE</button>
                     <div id={h.right}>
-                        <button>
+                        <button style={{cursor:cursor}} onClick={()=>{dispatch(note_notification("SOON")); setTimeout(() => {
+                            dispatch(note_notification(null));
+                        }, 2000);}}>
                             <Image src={safe} alt={"cases"} width={20} height={20} />
                             CASES
                         </button>
-                        <button>
+                        <button style={{cursor:cursor}} onClick={()=>{dispatch(note_notification("SOON")); setTimeout(() => {
+                            dispatch(note_notification(null));
+                        }, 2000);}}>
                             <Image src={sword} alt={"battles"} width={20} height={20} />
                             BATTLES
                         </button>
-                        <button>
+                        <button style={{cursor:cursor}} onClick={()=>{dispatch(note_notification("SOON")); setTimeout(() => {
+                            dispatch(note_notification(null));
+                        }, 2000);}}>
                             <Image style={{filter:"brightness(1.2)"}} src={dolar} alt={"free cases"} width={20} height={20} />
                             FREE CASES
                         </button>

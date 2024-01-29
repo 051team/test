@@ -34,6 +34,19 @@
   font-size: xx-large;
   color: #00bc3e;
 }
+.wrapper_navbar_top #right {
+  position: absolute;
+  right: 40px;
+  display: flex;
+  -moz-column-gap: 10px;
+       column-gap: 10px;
+}
+.wrapper_navbar_top #right img {
+  height: 25px;
+  width: auto;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
 .wrapper_navbar_bottom {
   position: relative;
   background-color: #061118;
@@ -463,8 +476,8 @@
   box-shadow: 0 0 4px 2px black;
   width: 300px;
   height: 60px;
-  -webkit-animation: widget 2s 5 linear;
-          animation: widget 2s 5 linear;
+  -webkit-animation: widget 2s 1 linear;
+          animation: widget 2s 1 linear;
   display: flex;
   justify-content: center;
   -moz-column-gap: 20px;

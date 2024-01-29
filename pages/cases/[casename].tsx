@@ -309,7 +309,7 @@ const Case_page = () => {
 
             <CaseInfo caseInfo={caseInfo}/>
          
-            <div id={c.outerindex} style={{visibility:(sliderVisible && !vertical) ? "visible" : "hidden"}}>
+            <div id={c.outerindex} style={{visibility:(sliderVisible && !vertical && !universalModal) ? "visible" : "hidden"}}>
                 <div id={c.index}>
                     <span>&#9660;</span>
                     <span>&#9650;</span>

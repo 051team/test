@@ -18,7 +18,7 @@ const Odds = ({caseInfo}:any) => {
                 <Image src={gf.giftURL} alt={"XXX"} width={50} height={50} priority />
                 <span>{gf.giftName}</span>
                 <span style={{fontWeight:"bold"}}>{formatter(gf.giftPrice)}</span>
-                <span>%{gf.giftProbability/100000*100}</span>
+                <span>%{(gf.giftProbability/100000*100).toFixed(2)}</span>
             </div>
             )
         }

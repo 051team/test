@@ -16,11 +16,11 @@
         #outerindex{
             position: relative;
             margin-top: 10px;
+            z-index: 999999 !important;
             #index{
                 position: absolute;
                 top:-20px;
                 height: 245px;
-                z-index: 9999999999 !important;
                 display: flex;
                 flex-direction: column;
                 justify-content: space-between;

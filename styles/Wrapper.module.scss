@@ -26,6 +26,17 @@
                     color: #00bc3e;
                 }
             }
+            #right{
+                position: absolute;
+                right: 40px;
+                display: flex;
+                column-gap: 10px;
+                img{
+                    height: 25px;
+                    width: auto;
+                    object-fit: contain;
+                }
+            }
         }
         &_bottom{
             position: relative;
@@ -433,7 +444,7 @@
       box-shadow: 0 0 4px 2px black;
       width: 300px;
       height: 60px;
-      animation: widget 2s 5 linear;
+      animation: widget 2s 1 linear;
       display: flex;
       justify-content: center;
       column-gap: 20px;
