@@ -315,9 +315,7 @@ const Case_page = () => {
             <Modal feedback={feedback} />
         }
         <div className={c.casepage}>
-           <div id={c.bg}></div>
             <div className={c.casepage_case}>
-
             <CaseInfo caseInfo={caseInfo}/>
          
             <div id={c.outerindex} style={{visibility:(sliderVisible && !vertical && !universalModal) ? "visible" : "hidden"}}>

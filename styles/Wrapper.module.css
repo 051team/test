@@ -1,5 +1,7 @@
 .wrapper {
-  background-image: radial-gradient(closest-side at 50% 15%, #1c0c16 0%, #070707 100%);
+  background-image: url("/bg.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;

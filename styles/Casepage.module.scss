@@ -1,13 +1,4 @@
 .casepage{
-    #bg{
-        position: fixed;
-        background-color: black;
-        top:0; left: 0; right: 0;bottom: 0;
-        background-image: url("/bgbg.png");
-        background-repeat: no-repeat;
-        background-size: cover;
-        z-index: -1;
-    }
     &_case{
         display: grid;
         justify-items: center;
