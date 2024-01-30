@@ -17,6 +17,7 @@ const mockLotteryDraw = (giftArray:any) => {
     const chosenIndex = Math.floor(Math.random() * balls.length);
     const selectedBall = balls[chosenIndex];
     const selectedGift = giftArray.find((g:any)=>g.giftName === selectedBall.name && g.giftPrice === selectedBall.price);
+    selectedGift.addTime = (new Date()).getTime();
 
     return selectedGift;
 }
@@ -42,13 +43,14 @@ export default async function handler(
         res.status(404).json({message:"Case not found",color:"red"});
     }else{
         // valid case to open
-        const wonItems = [];
+        let wonItems = [];
         let totalWonFromCase = 0;
         for (let i = 0; i < multiplier; i++) {
             const lotteryResult = mockLotteryDraw(caseToOpen.caseGifts);
             totalWonFromCase += parseFloat(lotteryResult.giftPrice);
             wonItems.push(lotteryResult);
         }
+        wonItems = wonItems.map((e, i) => ({ ...e, addTime: (new Date()).getTime() + i}));
         const casePrice = caseToOpen.casePrice;
         const totalCost = casePrice*multiplier;
 

@@ -54,7 +54,7 @@ export default async function handler(
           const result = await users.updateOne({cdpUserDID:{$eq:user.id}},
             { 
               $inc:{balance:-casePrice},
-              $push: { inventory: lotteryResult }
+              $push: { inventory: {...lotteryResult, addTime:(new Date().getTime())} }
           },
           );
           if(result.matchedCount === 1 && result.matchedCount === 1){

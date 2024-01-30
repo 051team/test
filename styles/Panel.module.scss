@@ -64,17 +64,16 @@
                 button{
                   display: flex;
                   justify-content: flex-start;
-                  &:hover{
-                    img{
-                      filter: brightness(2) invert(100%) drop-shadow(0 0 4px yellow);
-                    }
-                  }
-                }
-                img{
-                  filter: invert(70%);
+                  color: yellow;
+                  width: 30px;
+                  background-image: url("/suitcase.png");
+                  background-repeat: no-repeat;
+                  background-size: contain;
                   height: 30px;
-                  width: auto;
-                  object-fit: contain;
+                  filter: invert(100%);
+                }
+                #log{
+                  background-image: url("/log.png") !important;
                 }
             }
         }
@@ -381,6 +380,37 @@
                 }
               }
               }
+          }
+        }
+        #inventory{
+          max-height: 600px;
+          overflow-y: scroll;
+          display: grid;
+          row-gap: 5px;
+          align-items: center;
+          scrollbar-width: none;
+          &::-webkit-scrollbar { 
+            display: none;
+          }
+          #each{
+            border-bottom: 1px solid silver;
+            padding: 5px 0;
+            display: grid;
+            grid-template-columns: 2fr 2fr 1fr 80px;
+            button{
+              color:white;
+              background-color: crimson;
+              border-radius: 5px;
+            }
+          }
+          h2,span{
+            color:white;
+          }
+          span:nth-child(1){
+            color: orange;
+          }
+          span:nth-child(2){
+            color: lightgreen;
           }
         }
     }

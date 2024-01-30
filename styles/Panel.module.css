@@ -71,16 +71,16 @@
 .panel_kernel #activeusers #user button {
   display: flex;
   justify-content: flex-start;
-}
-.panel_kernel #activeusers #user button:hover img {
-  filter: brightness(2) invert(100%) drop-shadow(0 0 4px yellow);
-}
-.panel_kernel #activeusers #user img {
-  filter: invert(70%);
+  color: yellow;
+  width: 30px;
+  background-image: url("/suitcase.png");
+  background-repeat: no-repeat;
+  background-size: contain;
   height: 30px;
-  width: auto;
-  -o-object-fit: contain;
-     object-fit: contain;
+  filter: invert(100%);
+}
+.panel_kernel #activeusers #user #log {
+  background-image: url("/log.png") !important;
 }
 .panel_kernel #coupons {
   color: white;
@@ -398,6 +398,37 @@
   font-size: 14px;
   font-weight: 500;
   color: darkorange;
+}
+.panel_kernel #inventory {
+  max-height: 600px;
+  overflow-y: scroll;
+  display: grid;
+  row-gap: 5px;
+  align-items: center;
+  scrollbar-width: none;
+}
+.panel_kernel #inventory::-webkit-scrollbar {
+  display: none;
+}
+.panel_kernel #inventory #each {
+  border-bottom: 1px solid silver;
+  padding: 5px 0;
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr 80px;
+}
+.panel_kernel #inventory #each button {
+  color: white;
+  background-color: crimson;
+  border-radius: 5px;
+}
+.panel_kernel #inventory h2, .panel_kernel #inventory span {
+  color: white;
+}
+.panel_kernel #inventory span:nth-child(1) {
+  color: orange;
+}
+.panel_kernel #inventory span:nth-child(2) {
+  color: lightgreen;
 }
 
 @-webkit-keyframes drop {

@@ -6,9 +6,9 @@ import Modal from "../components/modal";
 import { BlobServiceClient, ContainerClient } from '@azure/storage-blob';
 import Gift_holder from "../components/giftholder";
 import { formatter } from "../tools";
-import inventory from "../public/suitcase.png";
-import log from "../public/log.png";
-
+import Universal_modal from "../components/universal_modal";
+import { useDispatch, useSelector } from "react-redux";
+import { note_universal_modal } from "../redux/loginSlice";
 
 const Super_user = () => {
     const tabs = ["User Actions", "Coupons","Case Actions"];
@@ -17,7 +17,9 @@ const Super_user = () => {
     const [allCoupons,setAllCoupons] = useState<any>(null);
     const [allCases,setAllCases] = useState<any>();
     const [showCaseList, setShowCaselist] = useState(false);
+    const universalModal = useSelector((state:any) => state.loginSlice.universal_modal);
 
+    const dispatch = useDispatch();
 
     const [modalOpen,setModalOpen] = useState(false);
     const [feedback,setFeedback] = useState<{message:string,color:string}>();
@@ -34,6 +36,9 @@ const Super_user = () => {
     const caseImage = useRef<HTMLInputElement>(null);
     const casePrice = useRef<HTMLInputElement>(null);
     const caseIndex = useRef<HTMLInputElement>(null);
+
+    const [userInventory, setUserInventory] = useState<any[] | null>(null);
+    const [selectedUser, setSelectedUser] = useState<any>(null);
 
 
     const [gifts, setGifts] = useState
@@ -368,6 +373,60 @@ const Super_user = () => {
         })
     }
 
+    const handleInventory = async (user:any) => {
+        setUserInventory(null);
+        dispatch(note_universal_modal(true));
+        console.log(user);
+        setSelectedUser(user);
+        try {
+            const response = await fetch("/api/fetchinventory",{
+                method:"POST",
+                body:JSON.stringify({id:user.cdpUserDID})
+            });
+            if(!response.ok){
+                alert("Couldn't fetch inventory")
+            }
+            try {
+                const resJson = await response.json();
+                if(response.status === 200){
+                    const propertyAddedResJson = resJson.map((item:any) => {
+                        return { ...item, isSold: item.isSold !== true ? false : item.isSold }});
+                    const sortedResJson = propertyAddedResJson.sort((a:any,b:any)=> {return a.isSold - b.isSold});
+                    console.log(resJson);
+                    console.log(sortedResJson)
+                    setUserInventory(sortedResJson);
+                }
+            } catch (error) {
+                console.log("Response not in json format")
+            }
+        } catch (error) {
+            console.log("Problem var!!!",error)
+        }
+    }
+
+    const handleDeleteItem = async (item:any) => {
+        console.log(item);
+        console.log(selectedUser);
+        setFeedback({message:"Deleting item...", color:"silver"});
+        setModalOpen(true);
+        try {
+            const response = await fetch("/api/delitem",{
+                method:"POST",
+                body:JSON.stringify({user:selectedUser,item:item})
+            })
+            if(response.status === 200){
+                const resJosn = await response.json();
+                setFeedback({message:resJosn.message, color:resJosn.color});
+                setTimeout(() => {
+                    setModalOpen(()=>false);
+                    setSelectedUser(null);
+                }, 2000);
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return ( <>
     <div className={s.panel}>
         <div style={{background:"black", position:"fixed", top:"0", left:"0", right:"0", bottom:"0"}}></div>
@@ -464,8 +523,9 @@ const Super_user = () => {
                             <span>{user.cdpUser}</span>
                             <span>{user.cdpEmail}</span>
                             <span>{user.balance}</span>
-                            <button><Image src={inventory}  alt="inventory"/></button>
-                            <button><Image src={log}  alt="log"/></button>
+                            <button onClick={()=>handleInventory(user)}>
+                            </button>
+                            <button onClick={()=>handleInventory(user)} id={s.log}></button>
                         </div>
                         </>
                         )
@@ -583,6 +643,34 @@ const Super_user = () => {
                         }
                     </div>
                 </div>
+            }
+            {
+                universalModal &&
+                <Universal_modal>
+                    <div id={s.inventory}>
+                    {
+                        !userInventory ?
+                        <h2>Fetching user inventory...</h2>
+                        :
+                        <>
+                        <div id={s.each}>
+                            <span style={{color:"white"}}>Item</span>
+                            <span style={{color:"white"}}>Price</span>
+                            <span style={{color:"white"}}>Active</span>
+                        </div>
+                        {                        
+                        userInventory.map((item,index)=>
+                        <div id={s.each} key={index}>
+                            <span>{item.giftName}</span>
+                            <span>{formatter(item.giftPrice)}</span>
+                            <span style={{color:item.isSold ? "crimson" :"yellow"}}>{item.isSold ? "SOLD" : "Active"}</span>
+                            <button onClick={()=>handleDeleteItem(item)}>DELETE</button>
+                        </div>
+                        )}
+                        </>
+                    }
+                    </div>
+                </Universal_modal>
             }
         </div>
     </div>

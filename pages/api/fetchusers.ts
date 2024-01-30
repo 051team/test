@@ -14,8 +14,8 @@ export default async function handler(
     const data_base = client.db('casadepapel');
     const members = data_base.collection('cdp_users');
 
-    const activeUsers = await members.find().toArray();
-    console.log(activeUsers)
+    const activeUsers = await members.find({}, { projection: { inventory: 0 } }).toArray();
+    //console.log(activeUsers)
 
     res.status(200).json(activeUsers);
 
