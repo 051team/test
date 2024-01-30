@@ -52,7 +52,7 @@ const Navbar = () => {
 
     const payment_methods = [
         {name:"SOL", image:"/payment/sol.png"},{name:"USDC", image:"/payment/usdc.png"},{name:"USDT", image:"/payment/usdt.png"},
-        {name:"BONK", image:"/payment/bonk.png"},{name:"JUP", image:"/payment/jup.png"},{name:"EYH", image:"/payment/eth.png"},
+        {name:"BONK", image:"/payment/bonk.png"},{name:"JUP", image:"/payment/jup.png"},{name:"ETH", image:"/payment/eth.png"},
         {name:"SEI", image:"/payment/sei.png"},
     ]
 
