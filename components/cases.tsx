@@ -7,7 +7,6 @@ import { useSelector,useDispatch } from "react-redux";
 import { note_searchResults } from "../redux/loginSlice";
 
 const Cases = () => {
-    const searchBy = useSelector((state:any)=>state.loginSlice.searchBy);
     const searchResultNo = useSelector((state:any)=> state.loginSlice.searchResultNo);
     const allCases:any = useSelector((state:any)=>state.loginSlice.allCases);
 
@@ -17,7 +16,7 @@ const Cases = () => {
             <h1>POPULAR CASES</h1>
             <div className={h.home_cases_kernel_group}>
                 {
-                    allCases && [...allCases].sort((a,b)=> a.caseIndex - b.caseIndex).filter( (c) => c.caseCategory === "popularcases").filter((e) => e.caseName.toLowerCase().includes(searchBy)).map((cs,index)=>
+                    allCases && [...allCases].sort((a,b)=> a.caseIndex - b.caseIndex).filter( (c) => c.caseCategory === "popularcases").map((cs,index)=>
                     <Link href={`/cases/cs?cat=${cs.caseCategory}&name=${cs.caseName}`} key={index}>
                     <div className={h.home_cases_kernel_group_each}>
                         <Image priority src={cs.caseImageURL} alt={cs.caseName} width={200} height={250} />

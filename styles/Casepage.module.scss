@@ -78,6 +78,7 @@
             position: relative;
             display: flex;
             justify-content: center;
+            border: 1px solid yellow;
             #indexes{
                 position: absolute;
                 z-index: 99999;
@@ -87,6 +88,7 @@
                 font-size: xx-large;
                 top:75px;
                 padding-left: 6px;
+                padding-right: 2px;
             }
         }
 

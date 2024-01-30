@@ -36,6 +36,7 @@
                     height: 25px;
                     width: auto;
                     object-fit: contain;
+                    filter: invert(100%);
                 }
             }
         }
@@ -81,7 +82,7 @@
                     color: whitesmoke;
                     width: 100%;
                     display: grid;
-                    grid-template-columns: 50px 1fr 1fr 50px;
+                    grid-template-columns: 50px 1fr 50px;
                     justify-content: flex-start;
                     align-items: center;
                     column-gap: 20px;
@@ -299,7 +300,7 @@
         background-color: rgba($color: black, $alpha: 0.85);
         position: fixed;
         top: 0; bottom: 0; left: 0; right: 0;
-        z-index: 99999;
+        z-index: 999999999;
         display: grid;
         justify-content: center;
         align-items: center;
@@ -308,12 +309,12 @@
             //height: 250px;
             background-color: #141414;
             border-radius: 10px;
-            padding: 40px;
+            padding: 50px;
             position: relative;
             filter: brightness(1.1);
             display: grid;
             justify-content: center;
-            row-gap: 20px;
+            row-gap: 10px;
             animation: hop 0.6s 1;
             #close{
                 position: absolute;
@@ -394,7 +395,7 @@
                 display: grid;
                 grid-template-columns: repeat(4,1fr);
                 justify-items: center;
-                padding: 0 30px;
+                padding: 25px 30px;
                 gap: 15px;
                 button{
                     box-shadow: 0 0 2px 1px silver;
@@ -407,18 +408,19 @@
                     width: 100%;
                     column-gap: 10px;
                     position: relative;
-                    font-size: 13px;
-                    &:hover{
-                        background-color: rgba($color: orange, $alpha: 0.5);
-                        box-shadow: 0 0 2px 1px orange;
-                    }
+                    font-size: 12px;
+                    cursor: not-allowed;
                     span{
                         position: absolute;
                         right: 10px;
-                        background-color: gray;
+                        background-color: #515151;
                         padding: 1px 2px;
                         border-radius: 3px;
+                        font-size: 11px;
                     }
+                }
+                button:nth-child(1){
+                    color: white;
                 }
                 #selected{
                     background-color: rgba($color: orange, $alpha: 0.5);

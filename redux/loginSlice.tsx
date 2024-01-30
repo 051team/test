@@ -4,7 +4,6 @@ interface AppState {
   balanceChange: boolean;
   balance: number | null;
   activeUserCount:number | null,
-  searchBy:string;
   allCases:null | any[],
   searchResults:any[] | null,
   notification:string | null;
@@ -19,7 +18,6 @@ const initialState:AppState = {
   balanceChange:false,
   balance:null,
   activeUserCount:null,
-  searchBy:"",
   searchResults:null,
   allCases:null,
   notification:null,
@@ -41,9 +39,6 @@ export const loginSlice = createSlice({
     note_activeUserCount: (state, action) => {
       state.activeUserCount = action.payload;
     },
-    note_searchBy: (state, action) => {
-      state.searchBy = action.payload;
-    },
     note_searchResults: (state, action) => {
       state.searchResults = action.payload;
     },
@@ -63,6 +58,6 @@ export const loginSlice = createSlice({
 });
 
 export const { note_balanceChange,note_balance,note_universal_modal,
-  note_searchBy,note_activeUserCount,note_notification,note_searchResults,note_allCases} = loginSlice.actions
+  note_activeUserCount,note_notification,note_searchResults,note_allCases} = loginSlice.actions
 
 export default loginSlice.reducer

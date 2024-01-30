@@ -46,6 +46,7 @@
   width: auto;
   -o-object-fit: contain;
      object-fit: contain;
+  filter: invert(100%);
 }
 .wrapper_navbar_bottom {
   position: relative;
@@ -98,7 +99,7 @@
   color: whitesmoke;
   width: 100%;
   display: grid;
-  grid-template-columns: 50px 1fr 1fr 50px;
+  grid-template-columns: 50px 1fr 50px;
   justify-content: flex-start;
   align-items: center;
   -moz-column-gap: 20px;
@@ -322,7 +323,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 99999;
+  z-index: 999999999;
   display: grid;
   justify-content: center;
   align-items: center;
@@ -331,12 +332,12 @@
   width: 800px;
   background-color: #141414;
   border-radius: 10px;
-  padding: 40px;
+  padding: 50px;
   position: relative;
   filter: brightness(1.1);
   display: grid;
   justify-content: center;
-  row-gap: 20px;
+  row-gap: 10px;
   -webkit-animation: hop 0.6s 1;
           animation: hop 0.6s 1;
 }
@@ -425,7 +426,7 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   justify-items: center;
-  padding: 0 30px;
+  padding: 25px 30px;
   gap: 15px;
 }
 .wrapper_modal_kernel #rowmid button {
@@ -440,18 +441,19 @@
   -moz-column-gap: 10px;
        column-gap: 10px;
   position: relative;
-  font-size: 13px;
-}
-.wrapper_modal_kernel #rowmid button:hover {
-  background-color: rgba(255, 165, 0, 0.5);
-  box-shadow: 0 0 2px 1px orange;
+  font-size: 12px;
+  cursor: not-allowed;
 }
 .wrapper_modal_kernel #rowmid button span {
   position: absolute;
   right: 10px;
-  background-color: gray;
+  background-color: #515151;
   padding: 1px 2px;
   border-radius: 3px;
+  font-size: 11px;
+}
+.wrapper_modal_kernel #rowmid button:nth-child(1) {
+  color: white;
 }
 .wrapper_modal_kernel #rowmid #selected {
   background-color: rgba(255, 165, 0, 0.5);

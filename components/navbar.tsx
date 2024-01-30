@@ -3,9 +3,9 @@ import { signIn, signOut, useSession } from 'next-auth/react';
 import Image from "next/image";
 import { useEffect, useState,useRef } from "react";
 import _051 from "../public/051.png";
-import instagram from "../public/instagram.png";
+import gitbook from "../public/gitbook.svg";
 import discord from "../public/discord.png";
-import facebook from "../public/facebook.png";
+import twitter from "../public/twitter.png";
 import safe from "../public/safe.png";
 import sword from "../public/sword.png";
 import dolar from "../public/dolar.png";
@@ -14,7 +14,7 @@ import logout from "../public/disconnect.png";
 import { formatter } from "../tools";
 import crazy from "../public/assets/promo.png";
 import { useSelector,useDispatch } from "react-redux";
-import { note_balanceChange, note_balance, note_searchBy, note_activeUserCount,note_notification, note_searchResults, note_allCases } from "./../redux/loginSlice";
+import { note_balanceChange, note_balance, note_activeUserCount,note_notification, note_searchResults, note_allCases } from "./../redux/loginSlice";
 import Link from "next/link";
 import Livedrop from "./livedrop";
 import useSWR from 'swr';
@@ -49,6 +49,12 @@ const Navbar = () => {
     const activeUserCount = useSelector((state:any) => state.loginSlice.activeUserCount);
     const notification = useSelector((state:any)=> state.loginSlice.notification);
     const cursor = notification && notification === "SOON" ? "not-allowed" : "pointer";
+
+    const payment_methods = [
+        {name:"SOL", image:"/payment/sol.png"},{name:"USDC", image:"/payment/usdc.png"},{name:"USDT", image:"/payment/usdt.png"},
+        {name:"BONK", image:"/payment/bonk.png"},{name:"JUP", image:"/payment/jup.png"},{name:"EYH", image:"/payment/eth.png"},
+        {name:"SEI", image:"/payment/sei.png"},
+    ]
 
     //Updated user count regularly
     useEffect(()=>{
@@ -173,7 +179,6 @@ const Navbar = () => {
         setTimeout(() => {
             if(search.current){
                 const searchBy = search.current.value.toLocaleLowerCase();
-                dispatch(note_searchBy(searchBy));
                 const searchfResults = allCases.filter((e:any) => e.caseName.toLowerCase().includes(searchBy));
                 dispatch(note_searchResults(searchfResults));
                 if(searchBy === ""){
@@ -217,11 +222,11 @@ const Navbar = () => {
                             </div>
                         </div>
                         <div id={h.rowmid}>
-                            <button id={h.selected}><Image alt="BETA COUPON" src={_051} width={20} height={20} />BETA COUPON</button>
+                            <button id={h.selected}><Image alt="BETA COUPON" src={"/payment/coupon.png"} width={20} height={20} />BETA COUPON</button>
                             {
-                                [...Array(7)].map((e,i)=>
-                                <button key={i}><Image alt="COUPON" src={"/assets/camera.png"} width={20} height={20} />
-                                    SOL <span>SOON</span>
+                                payment_methods.map((m,i)=>
+                                <button key={i}><Image alt="COUPON" src={m.image} width={20} height={20} />
+                                    {m.name} <span>SOON</span>
                                 </button>
                                 )
                             }
@@ -246,9 +251,9 @@ const Navbar = () => {
                 <span id={h.each}><span id={h.dot}>&#x2022;</span> {activeUserCount ?? ""} <span style={{color:"#00bc3e"}}>Online</span> </span>
                 <span id={h.each}><span>&#9729;</span> {totalCaseCount && totalCaseCount.total}<span style={{color:"#009fb3"}}>Case Opened</span></span>
                 <div id={h.right}>
-                    <Image src={instagram} alt="instagram" />
                     <Image src={discord} alt="discord" />
-                    <Image src={facebook} alt="facebook" />
+                    <Image src={twitter} alt="twitter" />
+                    <Image src={gitbook} alt="gitbook" />
                 </div>
             </div>
             <div className={h.wrapper_navbar_bottom}>
@@ -264,7 +269,6 @@ const Navbar = () => {
                             <button onClick={()=>handleGotoResult(r)} key={i}>
                                 <Image src={r.caseImageURL} width={42} height={56} alt={r.caseName} />
                                 <span>{r.caseName}</span>
-                                <span>{r.caseCategory}</span>
                                 <span>{formatter(r.casePrice)}</span>
                             </button>
                             )
@@ -288,11 +292,11 @@ const Navbar = () => {
                         <div id={h.dropdown}>
                             <Link href={"/profile"}>
                             <div>
-                                <Image src={profile} alt={"profile icon"} width={25} height={25} />
+                                <Image src={profile} alt={"profile icon"} width={22} height={22} />
                                 <span>INVENTORY</span>
                             </div></Link>
                             <div onClick={handleLogOut}>
-                                <Image src={logout} alt={"logout icon"} width={25} height={25} />
+                                <Image src={logout} alt={"logout icon"} width={22} height={22} />
                                 <span>DISCONNECT</span>
                             </div>
                         </div>
