@@ -22,12 +22,14 @@ const Wrapper = ({title,children}:any) => {
       <main className={w.wrapper}>
         <Navbar />
         {children}
-        <div id={w.desktoponly}>
-            <div>
-                <div>
-                    <Image src={_051} alt={"051"} width={160} height={96} />
-                </div>
-                <h1>Desktop only for now !!!</h1>
+        {
+            notification && <Notification text={notification} />
+        }
+      </main>
+      <div id={w.desktoponly}>
+            <div id={w.kernel}>
+                <Image src={_051} alt={"051"} width={160} height={96} />
+                <h1>051, support only desktop for now.</h1>
                 <div id={w.double}>
                     <div id={w.each}>
                         <Image src={discord} alt={"discord"} />
@@ -40,10 +42,6 @@ const Wrapper = ({title,children}:any) => {
                 </div>
             </div>
         </div>
-        {
-            notification && <Notification text={notification} />
-        }
-      </main>
       <footer>
          <BottomBanner />
       </footer>

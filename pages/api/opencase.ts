@@ -58,6 +58,12 @@ export default async function handler(
           },
           );
           if(result.matchedCount === 1 && result.matchedCount === 1){
+            const resultCaseStatistic = await cases.updateOne(
+              {caseCategory:{$eq:cat},caseName:{$eq:name}},
+              {
+                $inc:{openedXtimes: 1, turnover:parseFloat(lotteryResult.giftPrice)},
+              });
+            
             res.status(200).json({lucky:lotteryResult});
           }else{
             res.status(500).json({ message: 'Failed to update balance',color:"red" });

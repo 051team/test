@@ -58,9 +58,24 @@
             background-color: rgba(0, 0, 128, 0.432);
             #user{
                 display: grid;
-                grid-template-columns: 2fr 3fr 1fr;
+                grid-template-columns: 2fr 2fr 1fr 130px 100px;
                 padding: 5px;
                 border-bottom: 1px solid navy;
+                button{
+                  display: flex;
+                  justify-content: flex-start;
+                  &:hover{
+                    img{
+                      filter: brightness(2) invert(100%) drop-shadow(0 0 4px yellow);
+                    }
+                  }
+                }
+                img{
+                  filter: invert(70%);
+                  height: 30px;
+                  width: auto;
+                  object-fit: contain;
+                }
             }
         }
         #coupons{
@@ -345,7 +360,7 @@
             padding-bottom: 30px;
             #titles{
               display: grid;
-              grid-template-columns: 1.3fr 1fr 1fr 80px 80px 50px 50px;
+              grid-template-columns: 1fr 1fr 100px 100px 100px 100px 100px 50px 50px;
               padding-bottom: 10px;
             }
             #allcases{
@@ -358,7 +373,7 @@
                 border-bottom: 1px solid navy;
                 #casevalues{
                   display: grid;
-                  grid-template-columns: 1.3fr 1fr 1fr 80px 80px 50px 50px;
+                  grid-template-columns: 1fr 1fr 100px 100px 100px 100px 100px 50px 50px;
                   padding: 5px 0;
                   font-size: 14px;
                   font-weight: 500;

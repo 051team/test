@@ -64,9 +64,23 @@
 }
 .panel_kernel #activeusers #user {
   display: grid;
-  grid-template-columns: 2fr 3fr 1fr;
+  grid-template-columns: 2fr 2fr 1fr 130px 100px;
   padding: 5px;
   border-bottom: 1px solid navy;
+}
+.panel_kernel #activeusers #user button {
+  display: flex;
+  justify-content: flex-start;
+}
+.panel_kernel #activeusers #user button:hover img {
+  filter: brightness(2) invert(100%) drop-shadow(0 0 4px yellow);
+}
+.panel_kernel #activeusers #user img {
+  filter: invert(70%);
+  height: 30px;
+  width: auto;
+  -o-object-fit: contain;
+     object-fit: contain;
 }
 .panel_kernel #coupons {
   color: white;
@@ -364,7 +378,7 @@
 }
 .panel_kernel #coupons #listcases #titles {
   display: grid;
-  grid-template-columns: 1.3fr 1fr 1fr 80px 80px 50px 50px;
+  grid-template-columns: 1fr 1fr 100px 100px 100px 100px 100px 50px 50px;
   padding-bottom: 10px;
 }
 .panel_kernel #coupons #listcases #allcases {
@@ -379,7 +393,7 @@
 }
 .panel_kernel #coupons #listcases #allcases #eachcase #casevalues {
   display: grid;
-  grid-template-columns: 1.3fr 1fr 1fr 80px 80px 50px 50px;
+  grid-template-columns: 1fr 1fr 100px 100px 100px 100px 100px 50px 50px;
   padding: 5px 0;
   font-size: 14px;
   font-weight: 500;

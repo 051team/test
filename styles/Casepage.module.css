@@ -71,7 +71,6 @@
   position: relative;
   display: flex;
   justify-content: center;
-  border: 1px solid yellow;
 }
 .casepage_case #verticalindex #indexes {
   position: absolute;
@@ -421,6 +420,17 @@
 }
 .casepage_case #actions #shaped3:after {
   border-color: transparent purple transparent transparent;
+}
+.casepage_case #actions #gotologin {
+  display: flex;
+  align-items: center;
+  -moz-column-gap: 10px;
+       column-gap: 10px;
+  font-weight: 600;
+  font-size: 12px;
+}
+.casepage_case #actions #gotologin img {
+  filter: invert(100%);
 }
 .casepage_case #gifts {
   overflow: visible;

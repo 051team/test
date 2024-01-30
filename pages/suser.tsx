@@ -5,6 +5,10 @@ import gift from "../public/assets/camera.png";
 import Modal from "../components/modal";
 import { BlobServiceClient, ContainerClient } from '@azure/storage-blob';
 import Gift_holder from "../components/giftholder";
+import { formatter } from "../tools";
+import inventory from "../public/suitcase.png";
+import log from "../public/log.png";
+
 
 const Super_user = () => {
     const tabs = ["User Actions", "Coupons","Case Actions"];
@@ -450,6 +454,8 @@ const Super_user = () => {
                             <span>Username</span>
                             <span>Email</span>
                             <span>CDP Balance</span>
+                            <span>Inventory</span>
+                            <span>Log</span>
                         </div>
                     {
                         activeUsers.map((user:any,i:any)=>
@@ -458,6 +464,8 @@ const Super_user = () => {
                             <span>{user.cdpUser}</span>
                             <span>{user.cdpEmail}</span>
                             <span>{user.balance}</span>
+                            <button><Image src={inventory}  alt="inventory"/></button>
+                            <button><Image src={log}  alt="log"/></button>
                         </div>
                         </>
                         )
@@ -541,8 +549,12 @@ const Super_user = () => {
                                 <div id={s.titles}>
                                     <p>Case Name</p>
                                     <p>Category</p>
+                                    <p>Index</p>
                                     <p>Price</p>
+                                    <p>xOpened</p>
+                                    <p>Turnover</p>
                                     <p>Gifts</p>
+                                    <p></p><p></p><p></p>
                                 </div>
                                 <div id={s.allcases}>
                                     {
@@ -553,6 +565,8 @@ const Super_user = () => {
                                                 <p>{c.caseCategory}</p>
                                                 <p>{c.caseIndex}</p>
                                                 <p style={{color:"lightgreen"}}>${c.casePrice}</p>
+                                                <p>{c.openedXtimes ?? ""}</p>
+                                                <p>{c.turnover ? formatter(c.turnover) : ""}</p>
                                                 <p style={{color:"yellow"}}>{c.caseGifts.length}</p>
                                                 <button>
                                                     <Image alt="delete" src={"/delete.png"} width={25} height={25} priority/>

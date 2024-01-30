@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useSession } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import Navbar from "../../components/navbar";
 import c from "../../styles/Casepage.module.css";
 import _051 from "../../public/051.jpg";
@@ -18,6 +18,7 @@ import CaseInfo from "../../components/caseinfo";
 import VerticalSlider from "../../components/vslider";
 import Slider from "../../components/slider";
 import Wrapper from "../../components/wrapper";
+import discord from "../../public/discord.png";
 
 const Case_page = () => {
     const { data: session } = useSession();
@@ -57,10 +58,6 @@ const Case_page = () => {
 
     const handleOpenCase = async () => {
         if(!session){
-            dispatch(note_notification("Login required!"));
-            setTimeout(() => {
-                dispatch(note_notification(null));
-            }, 2000);
             return}
         if(caseOpenDisabled){
             confirm("Insufficient balance!");
@@ -231,11 +228,7 @@ const Case_page = () => {
     }
 
     const handleOpenMultipleCase = async () => {
-        if(!session){
-            dispatch(note_notification("Login required!"));
-            setTimeout(() => {
-                dispatch(note_notification(null));
-            }, 2000);            
+        if(!session){            
             return
         }
         if(caseOpenDisabled){
@@ -346,7 +339,7 @@ const Case_page = () => {
                         <button disabled={XbuttonDisabled} onClick={()=>handleMultiIndex(5)}>x5</button>
                     </div>
                     <button id={c.shaped2} style={{color:"white"}} 
-                        onClick={ horizontal ? handleOpenCase : handleOpenMultipleCase} 
+                        onClick={ session ? handleOpenCase : ()=>signIn("discord")} 
                         disabled={payButtonDisabled}>
                         {
                             tempoText ? tempoText : 
@@ -354,7 +347,9 @@ const Case_page = () => {
                             (caseInfo && balance && (caseInfo.casePrice*multiplier! <= balance )) && vertical ? `Pay $${caseInfo.casePrice*multiplier!}`:
                             (caseInfo && balance && (caseInfo.casePrice*multiplier! > balance )) && vertical ? `+ $${caseInfo.casePrice*multiplier! - balance} needed`:
                             (caseInfo && balance && caseInfo.casePrice > balance) ? `+ $${caseInfo.casePrice - balance} needed` :
-                            !session ? "Login required!" : (session && balance === 0) ? "No balance!" : "Please wait..."
+                            !session ? 
+                                <span id={c.gotologin}><Image src={discord} alt="discord" />LOG IN WITH DISCORD</span> 
+                            : (session && balance === 0) ? "No balance!" : "Please wait..."
                         }
                     </button>
             </div> 
@@ -378,7 +373,7 @@ const Case_page = () => {
                         <button id={chosen === 5 ? c.chosenlast : ""} disabled={XbuttonDisabled} onClick={()=>handleMultiIndex(5)}>x5</button>
                     </div>
                     <button id={c.shaped2} style={{color:"white"}} 
-                        onClick={ horizontal ? handleOpenCase : handleOpenMultipleCase} 
+                        onClick={ session ? handleOpenMultipleCase : ()=>signIn("discord")} 
                         disabled={payButtonDisabled}>
                         {
                             tempoText ? tempoText : 
@@ -386,7 +381,9 @@ const Case_page = () => {
                             (caseInfo && balance && (caseInfo.casePrice*multiplier! <= balance )) && vertical ? `Pay $${caseInfo.casePrice*multiplier!}`:
                             (caseInfo && balance && (caseInfo.casePrice*multiplier! > balance )) && vertical ? `+ $${caseInfo.casePrice*multiplier! - balance} needed`:
                             (caseInfo && balance && caseInfo.casePrice > balance) ? `+ $${caseInfo.casePrice - balance} needed` :
-                            !session ? "Login required!" : (session && balance === 0) ? "No balance!" : "Please wait..."
+                            !session ? 
+                                <span id={c.gotologin}><Image src={discord} alt="discord" />LOG IN WITH DISCORD</span> 
+                            : (session && balance === 0) ? "No balance!" : "Please wait..."
                         }
                     </button>
             </div> 

@@ -280,7 +280,7 @@ const Navbar = () => {
                     <label htmlFor="open"></label>
                     {
                         !session &&
-                        <span><strong>Sign In</strong></span>
+                        <span id={h.signin}>LOG IN WITH DISCORD</span>
                     }
                     {
                         session && 
@@ -303,19 +303,22 @@ const Navbar = () => {
                         </>
                     }
                 </button>
-                <button id={h.deposit} onClick={()=>setPromoModalOpen(true)}>DEPOSIT</button>
+                {
+                    session &&   <button id={h.deposit} onClick={()=>setPromoModalOpen(true)}>DEPOSIT</button>
+
+                }
             </div>
             <Livedrop />
             <div className={h.wrapper_navbar_tabs}>
                 <div className={h.wrapper_navbar_tabs_kernel}>
                     <button id={h.join}>JOIN <strong>051DAO</strong> AND WIN MORE</button>
                     <div id={h.right}>
-                        <button style={{cursor:cursor}} onClick={()=>{dispatch(note_notification("SOON")); setTimeout(() => {
-                            dispatch(note_notification(null));
-                        }, 2000);}}>
+                        <Link href={"/"}>
+                        <button style={{cursor:cursor}}>
                             <Image src={safe} alt={"cases"} width={20} height={20} />
                             CASES
                         </button>
+                        </Link>
                         <button style={{cursor:cursor}} onClick={()=>{dispatch(note_notification("SOON")); setTimeout(() => {
                             dispatch(note_notification(null));
                         }, 2000);}}>

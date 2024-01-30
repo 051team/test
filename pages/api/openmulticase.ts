@@ -43,8 +43,10 @@ export default async function handler(
     }else{
         // valid case to open
         const wonItems = [];
+        let totalWonFromCase = 0;
         for (let i = 0; i < multiplier; i++) {
             const lotteryResult = mockLotteryDraw(caseToOpen.caseGifts);
+            totalWonFromCase += parseFloat(lotteryResult.giftPrice);
             wonItems.push(lotteryResult);
         }
         const casePrice = caseToOpen.casePrice;
@@ -71,6 +73,11 @@ export default async function handler(
                   },
                 );
                 if(result.matchedCount === 1 && result.matchedCount === 1){
+                    const resultCaseStatistic = await cases.updateOne(
+                    {caseCategory:{$eq:cat},caseName:{$eq:name}},
+                    {
+                      $inc:{openedXtimes: multiplier, turnover:totalWonFromCase},
+                    });
                     res.status(200).json({wonItems:wonItems});
                   }else{
                     res.status(500).json({ message: 'Failed to update user after lottery drawing',color:"red" });

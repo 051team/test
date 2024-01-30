@@ -69,7 +69,6 @@
             position: relative;
             display: flex;
             justify-content: center;
-            border: 1px solid yellow;
             #indexes{
                 position: absolute;
                 z-index: 99999;
@@ -414,6 +413,16 @@
                 }
                 &:after{
                     border-color: transparent purple transparent transparent;
+                }
+            }
+            #gotologin{
+                display: flex;
+                align-items: center;
+                column-gap: 10px;
+                font-weight: 600;
+                font-size: 12px;
+                img{
+                    filter: invert(100%);
                 }
             }
         }
