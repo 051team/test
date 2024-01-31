@@ -9,15 +9,6 @@ export default async function handler(
   console.log("delitem.ts");
   const {user,item} = JSON.parse(req.body);
 
-  //isSold property does not exist by default. adding it to all items on the clientside for sorting purposes
-  //for a correct match in db, remove it if it is not true
-  if(item.isSold === false){
-    console.log(item);
-    delete item.isSold;
-  }
-
-  item.giftPrice = item.giftPrice.toString();
-
   let client;
 
   console.log(item)

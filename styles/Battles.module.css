@@ -1,0 +1,210 @@
+.battles {
+  max-width: 100vw;
+  display: grid;
+  justify-content: center;
+  padding-top: 40px;
+}
+.battles_kernel {
+  width: 1400px;
+  display: grid;
+  justify-content: center;
+}
+.battles_kernel_options {
+  border-top: 1px solid navy;
+  padding: 10px 50px;
+  margin-bottom: 30px;
+  width: 1100px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  -moz-column-gap: 20px;
+       column-gap: 20px;
+}
+.battles_kernel_options #double {
+  display: flex;
+  align-items: flex-end;
+  color: lightgreen;
+  -moz-column-gap: 5px;
+       column-gap: 5px;
+  font-weight: 500;
+}
+.battles_kernel_options #double img {
+  filter: brightness(1.1);
+}
+.battles_kernel_options #double input {
+  display: none;
+}
+.battles_kernel_options #double label {
+  width: 50px;
+  height: 30px;
+  border: 1px solid silver;
+  border-radius: 15px;
+  position: relative;
+  cursor: pointer;
+  background-color: rgba(192, 192, 192, 0.3);
+}
+.battles_kernel_options #double label:before {
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  content: "";
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background-color: silver;
+}
+.battles_kernel_options #double input:checked ~ label {
+  background-color: rgba(255, 165, 0, 0.3);
+  border: 1px solid orange;
+}
+.battles_kernel_options #double input:checked ~ label:before {
+  left: 20px;
+  background-color: orange;
+}
+.battles_kernel_options #radios {
+  padding: 5px 20px;
+  display: flex;
+  align-items: center;
+  -moz-column-gap: 15px;
+       column-gap: 15px;
+  width: 195px;
+}
+.battles_kernel_options #radios input {
+  width: 20px;
+  height: 20px;
+  position: relative;
+  background-color: transparent;
+  cursor: pointer;
+}
+.battles_kernel_options #radios input:after {
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  content: "2";
+  width: 30px;
+  height: 30px;
+  background-color: orange;
+  color: white;
+  border-radius: 50%;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  filter: grayscale(90%);
+  font-size: large;
+  font-weight: bold;
+}
+.battles_kernel_options #radios input:checked:after {
+  filter: grayscale(0%);
+}
+.battles_kernel_options #radios input:nth-child(2):after {
+  content: "3";
+}
+.battles_kernel_options #radios input:nth-child(3):after {
+  content: "4";
+}
+.battles_kernel_options #radios input:nth-child(4):after {
+  width: 60px;
+  border-radius: 15px;
+  content: "2x2";
+}
+.battles_kernel #newbattle {
+  width: 1100px;
+  height: 250px;
+  border: 1px solid navy;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.battles_kernel #newbattle button {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 99;
+}
+.battles_kernel #newbattle span {
+  position: absolute;
+  z-index: 1;
+  width: 0px;
+  height: 1px;
+  background-color: white;
+  transition: width 0.4s ease, box-shadow 0.5s ease;
+  display: grid;
+  justify-self: center;
+  align-self: center;
+}
+.battles_kernel #newbattle #kernel {
+  z-index: 9;
+}
+.battles_kernel #newbattle #kernel img {
+  filter: invert(50%);
+}
+.battles_kernel #newbattle #kernel h3 {
+  color: silver;
+}
+.battles_kernel #newbattle:hover #kernel img {
+  filter: invert(100%) drop-shadow(0 0 5px gold) brightness(1.5);
+}
+.battles_kernel #newbattle:hover #kernel h3 {
+  filter: drop-shadow(0 0 5px crimson) brightness(1.5);
+}
+.battles_kernel #newbattle:hover {
+  filter: brightness(1.5);
+}
+.battles_kernel #newbattle:hover span {
+  width: 200px !important;
+  box-shadow: 0 0 3px gold;
+}
+
+.cases #options {
+  height: 50px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.cases #options h4 {
+  color: white;
+}
+.cases #options #cost {
+  position: absolute;
+  right: 30px;
+  color: white;
+}
+.cases #kernel {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 5px;
+  height: 550px;
+  scrollbar-width: none;
+  overflow-y: scroll;
+}
+.cases #kernel::-webkit-scrollbar {
+  display: none;
+}
+.cases #kernel #each {
+  border: 1px solid gray;
+  border-radius: 5px;
+  width: 185px;
+  aspect-ratio: 20/25;
+  position: relative;
+}
+.cases #kernel #each:hover {
+  filter: brightness(1.6);
+}
+.cases #kernel #each img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+.cases #kernel #each span {
+  position: absolute;
+  bottom: 20px;
+  width: 175px;
+  left: 5px;
+  z-index: 9;
+  color: white;
+  font-weight: 600;
+  background-color: black;
+}/*# sourceMappingURL=Battles.module.css.map */

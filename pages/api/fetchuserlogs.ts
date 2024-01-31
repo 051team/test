@@ -21,7 +21,6 @@ export default async function handler(
         const logs:any = new Object();
         logs.joinedAt = user.joinedAt;
         logs.coupons_used = user.coupons_used;
-        //logs.inventory = user.inventory.map((e:any)=>{giftName: e.giftName; addTime:e.addTime})
         logs.inventory = user.inventory.map((e: any) => ({ giftName: e.giftName, addTime: e.addTime, isSold:e.isSold ?? false }));
         logs.inventory = logs.inventory.sort((a:any,b:any)=>a.isSold - b.isSold)
         res.status(200).json(logs);
