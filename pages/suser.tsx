@@ -379,7 +379,7 @@ const Super_user = () => {
         console.log(user);
         setSelectedUser(user);
         try {
-            const response = await fetch("/api/fetchinventory",{
+            const response = await fetch("/api/fetchinventory?active=true",{
                 method:"POST",
                 body:JSON.stringify({id:user.cdpUserDID})
             });
@@ -417,10 +417,13 @@ const Super_user = () => {
             if(response.status === 200){
                 const resJosn = await response.json();
                 setFeedback({message:resJosn.message, color:resJosn.color});
+                setUserInventory((pr:any)=>{
+                    const afterDEL = pr.filter((e:any)=>e.addTime !== item.addTime);
+                    return afterDEL
+                })
                 setTimeout(() => {
                     setModalOpen(()=>false);
-                    setSelectedUser(null);
-                }, 2000);
+                }, 1000);
             }
         } catch (error) {
             console.log(error)

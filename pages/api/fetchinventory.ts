@@ -1,4 +1,3 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import {connectToDatabase, closeDatabaseConnection} from "./mdb";
 
@@ -7,7 +6,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const userId = JSON.parse(req.body).id;
-
+  const {active} = req.query;
   let client;
 
   try {
@@ -15,6 +14,37 @@ export default async function handler(
     const data_base = client.db('casadepapel');
     const users = data_base.collection('cdp_users');
 
+    // only active items from invnetory for panel page
+    if(active){
+      const userWithFilteredInventory = await users.aggregate([
+        {
+          $match: {
+            cdpUserDID: userId
+          }
+        },
+        {
+          $project: {
+            inventory: {
+              $filter: {
+                input: "$inventory",
+                as: "item",
+                cond: { $ne: ["$$item.isSold", true] }
+              }
+            }
+          }
+        }
+      ]).toArray();
+      if(userWithFilteredInventory){
+        const inventory = userWithFilteredInventory[0].inventory ?? [];
+        res.status(200).json(inventory);
+        return
+      } else{
+        res.status(404).json({ message: 'Failed to fetch inventory',color:"red" });
+        return
+      }     
+    }
+
+    // for profile page, send whole inventory
     const user = await users.findOne({
       cdpUserDID:{$eq:userId}
     });
