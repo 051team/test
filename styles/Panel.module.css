@@ -62,9 +62,18 @@
   top: 50px;
   background-color: rgba(0, 0, 128, 0.432);
 }
+.panel_kernel #activeusers #filter {
+  padding: 5px;
+  padding-left: 0;
+}
+.panel_kernel #activeusers #filter input {
+  padding: 5px;
+  width: 300px;
+  outline: none;
+}
 .panel_kernel #activeusers #user {
   display: grid;
-  grid-template-columns: 2fr 2fr 1fr 130px 100px;
+  grid-template-columns: 2fr 2fr 2fr 1fr 130px 100px;
   padding: 5px;
   border-bottom: 1px solid navy;
 }
@@ -399,7 +408,7 @@
   font-weight: 500;
   color: darkorange;
 }
-.panel_kernel #inventory {
+.panel_kernel #inventory, .panel_kernel #logs {
   max-height: 600px;
   overflow-y: scroll;
   display: grid;
@@ -407,28 +416,66 @@
   align-items: center;
   scrollbar-width: none;
 }
-.panel_kernel #inventory::-webkit-scrollbar {
+.panel_kernel #inventory::-webkit-scrollbar, .panel_kernel #logs::-webkit-scrollbar {
   display: none;
 }
-.panel_kernel #inventory #each {
+.panel_kernel #inventory #forwho, .panel_kernel #logs #forwho {
+  padding: 5px;
+  filter: drop-shadow(0 0 4px gold) drop-shadow(0 0 6px red);
+}
+.panel_kernel #inventory h3, .panel_kernel #logs h3 {
+  color: white;
+  margin-top: 10px;
+}
+.panel_kernel #inventory #each, .panel_kernel #logs #each {
   border-bottom: 1px solid silver;
   padding: 5px 0;
   display: grid;
   grid-template-columns: 2fr 2fr 1fr 80px;
 }
-.panel_kernel #inventory #each button {
+.panel_kernel #inventory #each button, .panel_kernel #logs #each button {
   color: white;
   background-color: crimson;
   border-radius: 5px;
 }
-.panel_kernel #inventory h2, .panel_kernel #inventory span {
-  color: white;
-}
-.panel_kernel #inventory span:nth-child(1) {
+.panel_kernel #inventory #each span:nth-child(1), .panel_kernel #logs #each span:nth-child(1) {
   color: orange;
 }
-.panel_kernel #inventory span:nth-child(2) {
+.panel_kernel #inventory #each span:nth-child(2), .panel_kernel #logs #each span:nth-child(2) {
   color: lightgreen;
+}
+.panel_kernel #inventory h2, .panel_kernel #inventory span, .panel_kernel #logs h2, .panel_kernel #logs span {
+  color: white;
+}
+.panel_kernel #inventory .title, .panel_kernel #logs .title {
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  -webkit-text-decoration: underline dashed silver;
+          text-decoration: underline dashed silver;
+}
+.panel_kernel #inventory #logeach, .panel_kernel #logs #logeach {
+  color: white;
+  padding: 10px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border: 1px solid lawngreen;
+}
+.panel_kernel #inventory #logcoupons, .panel_kernel #inventory #loginventory, .panel_kernel #logs #logcoupons, .panel_kernel #logs #loginventory {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 10px;
+  border: 1px solid pink;
+}
+.panel_kernel #inventory #loginventory, .panel_kernel #logs #loginventory {
+  border: 1px solid skyblue;
+  display: block;
+}
+.panel_kernel #inventory #loginventory #line, .panel_kernel #logs #loginventory #line {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  border-bottom: 1px solid gray;
+  padding: 5px 0;
 }
 
 @-webkit-keyframes drop {

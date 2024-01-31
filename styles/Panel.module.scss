@@ -56,9 +56,18 @@
             position: relative;
             top:50px;
             background-color: rgba(0, 0, 128, 0.432);
+            #filter{
+              padding: 5px;
+              padding-left: 0;
+              input{
+                padding: 5px;
+                width: 300px;
+                outline: none;
+              }
+            }
             #user{
                 display: grid;
-                grid-template-columns: 2fr 2fr 1fr 130px 100px;
+                grid-template-columns: 2fr 2fr 2fr 1fr 130px 100px;
                 padding: 5px;
                 border-bottom: 1px solid navy;
                 button{
@@ -382,7 +391,7 @@
               }
           }
         }
-        #inventory{
+        #inventory, #logs{
           max-height: 600px;
           overflow-y: scroll;
           display: grid;
@@ -391,6 +400,14 @@
           scrollbar-width: none;
           &::-webkit-scrollbar { 
             display: none;
+          }
+          #forwho{
+            padding: 5px;
+            filter: drop-shadow(0 0 4px gold) drop-shadow(0 0 6px red);
+          }
+          h3{
+            color: white;
+            margin-top: 10px;
           }
           #each{
             border-bottom: 1px solid silver;
@@ -402,15 +419,44 @@
               background-color: crimson;
               border-radius: 5px;
             }
+            span:nth-child(1){
+              color: orange;
+            }
+            span:nth-child(2){
+              color: lightgreen;
+            }
           }
           h2,span{
             color:white;
           }
-          span:nth-child(1){
-            color: orange;
+          .title{
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: underline dashed silver;
           }
-          span:nth-child(2){
-            color: lightgreen;
+          #logeach{
+            color:white;
+            padding: 10px;
+            display: grid;
+            grid-template-columns: repeat(3,1fr);
+            border: 1px solid lawngreen;
+          }
+          #logcoupons, #loginventory{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            padding: 10px;
+            border: 1px solid pink;
+          }
+          #loginventory{
+            border: 1px solid skyblue;
+            display: block;
+            #line{
+              display: grid;
+              grid-template-columns: 1fr 1fr 1fr;
+              border-bottom: 1px solid gray;
+              padding: 5px 0;
+            }
           }
         }
     }

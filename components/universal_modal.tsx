@@ -13,7 +13,10 @@ const Universal_modal = ({children}:any) => {
                 dispatch(note_universal_modal(false));
             }
         }
-        window.addEventListener("click", handleOutsideClick)
+        window.addEventListener("click", handleOutsideClick);
+        return () => {
+            window.removeEventListener("click", handleOutsideClick)
+        }
     },[]);
     return ( 
         <div className={u.universal}>

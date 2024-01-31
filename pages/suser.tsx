@@ -37,8 +37,13 @@ const Super_user = () => {
     const casePrice = useRef<HTMLInputElement>(null);
     const caseIndex = useRef<HTMLInputElement>(null);
 
+    const filteruser = useRef<HTMLInputElement>(null);
+
     const [userInventory, setUserInventory] = useState<any[] | null>(null);
+    const [userLogs, setUserLogs] = useState<any>(null);
     const [selectedUser, setSelectedUser] = useState<any>(null);
+    const [filterBy,setFilterBy] = useState<any>();
+    const [filteredUsers, setFilteredUsers] = useState<any>();
 
 
     const [gifts, setGifts] = useState
@@ -64,8 +69,6 @@ const Super_user = () => {
             }
         }
     },[gifts.addedgifts]);
-
-    
 
 
     const handleFetchAll = async () => {
@@ -375,9 +378,10 @@ const Super_user = () => {
 
     const handleInventory = async (user:any) => {
         setUserInventory(null);
-        dispatch(note_universal_modal(true));
-        console.log(user);
+        setUserLogs(null);
         setSelectedUser(user);
+        dispatch(note_universal_modal(true));
+        setFeedback({message:"Fetching user inventory...",color:"silver"})
         try {
             const response = await fetch("/api/fetchinventory?active=true",{
                 method:"POST",
@@ -401,6 +405,32 @@ const Super_user = () => {
             }
         } catch (error) {
             console.log("Problem var!!!",error)
+        }
+    }
+
+    const handleLogs = async (user:any) => {
+        setUserInventory(null);
+        setUserLogs(null);
+        setSelectedUser(user);
+        setFeedback({message:"Fetching user logs...", color:"silver"});
+        dispatch(note_universal_modal(true));
+        try {
+            const response = await fetch("/api/fetchuserlogs",{
+                method:"POST",
+                body:JSON.stringify({id:user.cdpUserDID})
+            })
+            if(response.status === 200){
+                const resJson = await response.json();
+                setUserLogs(resJson);
+            }else{
+                const resJson = await response.json();
+                setFeedback({message:resJson.message, color:resJson.color});
+                setTimeout(() => {
+                    dispatch(note_universal_modal(false));
+                }, 2000);
+            }
+        } catch (error) {
+            console.log("failed to fecth logs 111",error)
         }
     }
 
@@ -429,6 +459,30 @@ const Super_user = () => {
             console.log(error)
         }
     }
+
+    const handleFilter = () => {
+        if(filteruser.current){
+            const val = filteruser.current.value;
+            setTimeout(() => {
+                setFilterBy(val);
+            }, 300);
+        }
+    }
+
+    useEffect(()=>{
+        if(activeUsers && filterBy){
+            setFilteredUsers(()=>{
+                let result = activeUsers.filter((e:any)=>e.cdpUser.includes(filterBy));
+                if(result.length === 0){
+                    result = activeUsers.filter((e:any)=>e.cdpUserDID.includes(filterBy));
+                }
+                return result;
+            })
+        }
+        if(filterBy === ""){
+            setFilteredUsers(null);
+        }
+    },[filterBy])
 
     return ( <>
     <div className={s.panel}>
@@ -512,23 +566,29 @@ const Super_user = () => {
             {
                 selectedTab === "User Actions" && activeUsers &&
                 <div id={s.activeusers}>
-                        <div key={-1} id={s.user} style={{backgroundColor:"navy", padding:"5px",marginBottom:"10px"}}>
-                            <span>Username</span>
-                            <span>Email</span>
-                            <span>CDP Balance</span>
-                            <span>Inventory</span>
-                            <span>Log</span>
-                        </div>
+                    <div id={s.filter}>
+                        <input ref={filteruser} type={"text"}
+                            placeholder="search for user by ID or Username..." onChange={handleFilter}/>
+                    </div>
+                    <div key={-1} id={s.user} style={{backgroundColor:"navy", padding:"5px",marginBottom:"10px"}}>
+                        <span>Username</span>
+                        <span>ID</span>
+                        <span>Email</span>
+                        <span>CDP Balance</span>
+                        <span>Inventory</span>
+                        <span>Log</span>
+                    </div>
                     {
-                        activeUsers.map((user:any,i:any)=>
+                        (filteredUsers ?? activeUsers).map((user:any,i:any)=>
                         <>
                         <div key={i} id={s.user}>
                             <span>{user.cdpUser}</span>
+                            <span>{user.cdpUserDID}</span>
                             <span>{user.cdpEmail}</span>
                             <span>{user.balance}</span>
                             <button onClick={()=>handleInventory(user)}>
                             </button>
-                            <button onClick={()=>handleInventory(user)} id={s.log}></button>
+                            <button onClick={()=>handleLogs(user)} id={s.log}></button>
                         </div>
                         </>
                         )
@@ -648,15 +708,16 @@ const Super_user = () => {
                 </div>
             }
             {
-                universalModal &&
+                universalModal && feedback && feedback.message.includes("inventory") &&
                 <Universal_modal>
                     <div id={s.inventory}>
                     {
                         !userInventory ?
-                        <h2>Fetching user inventory...</h2>
+                        <h2 style={{color:feedback.color}}>{feedback.message}</h2>
                         :
                         <>
-                        <div id={s.each}>
+                        <h3 id={s.forwho}>{selectedUser.cdpUser}</h3>
+                        <div id={s.each} key={-1}>
                             <span style={{color:"white"}}>Item</span>
                             <span style={{color:"white"}}>Price</span>
                             <span style={{color:"white"}}>Active</span>
@@ -675,6 +736,59 @@ const Super_user = () => {
                     </div>
                 </Universal_modal>
             }
+
+            {
+                universalModal && feedback && feedback.message.includes("logs") &&
+                <Universal_modal>
+                    <div id={s.logs}>
+                    {
+                        !userLogs ?
+                        <h2 style={{color:feedback.color}}>{feedback.message}</h2>
+                        :
+                        <>              
+                        <h3 id={s.forwho}>{selectedUser.cdpUser}</h3>
+                        <h3 style={{color:"lawngreen"}}>Member since</h3>
+                        <div id={s.logeach}>
+                            <span>{new Date(userLogs.joinedAt).toLocaleString('tr-TR', { timeZone: 'Europe/Istanbul' })}</span>
+                        </div>
+                        <h3 style={{color:"pink"}}>Coupons used</h3>
+                        <div id={s.logcoupons}>
+                                <span className={s.title} key={-1}>Coupon name</span>
+                                <span className={s.title} key={-2}>xTimes used</span>
+                            {
+                                userLogs.coupons_used.map((c:any,i:any)=>
+                                <>
+                                <span style={{color:i%2 ? "lightcoral" : "lightseagreen"}} key={i}>{c.coupon}</span>
+                                <span style={{color:i%2 ? "lightcoral" : "lightseagreen"}} key={i+1}>{c.usedxTimes}</span>
+                                </>
+                                )
+                            }
+                        </div>
+                        <h3 style={{color:"skyblue"}}>Inventory</h3>
+                        <div id={s.loginventory}>
+                            <div id={s.line}>
+                                <span className={s.title} key={-1}>Gift Name</span>
+                                <span className={s.title} key={-2}>Case Opened at:</span>
+                                <span className={s.title} key={-3}>Status</span>
+                            </div>
+                            {
+                                userLogs.inventory.map((g:any,i:number)=>
+                                <>
+                                <div id={s.line}>
+                                    <span style={{color:i%2 ? "lightcoral" : "lightseagreen"}} key={i}>{g.giftName}</span>
+                                    <span style={{color:i%2 ? "lightcoral" : "lightseagreen"}} key={i+1}>{new Date(g.addTime).toLocaleString('tr-TR', { timeZone: 'Europe/Istanbul' })}</span>
+                                    <span style={{color:g.isSold ? "crimson" : "gold"}} key={i+2}>{g.isSold ? "SOLD" : "ACTIVE"}</span>
+                                </div>
+                                </>
+                                )
+                            }
+                        </div>
+                        </>
+                    }
+                    </div>
+                </Universal_modal>
+            }
+
         </div>
     </div>
     </> );

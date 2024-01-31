@@ -20,6 +20,7 @@ const Profile = () => {
     const [tempoText,setTempoText] = useState<{text:string,no:number|null} | null>();
     const [filterItems, setFilter] = useState<boolean>(true);
     const slider = useRef<HTMLInputElement>(null);
+    const sellDisabled = (inventory && !inventory.some((item:any) => item.isSold === false));
 
     useEffect(()=>{
         const fetchInventory = async () => {
@@ -84,12 +85,6 @@ const Profile = () => {
         setFilter((pr)=>!pr);
     }
     const handleWholeSale = async () => {
-        let itemsToSell = false;
-        itemsToSell = inventory.some((item:any) => item.isSold === false);
-        if(!itemsToSell){
-            alert("No items to sell...");
-            return
-        }
         setTempoText({text:"Selling all items...", no:null})
         try {
             const response = await fetch("/api/wholesale",{
@@ -147,7 +142,7 @@ const Profile = () => {
                                 <div id={p.ball}></div>
                             </div>
                         </div>
-                        <button onClick={handleWholeSale}>SELL ALL</button>
+                        <button style={{cursor:sellDisabled ? "not-allowed" : "pointer"}} onClick={handleWholeSale} disabled={sellDisabled}>SELL ALL</button>
                     </div>
                 </div>
                 <div className={p.profile_kernel_inventory}>
