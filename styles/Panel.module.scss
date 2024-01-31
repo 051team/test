@@ -77,9 +77,14 @@
                   width: 30px;
                   background-image: url("/suitcase.png");
                   background-repeat: no-repeat;
-                  background-size: contain;
+                  background-size: 80%;
+                  background-position: center;
                   height: 30px;
+                  padding: 3px;
                   filter: invert(100%);
+                  &:hover{
+                    border: 2px solid red;
+                  }
                 }
                 #log{
                   background-image: url("/log.png") !important;
