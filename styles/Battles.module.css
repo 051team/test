@@ -8,11 +8,28 @@
   width: 1400px;
   display: grid;
   justify-content: center;
+  position: relative;
+}
+.battles_kernel #shield {
+  position: absolute;
+  width: 100%;
+  height: 110%;
+  background-color: rgba(0, 0, 0, 0.9);
+  left: 0;
+  top: 0;
+  z-index: 99;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+}
+.battles_kernel #shield h3 {
+  font-weight: 500;
+  font-size: x-large;
+  filter: drop-shadow(0 0 20px gold);
 }
 .battles_kernel_options {
   border-top: 1px solid navy;
   padding: 10px 30px;
-  margin-bottom: 30px;
   width: 1100px;
   height: 60px;
   display: flex;
@@ -107,6 +124,31 @@
   width: 60px;
   border-radius: 15px;
   content: "2x2";
+}
+.battles_kernel_createbattle {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 70px;
+}
+.battles_kernel_createbattle button {
+  background-color: rgba(128, 0, 128, 0.7);
+  width: 700px;
+  height: 100%;
+  -webkit-clip-path: polygon(72.25% 50%, 75% 93.3%, 25% 93.3%, 27.75% 50%, 25% 6.7%, 75% 6.7%);
+          clip-path: polygon(72.25% 50%, 75% 93.3%, 25% 93.3%, 27.75% 50%, 25% 6.7%, 75% 6.7%);
+  color: white;
+  font-weight: 500;
+  transition: -webkit-clip-path 0.5s ease;
+  transition: clip-path 0.5s ease;
+  transition: clip-path 0.5s ease, -webkit-clip-path 0.5s ease;
+}
+.battles_kernel_createbattle button:hover {
+  -webkit-clip-path: polygon(82.25% 50%, 75% 93.3%, 25% 93.3%, 17.75% 50%, 25% 6.7%, 75% 6.7%);
+          clip-path: polygon(82.25% 50%, 75% 93.3%, 25% 93.3%, 17.75% 50%, 25% 6.7%, 75% 6.7%);
+  background-color: purple;
+  filter: brightness(1.3);
 }
 .battles_kernel #newbattle {
   width: 1100px;

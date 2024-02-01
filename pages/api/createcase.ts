@@ -9,12 +9,13 @@ export default async function handler(
 ) {
   
   console.log("Create CASE Endpoint accessed");
+  let client:any;
 
   const caseInfo = JSON.parse(req.body);
   console.log(caseInfo);
 
   try {
-    const client = await connectToDatabase();
+    client = await connectToDatabase();
     const database = client.db('casadepapel');
     const cases = database.collection('cdp_cases');
     try {
@@ -33,5 +34,9 @@ export default async function handler(
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: 'Failed to create case', color:"red" });
+  }  finally{
+    if (client) {
+      await closeDatabaseConnection(client);
+    }
   }
 }
