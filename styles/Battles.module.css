@@ -11,11 +11,12 @@
 }
 .battles_kernel_options {
   border-top: 1px solid navy;
-  padding: 10px 50px;
+  padding: 10px 30px;
   margin-bottom: 30px;
   width: 1100px;
   height: 60px;
   display: flex;
+  justify-content: center;
   align-items: center;
   -moz-column-gap: 20px;
        column-gap: 20px;
@@ -109,20 +110,79 @@
 }
 .battles_kernel #newbattle {
   width: 1100px;
+  min-height: 250px;
+  display: flex;
+  align-items: flex-end;
+  position: relative;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.battles_kernel #newbattle #added {
+  width: 212px;
   height: 250px;
-  border: 1px solid navy;
+  background-color: rgba(3, 3, 14, 0.0941176471);
+  box-shadow: inset 0 0 3px 0px navy;
+  padding: 2px;
+  position: relative;
+}
+.battles_kernel #newbattle #added button {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  color: white;
+  font-weight: 500;
+  font-size: larger;
+  width: 30px;
+  height: 30px;
+  background-color: black;
+  border-radius: 50%;
+  border: 1px solid white;
+}
+.battles_kernel #newbattle #added span {
+  position: absolute;
+  bottom: 20px;
+  width: 175px;
+  left: 20px;
+  z-index: 9;
+  color: white;
+  background-color: black;
+  text-align: center;
+  border: 1px solid white;
+  border-radius: 5px;
+  padding: 5px;
+}
+.battles_kernel #newbattle #added span p {
+  font-weight: 500;
+  line-height: 20px;
+}
+.battles_kernel #newbattle #added span p:nth-child(2) {
+  color: gold;
+}
+.battles_kernel #newbattle #addcase {
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  height: 250px;
+  position: relative;
+  z-index: 99;
+  border: 2px solid navy;
+  color: white;
+  z-index: 9;
+  flex-grow: 1;
+}
+.battles_kernel #newbattle #addcase div {
   display: grid;
   justify-content: center;
   align-items: center;
-  position: relative;
 }
-.battles_kernel #newbattle button {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  z-index: 99;
+.battles_kernel #newbattle #addcase img {
+  filter: invert(50%);
+  z-index: 3;
 }
-.battles_kernel #newbattle span {
+.battles_kernel #newbattle #addcase h3 {
+  color: silver;
+}
+.battles_kernel #newbattle #addcase span {
   position: absolute;
   z-index: 1;
   width: 0px;
@@ -133,25 +193,13 @@
   justify-self: center;
   align-self: center;
 }
-.battles_kernel #newbattle #kernel {
-  z-index: 9;
-}
-.battles_kernel #newbattle #kernel img {
-  filter: invert(50%);
-}
-.battles_kernel #newbattle #kernel h3 {
-  color: silver;
-}
-.battles_kernel #newbattle:hover #kernel img {
+.battles_kernel #newbattle #addcase:hover img {
   filter: invert(100%) drop-shadow(0 0 5px gold) brightness(1.5);
 }
-.battles_kernel #newbattle:hover #kernel h3 {
+.battles_kernel #newbattle #addcase:hover h3 {
   filter: drop-shadow(0 0 5px crimson) brightness(1.5);
 }
-.battles_kernel #newbattle:hover {
-  filter: brightness(1.5);
-}
-.battles_kernel #newbattle:hover span {
+.battles_kernel #newbattle #addcase:hover span {
   width: 200px !important;
   box-shadow: 0 0 3px gold;
 }
@@ -169,6 +217,12 @@
   position: absolute;
   right: 30px;
   color: white;
+}
+.cases #options button {
+  width: 90px;
+  background-color: greenyellow;
+  margin-left: 20px;
+  font-weight: 600;
 }
 .cases #kernel {
   display: flex;
@@ -190,13 +244,14 @@
   position: relative;
 }
 .cases #kernel #each:hover {
-  filter: brightness(1.6);
+  filter: brightness(1.3);
 }
 .cases #kernel #each img {
   width: 100%;
   height: 100%;
   -o-object-fit: contain;
      object-fit: contain;
+  z-index: 2 !important;
 }
 .cases #kernel #each span {
   position: absolute;
@@ -207,4 +262,16 @@
   color: white;
   font-weight: 600;
   background-color: black;
+}
+.cases #kernel #each #added {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(128, 128, 128, 0.8);
+  z-index: 3 !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 50px;
+  color: greenyellow;
 }/*# sourceMappingURL=Battles.module.css.map */

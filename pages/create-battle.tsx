@@ -10,14 +10,29 @@ import { useSelector } from "react-redux";
 import Universal_modal from "../components/universal_modal";
 import { useDispatch } from "react-redux";
 import { note_universal_modal } from "../redux/loginSlice";
-
-
+import { useEffect, useState } from "react";
+import { formatter } from "../tools";
 
 
 const CreateBattle = () => {
     const universalModal = useSelector((state:any)=>state.loginSlice.universal_modal);
     const allCases = useSelector((state:any)=>state.loginSlice.allCases);
     const dispatch = useDispatch();
+    const [casesinBattle, setCasesinBattle] = useState<any[] | null>([]);
+    
+    const handleAddCasetoBattle = (c:any,e:any) => {
+        e.stopPropagation()
+        if(casesinBattle && casesinBattle.includes(c)){
+            console.log("already added");
+            const newCases = casesinBattle.filter((e)=>e!==c);
+            setCasesinBattle(newCases);
+        }else{
+            setCasesinBattle((prevCases:any) => [...prevCases, c]);
+        }
+    }
+
+    const caseAdded = (ccase:any) => casesinBattle?.some((e)=>e === ccase);
+    const totalBattleCost = casesinBattle?.reduce((total,cas)=>{ return total + cas.casePrice},0);
 
     return ( 
         <Wrapper title="Create new battle">
@@ -48,16 +63,30 @@ const CreateBattle = () => {
                         </span>
                         <span id={b.double}>
                             <Image alt="battle cost" src={cost} width={35} height={35} /> 
-                            BATTLE COST: <span style={{color:"white"}}>$0:00</span>
+                            BATTLE COST: <span style={{color:"white"}}>{formatter(totalBattleCost)}</span>
                         </span>
                     </div>
                     <div id={b.newbattle}>
-                        <button onClick={()=>dispatch(note_universal_modal(true))}></button>
-                        <div id={b.kernel}>
-                            <Image alt="battle cost" src={swords} width={100} height={100} /> 
-                            <h3>ADD CASE</h3>
-                        </div>
-                        <span></span>
+                        {
+                            casesinBattle && casesinBattle.length > 0 &&
+                            casesinBattle.map((c,i)=>
+                                <div id={b.added} key={i}>
+                                    <Image alt="case image" src={c.caseImageURL} width={212} height={250} />
+                                    <button onClick={()=>setCasesinBattle((prev:any)=>{return prev.filter((e:any)=>e !== c)})}>X</button>
+                                    <span>
+                                        <p>{c.caseName}</p>
+                                        <p>{formatter(c.casePrice)}</p>
+                                    </span>
+                                </div>
+                            )
+                        }
+                        <button id={b.addcase} onClick={(e)=>{e.stopPropagation();dispatch(note_universal_modal(true))}}>
+                            <div>
+                                <Image alt="battle cost" src={swords} width={100} height={100} /> 
+                                <h3>ADD CASE</h3>
+                                <span></span>
+                            </div>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -67,14 +96,19 @@ const CreateBattle = () => {
                     <div className={b.cases}>
                         <div id={b.options}>
                             <h4>ADD CASE</h4>
-                            <h4 id={b.cost}>BATTLE COST: $0:00</h4>
+                            {
+                                casesinBattle && casesinBattle?.length > 0 &&
+                                <button onClick={()=>dispatch(note_universal_modal(false))}>DONE</button>
+                            }
+                            <h4 id={b.cost}>BATTLE COST: <span style={{color:"greenyellow"}}>{formatter(totalBattleCost)}</span></h4>
                         </div>
                         <div id={b.kernel}>
                         {
                         allCases.map((c:any,i:any)=>
-                        <button id={b.each} key={i}>
+                        <button id={b.each} key={i} onClick={(e)=>handleAddCasetoBattle(c,e)}>
+                            {caseAdded(c) && <div id={b.added}> &#10003; </div>}
                             <Image alt="case image" src={c.caseImageURL} width={200} height={300} />
-                            <span>{c.caseName}</span>
+                            <span>{c.caseName} <br /> {formatter(c.casePrice)}</span>
                         </button>
                         )
                         }
