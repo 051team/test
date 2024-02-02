@@ -69,10 +69,9 @@ const CreateBattle = () => {
                 body:JSON.stringify({casesinBattle:casesinBattle,battleConfig:battleConfig, boss:session?.user})
             });
             if(response.status === 200){
-                setTempo({message:"Battle Created...",color:"lightgreen"});
-                setTimeout(() => {
-                    setTempo(null)
-                }, 2000);
+                const resJson = await response.json();
+                const stamp = resJson.stamp;
+                window.location.href = `/battle-arena?st=${stamp}`;
             }
 
         } catch (error) {

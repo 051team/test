@@ -1,0 +1,29 @@
+.arena{
+    display: grid;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 300px;
+    &_kernel{
+        width: 1100px;
+        display: grid;
+        row-gap: 40px;
+        &_inside{
+            border: 1px solid lightblue;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        &_warriors{
+            height: 300px;
+            border: 1px solid yellow;
+            display: flex;
+            column-gap: 10px !important;
+            &_each{
+                width: 200px;
+                height: 200px;
+                background-color: yellow;
+            }
+        }
+    }
+}

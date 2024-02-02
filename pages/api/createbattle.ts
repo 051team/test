@@ -12,7 +12,7 @@ export default async function handler(
 
   const battle:any = {
     boss:boss.id,
-    playernumber:battleConfig.players,
+    playernumber:parseInt(battleConfig.players),
     withbots:battleConfig.withbots,
     crazymode:battleConfig.crazymode,
     casesinbattle:casesinBattle.map((e:any)=>{return e._id}),
@@ -30,12 +30,12 @@ export default async function handler(
     }).toArray();
     const battleCost = casesForPriceCalc.reduce((total,val)=> total+val.casePrice,0);
     battle.battleCost = battleCost;
-    battle.addTime = new Date().getTime();
+    battle.stamp = new Date().getTime();
     console.log(battle);
 
     const resultBattleAdded = await cdp_battles.insertOne(battle);
     if(resultBattleAdded.acknowledged){
-        res.status(200).json({ message: 'BATTLE successfuly created', color:"lightgreen" })
+        res.status(200).json({ stamp:battle.stamp })
     }else{
         res.status(500).json({ message: 'Failed to create BATTLE S1111', color:"red" })
     }

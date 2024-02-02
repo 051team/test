@@ -1,0 +1,30 @@
+.arena {
+  display: grid;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 300px;
+}
+.arena_kernel {
+  width: 1100px;
+  display: grid;
+  row-gap: 40px;
+}
+.arena_kernel_inside {
+  border: 1px solid lightblue;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.arena_kernel_warriors {
+  height: 300px;
+  border: 1px solid yellow;
+  display: flex;
+  -moz-column-gap: 10px !important;
+       column-gap: 10px !important;
+}
+.arena_kernel_warriors_each {
+  width: 200px;
+  height: 200px;
+  background-color: yellow;
+}/*# sourceMappingURL=BattleArena.module.css.map */
