@@ -45,7 +45,7 @@ export async function getStaticProps({ params }:any) {
         const allCases = await fetchCases();
         const liveDrops = await fetchLiveDrops();
 
-        const caseInfo = allCases.find(cs => cs.cat === caseCategory && cs.name === caseName);
+        const caseInfo = allCases.find(cs => cs.caseCategory === params.cat && cs.caseName === params.name);
 
         if (!caseInfo) {
             return {
