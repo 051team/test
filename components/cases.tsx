@@ -6,9 +6,9 @@ import { formatter } from "../tools";
 import { useSelector,useDispatch } from "react-redux";
 import { note_searchResults } from "../redux/loginSlice";
 
-const Cases = () => {
+const Cases = ({cases}:any) => {
     const searchResultNo = useSelector((state:any)=> state.loginSlice.searchResultNo);
-    const allCases:any = useSelector((state:any)=>state.loginSlice.allCases);
+   //const allCases:any = useSelector((state:any)=>state.loginSlice.allCases);
 
     return ( 
         <div className={h.home_cases}>
@@ -16,8 +16,8 @@ const Cases = () => {
             <h1>POPULAR CASES</h1>
             <div className={h.home_cases_kernel_group}>
                 {
-                    allCases && [...allCases].sort((a,b)=> a.caseIndex - b.caseIndex).filter( (c) => c.caseCategory === "popularcases").map((cs,index)=>
-                    <Link href={`/cases/cs?cat=${cs.caseCategory}&name=${cs.caseName}`} key={index}>
+                    cases && [...cases].sort((a,b)=> a.caseIndex - b.caseIndex).filter( (c) => c.caseCategory === "popularcases").map((cs,index)=>
+                    <Link href={`/cases/${cs.caseCategory}/${cs.caseName}`} key={index}>
                     <div className={h.home_cases_kernel_group_each}>
                         <Image priority src={cs.caseImageURL} alt={cs.caseName} width={200} height={250} />
                         <h5>{cs.caseName}</h5>
@@ -26,7 +26,7 @@ const Cases = () => {
                     )
                 }
                 {
-                   !allCases && [...Array(5)].map((e,i)=>
+                   !cases && [...Array(5)].map((e,i)=>
                     <div className={h.home_cases_kernel_group_each} id={h.placeholder} key={i}>
 
                     </div>
@@ -41,7 +41,7 @@ const Cases = () => {
             <h1>LIMITED EDITION</h1>
             <div className={h.home_cases_kernel_group}>
                 {
-                    allCases && [...allCases].filter( (c) => c.caseCategory === "limitededition").map((cs,index)=>
+                    cases && [...cases].filter( (c) => c.caseCategory === "limitededition").map((cs,index)=>
                     <Link href={`/cases/cs?cat=${cs.caseCategory}&name=${cs.caseName}`} key={index}>
                     <div className={h.home_cases_kernel_group_each} >
                         <Image priority src={cs.caseImageURL} alt={cs.caseName} width={200} height={250} />
@@ -56,7 +56,7 @@ const Cases = () => {
             <h1>HONORARY CASES</h1>
             <div className={h.home_cases_kernel_group}>
                 {
-                    allCases && [...allCases].filter( (c) => c.caseCategory === "honorarycases").map((cs,index)=>
+                    cases && [...cases].filter( (c) => c.caseCategory === "honorarycases").map((cs,index)=>
                     <Link href={`/cases/cs?cat=${cs.caseCategory}&name=${cs.caseName}`} key={index}>
                     <div className={h.home_cases_kernel_group_each}>
                         <Image priority src={cs.caseImageURL} alt={cs.caseName} width={200} height={250} />
@@ -71,7 +71,7 @@ const Cases = () => {
             <h1>DAO CASES</h1>
             <div className={h.home_cases_kernel_group}>
                 {
-                    allCases && [...allCases].filter( (c) => c.caseCategory === "daocases").map((cs,index)=>
+                    cases && [...cases].filter( (c) => c.caseCategory === "daocases").map((cs,index)=>
                     <Link href={`/cases/cs?cat=${cs.caseCategory}&name=${cs.caseName}`} key={index}>
                     <div className={h.home_cases_kernel_group_each}>
                         <Image priority src={cs.caseImageURL} alt={cs.caseName} width={200} height={250} />

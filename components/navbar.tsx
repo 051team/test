@@ -26,7 +26,7 @@ type User = {
     id: string;
   };
 
-const Navbar = () => {
+const Navbar = ({liveDrops}:any) => {
     const fetcher = (url:string) => fetch(url).then(r => r.json());
     const { data:totalCaseCount, error, isLoading } = useSWR('/api/totalopenedcase', fetcher, { refreshInterval: 3000 })
 
@@ -308,7 +308,7 @@ const Navbar = () => {
 
                 }
             </div>
-            <Livedrop />
+            <Livedrop liveDrops={liveDrops} />
             <div className={h.wrapper_navbar_tabs}>
                 <div className={h.wrapper_navbar_tabs_kernel}>
                     <button id={h.join}>JOIN <strong>051DAO</strong> AND WIN MORE</button>

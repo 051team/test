@@ -9,7 +9,7 @@ import discord from "../public/discord.png";
 import x from "../public/twitter.png";
 import { useSelector } from "react-redux";
 
-const Wrapper = ({title,children}:any) => {
+const Wrapper = ({title,children,liveDrops}:any) => {
     const notification = useSelector((state:any)=> state.loginSlice.notification);
     return ( 
         <>
@@ -20,7 +20,7 @@ const Wrapper = ({title,children}:any) => {
         <link rel="icon" href="/casa.png" />
       </Head>
       <main className={w.wrapper}>
-        <Navbar />
+        <Navbar liveDrops={liveDrops} />
         {children}
         {
             notification && <Notification text={notification} />

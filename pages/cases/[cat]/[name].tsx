@@ -1,33 +1,85 @@
 import Image from "next/image";
 import { signIn, useSession } from 'next-auth/react';
-import Navbar from "../../components/navbar";
-import c from "../../styles/Casepage.module.css";
+import Navbar from "../../../components/navbar";
+import c from "../../../styles/Casepage.module.css";
 import _051 from "../../public/051.jpg";
 import { useEffect, useState,useRef } from "react";
 import { useRouter } from 'next/router';
-import Modal from "../../components/modal";
+import Modal from "../../../components/modal";
 import { useDispatch,useSelector } from "react-redux";
-import { note_balanceChange,note_notification } from "../../redux/loginSlice";
-import { colorGenerator, formatter, generateRandomNumber, shuffleArray } from "../../tools";
-import Universal_modal from "../../components/universal_modal";
-import Notification from "../../components/notifybox";
-import CaseContent from "../../components/casecontent";
-import Odds from "../../components/odds";
-import BottomBanner from "../../components/bottombanner";
-import CaseInfo from "../../components/caseinfo";
-import VerticalSlider from "../../components/vslider";
-import Slider from "../../components/slider";
-import Wrapper from "../../components/wrapper";
-import discord from "../../public/discord.png";
+import { note_balanceChange,note_notification } from "../../../redux/loginSlice";
+import { colorGenerator, formatter, generateRandomNumber, shuffleArray } from "../../../tools";
+import Universal_modal from "../../../components/universal_modal";
+import Notification from "../../../components/notifybox";
+import CaseContent from "../../../components/casecontent";
+import Odds from "../../../components/odds";
+import BottomBanner from "../../../components/bottombanner";
+import CaseInfo from "../../../components/caseinfo";
+import VerticalSlider from "../../../components/vslider";
+import Slider from "../../../components/slider";
+import Wrapper from "../../../components/wrapper";
+import discord from "../../../public/discord.png";
 
-const Case_page = () => {
+import { fetchCases } from '../../../utils/fCases';
+import { fetchLiveDrops } from '../../../utils/fLivedrop';
+
+
+// pages/cases/[cat]/[name].js
+
+export async function getStaticPaths() {
+    const cases = await fetchCases(); 
+    
+    const paths = cases.map(({ caseCategory, caseName }) => ({
+        params: { cat: caseCategory, name: caseName },
+      }));
+
+    return {
+        paths,
+        fallback: 'blocking',
+    };
+}
+
+export async function getStaticProps({ params }:any) {
+    const { caseCategory, caseName } = params;
+    try {
+        const allCases = await fetchCases();
+        const liveDrops = await fetchLiveDrops();
+
+        const caseInfo = allCases.find(cs => cs.cat === caseCategory && cs.name === caseName);
+
+        if (!caseInfo) {
+            return {
+                notFound: true,
+            };
+        }
+
+        return {
+            props: {
+                caseInfo,
+                liveDrops,
+                cases:allCases,
+                error: null,
+            },
+        };
+    } catch (error) {
+        console.error("Failed to fetch data:", error);
+        return {
+            props: {
+                error: "Failed to fetch data. Please try again later.",
+            },
+        };
+    }
+}
+
+
+
+const Case_page = ({cases,liveDrops,caseInfo}:any) => {
     const { data: session } = useSession();
     const [placeholders,setPlaceholders] = useState<number>(10);
     const [verticalplaceholders,setVerticalPlaceholders] = useState<number>(1);
     const howmanyPlaceholder = 100;
     const router = useRouter();
     const {cat,name} = router.query;
-    const [caseInfo, setCaseInfo] = useState<any>();
     const [won,setWon] = useState<any>();
     const [multiWon,setMultiWon] = useState<any>();
     const [feedback,setFeedback] = useState<{message:string,color:string}>();
@@ -39,7 +91,7 @@ const Case_page = () => {
     const dispatch = useDispatch();
 
 
-    useEffect(()=>{
+/*     useEffect(()=>{
         const fetchCase = async () => {
             try {
                 const response = await fetch(`/api/fetchcasetoopen?cat=${cat}&name=${name}`)
@@ -54,7 +106,7 @@ const Case_page = () => {
         if(cat && name){
             fetchCase();
         }
-    },[cat,name])
+    },[cat,name]) */
 
     const handleOpenCase = async () => {
         if(!session){
@@ -302,7 +354,7 @@ const Case_page = () => {
 
 
     return ( 
-    <Wrapper title="Open Case">
+    <Wrapper title="Open Case" cases={cases} liveDrops={liveDrops}>
         {
             feedback &&
             <Modal feedback={feedback} />
