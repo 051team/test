@@ -120,7 +120,7 @@ const CreateBattle = () => {
                         </span>
                     </div>
                     <div className={b.battles_kernel_createbattle}>
-                        <button onClick={handleCreateBattle}>CREATE BATTLE FOR {formatter(totalBattleCost)}</button>
+                        <button disabled={allCases ? false : true} onClick={handleCreateBattle}>CREATE BATTLE FOR {formatter(totalBattleCost)}</button>
                     </div>
                     <div id={b.newbattle}>
                         {
@@ -136,7 +136,7 @@ const CreateBattle = () => {
                                 </div>
                             )
                         }
-                        <button id={b.addcase} onClick={(e)=>{e.stopPropagation();dispatch(note_universal_modal(true))}}>
+                        <button id={b.addcase} disabled={allCases ? false : true} onClick={(e)=>{e.stopPropagation();dispatch(note_universal_modal(true))}}>
                             <div>
                                 <Image alt="battle cost" src={swords} width={100} height={100} /> 
                                 <h3>ADD CASE</h3>

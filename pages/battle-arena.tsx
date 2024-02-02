@@ -45,7 +45,7 @@ const BattleArena = () => {
                 <div className={a.arena_kernel_inside}>
                     {
                         casesInBattle && casesInBattle.map((cs:any,index:any) =>
-                            <Image src={cs.caseImageURL} alt="case" width={65} height={80} key={index} />
+                            <Image src={cs.caseImageURL} alt="case" width={65} height={80} key={index} style={{marginRight:"10px"}} />
                         )
                     }
                     <div id={a.details}>
