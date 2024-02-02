@@ -10,21 +10,178 @@
   row-gap: 40px;
 }
 .arena_kernel_inside {
-  border: 1px solid lightblue;
+  background-color: rgba(0, 0, 139, 0.3);
   height: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+}
+.arena_kernel_inside img {
+  box-shadow: 0 0 3px 1px rgba(128, 128, 128, 0.77);
+  border-radius: 5px;
+}
+.arena_kernel_inside #details {
+  position: absolute;
+  right: 10px;
+  display: flex;
+  height: 70%;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.346);
+  box-shadow: inset 0 0 5px 2px rgba(128, 128, 128, 0.248);
+}
+.arena_kernel_inside #details #double {
+  color: white !important;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  width: 120px;
 }
 .arena_kernel_warriors {
-  height: 300px;
-  border: 1px solid yellow;
+  padding: 10px;
   display: flex;
   -moz-column-gap: 10px !important;
        column-gap: 10px !important;
+  justify-content: center;
+  width: 1100px;
 }
 .arena_kernel_warriors_each {
-  width: 200px;
+  flex: 1;
+  max-width: 260px;
+  background-color: rgba(0, 0, 139, 0.3);
+}
+.arena_kernel_warriors_each #slider {
   height: 200px;
-  background-color: yellow;
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  overflow: hidden;
+}
+.arena_kernel_warriors_each #slider #placeholder {
+  width: 80px;
+  height: 80px;
+  -webkit-clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+          clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  color: white;
+  font-weight: 600;
+  font-size: x-large;
+}
+.arena_kernel_warriors_each #slider #placeholder .wait {
+  width: 24px;
+  height: 24px;
+  border: 2px dotted gold;
+  border-style: solid solid dotted dotted;
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+  box-sizing: border-box;
+  -webkit-animation: rotation 2s linear infinite;
+          animation: rotation 2s linear infinite;
+}
+.arena_kernel_warriors_each #slider #placeholder .wait::after {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  border: 2px dotted white;
+  border-style: solid solid dotted;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  -webkit-animation: rotationBack 1s linear infinite;
+          animation: rotationBack 1s linear infinite;
+  transform-origin: center center;
+}
+.arena_kernel_warriors #attendant {
+  border-top: 5px solid black;
+  height: 60px;
+  display: flex;
+  -moz-column-gap: 10px;
+       column-gap: 10px;
+  align-items: center;
+  padding-left: 20px;
+}
+.arena_kernel_warriors #attendant img {
+  border-radius: 50%;
+}
+.arena_kernel_warriors #attendant span {
+  color: gold;
+  font-weight: 500;
+}
+.arena #loading {
+  min-height: 200px;
+  background-color: rgba(0, 0, 139, 0.3);
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  -webkit-animation: standout 0.8s infinite;
+          animation: standout 0.8s infinite;
+}
+.arena #loading img {
+  filter: invert(100%);
+}
+
+@-webkit-keyframes standout {
+  0% {
+    background-color: rgba(0, 0, 139, 0.3);
+  }
+  50% {
+    background-color: rgba(0, 0, 139, 0.35);
+  }
+  100% {
+    background-color: rgba(0, 0, 139, 0.3);
+  }
+}
+
+@keyframes standout {
+  0% {
+    background-color: rgba(0, 0, 139, 0.3);
+  }
+  50% {
+    background-color: rgba(0, 0, 139, 0.35);
+  }
+  100% {
+    background-color: rgba(0, 0, 139, 0.3);
+  }
+}
+@-webkit-keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes rotationBack {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+@keyframes rotationBack {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-360deg);
+  }
 }/*# sourceMappingURL=BattleArena.module.css.map */
