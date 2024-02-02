@@ -108,9 +108,9 @@ const Livedrop = () => {
                 <button id={ (i === 0 && dropId === "drop") ? h.drop : h.usual} key={i} style={{
                     backgroundImage: colorGenerator(e.giftPrice)
                 }}>
-                    <Image priority={i < 10 ? true : false} src={(e.giftURL)} alt={"051 logo"} width={45} height={45} />
+                    <Image priority={i < 10 ? true : false} src={((e && e.giftURL) ? e.giftURL :"")} alt={"051 logo"} width={45} height={45} />
                     <div id={h.text}>
-                        <span>{e.giftName}</span>
+                        <span>{e.giftName && e.giftName}</span>
                         <span>{formatter(e.giftPrice)}</span>
                     </div>
                 </button>

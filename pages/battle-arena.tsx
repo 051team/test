@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import Image from "next/image";
 import BattleSlider from "../components/battleSlider";
 import { useSession } from "next-auth/react";
+import Pusher from "pusher-js";
 
 const BattleArena = () => {
     const router = useRouter();
@@ -17,12 +18,15 @@ const BattleArena = () => {
     const casesInBattle = allCases && battleInfo && allCases.filter((c:any)=>battleInfo.casesinbattle.includes(c._id) );
     const [contentants,setContestants] = useState<any[]>(); 
     const slotFull = (i:number) => (contentants && contentants[i]);
+    const [joining, setJoining] = useState(false);
 
     useEffect(()=>{
-        if(session){
-            setContestants([session.user]);
+        if(session && battleInfo){
+            if((session.user as any).id === battleInfo.boss){
+                setContestants([session.user]);
+            }
         }
-    },[session])
+    },[session, battleInfo]);
 
     useEffect(()=>{
         const fetchBattle = async () => {
@@ -37,6 +41,33 @@ const BattleArena = () => {
             fetchBattle();
         }
     },[query]);
+
+    // start listening "battle" channel
+    useEffect(() => {
+        const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
+          cluster: "eu",
+        });
+        const channel = pusher.subscribe("arena");
+        channel.bind("arena-event", (data:any) => {
+          console.log(data.newContestant);
+          setContestants((pr:any)=>{
+            return [...pr, data.newContestant]
+          });
+        });
+    
+        return () => {
+          pusher.unsubscribe("arena");
+        };
+      }, []);
+    
+    const handleJoinBattle = async () => {
+        setJoining(true);
+        const response = await fetch("/api/arena",{
+            method:"POST",
+            body:JSON.stringify({user:session?.user,battle:query.st})
+        });
+        setJoining(false);
+    }
 
     return ( 
     <Wrapper title="Battle Arena">
@@ -67,8 +98,15 @@ const BattleArena = () => {
                         <div id={a.slider}>
                             {/* <BattleSlider caseInfo={casesInBattle[0]} multiplier={1} /> */}
                             {
-                                slotFull(i) ? <div style={{background:"green",filter: "brightness(1.9)"}} id={a.placeholder}>&#10004;</div> 
-                                            : <div style={{background:"purple",filter: "brightness(0.9)"}} id={a.placeholder}><span className={a.wait}></span></div> 
+                                slotFull(i) ?   <div style={{background:"green",filter: "brightness(1.9)"}} id={a.placeholder}>&#10004;</div> 
+                                            :   
+                                                <>                                                
+                                                <div style={{background:"purple",filter: "brightness(0.9)"}} id={a.placeholder}>
+                                                    <span className={a.wait}></span>
+                                                </div> 
+                                                <button style={{opacity:joining ? "0.3" : "1"}} disabled={joining} onClick={handleJoinBattle}>JOIN BATTLE NOW</button>
+                                                </>
+
                             }
                         </div>
                         <div id={a.attendant}>
@@ -97,7 +135,3 @@ const BattleArena = () => {
 }
  
 export default BattleArena;
-
-function brightness(arg0: number): import("csstype").Property.Filter | undefined {
-    throw new Error("Function not implemented.");
-}
