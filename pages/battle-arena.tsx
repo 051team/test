@@ -18,15 +18,14 @@ const BattleArena = () => {
     const casesInBattle = allCases && battleInfo && allCases.filter((c:any)=>battleInfo.casesinbattle.includes(c._id) );
     const [contentants,setContestants] = useState<any[]>(); 
     const slotFull = (i:number) => (contentants && contentants[i]);
-    const [joining, setJoining] = useState(false);
+    const [joining, setJoining] = useState<string | null>(null);
+    const popSliders = contentants && battleInfo && contentants?.length === battleInfo.playernumber;
 
     useEffect(()=>{
-        if(session && battleInfo){
-            if((session.user as any).id === battleInfo.boss){
-                setContestants([session.user]);
-            }
+        if(!contentants && session){
+            setContestants([session?.user]);
         }
-    },[session, battleInfo]);
+    },[session]);
 
     useEffect(()=>{
         const fetchBattle = async () => {
@@ -37,7 +36,7 @@ const BattleArena = () => {
                 setBattleInfo(battle);
             }
         }
-        if(query.st){
+        if(query.st && !battleInfo){
             fetchBattle();
         }
     },[query]);
@@ -61,12 +60,12 @@ const BattleArena = () => {
       }, []);
     
     const handleJoinBattle = async () => {
-        setJoining(true);
+        setJoining("Joining Battle");
         const response = await fetch("/api/arena",{
             method:"POST",
             body:JSON.stringify({user:session?.user,battle:query.st})
         });
-        setJoining(false);
+        setJoining(null);
     }
 
     return ( 
@@ -95,20 +94,35 @@ const BattleArena = () => {
                      casesInBattle && battleInfo && [...Array(battleInfo.playernumber)].map((w,i)=>
                      <>
                       <div className={a.arena_kernel_warriors_each}>
-                        <div id={a.slider}>
-                            {/* <BattleSlider caseInfo={casesInBattle[0]} multiplier={1} /> */}
-                            {
-                                slotFull(i) ?   <div style={{background:"green",filter: "brightness(1.9)"}} id={a.placeholder}>&#10004;</div> 
-                                            :   
-                                                <>                                                
-                                                <div style={{background:"purple",filter: "brightness(0.9)"}} id={a.placeholder}>
-                                                    <span className={a.wait}></span>
-                                                </div> 
-                                                <button style={{opacity:joining ? "0.3" : "1"}} disabled={joining} onClick={handleJoinBattle}>JOIN BATTLE NOW</button>
-                                                </>
 
+                        {
+                            popSliders &&
+                            <div id={a.roll}>
+                                <BattleSlider caseInfo={casesInBattle[0]} multiplier={1} />
+                            </div>
+                        }
+                        {
+                            !popSliders &&
+                            <div id={a.beforeroll}>
+                            {
+                                slotFull(i) && <div style={{background:"green",filter: "brightness(1.9)"}} id={a.placeholder}>&#10004;</div> 
                             }
-                        </div>
+                            {
+                                !slotFull(i) && 
+                                <>                                                
+                                    <div style={{background:"purple",filter: "brightness(0.9)"}} id={a.placeholder}>
+                                        <span className={a.wait}></span>
+                                    </div> 
+                                    <button 
+                                        style={{opacity:joining ? "0.3" : "1"}} 
+                                        disabled={joining ? true : false} onClick={handleJoinBattle}>
+                                            {joining ? joining : "JOIN BATTLE NOW"}
+                                    </button>
+                                </>
+                            }
+                            </div>
+                        }
+
                         <div id={a.attendant}>
                             {
                                 slotFull(i) ?

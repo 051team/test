@@ -88,10 +88,10 @@ const BattleSlider = ({caseInfo,verticalSpin, multiWon,multiplier}:any) => {
 
     return (
     <>
-        <div className={c.casepage_case_kernel} id={c.kernelvertical}>
+        <div className={c.casepage_case_kernel} id={c.kernelvertical} style={{width:"fit-content"}}>
             {
             repetitionSets &&  repetitionSets.map((repset,ii)=>
-                <div style={{justifySelf:"center"}}
+                <div
                     className={c.casepage_case_kernel_verticalspinner} id={verticalSpin ? c.slidevertical : ""} key={ii} ref={slider} >
                 {
                     repset && repset.map((e:any,i:any) =>

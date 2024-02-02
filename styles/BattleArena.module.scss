@@ -41,17 +41,27 @@
             column-gap: 10px !important;
             justify-content: center;
             width: 1100px;
+            align-items: flex-start;
             &_each{
                 flex: 1;
                 max-width: 260px;
                 background-color: rgba($color: darkblue, $alpha: 0.3);
-                #slider{
+                position: relative;
+                display: grid;
+                align-items: flex-start;
+                justify-content: center;
+                padding: 10px;
+                #roll{
                     height: 200px;
+                    overflow: hidden;
+                }
+                #beforeroll{
+                    height: 200px;
+                    width: 200px;
                     position: relative;
                     display: flex;
                     align-items: flex-start;
                     justify-content: center;
-                    overflow: hidden;
                     #placeholder{
                         width: 80px;
                         height: 80px;
@@ -105,12 +115,11 @@
                 }
             }
             #attendant{
-                border-top: 5px solid black;
                 height: 60px;
                 display: flex;
                 column-gap: 10px;
                 align-items: center;
-                padding-left: 20px;
+                padding-top: 5px;
                 img{
                     border-radius: 50%;
                 }

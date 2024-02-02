@@ -44,21 +44,31 @@
        column-gap: 10px !important;
   justify-content: center;
   width: 1100px;
+  align-items: flex-start;
 }
 .arena_kernel_warriors_each {
   flex: 1;
   max-width: 260px;
   background-color: rgba(0, 0, 139, 0.3);
+  position: relative;
+  display: grid;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 10px;
 }
-.arena_kernel_warriors_each #slider {
+.arena_kernel_warriors_each #roll {
   height: 200px;
+  overflow: hidden;
+}
+.arena_kernel_warriors_each #beforeroll {
+  height: 200px;
+  width: 200px;
   position: relative;
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  overflow: hidden;
 }
-.arena_kernel_warriors_each #slider #placeholder {
+.arena_kernel_warriors_each #beforeroll #placeholder {
   width: 80px;
   height: 80px;
   -webkit-clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
@@ -71,7 +81,7 @@
   font-weight: 600;
   font-size: x-large;
 }
-.arena_kernel_warriors_each #slider #placeholder .wait {
+.arena_kernel_warriors_each #beforeroll #placeholder .wait {
   width: 24px;
   height: 24px;
   border: 2px dotted gold;
@@ -83,7 +93,7 @@
   -webkit-animation: rotation 2s linear infinite;
           animation: rotation 2s linear infinite;
 }
-.arena_kernel_warriors_each #slider #placeholder .wait::after {
+.arena_kernel_warriors_each #beforeroll #placeholder .wait::after {
   content: "";
   box-sizing: border-box;
   position: absolute;
@@ -101,7 +111,7 @@
           animation: rotationBack 1s linear infinite;
   transform-origin: center center;
 }
-.arena_kernel_warriors_each #slider button {
+.arena_kernel_warriors_each #beforeroll button {
   position: absolute;
   bottom: 20px;
   color: white;
@@ -111,17 +121,16 @@
   padding: 5px 10px;
   border-radius: 5px;
 }
-.arena_kernel_warriors_each #slider button:hover {
+.arena_kernel_warriors_each #beforeroll button:hover {
   filter: brightness(1.3);
 }
 .arena_kernel_warriors #attendant {
-  border-top: 5px solid black;
   height: 60px;
   display: flex;
   -moz-column-gap: 10px;
        column-gap: 10px;
   align-items: center;
-  padding-left: 20px;
+  padding-top: 5px;
 }
 .arena_kernel_warriors #attendant img {
   border-radius: 50%;
