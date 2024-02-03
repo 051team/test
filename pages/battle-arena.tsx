@@ -22,10 +22,13 @@ const BattleArena = () => {
     const popSliders = contentants && battleInfo && contentants?.length === battleInfo.playernumber;
 
     useEffect(()=>{
-        if(!contentants && session){
-            setContestants([session?.user]);
+        if(!contentants && session && battleInfo){
+            if((session.user as any).id === battleInfo.boss){
+                console.log((session.user as any).id, battleInfo.boss);
+                setContestants([session?.user]);
+            }
         }
-    },[session]);
+    },[session,battleInfo]);
 
     useEffect(()=>{
         const fetchBattle = async () => {
@@ -60,6 +63,10 @@ const BattleArena = () => {
       }, []);
     
     const handleJoinBattle = async () => {
+        if(!session || (session && contentants?.some((c)=>c.id === (session.user as any).id))){
+            console.log("already in");
+            return
+        }
         setJoining("Joining Battle");
         const response = await fetch("/api/arena",{
             method:"POST",
@@ -89,11 +96,11 @@ const BattleArena = () => {
                         </div>
                     </div>
                 </div>
-                <div className={a.arena_kernel_warriors} id={battleInfo ? "" : a.loading}>
+                <div className={a.arena_kernel_warriors} id={battleInfo ? "" : a.loading} key={-1}>
                     {
                      casesInBattle && battleInfo && [...Array(battleInfo.playernumber)].map((w,i)=>
                      <>
-                      <div className={a.arena_kernel_warriors_each}>
+                      <div className={a.arena_kernel_warriors_each} key={i}>
 
                         {
                             popSliders &&

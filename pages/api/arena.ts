@@ -11,6 +11,8 @@ const pusher = new Pusher({
   useTLS: true
 });
 
+const inArena:any = [];
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -18,6 +20,20 @@ export default async function handler(
     
   let client;
   console.log("arena.ts");
+
+/*   const originHeader = req.headers['initial-battle-creation'];
+  if(originHeader){
+    console.log("From create-battle.ts");
+    const load = req.body;
+    const newBattle = {
+      contestants:[load.boss],
+      battle:load.battle,
+      battleStarted:false,
+    }
+    inArena.push(newBattle);
+    res.end();
+    return
+  } */
 
   const contestantID = JSON.parse(req.body).user.id;
   const contestantIMG = JSON.parse(req.body).user.image;
@@ -36,12 +52,30 @@ export default async function handler(
   
     const existingUser = await cdp_users.findOne({ cdpUserDID: contestantID });
     const existingBattle = await cdp_battles.findOne({ stamp: battleID });
-  
+
+/*     const battleinArena = inArena.find((battle:any)=>battle.battle.stamp === battleID);
+    if(battleinArena && !battleinArena.battleStarted){
+      console.log(battleinArena.battle.playernumber,battleinArena.contestants.length);
+      const slotAvailable = battleinArena.battle.playernumber > battleinArena.contestants.length;
+      if(slotAvailable){
+        battleinArena.contestants.push(contestantID);
+        const slotAvailable = battleinArena.battle.playernumber > battleinArena.contestants.length;
+        if(!slotAvailable){
+          battleinArena.battleStarted = true
+        }
+      }
+      console.log("Contestants in battle",battleinArena.contestants.length);
+      console.log("isBattleStarted?", battleinArena.battleStarted);
+    } */
+
+
+
+
     if(existingUser && existingBattle){
       const balanceEnough = existingUser.balance >= existingBattle.battleCost;
       const {cdpUser, ...rest } = existingUser;
-      console.log(cdpUser,contestantIMG);
-      console.log("Balance enough?", balanceEnough, existingUser.balance, existingBattle.battleCost);
+      //console.log(cdpUser,contestantIMG);
+      //console.log("Balance enough?", balanceEnough, existingUser.balance, existingBattle.battleCost);
       const response = await pusher.trigger("arena", "arena-event", {newContestant:{name:cdpUser,image:contestantIMG}});
       res.status(200).json({message:"Arena endpoint working"});
     }else{

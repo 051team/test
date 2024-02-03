@@ -10,6 +10,10 @@ export default async function handler(
   console.log("createbattle.ts");
   const {casesinBattle, battleConfig, boss} = JSON.parse(req.body);
 
+  const baseUrl = process.env.NODE_ENV === 'development' 
+  ? 'http://localhost:3000' 
+  : 'https://casadepapel.vercel.app';
+
   const battle:any = {
     boss:boss.id,
     playernumber:parseInt(battleConfig.players),
@@ -31,10 +35,18 @@ export default async function handler(
     const battleCost = casesForPriceCalc.reduce((total,val)=> total+val.casePrice,0);
     battle.battleCost = battleCost;
     battle.stamp = new Date().getTime();
-    console.log(battle);
+    //console.log(battle);
 
     const resultBattleAdded = await cdp_battles.insertOne(battle);
     if(resultBattleAdded.acknowledged){
+        const response = await fetch(`${baseUrl}/api/arena`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'initial-battle-creation': 'true',
+          },
+          body:JSON.stringify({boss:boss,battle:battle})
+        });
         res.status(200).json({ stamp:battle.stamp })
     }else{
         res.status(500).json({ message: 'Failed to create BATTLE S1111', color:"red" })
