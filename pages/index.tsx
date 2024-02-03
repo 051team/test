@@ -1,7 +1,6 @@
 import Wrapper from '../components/wrapper'
 import Cases from '../components/cases'
 import { fetchCases } from '../utils/fCases';
-import { fetchLiveDrops } from '../utils/fLivedrop';
 
 
 export async function getStaticProps() {

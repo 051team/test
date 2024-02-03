@@ -21,7 +21,6 @@ import Wrapper from "../../../components/wrapper";
 import discord from "../../../public/discord.png";
 
 import { fetchCases } from '../../../utils/fCases';
-import { fetchLiveDrops } from '../../../utils/fLivedrop';
 
 
 // pages/cases/[cat]/[name].js

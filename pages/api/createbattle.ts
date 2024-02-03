@@ -1,6 +1,7 @@
 import { ObjectId } from 'mongodb';
 import type { NextApiRequest, NextApiResponse } from 'next'
 import {connectToDatabase, closeDatabaseConnection} from "./mdb";
+import { redclient } from '../../utils/redis';
 
 
 export default async function handler(
@@ -36,6 +37,9 @@ export default async function handler(
     battle.battleCost = battleCost;
     battle.stamp = new Date().getTime();
     //console.log(battle);
+
+    await redclient.hSet((new Date().getTime().toString()),{battle:JSON.stringify(battle)});
+
 
     const resultBattleAdded = await cdp_battles.insertOne(battle);
     if(resultBattleAdded.acknowledged){

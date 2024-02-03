@@ -54,6 +54,8 @@ const CreateBattle = () => {
     }
 
     const handleCreateBattle = async () => {
+        //experimental reddis
+        //const response = await fetch("/api/redis");
         const battleInfoReady = casesinBattle && casesinBattle?.length > 0;
         if(!battleInfoReady){
             dispatch(note_notification("No case added yet!"));

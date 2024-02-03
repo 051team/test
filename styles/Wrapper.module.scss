@@ -306,6 +306,15 @@
                     }
                 }
             }
+            #placeholder{
+                //background-image: linear-gradient(to right, #000000 10%, #333333 55%, #000000 100%);
+                background-image: linear-gradient(to right, #0a0a0a 10%, #121212 55%, #0a0a0a 100%);
+                background-size: 200% 100%;
+                animation: gradientMovement 1s linear infinite;
+                &:hover{
+                    box-shadow: none;
+                }
+            }
         }
     }
     &_modal{

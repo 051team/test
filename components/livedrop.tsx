@@ -118,7 +118,7 @@ const Livedrop = () => {
             !drops && [...Array(20)].map((e:any,i:number) =>
                 <button id={h.placeholder} key={i} style={{ width:"110px", height:"110px"
                 }}>
-                    
+                    <span style={{color:"white"}}></span>
                 </button>
                 )
             }

@@ -328,6 +328,15 @@
   font-weight: 500;
   line-height: 12px;
 }
+.wrapper_navbar_slider #placeholder {
+  background-image: linear-gradient(to right, #0a0a0a 10%, #121212 55%, #0a0a0a 100%);
+  background-size: 200% 100%;
+  -webkit-animation: gradientMovement 1s linear infinite;
+          animation: gradientMovement 1s linear infinite;
+}
+.wrapper_navbar_slider #placeholder:hover {
+  box-shadow: none;
+}
 .wrapper_modal {
   background-color: rgba(0, 0, 0, 0.85);
   position: fixed;
