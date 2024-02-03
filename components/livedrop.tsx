@@ -8,9 +8,9 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import Pusher from "pusher-js";
 
-const Livedrop = ({liveDrops}:any) => {
+const Livedrop = () => {
     const [dropId, setDropId] = useState("");
-    const [drops, setDrops] = useState<any>(liveDrops);   
+    const [drops, setDrops] = useState<any>();   
     const ownDrop = useSelector((state:any)=> state.loginSlice.ownDrop);
     const dispatch = useDispatch();
     const [reserve,setReserve] = useState<any[]>([]);
@@ -70,14 +70,8 @@ const Livedrop = ({liveDrops}:any) => {
         }
     }, [pumpagain]);
 
-    useEffect(()=>{
-        if(liveDrops){
-            setDrops(liveDrops)
-        }
-    },[liveDrops])
-
     // initial fetch to populate livedrop
-/*     useEffect(()=>{
+    useEffect(()=>{
         const fetchDrops = async () => {
             try {
                 const response = await fetch("/api/livedrops");
@@ -96,7 +90,7 @@ const Livedrop = ({liveDrops}:any) => {
         if(!drops){
             fetchDrops();
         }
-    },[]) */
+    },[])
 
     return ( 
         <div className={h.wrapper_navbar_slider} style={{width:drops ? (drops.length+1)*110 : "fit-content", minWidth:!drops ? "2300px" : "none"}}>

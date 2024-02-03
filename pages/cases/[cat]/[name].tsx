@@ -43,7 +43,6 @@ export async function getStaticProps({ params }:any) {
     const { caseCategory, caseName } = params;
     try {
         const allCases = await fetchCases();
-        const liveDrops = await fetchLiveDrops();
 
         const caseInfo = allCases.find(cs => cs.caseCategory === params.cat && cs.caseName === params.name);
 
@@ -56,7 +55,6 @@ export async function getStaticProps({ params }:any) {
         return {
             props: {
                 caseInfo,
-                liveDrops,
                 cases:allCases,
                 error: null,
             },
@@ -72,8 +70,7 @@ export async function getStaticProps({ params }:any) {
 }
 
 
-
-const Case_page = ({cases,liveDrops,caseInfo}:any) => {
+const Case_page = ({cases,caseInfo}:any) => {
     const { data: session } = useSession();
     const [placeholders,setPlaceholders] = useState<number>(10);
     const [verticalplaceholders,setVerticalPlaceholders] = useState<number>(1);
@@ -354,7 +351,7 @@ const Case_page = ({cases,liveDrops,caseInfo}:any) => {
 
 
     return ( 
-    <Wrapper title="Open Case" cases={cases} liveDrops={liveDrops}>
+    <Wrapper title="Open Case" cases={cases}>
         {
             feedback &&
             <Modal feedback={feedback} />

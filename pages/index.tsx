@@ -7,12 +7,9 @@ import { fetchLiveDrops } from '../utils/fLivedrop';
 export async function getStaticProps() {
   try {
     const allCases = await fetchCases();
-    const liveDrops = await fetchLiveDrops();
-
     return {
       props: {
         cases: allCases,
-        liveDrops:liveDrops,
         error: null,
       },
     };
@@ -31,7 +28,7 @@ export async function getStaticProps() {
 export default function Home({cases,liveDrops}:any) {
   return (
     <>
-      <Wrapper title="Casa de Papel" liveDrops={liveDrops}>
+      <Wrapper title="Casa de Papel">
         <Cases cases={cases} />
       </Wrapper>
     </>
