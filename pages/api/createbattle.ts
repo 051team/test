@@ -39,14 +39,6 @@ export default async function handler(
 
     const resultBattleAdded = await cdp_battles.insertOne(battle);
     if(resultBattleAdded.acknowledged){
-        const response = await fetch(`${baseUrl}/api/arena`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'initial-battle-creation': 'true',
-          },
-          body:JSON.stringify({boss:boss,battle:battle})
-        });
         res.status(200).json({ stamp:battle.stamp })
     }else{
         res.status(500).json({ message: 'Failed to create BATTLE S1111', color:"red" })

@@ -16,13 +16,15 @@ const BattleArena = () => {
     const [battleInfo, setBattleInfo] = useState<any>();
     const allCases = useSelector((state:any)=> state.loginSlice.allCases);
     const casesInBattle = allCases && battleInfo && allCases.filter((c:any)=>battleInfo.casesinbattle.includes(c._id) );
-    const [contentants,setContestants] = useState<any[]>(); 
-    const slotFull = (i:number) => (contentants && contentants[i]);
+    const [contestants,setContestants] = useState<any[]>(); 
+    const slotFull = (i:number) => (contestants && contestants[i]);
     const [joining, setJoining] = useState<string | null>(null);
-    const popSliders = contentants && battleInfo && contentants?.length === battleInfo.playernumber;
+    const popSliders = contestants && battleInfo && contestants?.length === battleInfo.playernumber;
+    const [battleStarted, setBattleStarted] = useState(false);
+    const [battleResults, setBattleResults] = useState<any>(null);
 
     useEffect(()=>{
-        if(!contentants && session && battleInfo){
+        if(!contestants && session && battleInfo){
             if((session.user as any).id === battleInfo.boss){
                 console.log((session.user as any).id, battleInfo.boss);
                 setContestants([session?.user]);
@@ -62,8 +64,41 @@ const BattleArena = () => {
         };
       }, []);
     
+    useEffect(()=>{
+        if(battleInfo && contestants){
+            if(battleInfo.playernumber === contestants.length){
+                console.log("battle full,can start");
+                setBattleStarted(true);
+            }
+        }
+    },[battleInfo, contestants]);
+
+    useEffect(()=>{
+        const sendReadyBattle = async () => {
+            const response = await fetch("/api/battle-result",{
+                method:"POST",
+                body:JSON.stringify(
+                    {
+                        contestants:contestants,
+                        battleInfo:battleInfo,
+                        casesInBattle:casesInBattle
+                    }
+                )
+            })
+            if(response.status === 200){
+                const resJson = await response.json();
+                const battleResults = resJson.battleResults;
+                console.log(battleResults);
+                setBattleResults(battleResults);
+            }
+        }
+        if(battleStarted){
+            sendReadyBattle();
+        }
+    },[battleStarted]);
+    
     const handleJoinBattle = async () => {
-        if(!session || (session && contentants?.some((c)=>c.id === (session.user as any).id))){
+        if(!session || (session && contestants?.some((c)=>c.id === (session.user as any).id))){
             console.log("already in");
             return
         }
@@ -105,7 +140,12 @@ const BattleArena = () => {
                         {
                             popSliders &&
                             <div id={a.roll}>
-                                <BattleSlider caseInfo={casesInBattle[0]} multiplier={1} />
+                                <BattleSlider 
+                                    caseInfo={casesInBattle[0]} 
+                                    multiplier={1} 
+                                    verticalSpin={battleStarted} 
+                                    multiWon={battleResults ? [battleResults[i].contestantWons[0].won] : null}
+                                />
                             </div>
                         }
                         {
@@ -134,8 +174,8 @@ const BattleArena = () => {
                             {
                                 slotFull(i) ?
                                 <>
-                                <Image src={contentants![i].image} alt="attendant" width={40} height={40} />
-                                <span>{contentants![i].name}</span>
+                                <Image src={contestants![i].image} alt="attendant" width={40} height={40} />
+                                <span>{contestants![i].name}</span>
                                 </>
                                 :
                                 <span style={{color:"white",position:"relative",left:"20%", fontSize:"12px"}}>Waiting for player</span>

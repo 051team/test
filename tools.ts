@@ -53,3 +53,23 @@ export const  shuffleArray = (array:any[]) => {
 export const compareObjects = (obj1:any, obj2:any,) => {
   return obj1.dropTime === obj2.dropTime;
 }
+
+
+export const mockLotteryDraw = (giftArray:any) => {
+  if(!giftArray){return}
+  let balls:any[] = [];
+  for (let i = 0; i < giftArray.length; i++) {
+      const gift = giftArray[i];
+      const probability = gift.giftProbability;
+      const price = gift.giftPrice;
+      const name = gift.giftName;
+      for (let ind = 0; ind < probability; ind++) {
+          balls.push({name:name,price:price});
+      }
+  }
+  const chosenIndex = Math.floor(Math.random() * balls.length);
+  const selectedBall = balls[chosenIndex];
+  const selectedGift = giftArray.find((g:any)=>g.giftName === selectedBall.name && g.giftPrice === selectedBall.price);
+
+  return selectedGift;
+}
