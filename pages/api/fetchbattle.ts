@@ -16,22 +16,12 @@ export default async function handler(
   if(!redclient.isOpen){
     await redclient.connect();
   }
+
   const battleData = await redclient.hGetAll(stamp as string);
-  const battleJson = await redclient.hGet(stamp as string, 'battle');
   const battle = JSON.parse(battleData.battle);
   const contestants = JSON.parse(battleData.contestants);
 
-  let client;
-
   try {
-/*     const t1= new Date().getTime();
-    client = await connectToDatabase();
-    const cdp_data_base = client.db('casadepapel');
-    const cdp_battles = cdp_data_base.collection('cdp_battles');
-    const battle =  await cdp_battles.findOne({stamp:parseInt(stamp as string)});
-    const t2= new Date().getTime();
-    console.log("mongodb: ",(t2-t1)/1000); */
-
     res.status(200).json({battle:battle, contestants:contestants});
 
   } catch (error) {
@@ -39,8 +29,6 @@ export default async function handler(
     res.status(500).json({ message: "Battle not found!" })
   }
   finally{
-    if (client) {
-      await closeDatabaseConnection(client);
-    }
+    await redclient.disconnect();
   }
 }

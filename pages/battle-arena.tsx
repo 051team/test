@@ -53,7 +53,7 @@ const BattleArena = () => {
           });
         });
         channel.bind("player-quit", (data:any) => {
-            console.log(data.wholeft, typeof data.wholeft, "WHOLEFT TYPE");
+            console.log(data.wholeft, typeof data.wholeft, "WHOLEFT and type of WHOLEFT");
             if(data.wholeft === null){
                 window.location.href = "/";
             }else{
@@ -125,12 +125,11 @@ const BattleArena = () => {
                 method:"POST",
                 body:JSON.stringify({user:session?.user,battle:query.st})
             });
-            if(response.redirected){
-                window.location.href = response.url;
-            }
             if(response.status === 200){
                 const resJson = await response.json();
                 console.log(resJson);
+            }else{
+                console.log("handleLeaveBattle response status:",response.status)
             }
         } catch (error) {
             console.log(error)

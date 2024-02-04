@@ -32,6 +32,7 @@ export default async function handler(
     const currentContestants = JSON.parse(curContestants as string);
     console.log(curContestants);
     const remainingContestants = currentContestants.filter((cnt:any)=>cnt.id !== userToLeave);
+    console.log(remainingContestants);
 
     if(remainingContestants.length > 0){
       try {
