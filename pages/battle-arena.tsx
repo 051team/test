@@ -35,7 +35,7 @@ const BattleArena = () => {
                 setContestants(resJson.contestants)
             }
         }
-        if(query.st && !battleInfo){
+        if(query.st){
             fetchBattle();
         }
     },[query]);
@@ -54,10 +54,14 @@ const BattleArena = () => {
         });
         channel.bind("player-quit", (data:any) => {
             console.log(data.wholeft, typeof data.wholeft, "WHOLEFT TYPE");
-            setContestants((pr:any)=>{
-                const updatedContestants = pr.filter((c:any)=> c.id !== data.wholeft);
-                return updatedContestants
-              });
+            if(contestants!.filter((c:any)=>c.id !== data.wholeft).length <= 0){
+                window.location.href = "/";
+            }else{
+                setContestants((pr:any)=>{
+                    const updatedContestants = pr.filter((c:any)=> c.id !== data.wholeft);
+                    return updatedContestants
+                });
+            }
         });
         return () => {
           pusher.unsubscribe("arena");

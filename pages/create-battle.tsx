@@ -74,6 +74,13 @@ const CreateBattle = () => {
                 const resJson = await response.json();
                 const stamp = resJson.stamp;
                 window.location.href = `/battle-arena?st=${stamp}`;
+            }else{
+                try {
+                    const resJson = await response.json();
+                    console.log(resJson);
+                } catch (error) {
+                    console.log("Response not in json format",error);
+                }
             }
 
         } catch (error) {
