@@ -10,16 +10,24 @@ export default async function handler(
 ) {
   console.log("fetchbattle.ts");
 
-  const stamp = req.query.st;
+  let client = redclient;
+
+  const stamp = req.body;
   console.log(stamp, typeof stamp);
 
   if(!redclient.isOpen){
     await redclient.connect();
   }
 
+  let battle:any;
+  let contestants:any;
+
   const battleData = await redclient.hGetAll(stamp as string);
-  const battle = JSON.parse(battleData.battle);
-  const contestants = JSON.parse(battleData.contestants);
+  if(battleData){
+    battle = JSON.parse(battleData.battle);
+    contestants = JSON.parse(battleData.contestants);
+  }
+
 
   try {
     res.status(200).json({battle:battle, contestants:contestants});

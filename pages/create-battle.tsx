@@ -13,10 +13,12 @@ import { note_notification, note_universal_modal } from "../redux/loginSlice";
 import React, { useEffect, useState } from "react";
 import { formatter } from "../tools";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 
 const CreateBattle = () => {
     const {data:session} = useSession();
+    const router = useRouter();
     const universalModal = useSelector((state:any)=>state.loginSlice.universal_modal);
     const allCases = useSelector((state:any)=>state.loginSlice.allCases);
     const dispatch = useDispatch();
@@ -54,8 +56,6 @@ const CreateBattle = () => {
     }
 
     const handleCreateBattle = async () => {
-        //experimental reddis
-        //const response = await fetch("/api/redis");
         const battleInfoReady = casesinBattle && casesinBattle?.length > 0;
         if(!battleInfoReady){
             dispatch(note_notification("No case added yet!"));
@@ -66,14 +66,15 @@ const CreateBattle = () => {
         }
         setTempo({message:"Creating Battle...",color:"silver"})
         try {
+            const code = (new Date()).getTime().toString();
             const response = await fetch("/api/createbattle",{
                 method:"POST",
-                body:JSON.stringify({casesinBattle:casesinBattle,battleConfig:battleConfig, boss:session?.user})
+                body:JSON.stringify({casesinBattle:casesinBattle,battleConfig:battleConfig, boss:session?.user, code:code})
             });
             if(response.status === 200){
                 const resJson = await response.json();
-                const stamp = resJson.stamp;
-                window.location.href = `/battle-arena?st=${stamp}`;
+                const code = resJson.code;
+                router.push(`/battle-arena?st=${code}`);                
             }else{
                 try {
                     const resJson = await response.json();

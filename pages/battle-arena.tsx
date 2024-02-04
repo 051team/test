@@ -26,7 +26,10 @@ const BattleArena = () => {
 
     useEffect(()=>{
         const fetchBattle = async () => {
-            const response = await fetch(`/api/fetchbattle?st=${query.st}`);
+            const response = await fetch(`/api/fetchbattle`,{
+                method:"POST",
+                body:query.st?.toString()
+            });
             if(response.status === 200){
                 const resJson = await response.json();
                 const battle = resJson.battle;

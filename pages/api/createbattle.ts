@@ -9,7 +9,9 @@ export default async function handler(
   res: NextApiResponse
 ) {
   console.log("createbattle.ts");
-  const {casesinBattle, battleConfig, boss} = JSON.parse(req.body);
+  const {casesinBattle, battleConfig, boss, code} = JSON.parse(req.body);
+
+  console.log("BATTLE CODE: ",code);
 
   const baseUrl = process.env.NODE_ENV === 'development' 
   ? 'http://localhost:3000' 
@@ -35,19 +37,18 @@ export default async function handler(
     }).toArray();
     const battleCost = casesForPriceCalc.reduce((total,val)=> total+val.casePrice,0);
     battle.battleCost = battleCost;
-    battle.stamp = new Date().getTime();
+    battle.code = code;
     //console.log(battle);
 
     if(!redclient.isOpen){
       await redclient.connect();
     }
 
-    const redisBattleStamp = (new Date().getTime().toString());
-    const resultBattleAdded = await redclient.hSet(redisBattleStamp,{battle:JSON.stringify(battle),contestants:JSON.stringify([boss])});
+    const resultBattleAdded = await redclient.hSet(code,{battle:JSON.stringify(battle),contestants:JSON.stringify([boss])});
 
-    
+    console.log("did it create battle?",resultBattleAdded);
     if(resultBattleAdded){
-        res.status(200).json({ stamp:battle.stamp })
+        res.status(200).json({ code:battle.code })
     }else{
         res.status(500).json({ message: 'Failed to create BATTLE S1111', color:"red" })
     }
