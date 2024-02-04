@@ -40,15 +40,25 @@ export default async function handler(
     const existingUser = await cdp_users.findOne({ cdpUserDID: contestantID });
     //const existingBattle = await cdp_battles.findOne({ stamp: battleID });
 
-    await redclient.connect();
-    const battleJson = await redclient.hGet(battleID.toString(), 'battle');
-    const existingBattle = JSON.parse(battleJson as string);
+    if(!redclient.isOpen){
+      await redclient.connect();
+    }
+    const battleData = await redclient.hGetAll(battleID.toString());
+
+    const existingBattle = JSON.parse(battleData.battle);
+    const contestants = JSON.parse(battleData.contestants);
+
 
     if(existingUser && existingBattle){
       const balanceEnough = existingUser.balance >= existingBattle.battleCost;
       const {cdpUser,cdpUserDID, ...rest } = existingUser;
       //console.log(cdpUser,contestantIMG);
       //console.log("Balance enough?", balanceEnough, existingUser.balance, existingBattle.battleCost);
+
+      contestants.push({name:cdpUser,id:cdpUserDID,image:contestantIMG})
+      const updatedContestantsJson = JSON.stringify(contestants);
+      const result = await redclient.hSet(battleID.toString(), 'contestants', updatedContestantsJson);
+
       try {
         const response = await pusher.trigger("arena", "arena-event", {newContestant:{name:cdpUser,id:cdpUserDID,image:contestantIMG}});
       } catch (error) {

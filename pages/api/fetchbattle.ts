@@ -13,6 +13,9 @@ export default async function handler(
   const stamp = req.query.st;
   console.log(stamp, typeof stamp);
 
+  if(!redclient.isOpen){
+    await redclient.connect();
+  }
   const battleData = await redclient.hGetAll(stamp as string);
   const battleJson = await redclient.hGet(stamp as string, 'battle');
   const battle = JSON.parse(battleData.battle);

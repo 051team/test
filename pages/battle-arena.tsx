@@ -122,10 +122,10 @@ const BattleArena = () => {
     },[battleStarted]);
     
     const handleJoinBattle = async () => {
-/*         if(!session || (session && contestants?.some((c)=>c.id === (session.user as any).id))){
+        if(!session || (session && contestants?.some((c)=>c.id === (session.user as any).id))){
             console.log("already in");
             return
-        } */
+        }
         if(battleStarted){
             return
         }
