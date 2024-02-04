@@ -36,14 +36,14 @@ export default async function handler(
 
     if(remainingContestants.length > 0){
       try {
-        const response = await pusher.trigger("arena", "player-quit", {wholeft:userToLeave});
+        const response = await pusher.trigger("arena", `player-quit${battleID}`, {wholeft:userToLeave});
         res.status(200).json({message:"Player left the battle"});
       } catch (error) {
         console.log(error);
         res.status(500).json({message:"Failed to pump player who left the battle"});
       }
     }else{
-      const response = await pusher.trigger("arena", "player-quit", {wholeft:null});
+      const response = await pusher.trigger("arena", `player-quit${battleID}`, {wholeft:null});
       res.status(200).json({message:"No contestant left in the battle"});
     }
 

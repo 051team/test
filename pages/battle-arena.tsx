@@ -42,31 +42,33 @@ const BattleArena = () => {
 
     // start listening "battle" channel
     useEffect(() => {
-        const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
-          cluster: "eu",
-        });
-        const channel = pusher.subscribe("arena");
-        channel.bind("arena-event", (data:any) => {
-          console.log(data.newContestant);
-          setContestants((pr:any)=>{
-            return [...pr, data.newContestant]
-          });
-        });
-        channel.bind("player-quit", (data:any) => {
-            console.log(data.wholeft, typeof data.wholeft, "WHOLEFT and type of WHOLEFT");
-            if(data.wholeft === null){
-                router.push("/");
-            }else{
+        if(query.st){
+            const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
+                cluster: "eu",
+              });
+              const channel = pusher.subscribe("arena");
+              channel.bind(query.st.toString(), (data:any) => {
+                console.log(data.newContestant);
                 setContestants((pr:any)=>{
-                    const updatedContestants = pr.filter((c:any)=> c.id !== data.wholeft);
-                    return updatedContestants
+                  return [...pr, data.newContestant]
                 });
-            }
-        });
-        return () => {
-          pusher.unsubscribe("arena");
-        };
-      }, []);    
+              });
+              channel.bind(`player-quit${query.st}`, (data:any) => {
+                  console.log(data.wholeft, typeof data.wholeft, "WHOLEFT and type of WHOLEFT");
+                  if(data.wholeft === null){
+                      router.push("/");
+                  }else{
+                      setContestants((pr:any)=>{
+                          const updatedContestants = pr.filter((c:any)=> c.id !== data.wholeft);
+                          return updatedContestants
+                      });
+                  }
+              });
+              return () => {
+                pusher.unsubscribe("arena");
+              };
+        }
+      }, [query]);    
     
     useEffect(()=>{
         if(battleInfo && contestants){
