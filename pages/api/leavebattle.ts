@@ -19,27 +19,31 @@ export default async function handler(
     
   let client;
   console.log("leavebattle.ts");
-  console.log(req.query);
 
+  const {user, battle} = JSON.parse(req.body);
+  const battleID = battle.toString();
+  const userToLeave = user.id;
 
-  const contestantID = JSON.parse(req.body).user.id;
-  const battleID = parseInt(JSON.parse(req.body).battle);
   try {
-    await redclient.connect();
-    const battleJson = await redclient.hGet(battleID.toString(), 'battle');
-    const existingBattle = JSON.parse(battleJson as string);
+    if(!redclient.isOpen){
+      await redclient.connect();
+    }
+    const curContestants = await redclient.hGet(battleID, 'contestants');
+    const currentContestants = JSON.parse(curContestants as string);
+    console.log(curContestants);
+    const remainingContestants = currentContestants.filter((cnt:any)=>cnt.id !== userToLeave);
 
-    if(existingBattle){
+    if(remainingContestants.length > 0){
       try {
-        const response = await pusher.trigger("arena", "player-quit", {wholeft:contestantID});
-        console.log(contestantID, "will be removed from live battle arena in all player screens");
+        const response = await pusher.trigger("arena", "player-quit", {wholeft:userToLeave});
         res.status(200).json({message:"Player left the battle"});
       } catch (error) {
         console.log(error);
-        res.status(200).json({message:"Failed to pump player who left the battle"});
+        res.status(500).json({message:"Failed to pump player who left the battle"});
       }
     }else{
-      res.status(500).json({ message: 'arena.ts, user not found or insufficient balance, 2222', color: "red" });
+      res.setHeader('Location', '/');
+      res.status(302).end();
     }
 
   } catch (error) {

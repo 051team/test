@@ -38,6 +38,10 @@ export default async function handler(
     battle.stamp = new Date().getTime();
     //console.log(battle);
 
+    if(!redclient.isOpen){
+      await redclient.connect();
+    }
+
     const redisBattleStamp = (new Date().getTime().toString());
     const resultBattleAdded = await redclient.hSet(redisBattleStamp,{battle:JSON.stringify(battle),contestants:JSON.stringify([boss])});
 
@@ -56,5 +60,6 @@ export default async function handler(
     if (client) {
       await closeDatabaseConnection(client);
     }
+    await redclient.disconnect();
   }
 }

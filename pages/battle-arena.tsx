@@ -22,15 +22,7 @@ const BattleArena = () => {
     const popSliders = contestants && battleInfo && contestants?.length === battleInfo.playernumber;
     const [battleStarted, setBattleStarted] = useState(false);
     const [battleResults, setBattleResults] = useState<any>(null);
-
-/*     useEffect(()=>{
-        if(!contestants && session && battleInfo){
-            if((session.user as any).id === battleInfo.boss){
-                console.log((session.user as any).id, battleInfo.boss);
-                setContestants([session?.user]);
-            }
-        }
-    },[session,battleInfo]); */
+    const showJoinButton = !(session && contestants?.some((c)=>c.id === (session.user as any).id));
 
     useEffect(()=>{
         const fetchBattle = async () => {
@@ -60,33 +52,17 @@ const BattleArena = () => {
             return [...pr, data.newContestant]
           });
         });
-    
+        channel.bind("player-quit", (data:any) => {
+            console.log(data.wholeft, typeof data.wholeft, "WHOLEFT TYPE");
+            setContestants((pr:any)=>{
+                const updatedContestants = pr.filter((c:any)=> c.id !== data.wholeft);
+                return updatedContestants
+              });
+        });
         return () => {
           pusher.unsubscribe("arena");
         };
-      }, []);
-    
-/*     useEffect(() => {
-    const removeContestantfromBattle = async (event:any) => {
-        if(battleStarted){
-            const message = "You are about to leave the page. Are you sure?";
-            event.returnValue = message;
-            return message;
-        }
-        const response = await fetch("/api/leavebattle",{
-            method:"POST",
-            body:JSON.stringify({user:session?.user,battle:query.st}),
-            keepalive:true
-        });
-    };
-    
-    window.addEventListener("beforeunload", removeContestantfromBattle);
-    
-    return () => {
-        window.removeEventListener("beforeunload", removeContestantfromBattle);
-    };
-}, []); */
-    
+      }, []);    
     
     useEffect(()=>{
         if(battleInfo && contestants){
@@ -137,6 +113,26 @@ const BattleArena = () => {
         setJoining(null);
     }
 
+    const handleLeaveBattle = async () => {
+        alert("function fired for leave battle");
+        console.log(contestants![0], typeof contestants![0]);
+        try {
+            const response = await fetch("/api/leavebattle",{
+                method:"POST",
+                body:JSON.stringify({user:session?.user,battle:query.st})
+            });
+            if(response.redirected){
+                window.location.href = response.url;
+            }
+            if(response.status === 200){
+                const resJson = await response.json();
+                console.log(resJson);
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return ( 
     <Wrapper title="Battle Arena">
         <div className={a.arena}>
@@ -179,6 +175,11 @@ const BattleArena = () => {
                             !popSliders &&
                             <div id={a.beforeroll}>
                             {
+                                slotFull(i) && contestants && contestants![i].id === (session?.user as any).id && 
+                                <button onClick={handleLeaveBattle} id={a.exit}>EXIT</button>
+                            }
+
+                            {
                                 slotFull(i) && <div style={{background:"green",filter: "brightness(1.9)"}} id={a.placeholder}>&#10004;</div> 
                             }
                             {
@@ -187,11 +188,15 @@ const BattleArena = () => {
                                     <div style={{background:"purple",filter: "brightness(0.9)"}} id={a.placeholder}>
                                         <span className={a.wait}></span>
                                     </div> 
-                                    <button 
+                                    {
+                                        showJoinButton &&
+                                        <button 
                                         style={{opacity:joining ? "0.3" : "1"}} 
                                         disabled={joining ? true : false} onClick={handleJoinBattle}>
                                             {joining ? joining : "JOIN BATTLE NOW"}
-                                    </button>
+                                        </button>
+                                    }
+
                                 </>
                             }
                             </div>
