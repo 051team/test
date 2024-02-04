@@ -60,7 +60,7 @@ export default async function handler(
       const result = await redclient.hSet(battleID.toString(), 'contestants', updatedContestantsJson);
 
       try {
-        const response = await pusher.trigger("arena", "arena-event", {newContestant:{name:cdpUser,id:cdpUserDID,image:contestantIMG}});
+        const response = await pusher.trigger("arena", battleID.toString(), {newContestant:{name:cdpUser,id:cdpUserDID,image:contestantIMG}});
       } catch (error) {
         console.log(error)
       }
