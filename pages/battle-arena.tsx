@@ -23,14 +23,14 @@ const BattleArena = () => {
     const [battleStarted, setBattleStarted] = useState(false);
     const [battleResults, setBattleResults] = useState<any>(null);
 
-    useEffect(()=>{
+/*     useEffect(()=>{
         if(!contestants && session && battleInfo){
             if((session.user as any).id === battleInfo.boss){
                 console.log((session.user as any).id, battleInfo.boss);
                 setContestants([session?.user]);
             }
         }
-    },[session,battleInfo]);
+    },[session,battleInfo]); */
 
     useEffect(()=>{
         const fetchBattle = async () => {
@@ -38,7 +38,9 @@ const BattleArena = () => {
             if(response.status === 200){
                 const resJson = await response.json();
                 const battle = resJson.battle;
+                console.log(resJson)
                 setBattleInfo(battle);
+                setContestants(resJson.contestants)
             }
         }
         if(query.st && !battleInfo){
@@ -63,6 +65,28 @@ const BattleArena = () => {
           pusher.unsubscribe("arena");
         };
       }, []);
+    
+/*     useEffect(() => {
+    const removeContestantfromBattle = async (event:any) => {
+        if(battleStarted){
+            const message = "You are about to leave the page. Are you sure?";
+            event.returnValue = message;
+            return message;
+        }
+        const response = await fetch("/api/leavebattle",{
+            method:"POST",
+            body:JSON.stringify({user:session?.user,battle:query.st}),
+            keepalive:true
+        });
+    };
+    
+    window.addEventListener("beforeunload", removeContestantfromBattle);
+    
+    return () => {
+        window.removeEventListener("beforeunload", removeContestantfromBattle);
+    };
+}, []); */
+    
     
     useEffect(()=>{
         if(battleInfo && contestants){
@@ -98,12 +122,15 @@ const BattleArena = () => {
     },[battleStarted]);
     
     const handleJoinBattle = async () => {
-        if(!session || (session && contestants?.some((c)=>c.id === (session.user as any).id))){
+/*         if(!session || (session && contestants?.some((c)=>c.id === (session.user as any).id))){
             console.log("already in");
+            return
+        } */
+        if(battleStarted){
             return
         }
         setJoining("Joining Battle");
-        const response = await fetch("/api/arena",{
+        const response = await fetch("/api/joinbattle",{
             method:"POST",
             body:JSON.stringify({user:session?.user,battle:query.st})
         });

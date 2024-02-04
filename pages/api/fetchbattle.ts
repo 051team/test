@@ -13,11 +13,10 @@ export default async function handler(
   const stamp = req.query.st;
   console.log(stamp, typeof stamp);
 
-  const t1= new Date().getTime();
+  const battleData = await redclient.hGetAll(stamp as string);
   const battleJson = await redclient.hGet(stamp as string, 'battle');
-  const battle = JSON.parse(battleJson as string);
-  const t2= new Date().getTime();
-  console.log("reddis",(t2-t1)/1000);
+  const battle = JSON.parse(battleData.battle);
+  const contestants = JSON.parse(battleData.contestants);
 
   let client;
 
@@ -30,7 +29,7 @@ export default async function handler(
     const t2= new Date().getTime();
     console.log("mongodb: ",(t2-t1)/1000); */
 
-    res.status(200).json({battle:battle});
+    res.status(200).json({battle:battle, contestants:contestants});
 
   } catch (error) {
     console.log(error);

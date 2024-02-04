@@ -38,11 +38,11 @@ export default async function handler(
     battle.stamp = new Date().getTime();
     //console.log(battle);
 
-    await redclient.hSet((new Date().getTime().toString()),{battle:JSON.stringify(battle)});
+    const redisBattleStamp = (new Date().getTime().toString());
+    const resultBattleAdded = await redclient.hSet(redisBattleStamp,{battle:JSON.stringify(battle),contestants:JSON.stringify([boss])});
 
-
-    const resultBattleAdded = await cdp_battles.insertOne(battle);
-    if(resultBattleAdded.acknowledged){
+    
+    if(resultBattleAdded){
         res.status(200).json({ stamp:battle.stamp })
     }else{
         res.status(500).json({ message: 'Failed to create BATTLE S1111', color:"red" })

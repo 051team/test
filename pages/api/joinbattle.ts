@@ -2,6 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import {connectToDatabase, closeDatabaseConnection} from "./mdb";
 import Pusher from 'pusher';
+import { redclient } from '../../utils/redis';
 
 const pusher = new Pusher({
   appId: process.env.PUSHER_APP_ID!,
@@ -37,14 +38,22 @@ export default async function handler(
   
   
     const existingUser = await cdp_users.findOne({ cdpUserDID: contestantID });
-    const existingBattle = await cdp_battles.findOne({ stamp: battleID });
+    //const existingBattle = await cdp_battles.findOne({ stamp: battleID });
+
+    await redclient.connect();
+    const battleJson = await redclient.hGet(battleID.toString(), 'battle');
+    const existingBattle = JSON.parse(battleJson as string);
 
     if(existingUser && existingBattle){
       const balanceEnough = existingUser.balance >= existingBattle.battleCost;
       const {cdpUser,cdpUserDID, ...rest } = existingUser;
       //console.log(cdpUser,contestantIMG);
       //console.log("Balance enough?", balanceEnough, existingUser.balance, existingBattle.battleCost);
-      const response = await pusher.trigger("arena", "arena-event", {newContestant:{name:cdpUser,id:cdpUserDID,image:contestantIMG}});
+      try {
+        const response = await pusher.trigger("arena", "arena-event", {newContestant:{name:cdpUser,id:cdpUserDID,image:contestantIMG}});
+      } catch (error) {
+        console.log(error)
+      }
       res.status(200).json({message:"Arena endpoint working"});
     }else{
       res.status(500).json({ message: 'arena.ts, user not found or insufficient balance, 2222', color: "red" });
@@ -58,5 +67,6 @@ export default async function handler(
     if (client) {
       await closeDatabaseConnection(client);
     }
+    await redclient.disconnect();
   }
 }
