@@ -42,7 +42,7 @@ const Cases = ({cases}:any) => {
             <div className={h.home_cases_kernel_group}>
                 {
                     cases && [...cases].filter( (c) => c.caseCategory === "limitededition").map((cs,index)=>
-                    <Link href={`/cases/cs?cat=${cs.caseCategory}&name=${cs.caseName}`} key={index}>
+                    <Link href={`/cases/${cs.caseCategory}/${cs.caseName}`} key={index}>
                     <div className={h.home_cases_kernel_group_each} >
                         <Image priority src={cs.caseImageURL} alt={cs.caseName} width={200} height={250} />
                         <h5>
@@ -57,7 +57,7 @@ const Cases = ({cases}:any) => {
             <div className={h.home_cases_kernel_group}>
                 {
                     cases && [...cases].filter( (c) => c.caseCategory === "honorarycases").map((cs,index)=>
-                    <Link href={`/cases/cs?cat=${cs.caseCategory}&name=${cs.caseName}`} key={index}>
+                    <Link href={`/cases/${cs.caseCategory}/${cs.caseName}`} key={index}>
                     <div className={h.home_cases_kernel_group_each}>
                         <Image priority src={cs.caseImageURL} alt={cs.caseName} width={200} height={250} />
                         <h5>
@@ -72,7 +72,7 @@ const Cases = ({cases}:any) => {
             <div className={h.home_cases_kernel_group}>
                 {
                     cases && [...cases].filter( (c) => c.caseCategory === "daocases").map((cs,index)=>
-                    <Link href={`/cases/cs?cat=${cs.caseCategory}&name=${cs.caseName}`} key={index}>
+                    <Link href={`/cases/${cs.caseCategory}/${cs.caseName}`} key={index}>
                     <div className={h.home_cases_kernel_group_each}>
                         <Image priority src={cs.caseImageURL} alt={cs.caseName} width={200} height={250} />
                         <h5>

@@ -54,7 +54,7 @@ const BattleArena = () => {
         });
         channel.bind("player-quit", (data:any) => {
             console.log(data.wholeft, typeof data.wholeft, "WHOLEFT TYPE");
-            if(contestants!.filter((c:any)=>c.id !== data.wholeft).length <= 0){
+            if(data.wholeft === null){
                 window.location.href = "/";
             }else{
                 setContestants((pr:any)=>{

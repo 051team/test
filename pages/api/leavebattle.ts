@@ -42,8 +42,8 @@ export default async function handler(
         res.status(500).json({message:"Failed to pump player who left the battle"});
       }
     }else{
-      res.setHeader('Location', '/');
-      res.status(302).end();
+      const response = await pusher.trigger("arena", "player-quit", {wholeft:null});
+      res.status(200).json({message:"No contestant left in the battle"});
     }
 
   } catch (error) {
