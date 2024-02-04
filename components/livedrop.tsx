@@ -79,7 +79,6 @@ const Livedrop = () => {
                 if(response.status === 200){
                     const allDrops = await response.json();
                     setDrops(allDrops);
-                    console.log(allDrops)
                 }else{
                     console.log(response.status, response)
                 }

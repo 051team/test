@@ -62,7 +62,6 @@ const Navbar = () => {
             const response = await fetch(`/api/user?count=${true}`);
             if(response.status === 200){
                 const resJson = await response.json();
-                console.log(resJson.activeUserCount);
                 dispatch(note_activeUserCount(resJson.activeUserCount))
             }
         }
@@ -118,7 +117,6 @@ const Navbar = () => {
                         const resJson = await response.json();
                         const cases = resJson.data;
                         dispatch(note_allCases(cases));
-                        console.log(cases)
                     } catch (error) {
                         console.log("Response object not JSON",error)
                     }

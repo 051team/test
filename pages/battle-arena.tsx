@@ -55,7 +55,7 @@ const BattleArena = () => {
         channel.bind("player-quit", (data:any) => {
             console.log(data.wholeft, typeof data.wholeft, "WHOLEFT and type of WHOLEFT");
             if(data.wholeft === null){
-                window.location.href = "/";
+                router.push("/");
             }else{
                 setContestants((pr:any)=>{
                     const updatedContestants = pr.filter((c:any)=> c.id !== data.wholeft);
@@ -119,7 +119,6 @@ const BattleArena = () => {
 
     const handleLeaveBattle = async () => {
         alert("function fired for leave battle");
-        console.log(contestants![0], typeof contestants![0]);
         try {
             const response = await fetch("/api/leavebattle",{
                 method:"POST",
