@@ -45,12 +45,11 @@ const BattleArena = () => {
 
     // start listening "battle" channel
     useEffect(() => {
-        if(query.st){
             const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
                 cluster: "eu",
               });
               const channel = pusher.subscribe("arena");
-              channel.bind(query.st.toString(), (data:any) => {
+              channel.bind(query.st!.toString(), (data:any) => {
                 console.log(data.newContestant);
                 setContestants((pr:any)=>{
                   return [...pr, data.newContestant]
@@ -70,8 +69,7 @@ const BattleArena = () => {
               return () => {
                 pusher.unsubscribe("arena");
               };
-        }
-      }, [query]);    
+      }, []);    
     
     useEffect(()=>{
         if(battleInfo && contestants){
