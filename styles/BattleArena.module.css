@@ -48,21 +48,20 @@
 }
 .arena_kernel_warriors_each {
   flex: 1;
-  max-width: 260px;
   background-color: rgba(0, 0, 139, 0.3);
   position: relative;
   display: grid;
-  align-items: flex-start;
-  justify-content: center;
-  padding: 10px;
+  padding: 20px;
+  max-width: 400px;
 }
 .arena_kernel_warriors_each #roll {
   height: 200px;
   overflow: hidden;
+  display: flex;
+  justify-content: center;
 }
 .arena_kernel_warriors_each #beforeroll {
   height: 200px;
-  width: 200px;
   position: relative;
   display: flex;
   align-items: flex-start;
@@ -149,8 +148,20 @@
   font-weight: 500;
 }
 .arena_kernel_warriors #playerwons {
-  border: 1px solid yellow;
-  height: 50px;
+  display: flex;
+}
+.arena_kernel_warriors #playerwons #each {
+  display: grid;
+  width: 100px;
+  justify-items: center;
+  background-color: black;
+  color: white;
+  font-size: 12px;
+  line-height: 12px;
+  text-align: center;
+  padding: 10px;
+  row-gap: 5px;
+  box-shadow: 0 0 2px 1px darkgoldenrod;
 }
 .arena #loading {
   min-height: 200px;

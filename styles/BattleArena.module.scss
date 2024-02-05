@@ -44,20 +44,19 @@
             align-items: flex-start;
             &_each{
                 flex: 1;
-                max-width: 260px;
                 background-color: rgba($color: darkblue, $alpha: 0.3);
                 position: relative;
                 display: grid;
-                align-items: flex-start;
-                justify-content: center;
-                padding: 10px;
+                padding: 20px;
+                max-width: 400px;
                 #roll{
                     height: 200px;
                     overflow: hidden;
+                    display: flex;
+                    justify-content: center;
                 }
                 #beforeroll{
                     height: 200px;
-                    width: 200px;
                     position: relative;
                     display: flex;
                     align-items: flex-start;
@@ -138,8 +137,20 @@
                 }
             }
             #playerwons{
-                border: 1px solid yellow;
-                height: 50px;
+                display: flex;
+                #each{
+                    display: grid;
+                    width: 100px;
+                    justify-items: center;
+                    background-color: black;
+                    color:white;
+                    font-size: 12px;
+                    line-height: 12px;
+                    text-align: center;
+                    padding: 10px;
+                    row-gap: 5px;
+                    box-shadow: 0 0 2px 1px darkgoldenrod;
+                }
             }
         }
     }

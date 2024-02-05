@@ -22,7 +22,7 @@ const BattleArena = () => {
     const popSliders = contestants && battleInfo && contestants?.length === battleInfo.playernumber;
     const [battleStarted, setBattleStarted] = useState(false);
     const [battleResults, setBattleResults] = useState<any>(null);
-    const showJoinButton = (session && contestants?.some((c)=>c.id === (session.user as any).id));
+    const showJoinButton = !(session && contestants?.some((c)=>c.id === (session.user as any).id));
 
     useEffect(()=>{
         const fetchBattle = async () => {
@@ -110,10 +110,10 @@ const BattleArena = () => {
     },[battleStarted]);
     
     const handleJoinBattle = async () => {
-/*         if(!session || (session && contestants?.some((c)=>c.id === (session.user as any).id))){
+        if(!session || (session && contestants?.some((c)=>c.id === (session.user as any).id))){
             console.log("already in");
             return
-        } */
+        }
         if(battleStarted){
             return
         }
@@ -223,9 +223,15 @@ const BattleArena = () => {
                                 <span style={{color:"white",position:"relative",left:"20%", fontSize:"12px"}}>Waiting for player</span>
                             }
                         </div>
-                        <div id={a.playerwons}>
-                            <h1 style={{color:"white"}}>{battleResults && battleResults[i].contestantWons[0].won.giftName}</h1>
-                        </div>
+                            {
+                            battleResults &&
+                            <div id={a.playerwons}>
+                                <div id={a.each}>
+                                    <Image src={battleResults[i].contestantWons[0].won.giftURL} alt="won gift" width={70} height={80} />
+                                    <span>{ battleResults[i].contestantWons[0].won.giftName}</span>
+                                </div>
+                            </div>
+                            }                            
                       </div>
                       </>
                       )
