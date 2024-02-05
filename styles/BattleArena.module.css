@@ -148,6 +148,10 @@
   color: gold;
   font-weight: 500;
 }
+.arena_kernel_warriors #playerwons {
+  border: 1px solid yellow;
+  height: 50px;
+}
 .arena #loading {
   min-height: 200px;
   background-color: rgba(0, 0, 139, 0.3);
