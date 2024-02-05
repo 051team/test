@@ -43,6 +43,8 @@ export default async function handler(
         res.status(500).json({message:"Failed to pump player who left the battle"});
       }
     }else{
+      const resultDelBattle = await redclient.del(battleID);
+      console.log("is battle Deleted?",resultDelBattle);
       const response = await pusher.trigger("arena", `player-quit${battleID}`, {wholeft:null});
       res.status(200).json({message:"No contestant left in the battle"});
     }
