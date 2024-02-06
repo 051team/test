@@ -9,6 +9,7 @@ import { formatter } from "../tools";
 import Universal_modal from "../components/universal_modal";
 import { useDispatch, useSelector } from "react-redux";
 import { note_universal_modal } from "../redux/loginSlice";
+import CaseEditor from "../components/caseeditor";
 
 const Super_user = () => {
     const tabs = ["User Actions", "Coupons","Case Actions"];
@@ -519,14 +520,9 @@ const Super_user = () => {
     }
 
     const handleEditPopUp = async (c:any) => {
-        console.log(c);
-        setCasetoEdit(c);
-        setFeedback({message:"caseedit", color:""});
+        setFeedback({message:"editcase", color:""});
         dispatch(note_universal_modal(true));
-        setCaseImageURL(c.caseImageURL);
-        setGifts(
-            {numberofGifts:c.caseGifts.length, canAddGift:true, addedgifts:c.caseGifts}
-        );
+        setCasetoEdit(c);
     }
 
     const handleEditCase = async () => {
@@ -856,7 +852,7 @@ const Super_user = () => {
                                                 <button onClick={()=>handleDeleteCase(c)} >
                                                     <Image alt="delete case" src={"/delete.png"} width={25} height={25} priority/>
                                                 </button>
-                                                <button onClick={()=>alert("Will try again tomorrow")}>
+                                                <button onClick={()=>handleEditPopUp(c)}>
                                                 </button>
                                             </div>
                                         </div>
@@ -947,6 +943,13 @@ const Super_user = () => {
                         </>
                     }
                     </div>
+                </Universal_modal>
+            }
+
+            {
+                universalModal && feedback && feedback.message.includes("editcase") &&
+                <Universal_modal>
+                    <CaseEditor casetoEdit={casetoEdit} />
                 </Universal_modal>
             }
 

@@ -1,3 +1,7 @@
+import { BlobServiceClient, ContainerClient } from '@azure/storage-blob';
+const containerName = process.env.NEXT_PUBLIC_CONTAINER_NAME!;
+
+
 export const formatter = (price: number): string => {
   if(price === null){
     return ""
@@ -73,3 +77,31 @@ export const mockLotteryDraw = (giftArray:any) => {
 
   return selectedGift;
 }
+
+
+
+export const uploadFileToBlob = async (file: File | null, newFileName: string) => {
+  if (!file) {
+    console.log("Not found");
+  } else {
+    const blobService = new BlobServiceClient(
+      /* `https://${storageAccountName}.blob.core.windows.net/?${sasToken}` */
+      process.env.NEXT_PUBLIC_SASURL!
+    );
+
+    const containerClient: ContainerClient =
+      blobService.getContainerClient(containerName!);
+    await containerClient.createIfNotExists({
+      access: 'container',
+    });
+
+    const blobClient = containerClient.getBlockBlobClient(newFileName);
+    const options = { blobHTTPHeaders: { blobContentType: file.type } };
+
+    await blobClient.uploadData(file, options);
+    console.log("Upload successful");
+
+    const blobUrl = blobClient.url;
+    return blobUrl;
+  }
+};
