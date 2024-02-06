@@ -153,6 +153,10 @@
                 position: relative;
                 animation: slidevertical 10s 1 forwards;
             }
+            #slideverticalbattle{
+                position: relative;
+                animation: slideforBattle 5s 1 forwards;
+            }
         }
         #main{
             box-shadow: 0 0 1px 1px orange;
@@ -579,4 +583,10 @@
 @keyframes slidevertical {
     0%{top: 0;}
     100%{top: -200*90px;}
+}
+
+
+@keyframes slideforBattle {
+    0%{top: 0;}
+    100%{top: -200*50px;}
 }

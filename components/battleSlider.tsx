@@ -5,8 +5,8 @@ import c from "./../styles/Casepage.module.css";
 import Slot from "./sliderslot";
 
 
-const BattleSlider = ({caseInfo,verticalSpin, multiWon,multiplier}:any) => {
-    let howmany = 100;
+const BattleSlider = ({caseInfo,verticalSpin, multiWon,multiplier,play}:any) => {
+    let howmany = 0;
     const slider = useRef<HTMLDivElement>(null);
     const [sliderOffsetVertical, setSliderOffsetVertical] = useState(0);
 
@@ -92,16 +92,16 @@ const BattleSlider = ({caseInfo,verticalSpin, multiWon,multiplier}:any) => {
             {
             repetitionSets &&  repetitionSets.map((repset,ii)=>
                 <div
-                    className={c.casepage_case_kernel_verticalspinner} id={verticalSpin ? c.slidevertical : ""} key={ii} ref={slider} >
+                    className={c.casepage_case_kernel_verticalspinner} id={verticalSpin ? c.slideverticalbattle : ""} key={ii} ref={slider} >
                 {
                     repset && repset.map((e:any,i:any) =>
                         <Slot 
                             id={""} i={i} 
                             caseInfo={caseInfo} e={e}
                             key={i} sliderOffsetVertical={sliderOffsetVertical}                         
-                            bingoposition={90}
+                            bingoposition={50}
                             vertical={true}
-                            slidertoplay = {ii}
+                            slidertoplay = {play === 0 ? 0 : null}
                             wonM ={multiWon && multiWon[ii]}
                         />
                     )

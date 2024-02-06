@@ -22,7 +22,7 @@ const BattleArena = () => {
     const popSliders = contestants && battleInfo && contestants?.length === battleInfo.playernumber;
     const [battleStarted, setBattleStarted] = useState(false);
     const [battleResults, setBattleResults] = useState<any>(null);
-    const showJoinButton = !(session && contestants?.some((c)=>c.id === (session.user as any).id));
+    const showJoinButton = (session && contestants?.some((c)=>c.id === (session.user as any).id));
 
     useEffect(()=>{
         const fetchBattle = async () => {
@@ -45,36 +45,38 @@ const BattleArena = () => {
 
     // start listening "battle" channel
     useEffect(() => {
-          // Make sure query.st is not undefined or null before proceeding
-            if (!query.st) {
-                console.log('query.st is not defined yet.');
-                return;
-            }
-            const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
-                cluster: "eu",
+        // Make sure query.st is not undefined or null before proceeding
+          if (!query.st) {
+              console.log('query.st is not defined yet.');
+              return;
+          }
+          const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
+              cluster: "eu",
+            });
+            const channel = pusher.subscribe("arena");
+            channel.bind(query.st!.toString(), (data:any) => {
+              console.log(data.newContestant);
+              setContestants((pr:any)=>{
+                return [...pr, data.newContestant]
               });
-              const channel = pusher.subscribe("arena");
-              channel.bind(query.st!.toString(), (data:any) => {
-                console.log(data.newContestant);
-                setContestants((pr:any)=>{
-                  return [...pr, data.newContestant]
-                });
-              });
-              channel.bind(`player-quit${query.st}`, (data:any) => {
-                  console.log(data.wholeft, typeof data.wholeft, "WHOLEFT and type of WHOLEFT");
-                  if(data.wholeft === null){
-                      router.push("/");
-                  }else{
-                      setContestants((pr:any)=>{
-                          const updatedContestants = pr.filter((c:any)=> c.id !== data.wholeft);
-                          return updatedContestants
-                      });
-                  }
-              });
-              return () => {
-                pusher.unsubscribe("arena");
-              };
-      }, [query.st]);    
+            });
+            channel.bind(`player-quit${query.st}`, (data:any) => {
+                console.log(data.wholeft, typeof data.wholeft, "WHOLEFT and type of WHOLEFT");
+                if(data.wholeft === null){
+                    router.push("/");
+                }else{
+                    setContestants((pr:any)=>{
+                        const updatedContestants = pr.filter((c:any)=> c.id !== data.wholeft);
+                        return updatedContestants
+                    });
+                }
+            });
+            return () => {
+              pusher.unbind_all();
+              pusher.unsubscribe("arena");
+              pusher.disconnect();
+            };
+    }, [query.st]);    
     
     useEffect(()=>{
         if(battleInfo && contestants){
@@ -110,10 +112,10 @@ const BattleArena = () => {
     },[battleStarted]);
     
     const handleJoinBattle = async () => {
-        if(!session || (session && contestants?.some((c)=>c.id === (session.user as any).id))){
+/*         if(!session || (session && contestants?.some((c)=>c.id === (session.user as any).id))){
             console.log("already in");
             return
-        }
+        } */
         if(battleStarted){
             return
         }
@@ -178,6 +180,7 @@ const BattleArena = () => {
                                     multiplier={1} 
                                     verticalSpin={battleStarted} 
                                     multiWon={battleResults ? [battleResults[i].contestantWons[0].won] : null}
+                                    play={i}
                                 />
                             </div>
                         }

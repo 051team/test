@@ -161,6 +161,11 @@
   -webkit-animation: slidevertical 10s 1 forwards;
           animation: slidevertical 10s 1 forwards;
 }
+.casepage_case_kernel #slideverticalbattle {
+  position: relative;
+  -webkit-animation: slideforBattle 5s 1 forwards;
+          animation: slideforBattle 5s 1 forwards;
+}
 .casepage_case #main {
   box-shadow: 0 0 1px 1px orange;
   height: 200px;
@@ -635,5 +640,21 @@
   }
   100% {
     top: -18000px;
+  }
+}
+@-webkit-keyframes slideforBattle {
+  0% {
+    top: 0;
+  }
+  100% {
+    top: -10000px;
+  }
+}
+@keyframes slideforBattle {
+  0% {
+    top: 0;
+  }
+  100% {
+    top: -10000px;
   }
 }/*# sourceMappingURL=Casepage.module.css.map */
