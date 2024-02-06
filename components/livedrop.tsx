@@ -33,6 +33,8 @@ const Livedrop = () => {
     
         return () => {
           pusher.unsubscribe("drop");
+          pusher.unbind_all();
+          pusher.disconnect();
         };
       }, []);
 

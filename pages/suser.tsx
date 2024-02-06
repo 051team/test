@@ -24,6 +24,7 @@ const Super_user = () => {
     const [modalOpen,setModalOpen] = useState(false);
     const [feedback,setFeedback] = useState<{message:string,color:string}>();
     const [selectedCaseImageURL, setCaseImageURL] = useState("");
+    const [casetoEdit, setCasetoEdit] = useState<any>();
 
     const couponName = useRef<HTMLInputElement>(null);
     const couponValue = useRef<HTMLInputElement>(null);
@@ -50,7 +51,7 @@ const Super_user = () => {
                             <{numberofGifts:number,canAddGift:boolean, addedgifts:any[]}>
                             ({numberofGifts:1, canAddGift:false, addedgifts:[
                                 {giftName:"", giftPrice:0, propability:0,giftId:1, giftImage:null}
-                            ]},);
+                            ]});
     const [recommendedPrice,setRecommend] = useState<number | null>();
     const [problemsIn, setProblems] = useState<any[]>();
 
@@ -482,7 +483,168 @@ const Super_user = () => {
         if(filterBy === ""){
             setFilteredUsers(null);
         }
-    },[filterBy])
+    },[filterBy]);
+
+    const handleDeleteCase = async (c:any) => {
+        console.log(c._id);
+        if(!confirm(`Case to delete is : ${c.caseName}! Are you sure?`)){
+            return
+        }
+        setFeedback({message:"Deleting case...",color:"silver"});
+        setModalOpen(true);
+        try {
+            const response = await fetch("/api/delcase",{
+                method:"POST",
+                body:c._id
+            });
+            if(response.status === 200){
+                setFeedback({message:"CASE deleted*", color:"lawngreen"});
+                setAllCases((pr:any)=>{
+                    const remainingCases = pr.filter((cs:any)=>cs._id !== c._id );
+                    return remainingCases
+                });
+                setTimeout(() => {
+                    setModalOpen(false);
+                }, 2000);
+            }else{
+                setFeedback({message:"FAILED to DELETE case !", color:"crimson"});
+                setTimeout(() => {
+                    setModalOpen(false);
+                }, 2000);
+            }
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const handleEditPopUp = async (c:any) => {
+        console.log(c);
+        setCasetoEdit(c);
+        setFeedback({message:"caseedit", color:""});
+        dispatch(note_universal_modal(true));
+        setCaseImageURL(c.caseImageURL);
+        setGifts(
+            {numberofGifts:c.caseGifts.length, canAddGift:true, addedgifts:c.caseGifts}
+        );
+    }
+
+    const handleEditCase = async () => {
+        console.log(gifts.addedgifts);
+        const totalProbability = parseInt(gifts.addedgifts.reduce((probability,gf) => {return probability+parseInt(gf.giftProbability)},0));
+        const allGiftshaveImage = gifts.addedgifts.every(gf=>gf.giftImage);
+        const warnings = problemsIn ? [...problemsIn] : [];
+          if (!caseName.current?.value) {
+            warnings.push("Please enter case name");
+          }
+          if (!caseCategory.current?.value) {
+            warnings.push("Please choose case category");
+          }
+          if (!caseImage.current?.files![0] && !casetoEdit.caseImageURL)  {
+            warnings.push("Please upload case image");
+          }
+          if (!casePrice.current?.value) {
+            warnings.push("Please enter case price!");
+          }
+          if (!caseIndex.current?.value) {
+            warnings.push("Please enter case index!");
+          }
+          if(!allGiftshaveImage || !gifts.canAddGift){
+            console.log(allGiftshaveImage);
+            warnings.push("Please check gift fields");
+          }
+          if (totalProbability !== 100000 && warnings.length === 0 && allGiftshaveImage) {
+            warnings.push("Total gift probability must be 100.000");
+          }
+          const warningMessage = warnings.join('\n');
+        
+        const ready = [caseName,caseCategory,casePrice,caseIndex].every((rf) => rf.current?.value) && (caseImage.current?.files![0] || casetoEdit.caseImageURL)
+                        && gifts.canAddGift && totalProbability === 100000 && allGiftshaveImage;
+        
+        if(!ready){
+            confirm(warningMessage);
+            return
+        };
+        
+        setFeedback({message:"Editing CASE...",color:"gray"});
+        setModalOpen(true);
+
+        let caseImageURL:string | undefined;
+        let newFileName:string | undefined;
+        let originalFile:any;
+
+        if(caseImage.current && caseImage.current.files![0]){
+            originalFile = caseImage.current.files![0];
+            console.log(originalFile);
+    
+            const file_extension = originalFile.name.split(".").pop();
+            newFileName = (caseCategory.current!.value + "-" + caseName.current!.value + "-" + (new Date().getTime()) + "." + file_extension).replace(/\s/g, "");
+        }
+
+        try {
+            caseImageURL = newFileName ? await uploadFileToBlob(originalFile, newFileName) : casetoEdit.caseImageURL;
+            console.log(caseImageURL);
+            for (const gf of gifts.addedgifts){
+                try {
+                    if(gf.giftImage.name){
+                        const giftImageUrl = await uploadFileToBlob(gf.giftImage,new Date().getTime().toString());
+                        gf.giftURL = giftImageUrl;
+                        console.log("new url created", giftImageUrl)
+                    }else{
+                        console.log("existing url");
+                        gf.giftURL = gf.giftURL;
+                    }
+                    gf.code = (new Date()).getTime();
+                } catch (error) {
+                    console.log(error);
+                    setFeedback({message:"Failed to upload gift image to Microsoft Azure ",color:"red"});
+                    setModalOpen(true);
+                    setTimeout(() => {
+                        setModalOpen(pr=>!pr);
+                    }, 1000);
+                    throw error;
+                }
+            }
+        } catch (error) {
+            console.log(error);
+            setFeedback({message:"Failed to upload image to Microsoft Azure ",color:"red"});
+            setModalOpen(true);
+            setTimeout(() => {
+                setModalOpen(pr=>!pr);
+            }, 1000);
+            throw error;
+        }
+        
+        const caseInfo = {
+            caseName:caseName.current?.value ??  casetoEdit.caseName,
+            caseCategory:caseCategory.current?.value ?? casetoEdit.caseCategory,
+            caseImageURL: caseImageURL,
+            casePrice:parseFloat(casePrice.current?.value!) ?? casetoEdit.casePrice,
+            caseGifts:gifts.addedgifts,
+            caseIndex:parseInt(caseIndex.current?.value as string)
+        }
+
+        console.log("READY to SEND to endpoint",caseInfo);
+        try {
+            const response = await fetch("/api/editcase",{
+                method:"POST",
+                body:JSON.stringify({caseInfo:caseInfo, id:casetoEdit._id})
+            });
+            if(response.ok){
+                const resJson = await response.json();
+                console.log(resJson);
+                setFeedback(()=>resJson.feedback);
+                setAllCases((pr:any)=>{
+                 const udaptedCases = pr.filter((cs:any)=>cs._id !== casetoEdit._id);
+                 return [resJson.newCase,...udaptedCases]
+                })
+                setTimeout(() => {
+                    setModalOpen(false);
+                }, 1500);
+            }
+        } catch (error) {
+        }
+    }
 
     return ( <>
     <div className={s.panel}>
@@ -691,11 +853,10 @@ const Super_user = () => {
                                                 <p>{c.openedXtimes ?? ""}</p>
                                                 <p>{c.turnover ? formatter(c.turnover) : ""}</p>
                                                 <p style={{color:"yellow"}}>{c.caseGifts.length}</p>
-                                                <button>
-                                                    <Image alt="delete" src={"/delete.png"} width={25} height={25} priority/>
+                                                <button onClick={()=>handleDeleteCase(c)} >
+                                                    <Image alt="delete case" src={"/delete.png"} width={25} height={25} priority/>
                                                 </button>
-                                                <button>
-                                                    <Image alt="delete" src={"/edit.png"} width={25} height={25} priority/>
+                                                <button onClick={()=>alert("Will try again tomorrow")}>
                                                 </button>
                                             </div>
                                         </div>
