@@ -30,6 +30,8 @@ const CaseEditor = ({casetoEdit,setAllCases}:any) => {
     
     const [modalOpen,setModalOpen] = useState(false);
     const [feedback,setFeedback] = useState<{message:string,color:string}>();
+    const currentProbabilityTotal = parseInt(gifts.addedgifts.reduce((probability:any,gf:any) => {return probability+parseInt(gf.giftProbability)},0));
+
 
     useEffect(()=>{
         console.log("case editor");
@@ -38,7 +40,7 @@ const CaseEditor = ({casetoEdit,setAllCases}:any) => {
 
         const totalProbability = parseInt(gifts.addedgifts.reduce((probability:any,gf:any) => {return probability+parseInt(gf.giftProbability)},0));
         if(totalProbability === 100000){
-            const recommended = parseInt(gifts.addedgifts.reduce((rPrice:any,gf:any) => {return rPrice+parseInt(gf.giftPrice)*(gf.giftProbability)},0)) / 100000;
+            const recommended = parseInt(gifts.addedgifts.reduce((rPrice:any,gf:any) => {return rPrice+parseInt(gf.giftPrice)*(gf.giftProbability ?? 0)},0)) / 100000;
             setRecommend(recommended);
         }else{
             if(recommendedPrice){
@@ -55,7 +57,7 @@ const CaseEditor = ({casetoEdit,setAllCases}:any) => {
         }
         setGifts({
             ...gifts, numberofGifts:gifts.numberofGifts+1, canAddGift:false,
-            addedgifts:[...gifts.addedgifts, {giftName:"", giftPrice:null, propability:null,giftId:gifts.addedgifts.length+2}]
+            addedgifts:[...gifts.addedgifts, {giftName:"", giftPrice:0, propability:"0",giftId:gifts.addedgifts.length+2}]
         })
     }
 
@@ -246,7 +248,11 @@ const CaseEditor = ({casetoEdit,setAllCases}:any) => {
             <div className={s.actions}>
                 <div className={s.actions_double}>
                     <p>Recommended Price</p>
-                    <p>Case Price</p>
+                    <p style={{color:"white",fontSize:"small"}}>Case Price</p>
+                    <div id={s.probab}>
+                        <span style={{color:currentProbabilityTotal === 100000 ? "green" : "crimson"}}>{currentProbabilityTotal && currentProbabilityTotal}</span>
+                        /100000
+                    </div>
                 </div>
                 <div className={s.actions_double}>
                     <p style={{top:"-10px"}}>$ {recommendedPrice && recommendedPrice}</p>   

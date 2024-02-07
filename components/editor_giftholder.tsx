@@ -2,7 +2,7 @@ import Image from "next/image";
 import React, { Dispatch, Ref, RefObject, useRef, useState } from "react";
 import s from "../styles/Editcase.module.css";
 import defimage from "../public/assets/camera.png";
-
+import del from "../public/delete.png";
 interface GiftHolderProps {
     gifts:any;
     setGifts: React.Dispatch<React.SetStateAction<any>>;
@@ -37,7 +37,7 @@ const Gift_holder_Editor = ({gift,gifts,setGifts,giftId,setProblems}:GiftHolderP
                 const giftInfo = {
                     giftName: giftName.current?.value ,
                     giftPrice:giftPrice.current?.value,
-                    giftProbability:giftProbability.current?.value,
+                    giftProbability:giftProbability.current?.value || 0,
                     giftId:giftId,
                     giftImage:giftImage.current?.files![0] || giftImageUrl
                 }
@@ -54,7 +54,12 @@ const Gift_holder_Editor = ({gift,gifts,setGifts,giftId,setProblems}:GiftHolderP
             }
         }, 500);
     }
-
+    const handleDelGift = (e:any) => {
+        const newGifts = gifts.addedgifts.filter((gf:any)=>gf.giftId !== gift.giftId);
+        setGifts((pr:any) => ({
+            ...gifts, canAddGift:true, addedgifts:newGifts
+        }));
+    }
     return ( 
         <>
         {
@@ -67,6 +72,7 @@ const Gift_holder_Editor = ({gift,gifts,setGifts,giftId,setProblems}:GiftHolderP
             <input type="text" placeholder="..." defaultValue={gift.giftName} ref={giftName} onChange={()=>handleInputChange()}  />
             <input type="number" placeholder="..." defaultValue={gift.giftPrice} min={1} ref={giftPrice} onChange={()=>handleInputChange()} />
             <input type="number" placeholder="..." defaultValue={gift.giftProbability} ref={giftProbability} onChange={()=>handleInputChange()}/>
+            <button onMouseDown={handleDelGift}><Image src={del} alt={"delete gift"} width={30} height={30}/></button>
             </div>
 
         }
