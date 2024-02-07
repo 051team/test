@@ -55,7 +55,7 @@ const CaseEditor = ({casetoEdit,setAllCases}:any) => {
         }
         setGifts({
             ...gifts, numberofGifts:gifts.numberofGifts+1, canAddGift:false,
-            addedgifts:[...gifts.addedgifts, {giftName:"", giftPrice:0, propability:0,giftId:gifts.numberofGifts+2}]
+            addedgifts:[...gifts.addedgifts, {giftName:"", giftPrice:null, propability:null,giftId:gifts.addedgifts.length+2}]
         })
     }
 
