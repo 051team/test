@@ -253,7 +253,7 @@ const CaseEditor = ({casetoEdit,setAllCases}:any) => {
                     <input type="text" placeholder="Enter price..." defaultValue={casetoEdit.casePrice} ref={casePrice} />
                 </div>
                 <div className={s.actions_double}>
-                    <button onClick={handleEditCase}>CREATE CASE</button>
+                    <button onClick={handleEditCase}>UPDATE CASE</button>
                 </div>
             </div>
         </div>
