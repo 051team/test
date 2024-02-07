@@ -949,7 +949,7 @@ const Super_user = () => {
             {
                 universalModal && feedback && feedback.message.includes("editcase") &&
                 <Universal_modal>
-                    <CaseEditor casetoEdit={casetoEdit} />
+                    <CaseEditor casetoEdit={casetoEdit} setAllCases={setAllCases}/>
                 </Universal_modal>
             }
 
