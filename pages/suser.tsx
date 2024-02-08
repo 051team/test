@@ -671,9 +671,9 @@ const Super_user = () => {
                                     <select ref={caseCategory}>
                                         <option defaultValue="" disabled>Choose Category</option>
                                         <option value="popularcases">POPULAR CASES</option>
-                                        <option value="limitededition">LIMITED EDITION</option>
-                                        <option value="honorarycases">HONORARY CASES</option>
                                         <option value="daocases">DAO CASES</option>
+                                        <option value="honorarycases">HONORARY CASES</option>
+                                        <option value="collectioncases">COLLECTION CASES</option>
                                     </select>
                                 </div>
                                 <button id={s.addgift} onClick={handleAddGift}>Add Gift</button>

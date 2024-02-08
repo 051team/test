@@ -32,22 +32,17 @@ const Cases = ({cases}:any) => {
                     </div>
                     )
                 }
-                {
-                    (searchResultNo === 0) &&
-                    <h1 style={{fontWeight:"400", color:"crimson", fontSize:"larger", filter:"brightness(1.2)"}}>No items found!</h1>
-                }
             </div>
             <br /><br />
-            <h1>LIMITED EDITION</h1>
+            <h1>DAO CASES</h1>
             <div className={h.home_cases_kernel_group}>
                 {
-                    cases && [...cases].filter( (c) => c.caseCategory === "limitededition").map((cs,index)=>
+                    cases && [...cases].filter( (c) => c.caseCategory === "daocases").map((cs,index)=>
                     <Link href={`/cases/${cs.caseCategory}/${cs.caseName}`} key={index}>
-                    <div className={h.home_cases_kernel_group_each} >
+                    <div className={h.home_cases_kernel_group_each}>
                         <Image priority src={cs.caseImageURL} alt={cs.caseName} width={200} height={250} />
-                        <h5>
-                            {cs.caseName}
-                        </h5>
+                        <h5>{cs.caseName}</h5>
+                        <h4>{formatter(cs.casePrice)}</h4>
                     </div></Link>
                     )
                 }
@@ -60,24 +55,22 @@ const Cases = ({cases}:any) => {
                     <Link href={`/cases/${cs.caseCategory}/${cs.caseName}`} key={index}>
                     <div className={h.home_cases_kernel_group_each}>
                         <Image priority src={cs.caseImageURL} alt={cs.caseName} width={200} height={250} />
-                        <h5>
-                            {cs.caseName}
-                        </h5>
+                        <h5>{cs.caseName}</h5>
+                        <h4>{formatter(cs.casePrice)}</h4>
                     </div></Link>
                     )
                 }
             </div>
             <br /><br />
-            <h1>DAO CASES</h1>
+            <h1>COLLECTION CASES</h1>
             <div className={h.home_cases_kernel_group}>
                 {
-                    cases && [...cases].filter( (c) => c.caseCategory === "daocases").map((cs,index)=>
+                    cases && [...cases].filter( (c) => c.caseCategory === "collectioncases").map((cs,index)=>
                     <Link href={`/cases/${cs.caseCategory}/${cs.caseName}`} key={index}>
-                    <div className={h.home_cases_kernel_group_each}>
+                    <div className={h.home_cases_kernel_group_each} >
                         <Image priority src={cs.caseImageURL} alt={cs.caseName} width={200} height={250} />
-                        <h5>
-                            {cs.caseName}
-                        </h5>
+                        <h5>{cs.caseName}</h5>
+                        <h4>{formatter(cs.casePrice)}</h4>
                     </div></Link>
                     )
                 }
