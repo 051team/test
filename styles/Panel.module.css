@@ -360,6 +360,22 @@
   min-height: 25px;
   padding-left: 60px;
 }
+.panel_kernel #coupons #createcase #gifts .actions_double #probab {
+  position: absolute;
+  right: 200px;
+  height: 30px;
+  color: green;
+  display: flex;
+}
+.panel_kernel #coupons #createcase #gifts .actions_double #probab span {
+  display: block;
+  position: absolute;
+  left: -60px;
+  top: 0;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
 .panel_kernel #coupons #createcase #gifts .actions_double input {
   height: 30px;
   width: 200px;

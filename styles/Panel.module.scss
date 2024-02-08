@@ -339,6 +339,19 @@
                   position: relative;
                   min-height: 25px;
                   padding-left: 60px;
+                  #probab{
+                    position: absolute;
+                    right: 200px;
+                    height: 30px;
+                    color: green;
+                    display: flex;
+                    span{
+                      display: block;
+                      position: absolute;
+                      left: -60px; top:0;
+                      width: fit-content;
+                    }
+                  }
                   input{
                     height: 30px;
                     width: 200px;
