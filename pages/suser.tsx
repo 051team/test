@@ -318,7 +318,6 @@ const Super_user = () => {
                 try {
                     const giftImageUrl = await uploadFileToBlob(gf.giftImage,new Date().getTime().toString());
                     gf.giftURL = giftImageUrl;
-                    gf.code = (new Date()).getTime();
                 } catch (error) {
                     console.log(error);
                     setFeedback({message:"Failed to upload gift image to Microsoft Azure ",color:"red"});

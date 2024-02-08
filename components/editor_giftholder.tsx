@@ -39,7 +39,8 @@ const Gift_holder_Editor = ({gift,gifts,setGifts,giftId,setProblems}:GiftHolderP
                     giftPrice:giftPrice.current?.value,
                     giftProbability:giftProbability.current?.value || 0,
                     giftId:giftId,
-                    giftImage:giftImage.current?.files![0] || giftImageUrl
+                    giftImage:giftImage.current?.files![0] || giftImageUrl,
+                    code:(new Date()).getTime()
                 }
                 const newGifts = gifts.addedgifts.map((gf:any)=>gf.giftId === giftId ? giftInfo : gf);
                 setGifts((pr:any) => ({

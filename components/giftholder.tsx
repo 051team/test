@@ -37,7 +37,9 @@ const Gift_holder = ({gifts,setGifts,giftId,setProblems}:GiftHolderProps) => {
                     giftPrice:giftPrice.current?.value,
                     giftProbability:giftProbability.current?.value,
                     giftId:giftId,
-                    giftImage:giftImage.current?.files![0]
+                    giftImage:giftImage.current?.files![0],
+                    code:(new Date()).getTime()
+
                 }
                 //console.log(giftInfo);
                 const newGifts = gifts.addedgifts.map((gf:any)=>gf.giftId === giftId ? giftInfo : gf);

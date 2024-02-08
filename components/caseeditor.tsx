@@ -134,7 +134,6 @@ const CaseEditor = ({casetoEdit,setAllCases}:any) => {
                         console.log("existing url");
                         gf.giftURL = gf.giftURL ?? gf.giftImage;
                     }
-                    gf.code = (new Date()).getTime();
                 } catch (error) {
                     console.log(error);
                     setFeedback({message:"Failed to upload gift image to Microsoft Azure ",color:"red"});

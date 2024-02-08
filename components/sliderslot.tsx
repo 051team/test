@@ -8,6 +8,7 @@ const Slot = ({id,e,i,caseInfo,won,sliderOffset,sliderOffsetVertical,vertical,wo
     const currentSlot = useRef<HTMLButtonElement>(null);
     const [slotOffet, setSlotOffet] = useState<number>(0);
     const [passed, setPassed] = useState<boolean>(false);
+    console.log(e)
 
     useEffect(() => {
         if (currentSlot.current && i > 4) {
