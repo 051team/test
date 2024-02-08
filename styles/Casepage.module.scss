@@ -37,6 +37,11 @@
                 position: absolute;
                 bottom:5px;
                 z-index: 99;
+                font-size: 13px;
+                padding: 5px;
+                background-color: black;
+                border: 1px solid gray;
+                border-radius: 5px 2px;
             }
             img{
                 filter: drop-shadow(0 0 2px gray);
