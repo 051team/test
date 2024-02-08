@@ -24,6 +24,7 @@
   cursor: pointer;
   z-index: 999;
   overflow: hidden;
+  display: grid;
 }
 .home_cases_kernel_group_each img {
   width: 100%;
@@ -33,13 +34,12 @@
 }
 .home_cases_kernel_group_each h5 {
   position: absolute;
+  display: grid;
+  justify-self: center;
   bottom: 20px;
-  left: 5%;
-  width: 90%;
   text-align: center;
-  background-color: black;
-  border: 1px solid gray;
-  padding: 5px;
+  background-color: rgba(0, 0, 0, 0.9294117647);
+  padding: 2px 5px;
   border-radius: 5px;
 }
 .home_cases_kernel_group_each h4 {
