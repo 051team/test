@@ -34,6 +34,7 @@ export default async function handler(
 
   if(usersAlreadyOpening.includes(user.id)){
     console.log("DETECTED duplicate open ");
+    usersAlreadyOpening = usersAlreadyOpening.filter((usr:any) => usr !== user.id)
     res.status(404).json({message:"Duplicate",color:"red"});
     return
   }
