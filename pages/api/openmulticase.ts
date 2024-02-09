@@ -22,6 +22,8 @@ const mockLotteryDraw = (giftArray:any) => {
     return selectedGift;
 }
 
+let usersAlreadyOpening:any = [];
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -29,6 +31,14 @@ export default async function handler(
 
   console.log("Multi Case Opening...");
   const { cat, name, user, multiplier } = JSON.parse(req.body);
+
+  if(usersAlreadyOpening.includes(user.id)){
+    console.log("DETECTED duplicate open ");
+    res.status(404).json({message:"Duplicate",color:"red"});
+    return
+  }
+
+  usersAlreadyOpening.push(user.id);
 
   let client;
 
@@ -96,5 +106,6 @@ export default async function handler(
     if (client) {
       await closeDatabaseConnection(client);
     }
+    usersAlreadyOpening = usersAlreadyOpening.filter((usr:any) => usr !== user.id)
   }
 }
