@@ -1,7 +1,7 @@
 import { ObjectId } from 'mongodb';
 import type { NextApiRequest, NextApiResponse } from 'next'
 import {connectToDatabase, closeDatabaseConnection} from "./mdb";
-import { redclient } from '../../utils/redis';
+import { ensureConnected, redclient } from '../../utils/redis';
 
 
 export default async function handler(
@@ -40,9 +40,8 @@ export default async function handler(
     battle.code = code;
     //console.log(battle);
 
-    if(!redclient.isOpen){
-      await redclient.connect();
-    }
+    await ensureConnected();
+
 
     const resultBattleAdded = await redclient.hSet(code,{battle:JSON.stringify(battle),contestants:JSON.stringify([boss])});
 
@@ -61,6 +60,5 @@ export default async function handler(
     if (client) {
       await closeDatabaseConnection(client);
     }
-    await redclient.disconnect();
   }
 }

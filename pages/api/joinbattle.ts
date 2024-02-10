@@ -2,7 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import {connectToDatabase, closeDatabaseConnection} from "./mdb";
 import Pusher from 'pusher';
-import { redclient } from '../../utils/redis';
+import { ensureConnected, redclient } from '../../utils/redis';
 
 const pusher = new Pusher({
   appId: process.env.PUSHER_APP_ID!,
@@ -40,9 +40,8 @@ export default async function handler(
     const existingUser = await cdp_users.findOne({ cdpUserDID: contestantID });
     //const existingBattle = await cdp_battles.findOne({ stamp: battleID });
 
-    if(!redclient.isOpen){
-      await redclient.connect();
-    }
+    await ensureConnected();
+
     const battleData = await redclient.hGetAll(battleID.toString());
 
     const existingBattle = JSON.parse(battleData.battle);
@@ -77,6 +76,5 @@ export default async function handler(
     if (client) {
       await closeDatabaseConnection(client);
     }
-    await redclient.disconnect();
   }
 }

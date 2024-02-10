@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { redclient } from '../../utils/redis';
+import { ensureConnected, redclient } from '../../utils/redis';
 import {connectToDatabase, closeDatabaseConnection} from "./mdb";
 
 const mockLotteryDraw = (giftArray:any) => {
@@ -41,6 +41,8 @@ export default async function handler(
     const users = data_base.collection('cdp_users');
 
     const caseToOpen = await cases.findOne({caseCategory:{$eq:cat},caseName:{$eq:name}});
+
+    await ensureConnected();
 
     const lockAcquired = await redclient.set(lockKey, 'locked', {
       EX: 5,
@@ -96,9 +98,6 @@ export default async function handler(
   finally{
     if (client) {
       await closeDatabaseConnection(client);
-    }
-    if(redclient){
-      await redclient.disconnect();
     }
   }
 }
