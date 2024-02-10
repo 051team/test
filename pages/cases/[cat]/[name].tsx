@@ -22,9 +22,6 @@ import discord from "../../../public/discord.png";
 
 import { fetchCases } from '../../../utils/fCases';
 
-
-// pages/cases/[cat]/[name].js
-
 export async function getStaticPaths() {
     const cases = await fetchCases(); 
     
