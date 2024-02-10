@@ -22,7 +22,7 @@ const mockLotteryDraw = (giftArray:any) => {
     return selectedGift;
 }
 
-let usersAlreadyOpening:any = [];
+const userOperationLocks: Record<string, boolean> = {};
 
 export default async function handler(
   req: NextApiRequest,
@@ -32,15 +32,15 @@ export default async function handler(
   console.log("Multi Case Opening...");
   const { cat, name, user, multiplier } = JSON.parse(req.body);
 
-  if(usersAlreadyOpening.includes(user.id)){
-    console.log("DETECTED duplicate open ");
-    res.status(404).json({message:"Duplicate",color:"red"});
-    return
+  if (userOperationLocks[user.id]) {
+    console.log("Concurrent operation detected for user:", user.id);
+    return res.status(429).json({ message: "Please wait for your previous operation to complete.", color: "red" });
   }
+  console.log("apply the same logic to single open")
 
-  usersAlreadyOpening.push(user.id);
 
-  console.log("hit here")
+  userOperationLocks[user.id] = true;
+
   let client;
 
   try {
@@ -74,7 +74,7 @@ export default async function handler(
 
         if(accountOwner){
             const balance = accountOwner.balance;
-            const balanceEnough = balance > totalCost || balance === totalCost;
+            const balanceEnough = (balance > totalCost || balance === totalCost);
             if(!balanceEnough){
                 res.status(500).json({ message: 'Not enough balance to open the case!',color:"red" });
             }
@@ -107,6 +107,6 @@ export default async function handler(
     if (client) {
       await closeDatabaseConnection(client);
     }
-    usersAlreadyOpening = usersAlreadyOpening.filter((usr:any) => usr !== user.id)
+    delete userOperationLocks[user.id];
   }
 }
