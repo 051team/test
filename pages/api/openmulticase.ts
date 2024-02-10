@@ -1,5 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { redclient } from '../../utils/redis';
 import {connectToDatabase, closeDatabaseConnection} from "./mdb";
 
 const mockLotteryDraw = (giftArray:any) => {
@@ -22,8 +23,6 @@ const mockLotteryDraw = (giftArray:any) => {
     return selectedGift;
 }
 
-const userOperationLocks: Record<string, boolean> = {};
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -32,14 +31,7 @@ export default async function handler(
   console.log("Multi Case Opening...");
   const { cat, name, user, multiplier } = JSON.parse(req.body);
 
-  if (userOperationLocks[user.id]) {
-    console.log("Concurrent operation detected for user:", user.id);
-    return res.status(429).json({ message: "Please wait for your previous operation to complete.", color: "red" });
-  }
-  console.log("apply the same logic to single open")
-
-
-  userOperationLocks[user.id] = true;
+  const lockKey = `lock:${user.id}`;
 
   let client;
 
@@ -48,6 +40,18 @@ export default async function handler(
     const data_base = client.db('casadepapel');
     const cases = data_base.collection('cdp_cases');
     const users = data_base.collection('cdp_users');
+
+    const lockAcquired = await redclient.set(lockKey, 'locked', {
+      EX: 10,
+      NX: true
+    });
+
+    console.log(lockAcquired)
+
+    if (!lockAcquired) {
+      return res.status(429).json({ message: "Operation already in progress for this user.", color: "red" });
+    }
+    
 
     const caseToOpen = await cases.findOne({caseCategory:{$eq:cat},caseName:{$eq:name}});
     if(!caseToOpen){
@@ -107,6 +111,5 @@ export default async function handler(
     if (client) {
       await closeDatabaseConnection(client);
     }
-    delete userOperationLocks[user.id];
   }
 }
