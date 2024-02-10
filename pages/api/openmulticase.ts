@@ -42,7 +42,7 @@ export default async function handler(
     const users = data_base.collection('cdp_users');
 
     const lockAcquired = await redclient.set(lockKey, 'locked', {
-      EX: 10,
+      EX: 5,
       NX: true
     });
 
@@ -110,6 +110,9 @@ export default async function handler(
   finally{
     if (client) {
       await closeDatabaseConnection(client);
+    if(redclient){
+      await redclient.disconnect();
+    }
     }
   }
 }
