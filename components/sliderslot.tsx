@@ -56,7 +56,6 @@ const Slot = ({id,e,i,caseInfo,won,sliderOffset,sliderOffsetVertical,vertical,wo
             alt={"051 logo"} width={90} height={100} priority />
         <div id={c.text}>
             <span>{((won ?? wonM) && i === bingoposition) ? (won ?? wonM).giftName : caseInfo.caseGifts.find((gf:any) => gf.code === e.code).giftName}</span>
-            <span>{((won ?? wonM) && i === bingoposition) ? formatter((won ?? wonM).giftPrice) : ""}</span>
         </div>
     </button>
      );

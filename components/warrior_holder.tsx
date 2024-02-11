@@ -4,11 +4,12 @@ import Image from "next/image";
 import BattleSlider from "../components/battleSlider";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import { formatter } from "../tools";
 
 
 
 
-const Warrior = ({contestants, resultsforEach,popSliders,handleLeaveBattle,i,round,setRound,
+const Warrior = ({contestants, resultsforEach,popSliders,handleLeaveBattle,i,round,setRound,winner,battlecost,
                  battleStarted,casesInBattle,showJoinButton,joining,handleJoinBattle}:any) => {
     const slotFull = (i:number) => (contestants && contestants[i]);
     const {data:session} = useSession();
@@ -18,6 +19,8 @@ const Warrior = ({contestants, resultsforEach,popSliders,handleLeaveBattle,i,rou
     const [spin,setSpin] = useState(false);
     const [caseInfo, setCaseInfo] = useState<any>(); 
     const [wonSoFar, setWonSoFar] = useState<any[]>();
+    const totalRevenue = wonSoFar ? wonSoFar.reduce((acc,val)=>{return acc + parseFloat(val.giftPrice)},0) : 0;
+    const [theend,setTheEnd] = useState(false);
 
     useEffect(() => {
         if (resultsforEach && resultsforEach.contestantWons.length > 0) {
@@ -54,14 +57,12 @@ const Warrior = ({contestants, resultsforEach,popSliders,handleLeaveBattle,i,rou
       
               setTimeout(updateRound, 9000);
             } else {
-              //setSpin(false);
+              setTheEnd(true)
             }
           };
       
           // Schedule the first round update after the initial display
-          const timeoutId = setTimeout(updateRound, 9000); // Adjust time as needed
-      
-          // Cleanup function to clear the timeout if the component unmounts
+          const timeoutId = setTimeout(updateRound, 9000); // Adjust time as needed      
           return () => clearTimeout(timeoutId);
         }
       }, [resultsforEach]);
@@ -118,24 +119,42 @@ const Warrior = ({contestants, resultsforEach,popSliders,handleLeaveBattle,i,rou
                     <>
                     <Image src={contestants![i].image} alt="attendant" width={40} height={40} />
                     <span>{contestants![i].name}</span>
+                    <span>Total: {formatter(totalRevenue)}</span>
                     </>
                     :
                     <span style={{color:"white",position:"relative",left:"20%", fontSize:"12px"}}>Waiting for player</span>
                 }
             </div>
-                {
-                wonSoFar &&
-                <div id={a.playerwons}>
-                    {
-                        wonSoFar.map((w,i) =>
-                        <div id={a.each} key={i}>
-                            <Image src={w.giftURL} alt="won gift" width={70} height={80} />
-                            <span>{ w.giftName}</span>
-                        </div>
-                        )
-                    }
+            {
+                theend &&
+                <div id={a.winner}>
+                    <div>
+
+                    <h1 style={{color:winner && winner.totalWonGiftPrices === totalRevenue ? "gold" : "crimson"}}>
+                        {winner && winner.totalWonGiftPrices === totalRevenue ? "WON" : "LOST"}
+                    </h1>
+                            <span style={{color:winner && winner.totalWonGiftPrices === totalRevenue ? "gold" : "crimson"}}>
+                                {winner && winner.totalWonGiftPrices === totalRevenue   
+                                        ? formatter(totalRevenue) : formatter(battlecost*0.01)}
+                            </span>
+                    </div>
                 </div>
-                }                            
+
+            }
+            {
+            wonSoFar &&
+            <div id={a.playerwons}>
+                {
+                    wonSoFar.map((w,i) =>
+                    <div id={a.each} key={i}>
+                        <Image src={w.giftURL} alt="won gift" width={70} height={80} />
+                        <span>{ w.giftName}</span>
+                        <span>{ formatter(w.giftPrice)}</span>
+                    </div>
+                    )
+                }
+            </div>
+            }                            
     </div>
      );
 }

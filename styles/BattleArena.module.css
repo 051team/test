@@ -164,6 +164,22 @@
   row-gap: 5px;
   box-shadow: 0 0 2px 1px darkgoldenrod;
 }
+.arena_kernel_warriors #winner {
+  position: absolute;
+  display: grid;
+  justify-self: center;
+  justify-content: center;
+  align-items: center;
+  top: 20px;
+  width: 10px;
+  overflow: hidden;
+  height: 200px;
+  color: white !important;
+  -webkit-animation: tata 1s 1 forwards;
+          animation: tata 1s 1 forwards;
+  background-color: rgba(0, 0, 0, 0.95);
+  text-align: center;
+}
 .arena #loading {
   min-height: 200px;
   background-color: rgba(0, 0, 139, 0.3);
@@ -230,5 +246,21 @@
   }
   100% {
     transform: rotate(-360deg);
+  }
+}
+@-webkit-keyframes tata {
+  from {
+    width: 10px;
+  }
+  to {
+    width: 250px;
+  }
+}
+@keyframes tata {
+  from {
+    width: 10px;
+  }
+  to {
+    width: 250px;
   }
 }/*# sourceMappingURL=BattleArena.module.css.map */

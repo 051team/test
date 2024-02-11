@@ -24,6 +24,7 @@ const BattleArena = () => {
     const [battleStarted, setBattleStarted] = useState(false);
     const [battleResults, setBattleResults] = useState<any>(null);
     const showJoinButton = (session && contestants?.some((c)=>c.id === (session.user as any).id));
+    const [winner,setWinner] = useState<any>();
 
     useEffect(()=>{
         const fetchBattle = async () => {
@@ -79,6 +80,7 @@ const BattleArena = () => {
             };
     }, [query.st]);    
     
+
     useEffect(()=>{
         if(battleInfo && contestants){
             if(battleInfo.playernumber === contestants.length){
@@ -111,6 +113,20 @@ const BattleArena = () => {
             sendReadyBattle();
         }
     },[battleStarted]);
+
+    useEffect(() => {
+        if (battleResults) {
+            const totals = battleResults.map((result: any) => ({
+                contestantID: result.contestantID,
+                totalWonGiftPrices: result.contestantWons.reduce((total: any, current: any) => total + parseFloat(current.won.giftPrice), 0)
+            }));
+    
+            const winner = totals.reduce((max: any, current: any) => current.totalWonGiftPrices > max.totalWonGiftPrices ? current : max, totals[0]);
+            console.log(winner)
+            setWinner(winner);
+        }
+    }, [battleResults]);
+    
     
     const handleJoinBattle = async () => {
 /*         if(!session || (session && contestants?.some((c)=>c.id === (session.user as any).id))){
@@ -185,6 +201,8 @@ const BattleArena = () => {
                             handleJoinBattle = {handleJoinBattle}
                             round={round}
                             setRound={setRound}
+                            winner={winner}
+                            battlecost = {battleInfo && battleInfo.battleCost}
                         />
                       </>
                       )
