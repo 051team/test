@@ -138,6 +138,7 @@
             }
             #playerwons{
                 display: flex;
+                flex-wrap: wrap;
                 #each{
                     display: grid;
                     width: 100px;

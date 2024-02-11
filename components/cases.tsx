@@ -8,7 +8,6 @@ import { note_searchResults } from "../redux/loginSlice";
 
 const Cases = ({cases}:any) => {
     const searchResultNo = useSelector((state:any)=> state.loginSlice.searchResultNo);
-   //const allCases:any = useSelector((state:any)=>state.loginSlice.allCases);
 
     return ( 
         <div className={h.home_cases}>

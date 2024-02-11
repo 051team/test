@@ -9,6 +9,8 @@ const Slot = ({id,e,i,caseInfo,won,sliderOffset,sliderOffsetVertical,vertical,wo
     const [slotOffet, setSlotOffet] = useState<number>(0);
     const [passed, setPassed] = useState<boolean>(false);
 
+    console.log("slider",i)
+
     useEffect(() => {
         if (currentSlot.current && i > 4) {
           const currentOffsetLeft = currentSlot.current.offsetLeft;

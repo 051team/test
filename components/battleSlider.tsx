@@ -2,7 +2,7 @@ import { useEffect, useState,useRef } from "react";
 import { isAnyArrayBuffer } from "util/types";
 import { shuffleArray } from "../tools";
 import c from "./../styles/Casepage.module.css";
-import Slot from "./sliderslot";
+import BattleSLOT from "./battle_slider_slot";
 
 
 const BattleSlider = ({caseInfo,verticalSpin, multiWon,multiplier,play}:any) => {
@@ -74,9 +74,9 @@ const BattleSlider = ({caseInfo,verticalSpin, multiWon,multiplier,play}:any) => 
 
     const [repetitionSets, setRepSets] = useState<any[]>();
 
+    const reps:any = [];
     useEffect(()=>{
-        const reps = [];
-        if(caseInfo && multiplier){
+        if(caseInfo){
             for (let i = 0; i < multiplier; i++) {
                 const rc = makeOccuranceRate(caseInfo.caseGifts);
                 reps.push(rc)
@@ -84,32 +84,33 @@ const BattleSlider = ({caseInfo,verticalSpin, multiWon,multiplier,play}:any) => 
             setRepSets(reps);
         }
 
-    },[caseInfo, multiplier]);
+    },[caseInfo]);
 
     return (
     <>
-        <div className={c.casepage_case_kernel} id={c.kernelvertical} style={{width:"fit-content"}}>
+    <div className={c.casepage_case_kernel} id={c.kernelvertical} style={{width:"fit-content"}}>
+        
+            <div
+                className={c.casepage_case_kernel_verticalspinner} id={verticalSpin ? c.slideverticalbattle : ""}  ref={slider} >
             {
-            repetitionSets &&  repetitionSets.map((repset,ii)=>
-                <div
-                    className={c.casepage_case_kernel_verticalspinner} id={verticalSpin ? c.slideverticalbattle : ""} key={ii} ref={slider} >
-                {
-                    repset && repset.map((e:any,i:any) =>
-                        <Slot 
-                            id={""} i={i} 
-                            caseInfo={caseInfo} e={e}
-                            key={i} sliderOffsetVertical={sliderOffsetVertical}                         
-                            bingoposition={50}
-                            vertical={true}
-                            slidertoplay = {play === 0 ? 0 : null}
-                            wonM ={multiWon && multiWon[ii]}
-                        />
-                    )
-                }
-                </div>
+                 repetitionSets && repetitionSets[0].map((e:any,i:any) =>
+                    <BattleSLOT 
+                        id={""} i={i} 
+                        caseInfo={caseInfo} e={e}
+                        key={i} sliderOffsetVertical={sliderOffsetVertical}                         
+                        bingoposition={50}
+                        vertical={true}
+                        slidertoplay = {play === 0 ? 0 : null}
+                        won = {multiWon && multiWon[0]}
+                        content = {caseInfo.caseGifts.find((gf:any) => gf.code === e.code)}
+                    />
                 )
             }
-        </div>
+            </div>
+            
+        
+    </div>
+
     </>
       );
 }

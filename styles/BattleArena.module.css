@@ -149,6 +149,7 @@
 }
 .arena_kernel_warriors #playerwons {
   display: flex;
+  flex-wrap: wrap;
 }
 .arena_kernel_warriors #playerwons #each {
   display: grid;

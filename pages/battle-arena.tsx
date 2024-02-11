@@ -145,7 +145,7 @@ const BattleArena = () => {
             console.log(error)
         }
     }
-    
+    const [round,setRound] = useState(0);
 
     return ( 
     <Wrapper title="Battle Arena">
@@ -160,7 +160,7 @@ const BattleArena = () => {
                     <div id={a.details}>
                         <div id={a.double}>
                             <p>ROUNDS</p>
-                            <p style={{color:"crimson"}}>1/{(casesInBattle && casesInBattle.length) ?? "?"}</p>
+                            <p style={{color:"crimson"}}>{round+1}/{(casesInBattle && casesInBattle.length) ?? "?"}</p>
                         </div>
                         <div id={a.double}>
                             <p>TOTAL PRICE</p>
@@ -174,7 +174,7 @@ const BattleArena = () => {
                      <>
                         <Warrior 
                             contestants={contestants} 
-                            battleResults ={battleResults}
+                            resultsforEach ={battleResults && battleResults[i]}
                             popSliders = {popSliders}
                             handleLeaveBattle ={handleLeaveBattle}
                             i={i}
@@ -183,6 +183,8 @@ const BattleArena = () => {
                             showJoinButton = {showJoinButton}
                             joining = {joining}
                             handleJoinBattle = {handleJoinBattle}
+                            round={round}
+                            setRound={setRound}
                         />
                       </>
                       )
