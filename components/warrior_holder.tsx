@@ -59,7 +59,7 @@ const Warrior = ({contestants, resultsforEach,popSliders,handleLeaveBattle,i,rou
           };
       
           // Schedule the first round update after the initial display
-          const timeoutId = setTimeout(updateRound, 7000); // Adjust time as needed
+          const timeoutId = setTimeout(updateRound, 9000); // Adjust time as needed
       
           // Cleanup function to clear the timeout if the component unmounts
           return () => clearTimeout(timeoutId);
