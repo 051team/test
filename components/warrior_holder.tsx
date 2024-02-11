@@ -22,8 +22,10 @@ const Warrior = ({contestants, resultsforEach,popSliders,handleLeaveBattle,i,rou
     useEffect(() => {
         if (resultsforEach && resultsforEach.contestantWons.length > 0) {
           let currentRound = 0;
-          setSpin(true);
-          setRoundResult([resultsforEach.contestantWons[currentRound].won]);
+          setTimeout(() => {
+            setSpin(true);
+            setRoundResult([resultsforEach.contestantWons[currentRound].won]);
+          }, 1000);
           setTimeout(() => {
             setWonSoFar((pr:any) => {
             const updatedWonSoFar = pr? [...pr,resultsforEach.contestantWons[currentRound].won] : [resultsforEach.contestantWons[currentRound].won]
@@ -40,7 +42,7 @@ const Warrior = ({contestants, resultsforEach,popSliders,handleLeaveBattle,i,rou
                 }
                 setRoundResult([resultsforEach.contestantWons[currentRound].won]);
                 setSpin(true);
-              }, 1000); // Delay to simulate a pause between spins, adjust as needed
+              }, 2000); // Delay to simulate a pause between spins, adjust as needed
               setTimeout(() => {
                 setWonSoFar((pr:any) => {
                 const updatedWonSoFar = pr? [...pr,resultsforEach.contestantWons[currentRound].won] : [resultsforEach.contestantWons[currentRound].won]
@@ -48,7 +50,7 @@ const Warrior = ({contestants, resultsforEach,popSliders,handleLeaveBattle,i,rou
               })
               }, 7000);
       
-              setTimeout(updateRound, 7000);
+              setTimeout(updateRound, 8000);
             } else {
               //setSpin(false);
             }
