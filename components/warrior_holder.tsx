@@ -21,11 +21,12 @@ const Warrior = ({contestants, resultsforEach,popSliders,handleLeaveBattle,i,rou
 
     useEffect(() => {
         if (resultsforEach && resultsforEach.contestantWons.length > 0) {
-          let currentRound = 0;
+          let currentRound = round;
+          setCaseInfo(casesInBattle[currentRound])
           setTimeout(() => {
             setSpin(true);
             setRoundResult([resultsforEach.contestantWons[currentRound].won]);
-          }, 1000);
+          }, 2000);
           setTimeout(() => {
             setWonSoFar((pr:any) => {
             const updatedWonSoFar = pr? [...pr,resultsforEach.contestantWons[currentRound].won] : [resultsforEach.contestantWons[currentRound].won]
@@ -35,6 +36,7 @@ const Warrior = ({contestants, resultsforEach,popSliders,handleLeaveBattle,i,rou
           const updateRound = () => {
             currentRound++;
             if (currentRound < resultsforEach.contestantWons.length) {
+              setCaseInfo(casesInBattle[currentRound])
               setSpin(false);
               setTimeout(() => {
                 if(i === 0){
@@ -50,7 +52,7 @@ const Warrior = ({contestants, resultsforEach,popSliders,handleLeaveBattle,i,rou
               })
               }, 7000);
       
-              setTimeout(updateRound, 8000);
+              setTimeout(updateRound, 9000);
             } else {
               //setSpin(false);
             }
@@ -63,13 +65,6 @@ const Warrior = ({contestants, resultsforEach,popSliders,handleLeaveBattle,i,rou
           return () => clearTimeout(timeoutId);
         }
       }, [resultsforEach]);
-      
-
-    useEffect(()=>{
-        if(casesInBattle){
-            setCaseInfo(casesInBattle[round]);
-        }
-    },[casesInBattle,round])
 
     return (     
 
@@ -78,10 +73,10 @@ const Warrior = ({contestants, resultsforEach,popSliders,handleLeaveBattle,i,rou
                 popSliders &&
                 <div id={a.roll}>
                     <BattleSlider 
-                        caseInfo={casesInBattle[round]} 
+                        caseInfo={caseInfo} 
                         multiplier={1} 
                         verticalSpin={spin} 
-                        multiWon={roundResult ? roundResult : null}
+                        multiWon={roundResult}
                         play={i}
                     />
                 </div>

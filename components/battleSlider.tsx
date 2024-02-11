@@ -77,6 +77,7 @@ const BattleSlider = ({caseInfo,verticalSpin, multiWon,multiplier,play}:any) => 
     const reps:any = [];
     useEffect(()=>{
         if(caseInfo){
+            console.log(caseInfo)
             for (let i = 0; i < multiplier; i++) {
                 const rc = makeOccuranceRate(caseInfo.caseGifts);
                 reps.push(rc)
