@@ -77,7 +77,6 @@ const BattleSlider = ({caseInfo,verticalSpin, multiWon,multiplier,play}:any) => 
     const reps:any = [];
     useEffect(()=>{
         if(caseInfo){
-            console.log(caseInfo)
             for (let i = 0; i < multiplier; i++) {
                 const rc = makeOccuranceRate(caseInfo.caseGifts);
                 reps.push(rc)
@@ -100,8 +99,8 @@ const BattleSlider = ({caseInfo,verticalSpin, multiWon,multiplier,play}:any) => 
                         caseInfo={caseInfo} e={e}
                         key={i} sliderOffsetVertical={sliderOffsetVertical}                         
                         bingoposition={50}
-                        vertical={true}
-                        slidertoplay = {play === 0 ? 0 : null}
+                        vertical={verticalSpin}
+                        slidertoplay = {play}
                         won = {multiWon && multiWon[0]}
                         content = {caseInfo.caseGifts.find((gf:any) => gf.code === e.code)}
                     />
