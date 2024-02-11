@@ -23,7 +23,7 @@ const BattleArena = () => {
     const popSliders = contestants && battleInfo && contestants?.length === battleInfo.playernumber;
     const [battleStarted, setBattleStarted] = useState(false);
     const [battleResults, setBattleResults] = useState<any>(null);
-    const showJoinButton = (session && contestants?.some((c)=>c.id === (session.user as any).id));
+    const showJoinButton = !(session && contestants?.some((c)=>c.id === (session.user as any).id));
     const [winner,setWinner] = useState<any>();
 
     useEffect(()=>{
@@ -129,10 +129,10 @@ const BattleArena = () => {
     
     
     const handleJoinBattle = async () => {
-/*         if(!session || (session && contestants?.some((c)=>c.id === (session.user as any).id))){
+        if(!session || (session && contestants?.some((c)=>c.id === (session.user as any).id))){
             console.log("already in");
             return
-        } */
+        }
         if(battleStarted){
             return
         }
