@@ -37,6 +37,8 @@ export default async function handler(
     res.status(500).json({ message: "Battle not found!" })
   }
   finally{
-    await redclient.disconnect();
+/*     if(redclient){
+      await redclient.disconnect();
+    } */
   }
 }

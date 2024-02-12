@@ -32,7 +32,7 @@ export default async function handler(
   console.log(contestantID,typeof contestantID);
   console.log(battleID,typeof battleID);
 
-  await ensureConnected();
+/*   await ensureConnected();
 
   const lockKey = `lock:${contestantID}`;
   const lockAcquired = await redclient.set(lockKey, 'locked', {
@@ -42,7 +42,7 @@ export default async function handler(
 
   if (!lockAcquired) {
     return res.status(429).json({ message: "Operation already in progress for this user.", color: "red" });
-  }
+  } */
 
   try {
     client = await connectToDatabase();
@@ -55,10 +55,17 @@ export default async function handler(
     const battleData = await redclient.hGetAll(battleID.toString());
 
     const existingBattle = JSON.parse(battleData.battle);
-    let contestants = JSON.parse(battleData.contestants);
+    const contestants = JSON.parse(battleData.contestants);
+
+
 
 
     if(existingUser && existingBattle){
+      const nospace = existingBattle.playernumber === contestants.length;
+      if(nospace){
+        return res.status(401).json({message:"No available slot", color:"red"});
+      }
+
       const balanceEnough = existingUser.balance >= existingBattle.battleCost;
       console.log("is balance enough to join battle?", balanceEnough);
       if(!balanceEnough){
@@ -148,8 +155,5 @@ export default async function handler(
       res.status(500).json({ message: 'arena.ts, catch bloc 5555', color: "red" });
   }
   finally{
-    if (client) {
-      await closeDatabaseConnection(client);
-    }
   }
 }
