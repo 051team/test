@@ -94,6 +94,5 @@ export default async function handler(
     if (client) {
       await closeDatabaseConnection(client);
     }
-    await redclient.disconnect();
   }
 }
