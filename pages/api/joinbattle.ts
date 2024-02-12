@@ -50,10 +50,8 @@ export default async function handler(
     const cdp_users = cdp_data_base.collection('cdp_users');
     const cdp_battles = cdp_data_base.collection('cdp_battles');
   
-  
+    
     const existingUser = await cdp_users.findOne({ cdpUserDID: contestantID });
-    //const existingBattle = await cdp_battles.findOne({ stamp: battleID });
-
     const battleData = await redclient.hGetAll(battleID.toString());
 
     const existingBattle = JSON.parse(battleData.battle);
@@ -62,6 +60,10 @@ export default async function handler(
 
     if(existingUser && existingBattle){
       const balanceEnough = existingUser.balance >= existingBattle.battleCost;
+      console.log("is balance enough to join battle?", balanceEnough);
+      if(!balanceEnough){
+        return res.status(401).json({message:"Insufficient balance", color:"red"})
+      }
       const {cdpUser,cdpUserDID, ...rest } = existingUser;
       contestants.push({name:cdpUser,id:cdpUserDID,image:contestantIMG})
       const updatedContestantsJson = JSON.stringify(contestants);
@@ -69,12 +71,16 @@ export default async function handler(
 
       const arenaFull = existingBattle.playernumber === contestants.length;
       console.log("doldu mu?",arenaFull);
+
+      const contestantUpdated = await cdp_users.updateOne({cdpUserDID:contestantID},{
+        $inc:{balance:-existingBattle.battleCost},
+      });
+
       // battle full serve the most recent contestant via socket
       // also execute battle drawing and serve battleresults
       if(arenaFull){
         const battleInfo = existingBattle;
         const battleResults:any = [];
-        console.log(contestants);
         const cdp_cases = cdp_data_base.collection('cdp_cases');
         const casesInBattle = await cdp_cases.find({
           _id: { $in: existingBattle.casesinbattle.map((id:string) => new ObjectId(id)) }
@@ -107,7 +113,6 @@ export default async function handler(
           // add all won gifts to winner inventory
           const updatedWinnerInventory = await cdp_users.updateOne({cdpUserDID:winner.contestantID},{
             $push:{inventory:{$each:allWonWithStamp}},
-            $inc:{balance:turnover}
           });
       
           console.log(updatedWinnerInventory);
@@ -123,6 +128,10 @@ export default async function handler(
 
       }else{
         try {
+          // update new contestant balance deducting battle cost from the balance
+          const contestantUpdated = await cdp_users.updateOne({cdpUserDID:contestantID},{
+            $inc:{balance:-existingBattle.battleCost},
+          });
           const response = await pusher.trigger("arena", battleID.toString(), {newContestant:{name:cdpUser,id:cdpUserDID,image:contestantIMG}});
           res.status(200).json({message:"Arena endpoint working"});
         } catch (error) {
@@ -142,5 +151,6 @@ export default async function handler(
     if (client) {
       await closeDatabaseConnection(client);
     }
+    await redclient.disconnect();
   }
 }

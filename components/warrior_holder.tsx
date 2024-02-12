@@ -5,6 +5,7 @@ import BattleSlider from "../components/battleSlider";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { formatter } from "../tools";
+import { useSelector } from "react-redux";
 
 
 
@@ -21,6 +22,10 @@ const Warrior = ({contestants, resultsforEach,popSliders,handleLeaveBattle,i,rou
     const [wonSoFar, setWonSoFar] = useState<any[]>();
     const totalRevenue = wonSoFar ? wonSoFar.reduce((acc,val)=>{return acc + parseFloat(val.giftPrice)},0) : 0;
     const [theend,setTheEnd] = useState(false);
+    const balance = useSelector((state:any) => state.loginSlice.balance);
+    const joinDisabled = (joining) ? true : (balance && balance < battlecost) ? true : false;
+    const balanceWarning:string | null = (balance && balance < battlecost) ? `${formatter(battlecost - balance)} needed!` : null;
+
 
     useEffect(() => {
         if (resultsforEach && resultsforEach.contestantWons.length > 0) {
@@ -103,8 +108,8 @@ const Warrior = ({contestants, resultsforEach,popSliders,handleLeaveBattle,i,rou
                             showJoinButton &&
                             <button 
                             style={{opacity:joining ? "0.3" : "1"}} 
-                            disabled={joining ? true : false} onClick={handleJoinBattle}>
-                                {joining ? joining : "JOIN BATTLE NOW"}
+                            disabled={joinDisabled} onClick={handleJoinBattle}>
+                                {joining ? joining : balanceWarning ? balanceWarning : "JOIN BATTLE NOW"}
                             </button>
                         }
     

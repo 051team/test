@@ -9,6 +9,8 @@ import BattleSlider from "../components/battleSlider";
 import { useSession } from "next-auth/react";
 import Pusher from "pusher-js";
 import Warrior from "../components/warrior_holder";
+import { useDispatch } from "react-redux";
+import { note_balanceChange } from "../redux/loginSlice";
 
 const BattleArena = () => {
     const router = useRouter();
@@ -26,6 +28,8 @@ const BattleArena = () => {
     const showJoinButton = !(session && contestants?.some((c)=>c.id === (session.user as any).id));
     const [winner,setWinner] = useState<any>();
     const [turnover,setTurnerover] = useState<any>();
+    const bChange = useSelector((state:any) => state.loginSlice.balanceChange);
+    const dispatch = useDispatch();
 
     useEffect(()=>{
         const fetchBattle = async () => {
@@ -110,6 +114,11 @@ const BattleArena = () => {
             method:"POST",
             body:JSON.stringify({user:session?.user,battle:query.st})
         });
+        if(response.status === 200){
+            dispatch(note_balanceChange(!bChange));
+        }else{
+            console.log(response);
+        }
         setJoining(null);
     }
 
@@ -123,6 +132,7 @@ const BattleArena = () => {
             if(response.status === 200){
                 const resJson = await response.json();
                 console.log(resJson);
+                dispatch(note_balanceChange(!bChange));
             }else{
                 console.log("handleLeaveBattle response status:",response.status)
             }
