@@ -32,7 +32,7 @@ export default async function handler(
   console.log(contestantID,typeof contestantID);
   console.log(battleID,typeof battleID);
 
-/*   await ensureConnected();
+  await ensureConnected();
 
   const lockKey = `lock:${contestantID}`;
   const lockAcquired = await redclient.set(lockKey, 'locked', {
@@ -42,7 +42,7 @@ export default async function handler(
 
   if (!lockAcquired) {
     return res.status(429).json({ message: "Operation already in progress for this user.", color: "red" });
-  } */
+  }
 
   try {
     client = await connectToDatabase();
