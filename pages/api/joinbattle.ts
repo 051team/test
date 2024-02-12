@@ -123,7 +123,7 @@ export default async function handler(
       
         } catch (error) {
             console.log(error);
-            res.status(500).json({ message: 'battle-result.ts failed to end battle,  2222', color: "red" });
+            res.status(500).json({ message: 'battle-result.ts failed to end battle,  S2222', color: "red" });
         }
 
       }else{
@@ -136,16 +136,16 @@ export default async function handler(
           res.status(200).json({message:"Arena endpoint working"});
         } catch (error) {
           console.log(error);
-          res.status(500).json({message:"Failed to serve new contestant"});
+          res.status(500).json({message:"Failed to serve new contestant S3333"});
         }
       }
     }else{
-      res.status(500).json({ message: 'arena.ts, user not found or insufficient balance, 2222', color: "red" });
+      res.status(500).json({ message: 'arena.ts, user not found or insufficient balance, 4444', color: "red" });
     }
 
   } catch (error) {
       console.log(error);
-      res.status(500).json({ message: 'arena.ts, catch bloc 2222', color: "red" });
+      res.status(500).json({ message: 'arena.ts, catch bloc 5555', color: "red" });
   }
   finally{
     if (client) {

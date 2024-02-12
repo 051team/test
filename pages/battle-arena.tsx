@@ -117,7 +117,12 @@ const BattleArena = () => {
         if(response.status === 200){
             dispatch(note_balanceChange(!bChange));
         }else{
-            console.log(response);
+            try {
+                const resJson = await response.json();
+                console.log(resJson);
+            } catch (error) {
+                console.log("NOT JSON")
+            }
         }
         setJoining(null);
     }
