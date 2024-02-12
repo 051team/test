@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 import Universal_modal from "../components/universal_modal";
 import { useDispatch } from "react-redux";
 import { note_notification, note_universal_modal } from "../redux/loginSlice";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { formatter } from "../tools";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -18,6 +18,7 @@ import { useRouter } from "next/navigation";
 
 const CreateBattle = () => {
     const {data:session} = useSession();
+    const balance:number = useSelector((state:any) => state.loginSlice.balance);
     const router = useRouter();
     const universalModal = useSelector((state:any)=>state.loginSlice.universal_modal);
     const allCases = useSelector((state:any)=>state.loginSlice.allCases);
@@ -26,10 +27,14 @@ const CreateBattle = () => {
     const [battleConfig, setBattleConfig] = useState<{players:number,withbots:boolean,crazymode:boolean}>
                                                     ({players:2,withbots:false,crazymode:false});
     const caseAdded = (ccase:any) => casesinBattle?.some((e)=>e._id === ccase._id);
-    const totalBattleCost = casesinBattle?.reduce((total,cas)=>{ return total + cas.casePrice},0);
+    const totalBattleCost:number = casesinBattle?.reduce((total,cas)=>{ return total + cas.casePrice},0);
 
     const [tempoText,setTempo] = useState<null | {message:string,color:string} >(null);
+    const isBalanceOK = (balance && totalBattleCost && balance >= totalBattleCost) ? `CREATE BATTLE FOR ${formatter(totalBattleCost)}` :
+                        (balance && totalBattleCost && balance < totalBattleCost) ? `${formatter(totalBattleCost-balance)} NEEDED` : "SELECT CASE";
     
+    const isCreateDisabled = !!(balance && totalBattleCost && balance < totalBattleCost);
+
     const handleAddCasetoBattle = (c:any,e:any) => {
         e.stopPropagation()
         if(casesinBattle && casesinBattle.some((it)=>it._id === c._id )){
@@ -79,6 +84,10 @@ const CreateBattle = () => {
                 try {
                     const resJson = await response.json();
                     console.log(resJson);
+                    setTempo({message:resJson.message,color:resJson.color});
+                    setTimeout(() => {
+                        setTempo(null);
+                    }, 1000);
                 } catch (error) {
                     console.log("Response not in json format",error);
                 }
@@ -130,7 +139,7 @@ const CreateBattle = () => {
                         </span>
                     </div>
                     <div className={b.battles_kernel_createbattle}>
-                        <button disabled={allCases ? false : true} onClick={handleCreateBattle}>CREATE BATTLE FOR {formatter(totalBattleCost)}</button>
+                        <button disabled={isCreateDisabled} onClick={handleCreateBattle}>{isBalanceOK}</button>
                     </div>
                     <div id={b.newbattle}>
                         {

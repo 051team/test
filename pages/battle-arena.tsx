@@ -25,6 +25,7 @@ const BattleArena = () => {
     const [battleResults, setBattleResults] = useState<any>(null);
     const showJoinButton = !(session && contestants?.some((c)=>c.id === (session.user as any).id));
     const [winner,setWinner] = useState<any>();
+    const [turnover,setTurnerover] = useState<any>();
 
     useEffect(()=>{
         const fetchBattle = async () => {
@@ -73,6 +74,12 @@ const BattleArena = () => {
                     });
                 }
             });
+            channel.bind(`result${query.st}`, (data:any) => {
+                console.log(data.battleResults, "BATTLE RESULTS ARRIVED VIA SOCKET");
+                setBattleResults(data.battleResults);
+                setWinner(data.winner);
+                setTurnerover(data.turnover);
+            });
             return () => {
               pusher.unbind_all();
               pusher.unsubscribe("arena");
@@ -89,44 +96,6 @@ const BattleArena = () => {
             }
         }
     },[battleInfo, contestants]);
-
-    useEffect(()=>{
-        const sendReadyBattle = async () => {
-            const response = await fetch("/api/battle-result",{
-                method:"POST",
-                body:JSON.stringify(
-                    {
-                        contestants:contestants,
-                        battleInfo:battleInfo,
-                        casesInBattle:casesInBattle
-                    }
-                )
-            })
-            if(response.status === 200){
-                const resJson = await response.json();
-                const battleResults = resJson.battleResults;
-                console.log(battleResults);
-                setBattleResults(battleResults);
-            }
-        }
-        if(battleStarted){
-            sendReadyBattle();
-        }
-    },[battleStarted]);
-
-    useEffect(() => {
-        if (battleResults) {
-            const totals = battleResults.map((result: any) => ({
-                contestantID: result.contestantID,
-                totalWonGiftPrices: result.contestantWons.reduce((total: any, current: any) => total + parseFloat(current.won.giftPrice), 0)
-            }));
-    
-            const winner = totals.reduce((max: any, current: any) => current.totalWonGiftPrices > max.totalWonGiftPrices ? current : max, totals[0]);
-            console.log(winner)
-            setWinner(winner);
-        }
-    }, [battleResults]);
-    
     
     const handleJoinBattle = async () => {
         if(!session || (session && contestants?.some((c)=>c.id === (session.user as any).id))){
@@ -202,6 +171,7 @@ const BattleArena = () => {
                             round={round}
                             setRound={setRound}
                             winner={winner}
+                            turnover={turnover}
                             battlecost = {battleInfo && battleInfo.battleCost}
                         />
                       </>

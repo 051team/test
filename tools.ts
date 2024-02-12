@@ -65,7 +65,6 @@ export const mockLotteryDraw = (giftArray:any) => {
   for (let i = 0; i < giftArray.length; i++) {
       const gift = giftArray[i];
       const probability = parseInt(gift.giftProbability);
-      console.log(probability, gift.giftName);
       const price = gift.giftPrice;
       const name = gift.giftName;
       for (let ind = 0; ind < probability; ind++) {

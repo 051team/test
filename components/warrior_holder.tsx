@@ -9,7 +9,7 @@ import { formatter } from "../tools";
 
 
 
-const Warrior = ({contestants, resultsforEach,popSliders,handleLeaveBattle,i,round,setRound,winner,battlecost,
+const Warrior = ({contestants, resultsforEach,popSliders,handleLeaveBattle,i,round,setRound,winner,battlecost,turnover,
                  battleStarted,casesInBattle,showJoinButton,joining,handleJoinBattle}:any) => {
     const slotFull = (i:number) => (contestants && contestants[i]);
     const {data:session} = useSession();
@@ -135,7 +135,7 @@ const Warrior = ({contestants, resultsforEach,popSliders,handleLeaveBattle,i,rou
                     </h1>
                             <span style={{color:winner && winner.totalWonGiftPrices === totalRevenue ? "gold" : "crimson"}}>
                                 {winner && winner.totalWonGiftPrices === totalRevenue   
-                                        ? formatter(totalRevenue) : formatter(battlecost*0.01)}
+                                        ? formatter(turnover) : formatter(battlecost*0.01)}
                             </span>
                     </div>
                 </div>

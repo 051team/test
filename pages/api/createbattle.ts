@@ -26,28 +26,62 @@ export default async function handler(
   }
 
   let client;
+
+  await ensureConnected();
+
+  const lockKey = `lock:${boss.id}`;
+  const lockAcquired = await redclient.set(lockKey, 'locked', {
+    EX: 5,
+    NX: true
+  });
+
+  if (!lockAcquired) {
+    return res.status(429).json({ message: "Operation already in progress for this user.", color: "red" });
+  }
+
   try {
     client = await connectToDatabase();
     const cdp_data_base = client.db('casadepapel');
-    const cdp_cases = cdp_data_base.collection('cdp_cases')
-    const cdp_battles = cdp_data_base.collection('cdp_battles');
+    const cdp_cases = cdp_data_base.collection('cdp_cases');
+    const cdp_users = cdp_data_base.collection('cdp_users');
 
+    //calculate battle cost
     const casesForPriceCalc = await cdp_cases.find({
         _id: { $in: battle.casesinbattle.map((id:string) => new ObjectId(id)) }
     }).toArray();
-    const battleCost = casesForPriceCalc.reduce((total,val)=> total+val.casePrice,0);
+    const battleCost:number = casesForPriceCalc.reduce((total,val)=> total+val.casePrice,0);
     battle.battleCost = battleCost;
     battle.code = code;
-    //console.log(battle);
+
+    // get user who created the battle and update his balance
+    const battleMaker = await cdp_users.findOne(
+      { cdpUserDID: { $eq: boss.id } },
+      { projection: { inventory: 0 } }
+    );
+    
+    // if no valid user, return
+    if(!battleMaker){
+      res.status(500).json({ message: 'Not allowed to create battle S1111', color:"red" })
+      return
+    }
+
+    // check is balance enough for existing user
+    const makerBalance:number = battleMaker.balance;
+    const balanceEnough:boolean = makerBalance >= battleCost;
+
+    if(!balanceEnough){
+      res.status(500).json({ message: 'Not sufficient balance to create battle S2222', color:"red" });
+      return
+    }
 
     await ensureConnected();
-
-
     const resultBattleAdded = await redclient.hSet(code,{battle:JSON.stringify(battle),contestants:JSON.stringify([boss])});
 
-    console.log("did it create battle?",resultBattleAdded);
     if(resultBattleAdded){
-        res.status(200).json({ code:battle.code })
+        const userUpdated = await cdp_users.updateOne({ cdpUserDID: { $eq: boss.id } },{
+          $inc:{balance:-battleCost}
+        });
+        res.status(200).json({ code:battle.code });
     }else{
         res.status(500).json({ message: 'Failed to create BATTLE S1111', color:"red" })
     }
