@@ -27,7 +27,7 @@ export async function getStaticProps() {
 export default function Home({cases,liveDrops}:any) {
   return (
     <>
-      <Wrapper title="Casa de Papel">
+      <Wrapper title="051.io | NFT Cases">
         <Cases cases={cases} />
       </Wrapper>
     </>
