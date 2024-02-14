@@ -36,7 +36,7 @@ const Cases = ({cases}:any) => {
             <h1>DAO CASES</h1>
             <div className={h.home_cases_kernel_group}>
                 {
-                    cases && [...cases].filter( (c) => c.caseCategory === "daocases").map((cs,index)=>
+                    cases && [...cases].sort((a,b)=> a.caseIndex - b.caseIndex).filter( (c) => c.caseCategory === "daocases").map((cs,index)=>
                     <Link href={`/cases/${cs.caseCategory}/${cs.caseName}`} key={index}>
                     <div className={h.home_cases_kernel_group_each}>
                         <Image priority src={cs.caseImageURL} alt={cs.caseName} width={200} height={250} />
@@ -50,7 +50,7 @@ const Cases = ({cases}:any) => {
             <h1>HONORARY CASES</h1>
             <div className={h.home_cases_kernel_group}>
                 {
-                    cases && [...cases].filter( (c) => c.caseCategory === "honorarycases").map((cs,index)=>
+                    cases && [...cases].sort((a,b)=> a.caseIndex - b.caseIndex).filter( (c) => c.caseCategory === "honorarycases").map((cs,index)=>
                     <Link href={`/cases/${cs.caseCategory}/${cs.caseName}`} key={index}>
                     <div className={h.home_cases_kernel_group_each}>
                         <Image priority src={cs.caseImageURL} alt={cs.caseName} width={200} height={250} />
@@ -64,7 +64,7 @@ const Cases = ({cases}:any) => {
             <h1>COLLECTION CASES</h1>
             <div className={h.home_cases_kernel_group}>
                 {
-                    cases && [...cases].filter( (c) => c.caseCategory === "collectioncases").map((cs,index)=>
+                    cases && [...cases].sort((a,b)=> a.caseIndex - b.caseIndex).filter( (c) => c.caseCategory === "collectioncases").map((cs,index)=>
                     <Link href={`/cases/${cs.caseCategory}/${cs.caseName}`} key={index}>
                     <div className={h.home_cases_kernel_group_each} >
                         <Image priority src={cs.caseImageURL} alt={cs.caseName} width={200} height={250} />
