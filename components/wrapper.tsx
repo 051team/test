@@ -15,7 +15,7 @@ const Wrapper = ({title,children}:any) => {
         <>
      <Head>
         <title>{title}</title>
-        <meta name="description" content="Casa de papel" />
+        <meta name="description" content="051 is the leading Provably Fair NFT Cases game. Discover amazing cases, battles and prizes. " />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/casa.png" />
       </Head>
