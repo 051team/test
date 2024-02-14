@@ -216,7 +216,7 @@
   height: 50px;
   position: relative;
   position: relative;
-  left: calc((100vw - 1260px) / 2);
+  left: calc((100vw - 1280px) / 2);
   background-image: linear-gradient(to left, #121212, #080b10);
   border-radius: 10px;
 }
