@@ -212,16 +212,16 @@
 .wrapper_navbar_tabs {
   display: flex;
   justify-content: center;
-  width: 1400px;
+  width: 1260px;
   height: 50px;
   position: relative;
   position: relative;
-  left: calc((100vw - 1400px) / 2);
+  left: calc((100vw - 1260px) / 2);
   background-image: linear-gradient(to left, #121212, #080b10);
   border-radius: 10px;
 }
 .wrapper_navbar_tabs_kernel {
-  width: 1400px;
+  width: 1260px;
   border-radius: 5px;
   display: flex;
   align-items: center;
@@ -233,6 +233,7 @@
   color: whitesmoke;
   border-radius: inherit;
   padding: 5px 20px;
+  margin-left: 20px;
   transition: filter 0.3s ease;
 }
 .wrapper_navbar_tabs_kernel #join:hover {
