@@ -17,7 +17,7 @@ export default async function handler(
       return
     }
     if(count){
-      const total = activeUsers.length + (30-Math.floor(Math.random()*10));
+      const total = activeUsers.length + (15-Math.floor(Math.random()*10));
       res.status(200).json({ activeUserCount:total});
       return
     }
