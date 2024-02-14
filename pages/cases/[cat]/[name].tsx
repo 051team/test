@@ -347,7 +347,7 @@ const Case_page = ({cases,caseInfo}:any) => {
 
 
     return ( 
-    <Wrapper title=name + "051 | NFT Cases" cases={cases}>
+    <Wrapper title={name + "051 | NFT Cases"} cases={cases}>
         {
             feedback &&
             <Modal feedback={feedback} />
