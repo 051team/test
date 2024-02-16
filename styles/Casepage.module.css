@@ -451,7 +451,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-items: flex-start !important;
-  gap: 20px;
+  gap: 10px;
   padding-top: 20px;
   overflow: visible;
   height: auto;
@@ -474,7 +474,7 @@
   background-image: linear-gradient(to right, rgba(139, 0, 0, 0.638), black);
 }
 .casepage_case #gifts #content #each {
-  width: 200px;
+  width: 191px;
   height: 160px;
   border-radius: 5px;
   padding-top: 30px;
