@@ -301,7 +301,7 @@ const Case_page = ({cases,caseInfo}:any) => {
                         method:"POST",
                         body:JSON.stringify(wonItems)
                     })
-                }, 8000);
+                }, 10000);
             }else{
                 console.log(response);
             }
@@ -312,7 +312,7 @@ const Case_page = ({cases,caseInfo}:any) => {
             setTempoText(null);
             setVerticalSpin(false);
             dispatch(note_balanceChange((pr:boolean)=>!pr));
-        }, 11000);
+        }, 9000);
     }
 
 
