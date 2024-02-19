@@ -83,24 +83,6 @@ const Case_page = ({cases,caseInfo}:any) => {
 
     const dispatch = useDispatch();
 
-
-/*     useEffect(()=>{
-        const fetchCase = async () => {
-            try {
-                const response = await fetch(`/api/fetchcasetoopen?cat=${cat}&name=${name}`)
-                if(response.status === 200){
-                    const resJson = await response.json();
-                    setCaseInfo(resJson.data);
-                }
-            } catch (error) {
-                console.log(error)
-            }
-        }
-        if(cat && name){
-            fetchCase();
-        }
-    },[cat,name]) */
-
     const handleOpenCase = async () => {
         if(!session){
             return}
@@ -347,7 +329,7 @@ const Case_page = ({cases,caseInfo}:any) => {
 
 
     return ( 
-    <Wrapper title={name + " | NFT Cases by 051"} cases={cases}>
+    <Wrapper title="Open Case" cases={cases}>
         {
             feedback &&
             <Modal feedback={feedback} />
@@ -388,9 +370,9 @@ const Case_page = ({cases,caseInfo}:any) => {
                         disabled={payButtonDisabled}>
                         {
                             tempoText ? tempoText : 
-                            (caseInfo && balance && (caseInfo.casePrice <= balance )) && horizontal ? `Pay $${caseInfo.casePrice}`:
-                            (caseInfo && balance && (caseInfo.casePrice*multiplier! <= balance )) && vertical ? `Pay $${caseInfo.casePrice*multiplier!}`:
-                            (caseInfo && balance && (caseInfo.casePrice*multiplier! > balance )) && vertical ? `+ $${caseInfo.casePrice*multiplier! - balance} needed`:
+                            (caseInfo && balance && (caseInfo.casePrice <= balance )) && horizontal ? `Pay ${formatter(caseInfo.casePrice)}`:
+                            (caseInfo && balance && (caseInfo.casePrice*multiplier! <= balance )) && vertical ? `Pay ${formatter(caseInfo.casePrice*multiplier!)}`:
+                            (caseInfo && balance && (caseInfo.casePrice*multiplier! > balance )) && vertical ? `+ ${formatter(caseInfo.casePrice*multiplier! - balance)} needed`:
                             (caseInfo && balance && caseInfo.casePrice > balance) ? `+ $${caseInfo.casePrice - balance} needed` :
                             !session ? 
                                 <span id={c.gotologin}><Image src={discord} alt="discord" />LOG IN WITH DISCORD</span> 
@@ -507,7 +489,7 @@ const Case_page = ({cases,caseInfo}:any) => {
         </div>
 
             {
-                universalModal && 
+                universalModal && session &&
                 <Universal_modal>
                     <Odds caseInfo={caseInfo}/>
                 </Universal_modal>
