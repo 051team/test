@@ -3,7 +3,7 @@ import { useSelector,useDispatch } from "react-redux";
 import { useEffect, useState,useRef } from "react";
 import { note_universal_modal } from "../redux/loginSlice";
 
-const Universal_modal = ({children}:any) => {
+const Universal_modal = ({ children, wid }: { children: React.ReactNode; wid?: number }) => {
     const core = useRef<HTMLDivElement>(null);
     const dispatch = useDispatch();
 
@@ -20,7 +20,7 @@ const Universal_modal = ({children}:any) => {
     },[]);
     return ( 
         <div className={u.universal}>
-                <div className={u.universal_kernel} ref={core}>
+                <div className={u.universal_kernel} ref={core} style={{width:wid}}>
                 <button id={u.close} onClick={()=>dispatch(note_universal_modal(false))}>❌</button>
                     {children}
                 </div>
