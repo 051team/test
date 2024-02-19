@@ -5,7 +5,7 @@ import { defer } from "@defer/client";
 async function triggerPump() {
   const baseUrl = process.env.NODE_ENV === 'development' 
   ? 'http://localhost:3000' 
-  : 'https://051case.vercel.app/';
+  : 'https://051.io/';
     try {
       const response = await fetch(`${baseUrl}/api/pump`, {
         method: 'POST',
