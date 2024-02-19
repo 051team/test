@@ -629,7 +629,7 @@ const Super_user = () => {
                             <span>{user.cdpUser}</span>
                             <span>{user.cdpUserDID}</span>
                             <span>{user.cdpEmail}</span>
-                            <span>{user.balance}</span>
+                            <span>{formatter(user.balance)}</span>
                             <button onClick={()=>handleInventory(user)}>
                             </button>
                             <button onClick={()=>handleLogs(user)} id={s.log}></button>
