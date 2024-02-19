@@ -105,3 +105,26 @@ export const uploadFileToBlob = async (file: File | null, newFileName: string) =
     return blobUrl;
   }
 };
+
+export const logins = [
+  {
+    name:"DISCORD",
+    img:require("./public/login/0_discord copy.png")
+  },
+  {
+    name:"PHANTOM",
+    img:require("./public/login/1_phantom.png")
+  },
+  {
+    name:"SOLFLARE",
+    img:require("./public/login/2_solflare.png")
+  },
+  {
+    name:"MAGIC EDEN",
+    img:require("./public/login/3_magiceden.png")
+  },
+  {
+    name:"META MASK",
+    img:require("./public/login/4_metamask.png")
+  },
+]
