@@ -14,10 +14,13 @@ import logout from "../public/disconnect.png";
 import { formatter } from "../tools";
 import crazy from "../public/assets/promo.png";
 import { useSelector,useDispatch } from "react-redux";
-import { note_balanceChange, note_balance, note_activeUserCount,note_notification, note_searchResults, note_allCases } from "./../redux/loginSlice";
+import { note_balanceChange, note_balance, note_activeUserCount,note_notification, note_searchResults, note_allCases, note_universal_modal } from "./../redux/loginSlice";
 import Link from "next/link";
 import Livedrop from "./livedrop";
 import useSWR from 'swr';
+import Universal_modal from "./universal_modal";
+import mad from "../public/assets/IMG.png";
+import {logins} from "../tools";
 
 type User = {
     name?: string | null | undefined;
@@ -41,6 +44,7 @@ const Navbar = () => {
     const dispatch = useDispatch();
     const balance = useSelector((state:any) => state.loginSlice.balance);
     const bChange = useSelector((state:any) => state.loginSlice.balanceChange);
+    const umodal = useSelector((state:any) => state.loginSlice.universal_modal);
 
     const search = useRef<HTMLInputElement>(null);
     const searchResults = useSelector((state:any)=>state.loginSlice.searchResults);
@@ -131,7 +135,15 @@ const Navbar = () => {
         }
     },[])
 
-    const handleLogIn = () => {
+    const handleLogIn = (e:any) => {
+        if(session){
+            return
+        }
+        e.stopPropagation();
+        dispatch(note_universal_modal(true));
+    }
+
+    const SignIn = () => {
         if(!session){
             signIn('discord');
         }
@@ -256,7 +268,7 @@ const Navbar = () => {
             </div>
             <div className={h.wrapper_navbar_bottom}>
                 <Link href={"/"}>
-                <Image src={_051} alt={"051 logo"} width={90} height={63} /></Link>
+                <Image src={_051} alt={"051 logo"} width={90} height={50} /></Link>
                 <input type="text" placeholder="Search for case..." onChange={handleSearch} ref={search} />
                 <span id={h.found} style={{color:resultText === "No item matched!" ? "crimson" : "green"}}>{resultText}</span>
                 {
@@ -317,12 +329,14 @@ const Navbar = () => {
                             CASES
                         </button>
                         </Link>
+                        <Link href={"/create-battle"}>
                         <button style={{cursor:cursor}} onClick={()=>{dispatch(note_notification("SOON")); setTimeout(() => {
                             dispatch(note_notification(null));
                         }, 2000);}}>
                             <Image src={sword} alt={"battles"} width={20} height={20} />
                             BATTLES
                         </button>
+                        </Link>
                         <button style={{cursor:cursor}} onClick={()=>{dispatch(note_notification("SOON")); setTimeout(() => {
                             dispatch(note_notification(null));
                         }, 2000);}}>
@@ -333,7 +347,34 @@ const Navbar = () => {
                 </div>
             </div>
         </div>
+        {
+            umodal &&
+            <Universal_modal wid={400}>
+                <div id={h.logg}>
+                    <div id={h.head}>
+                        <h3>CONNECT TO                             
+                            <Image src={_051} alt={"logoooo"} width={30} height={20} />
+                        </h3>
+                    </div>
+                    <Image id={h.mad} src={mad} alt="mad" width={150} height={150} />
+                    {
+                        logins.map((l,index)=>
+                        <button  id={h.each} onClick={SignIn} style={{border:index === 0 ? "2px solid silver" : "1px solid gray",
+                                            cursor:index === 0 ? "pointer" : "not-allowed"}}
+                                            disabled={index !== 0} key={index}
+                        >
+                            <Image src={l.img} alt={l.name} width={20} height={20} />
+                            <span>{l.name}</span>
+                            {
+                                index !== 0 && <span id={h.soon}>SOON</span>
+                            }
+                        </button>
+                        )
+                    }
 
+                </div>
+            </Universal_modal>
+        }
     </>
      );
 }
