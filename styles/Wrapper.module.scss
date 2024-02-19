@@ -451,6 +451,62 @@
         }
     }
 }
+#logg {
+  height: 350px;
+  position: relative;
+  padding-top: 80px;
+}
+#logg #mad {
+  position: absolute;
+  top: -80px;
+}
+#logg #head {
+  height: 90px;
+  width: 400px;
+  left: -20px;
+  background-color: #08161F;
+  position: absolute;
+  top: -50px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+#logg #head h3 {
+  color: white;
+  font-weight: 500;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  -moz-column-gap: 5px;
+       column-gap: 5px;
+  position: relative;
+  right: 20px;
+}
+#logg #each {
+  border: 1px solid silver;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+  -moz-column-gap: 10px;
+       column-gap: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+}
+#logg #each span {
+  font-size: 13px;
+  color: white;
+  font-weight: 500;
+}
+#logg #each #soon {
+  position: absolute;
+  right: 20px;
+  color: silver;
+  background-color: gray;
+  border-radius: 5px;
+  font-size: 11px;
+  padding: 1px 5px;
+}
 #bottombanner{
     background-color: black;
     padding: 20px;
