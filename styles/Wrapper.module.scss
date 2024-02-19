@@ -155,7 +155,7 @@
                     z-index: 999;
                     div{
                         width: 100%;
-                        padding: 5px 10px;
+                        padding: 10px;
                         display: flex;
                         align-items: flex-end;
                         column-gap: 10px;
@@ -195,15 +195,15 @@
         &_tabs{
             display: flex;
             justify-content: center;
-            width: 1400px;
+            width: 1260px;
             height: 50px;
             position: relative;
             position: relative;
-            left: calc((100vw - 1400px)/2);
+            left: calc((100vw - 1260px)/2);
             background-image: linear-gradient(to left,#121212, #080b10);
             border-radius: 10px;
             &_kernel{
-                width: 1400px;
+                width: 1260px;
                 border-radius: 5px;
                 display: flex;
                 align-items: center;
@@ -214,6 +214,7 @@
                     color: whitesmoke;
                     border-radius: inherit;
                     padding: 5px 20px;
+                    margin-left: 20px;
                     transition: filter 0.3s ease;
                     &:hover{
                         filter: brightness(1.5);
@@ -452,18 +453,18 @@
     }
 }
 #logg {
-  height: 350px;
+  height: 325px;
   position: relative;
-  padding-top: 80px;
+  padding-top: 65px;
 }
 #logg #mad {
   position: absolute;
-  top: -80px;
+  top: -110px;
 }
 #logg #head {
   height: 90px;
   width: 400px;
-  left: -20px;
+  left: -30px;
   background-color: #08161F;
   position: absolute;
   top: -50px;
@@ -487,7 +488,7 @@
   border-radius: 5px;
   display: flex;
   align-items: center;
-  padding: 5px 10px;
+  padding: 10px 10px;
   -moz-column-gap: 10px;
        column-gap: 10px;
   margin-bottom: 10px;
