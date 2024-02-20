@@ -329,14 +329,12 @@ const Navbar = () => {
                             CASES
                         </button>
                         </Link>
-                        <Link href={"/create-battle"}>
                         <button style={{cursor:cursor}} onClick={()=>{dispatch(note_notification("SOON")); setTimeout(() => {
                             dispatch(note_notification(null));
                         }, 2000);}}>
                             <Image src={sword} alt={"battles"} width={20} height={20} />
                             BATTLES
                         </button>
-                        </Link>
                         <button style={{cursor:cursor}} onClick={()=>{dispatch(note_notification("SOON")); setTimeout(() => {
                             dispatch(note_notification(null));
                         }, 2000);}}>
