@@ -294,7 +294,7 @@ const Case_page = ({cases,caseInfo}:any) => {
             setTempoText(null);
             setVerticalSpin(false);
             dispatch(note_balanceChange((pr:boolean)=>!pr));
-        }, 9000);
+        }, 11000);
     }
 
 
@@ -373,7 +373,7 @@ const Case_page = ({cases,caseInfo}:any) => {
                             (caseInfo && balance && (caseInfo.casePrice <= balance )) && horizontal ? `Pay ${formatter(caseInfo.casePrice)}`:
                             (caseInfo && balance && (caseInfo.casePrice*multiplier! <= balance )) && vertical ? `Pay ${formatter(caseInfo.casePrice*multiplier!)}`:
                             (caseInfo && balance && (caseInfo.casePrice*multiplier! > balance )) && vertical ? `+ ${formatter(caseInfo.casePrice*multiplier! - balance)} needed`:
-                            (caseInfo && balance && caseInfo.casePrice > balance) ? `+ $${caseInfo.casePrice - balance} needed` :
+                            (caseInfo && balance && caseInfo.casePrice > balance) ? `+ ${formatter(caseInfo.casePrice - balance)} needed` :
                             !session ? 
                                 <span id={c.gotologin}><Image src={discord} alt="discord" />LOG IN WITH DISCORD</span> 
                             : (session && balance === 0) ? "No balance!" : "Please wait..."
@@ -404,10 +404,10 @@ const Case_page = ({cases,caseInfo}:any) => {
                         disabled={payButtonDisabled}>
                         {
                             tempoText ? tempoText : 
-                            (caseInfo && balance && (caseInfo.casePrice <= balance )) && horizontal ? `Pay $${caseInfo.casePrice}`:
-                            (caseInfo && balance && (caseInfo.casePrice*multiplier! <= balance )) && vertical ? `Pay $${caseInfo.casePrice*multiplier!}`:
-                            (caseInfo && balance && (caseInfo.casePrice*multiplier! > balance )) && vertical ? `+ $${caseInfo.casePrice*multiplier! - balance} needed`:
-                            (caseInfo && balance && caseInfo.casePrice > balance) ? `+ $${caseInfo.casePrice - balance} needed` :
+                            (caseInfo && balance && (caseInfo.casePrice <= balance )) && horizontal ? `Pay ${formatter(caseInfo.casePrice)}`:
+                            (caseInfo && balance && (caseInfo.casePrice*multiplier! <= balance )) && vertical ? `Pay ${formatter(caseInfo.casePrice*multiplier!)}`:
+                            (caseInfo && balance && (caseInfo.casePrice*multiplier! > balance )) && vertical ? `+ ${formatter(caseInfo.casePrice*multiplier! - balance)} needed`:
+                            (caseInfo && balance && caseInfo.casePrice > balance) ? `+ ${formatter(caseInfo.casePrice - balance)} needed` :
                             !session ? 
                                 <span id={c.gotologin}><Image src={discord} alt="discord" />LOG IN WITH DISCORD</span> 
                             : (session && balance === 0) ? "No balance!" : "Please wait..."
