@@ -8,7 +8,7 @@ import discord from "../public/discord.png";
 import twitter from "../public/twitter.png";
 import safe from "../public/safe.png";
 import wallet from "../public/wallet.png";
-import gun from "../public/gun.png";
+import gun from "../public/item-value.png";
 import sword from "../public/sword.png";
 import dolar from "../public/dolar.png";
 import profile from "../public/suitcase.png";
