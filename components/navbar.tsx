@@ -281,9 +281,9 @@ const Navbar = () => {
                 <span id={h.each}><span id={h.dot}>&#x2022;</span> {activeUserCount ?? ""} <span style={{color:"#00bc3e"}}>Online</span> </span>
                 <span id={h.each}><span>&#9729;</span> {totalCaseCount && totalCaseCount.total}<span style={{color:"#009fb3"}}>Case Opened</span></span>
                 <div id={h.right}>
-                    <Image src={discord} alt="discord" />
-                    <Image src={twitter} alt="twitter" />
-                    <Image src={gitbook} alt="gitbook" />
+                    <Link href={"/"}><Image src={discord} alt="discord" /></Link>
+                    <Link href={"/"}><Image src={twitter} alt="twitter" /></Link>
+                    <Link href={"/"}><Image src={gitbook} alt="gitbook" /></Link>
                 </div>
             </div>
             <div className={h.wrapper_navbar_bottom}>
