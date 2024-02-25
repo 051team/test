@@ -317,8 +317,7 @@ const Navbar = () => {
                         <>
                         <div id={h.cash}>
                             <span><strong>{session && session.user?.name}</strong></span>
-                            {
-                            balance && cashable &&
+
                             <>
                             <p>
                                 <Image src={wallet} alt={"balance"} width={20} height={20} />
@@ -326,10 +325,9 @@ const Navbar = () => {
                             </p>
                             <p>
                                 <Image src={gun} alt={"cashable"} width={20} height={20} />
-                                <span style={{color:"silver"}}>{cashable ? formatter(cashable)  : ""} {balance === 0 && "$0.00"}</span>
+                                <span style={{color:"silver"}}>{cashable ? formatter(cashable)  : ""} {cashable === 0 && "$0.00"}</span>
                             </p>
                             </>
-                            }
                         </div>
                         <Image src={session!.user!.image as string} alt={"discord profile image"} width={50} height={50} />
                         <div id={h.dropdown}>
