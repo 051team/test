@@ -138,6 +138,7 @@
 .wrapper_navbar_bottom #profile #cash span {
   line-height: 12px;
   font-size: 14px;
+  font-weight: 600;
 }
 .wrapper_navbar_bottom #profile #cash img {
   filter: none !important;
