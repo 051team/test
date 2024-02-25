@@ -1,4 +1,4 @@
-import h from "../styles/Wrapper.module.css";
+import h from "../styles/Wrapper1.module.css";
 import { signIn, signOut, useSession } from 'next-auth/react';
 import Image from "next/image";
 import { useEffect, useState,useRef } from "react";
@@ -7,6 +7,8 @@ import gitbook from "../public/gitbook.svg";
 import discord from "../public/discord.png";
 import twitter from "../public/twitter.png";
 import safe from "../public/safe.png";
+import wallet from "../public/wallet.png";
+import gun from "../public/gun.png";
 import sword from "../public/sword.png";
 import dolar from "../public/dolar.png";
 import profile from "../public/suitcase.png";
@@ -32,7 +34,7 @@ type User = {
 const Navbar = () => {
     const fetcher = (url:string) => fetch(url).then(r => r.json());
     const { data:totalCaseCount, error, isLoading } = useSWR('/api/totalopenedcase', fetcher, { refreshInterval: 3000 })
-
+    const [cashable,setCashable] = useState(0);
     const { data: session } = useSession();
     const allCases:any = useSelector((state:any)=>state.loginSlice.allCases);
     
@@ -79,6 +81,24 @@ const Navbar = () => {
             clearInterval(interval)
         }
     },[])
+
+    useEffect(()=>{
+        const fetchCashableAmount = async () => {
+            const response = await fetch("/api/fetchinventory?active=true",{
+                method:'POST',
+                body:JSON.stringify(session?.user)
+            })
+            if(response.status === 200){
+                const resJson = await response.json();
+                console.log(resJson);
+                const cashable = resJson.reduce((tot:number,item:any) => {return tot + parseFloat(item.giftPrice)},0 );
+                setCashable(cashable);
+            }
+        }
+        if(session){
+            fetchCashableAmount();
+        }
+    },[session])
 
     // fetch user balance and handle login
     useEffect(()=>{
@@ -295,9 +315,22 @@ const Navbar = () => {
                     {
                         session && 
                         <>
-                        <span><strong>{session && session.user?.name} <br />
-                            {balance ? formatter(balance)  : ""} {balance === 0 && "$0.00"} </strong> 
-                        </span>
+                        <div id={h.cash}>
+                            <span><strong>{session && session.user?.name}</strong></span>
+                            {
+                            balance && cashable &&
+                            <>
+                            <p>
+                                <Image src={wallet} alt={"balance"} width={20} height={20} />
+                                <span>{balance ? formatter(balance)  : ""} {balance === 0 && "$0.00"}</span>
+                            </p>
+                            <p>
+                                <Image src={gun} alt={"cashable"} width={20} height={20} />
+                                <span style={{color:"silver"}}>{cashable ? formatter(cashable)  : ""} {balance === 0 && "$0.00"}</span>
+                            </p>
+                            </>
+                            }
+                        </div>
                         <Image src={session!.user!.image as string} alt={"discord profile image"} width={50} height={50} />
                         <div id={h.dropdown}>
                             <Link href={"/profile"}>
@@ -329,12 +362,12 @@ const Navbar = () => {
                             CASES
                         </button>
                         </Link>
-                        <button style={{cursor:cursor}} onClick={()=>{dispatch(note_notification("SOON")); setTimeout(() => {
-                            dispatch(note_notification(null));
-                        }, 2000);}}>
+                        <Link href={"/create-battle"}>
+                        <button style={{cursor:cursor}}>
                             <Image src={sword} alt={"battles"} width={20} height={20} />
                             BATTLES
                         </button>
+                        </Link>
                         <button style={{cursor:cursor}} onClick={()=>{dispatch(note_notification("SOON")); setTimeout(() => {
                             dispatch(note_notification(null));
                         }, 2000);}}>
