@@ -9,6 +9,8 @@ export default async function handler(
   const {active} = req.query;
   let client;
 
+  console.log('fetchuserinventory.ts');
+
   try {
     client = await connectToDatabase();
     const data_base = client.db('casadepapel');
