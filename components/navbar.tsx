@@ -16,7 +16,7 @@ import logout from "../public/disconnect.png";
 import { formatter } from "../tools";
 import crazy from "../public/assets/promo.png";
 import { useSelector,useDispatch } from "react-redux";
-import { note_balanceChange, note_balance, note_activeUserCount,note_notification, note_searchResults, note_allCases, note_universal_modal } from "./../redux/loginSlice";
+import { note_balanceChange, note_balance, note_activeUserCount,note_notification, note_searchResults, note_allCases, note_universal_modal, note_cashable } from "./../redux/loginSlice";
 import Link from "next/link";
 import Livedrop from "./livedrop";
 import useSWR from 'swr';
@@ -34,9 +34,9 @@ type User = {
 const Navbar = () => {
     const fetcher = (url:string) => fetch(url).then(r => r.json());
     const { data:totalCaseCount, error, isLoading } = useSWR('/api/totalopenedcase', fetcher, { refreshInterval: 3000 })
-    const [cashable,setCashable] = useState(0);
     const { data: session } = useSession();
     const allCases:any = useSelector((state:any)=>state.loginSlice.allCases);
+    const cashable:any = useSelector((state:any)=>state.loginSlice.cashable);
     
     const core = useRef<HTMLDivElement>(null);
     const promo = useRef<HTMLInputElement>(null);
@@ -92,7 +92,7 @@ const Navbar = () => {
                 const resJson = await response.json();
                 console.log(resJson);
                 const cashable = resJson.reduce((tot:number,item:any) => {return tot + parseFloat(item.giftPrice)},0 );
-                setCashable(cashable);
+                dispatch(note_cashable(cashable));
             }
         }
         if(session){
