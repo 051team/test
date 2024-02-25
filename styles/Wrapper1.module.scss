@@ -107,6 +107,23 @@
                 height: 60px;
                 border-left: 1px solid #102631;
                 width: 180px;
+                #cash{
+                    p{
+                        color: orange;
+                        display: flex;
+                        align-items: center;
+                        column-gap: 5px;
+                        line-height: 12px;
+                        height: 18px;
+                    }
+                    span{
+                        line-height: 12px;
+                        font-size: 14px;
+                    }
+                    img{
+                        filter: none !important;
+                    }
+                }
                 input{
                     position: absolute;
                     opacity: 0;
@@ -464,7 +481,7 @@
 #logg #head {
   height: 90px;
   width: 400px;
-  left: -20px;
+  left: -30px;
   background-color: #08161F;
   position: absolute;
   top: -50px;
@@ -510,7 +527,7 @@
 }
 
 #bottombanner{
-    background-color: #071218;
+    background-color: #061118;
     padding: 20px;
     display: flex;
     justify-content: center;
@@ -532,7 +549,7 @@
             a{
                 color: white;
                 font-weight: 600;
-                font-size: 15px;
+                font-size: 13px;
                 margin-right: 20px;
             }
             #icons{
@@ -584,7 +601,7 @@
                 left: 20px;
                 height: 40px;
                 width: 800px;
-                background-color: black;
+                background-color: #0e1f29cc;
                 border-radius: 10px;
                 display: grid;
                 grid-template-columns: repeat(5,1fr);
