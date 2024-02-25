@@ -36,7 +36,7 @@ export default async function handler(
           let itemtoAddtoLivedrop = await livedrop.aggregate([
               { $match: { isF: { $ne: true } } },
               { $sort: { dropTime: -1 } },
-              { $limit: 30 },
+              { $limit: 300 },
               { $sample: { size: randomQuantity } }
           ]).toArray();
 
@@ -63,12 +63,12 @@ export default async function handler(
               });
               res.status(200).json({ meesage:"New Drop" });
           }else{
-              res.status(500).json({ message: 'Pump failed', color: "red" });
+              res.status(500).json({ message: 'Def failed', color: "red" });
           }
           
         } catch (error) {
             console.log(error);
-            res.status(500).json({ message: 'Pump failed', color: "red" });
+            res.status(500).json({ message: 'Def failed', color: "red" });
         }
         finally{
           if (client) {
@@ -76,12 +76,12 @@ export default async function handler(
           }
         }
 
-    }, 5000);
+    }, 15000);
   }
   setTimeout(() => {
     clearInterval(intervalId);
     intervalId = null;
     console.log('Interval cleared');
- }, 50000); 
-  res.status(200).json({messgae:"Pumnping started"});
+ }, 45000); 
+  res.status(200).json({messgae:"Def started"});
 }
