@@ -1,4 +1,4 @@
-import bb from "./../styles/Wrapper.module.css";
+import bb from "./../styles/Wrapper1.module.css";
 import Image from "next/image";
 import _051 from "./../public/051.png";
 import Link from "next/link";
@@ -17,8 +17,8 @@ const BottomBanner = () => {
                 <div id={bb.icons}>
                     <Image id={bb.mad} src={"/discord.png"} alt={"discord"} width={20} height={20} />
                     <Image id={bb.mad} src={"/x.png"} alt={"twitter"} width={20} height={20} />
-                    <Image id={bb.mad} src={"/bbanner/magic-eden.png"} alt={"magiceden"} width={20} height={20} />
-                    <Image id={bb.mad} src={"/bbanner/tensor.png"} alt={"tensor"} width={20} height={20} />
+                    <Image id={bb.mad} src={"/discord.png"} alt={"discord"} width={20} height={20} />
+                    <Image id={bb.mad} src={"/x.png"} alt={"twitter"} width={20} height={20} />
                 </div>
             </div>
             <div id={bb.rightcol}>
@@ -58,9 +58,9 @@ const BottomBanner = () => {
             </div>
         </div>
         <div id={bb.lowest}>
-            ALL RIGHTS RESERVED. POWERED BY 051.io COPYRIGHT © 2024
+            ALL RIGHTS RESERVED. POWERED BY 051.io. COPYRIGHT © 2024
             <span>
-                powered by &nbsp; <Image src={"/solana-logo.png"} alt={"051 logo"} width={100} height={15} />
+                powered by &nbsp; <Image src={"/solana.png"} alt={"051 logo"} width={25} height={25} />
             </span>
         </div>
     </div>
