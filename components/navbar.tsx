@@ -98,7 +98,7 @@ const Navbar = () => {
         if(session){
             fetchCashableAmount();
         }
-    },[session])
+    },[session, bChange])
 
     // fetch user balance and handle login
     useEffect(()=>{
