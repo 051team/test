@@ -60,6 +60,7 @@ export default async function handler(
     }else{
       const lotteryResult = mockLotteryDraw(caseToOpen.caseGifts);
       console.log(lotteryResult);
+      lotteryResult.addTime = new Date().getTime();
       const casePrice = caseToOpen.casePrice;
       const accountOwner = await users.findOne({cdpUserDID:{$eq:user.id}});
       if(accountOwner){
@@ -71,7 +72,7 @@ export default async function handler(
           const result = await users.updateOne({cdpUserDID:{$eq:user.id}},
             { 
               $inc:{balance:-casePrice},
-              $push: { inventory: {...lotteryResult, addTime:(new Date().getTime())} }
+              $push: { inventory: lotteryResult }
           },
           );
           if(result.matchedCount === 1 && result.matchedCount === 1){
