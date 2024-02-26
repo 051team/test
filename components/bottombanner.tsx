@@ -9,7 +9,7 @@ const BottomBanner = () => {
         <div id={bb.shell}>
             {/* <Image src={_051} alt={"051 logo"} width={63} height={35} /> */}
             <div id={bb.leftcol}>
-                <Link href={"/"}>AFFILIATE PROGRAM </Link>
+                <Link href={"/affiliate-program"}>AFFILIATE PROGRAM </Link>
                 <Link href={"/"}>TERMS OF SERVICE </Link>
                 <Link href={"/"}>PROVABLY FAIR </Link>
                 <Link href={"/"}>SUPPORT</Link>
