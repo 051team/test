@@ -11,7 +11,7 @@ const _051 = () => {
                         <Image src={"/051.png"} width={50} height={50} alt={"NFTCase"} />
                         <h2>AFFILIATE PROGRAM</h2>
                     </div>
-                    <p>If you're a creator cooking something cool with NFTs on Solana.We want to cooperate with you!</p>
+                    <p>If you are a creator cooking something cool with NFTs on Solana.We want to cooperate with you!</p>
                     <h3>X Twitter</h3>
                    <p>The minimum number of followers for a potential collaboration via a X profile should be a minimum of 3000 followers and 100 react under each tweet.</p>
                     <h3>Youtube - Twitch</h3>
