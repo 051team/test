@@ -288,7 +288,7 @@ const Navbar = () => {
             </div>
             <div className={h.wrapper_navbar_bottom}>
                 <Link href={"/"}>
-                <Image src={_051} alt={"051 logo"} width={90} height={50} /></Link>
+                <Image src={_051} alt={"051 logo"} width={90} height={60} /></Link>
                 <input type="text" placeholder="Search for case..." onChange={handleSearch} ref={search} />
                 <span id={h.found} style={{color:resultText === "No item matched!" ? "crimson" : "green"}}>{resultText}</span>
                 {
