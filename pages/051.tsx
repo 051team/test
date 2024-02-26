@@ -9,16 +9,26 @@ const _051 = () => {
                 <div className={w.contract_kernel}>
                     <div className={w.contract_kernel_title}>
                         <Image src={"/rubic.png"} width={50} height={50} alt={"Rubic"} />
-                        <h2>PROBABLY FAIR ALGORITHM</h2>
+                        <h2>AFFILIATE PROGRAM</h2>
                     </div>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus quisquam aut dignissimos enim. Facilis repudiandae sint autem dolores eaque cupiditate, alias obcaecati commodi. Repellat laborum dolore sit veniam? Voluptate, dignissimos.</p>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe distinctio excepturi placeat ullam nemo sint aspernatur temporibus modi quia officia assumenda pariatur deleniti molestiae minima earum, similique quam ex perferendis.</p>
+                    If you're a creator cooking something cool with NFTs on Solana.We want to cooperate with you!
+                    
+                    <h3>X (Twitter)</h3>
+                    The minimum number of followers for a potential collaboration via a X profile should be a minimum of 3000 followers and 100 react under each tweet.
+                    
+                    <h3>Youtube & Twitch</h3>
+                    In case of cooperation via Youtube, Twitch or any other platform, the channel must have a minimum of 500 subscriptions and 250 views under each video. 
+
+                    Every request for cooperation is being dealt with as an individual case or code. Collaboration also mainly depends on your activity on your channels and what content you share. Meeting all the conditions does not necessarily mean that we will cooperate with you. 
+
+                    If your channel or profile meets the above requirements or if you have additional questions, you can open a ticket in discord under the creator-request category.
+
+                    <h3>Benefits</h3>
                     <ul>
-                        <li>Dummy Item 1</li>
-                        <li>Dummy Item 2</li>
-                        <li>Dummy Item 3</li>
+                        <li>Affiliate Revenue.</li>
+                        <li>10% deposit bonus for Creator deposit code.</li>
+                        <li>Major Creators are eligible to receive 5% revenue share of the earnings generated from their Creator Case.</li>
                     </ul>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae expedita dolor dicta, provident necessitatibus numquam excepturi explicabo non autem libero doloremque veniam, magni in minus quia porro possimus officia? Accusamus.</p>
                 </div>
             </div>
         </Wrapper>
