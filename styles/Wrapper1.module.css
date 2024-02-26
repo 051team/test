@@ -499,6 +499,41 @@
   box-shadow: 0 0 2px 1px orange;
 }
 
+.contract {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+}
+.contract_kernel {
+  width: 1400px;
+  height: 400px;
+}
+.contract_kernel_title {
+  height: 100px;
+  border: 2px solid black;
+  display: flex;
+  align-items: center;
+  -moz-column-gap: 10px;
+       column-gap: 10px;
+}
+.contract_kernel_title h2 {
+  color: whitesmoke;
+}
+.contract_kernel_title img {
+  filter: brightness(1.5);
+}
+.contract_kernel p {
+  color: whitesmoke;
+  margin-bottom: 15px;
+}
+.contract_kernel ul li {
+  color: whitesmoke;
+  margin-left: 15px;
+}
+.contract_kernel ul {
+  margin-bottom: 15px;
+}
+
 #logg {
   height: 325px;
   position: relative;
