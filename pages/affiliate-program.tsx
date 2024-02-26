@@ -4,11 +4,10 @@ import w from "../styles/Wrapper1.module.css";
 
 const _051 = () => {
     return ( 
-        <Wrapper title={"Copyright"}>
+        <Wrapper title={"Affiliate Program | 051 NFT Cases"}>
             <div className={w.contract}>
                 <div className={w.contract_kernel}>
                     <div className={w.contract_kernel_title}>
-                        <Image src={"/051.png"} width={50} height={50} alt={"NFTCase"} />
                         <h2>AFFILIATE PROGRAM</h2>
                     </div>
                     <p>If you are a creator cooking something cool with NFTs on Solana.We want to cooperate with you!</p>
