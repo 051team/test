@@ -16,7 +16,7 @@ const _051 = () => {
                     <h3>X (Twitter)</h3>
                     The minimum number of followers for a potential collaboration via a X profile should be a minimum of 3000 followers and 100 react under each tweet.
                     
-                    <h3>Youtube & Twitch</h3>
+                    <h3>Youtube - Twitch</h3>
                     In case of cooperation via Youtube, Twitch or any other platform, the channel must have a minimum of 500 subscriptions and 250 views under each video. 
 
                     Every request for cooperation is being dealt with as an individual case or code. Collaboration also mainly depends on your activity on your channels and what content you share. Meeting all the conditions does not necessarily mean that we will cooperate with you. 
