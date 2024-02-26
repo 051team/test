@@ -470,6 +470,39 @@
         }
     }
 }
+.contract{
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    &_kernel{
+        width: 1400px;
+        height: 400px;
+        &_title{
+            height: 100px;
+            border: 2px solid black;
+            display: flex;
+            align-items: center;
+            column-gap: 10px;
+            h2{
+                color: whitesmoke;
+            }
+            img{
+                filter: brightness(1.5);
+            }
+        }
+        p{
+            color: whitesmoke;
+            margin-bottom: 15px;
+        }
+        ul li{
+            color: whitesmoke;
+            margin-left: 15px;
+        }
+        ul{
+            margin-bottom: 15px;
+        }
+    }
+}
 #logg {
   height: 325px;
   position: relative;
