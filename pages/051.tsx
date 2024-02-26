@@ -11,17 +11,17 @@ const _051 = () => {
                         <Image src={"/rubic.png"} width={50} height={50} alt={"Rubic"} />
                         <h2>AFFILIATE PROGRAM</h2>
                     </div>
-                    If you're a creator cooking something cool with NFTs on Solana.We want to cooperate with you!
+                    <p>If you're a creator cooking something cool with NFTs on Solana.We want to cooperate with you!</p>
                     
-                    <h3>X (Twitter)</h3>
-                    The minimum number of followers for a potential collaboration via a X profile should be a minimum of 3000 followers and 100 react under each tweet.
+                    <h3>X Twitter</h3>
+                   <p>The minimum number of followers for a potential collaboration via a X profile should be a minimum of 3000 followers and 100 react under each tweet.</p>
                     
                     <h3>Youtube - Twitch</h3>
-                    In case of cooperation via Youtube, Twitch or any other platform, the channel must have a minimum of 500 subscriptions and 250 views under each video. 
+                   <p> In case of cooperation via Youtube, Twitch or any other platform, the channel must have a minimum of 500 subscriptions and 250 views under each video. </p>
 
-                    Every request for cooperation is being dealt with as an individual case or code. Collaboration also mainly depends on your activity on your channels and what content you share. Meeting all the conditions does not necessarily mean that we will cooperate with you. 
+                   <p> Every request for cooperation is being dealt with as an individual case or code. Collaboration also mainly depends on your activity on your channels and what content you share. Meeting all the conditions does not necessarily mean that we will cooperate with you. </p> 
 
-                    If your channel or profile meets the above requirements or if you have additional questions, you can open a ticket in discord under the creator-request category.
+                   <p> If your channel or profile meets the above requirements or if you have additional questions, you can open a ticket in discord under the creator-request category. </p>
 
                     <h3>Benefits</h3>
                     <ul>
