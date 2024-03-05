@@ -17,8 +17,7 @@ const BottomBanner = () => {
                 <div id={bb.icons}>
                     <Image id={bb.mad} src={"/discord.png"} alt={"discord"} width={20} height={20} />
                     <Image id={bb.mad} src={"/x.png"} alt={"twitter"} width={20} height={20} />
-                    <Image id={bb.mad} src={"/discord.png"} alt={"discord"} width={20} height={20} />
-                    <Image id={bb.mad} src={"/x.png"} alt={"twitter"} width={20} height={20} />
+                    <Image id={bb.mad} src={"/gitbook.png"} alt={"gitbook"} width={20} height={20} />
                 </div>
             </div>
             <div id={bb.rightcol}>
