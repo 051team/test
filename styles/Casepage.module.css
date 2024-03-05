@@ -6,7 +6,7 @@
 }
 .casepage_case #outerindex {
   position: relative;
-  left: -10px;
+  left: -15px;
   margin-top: 10px;
   z-index: 999999 !important;
 }
