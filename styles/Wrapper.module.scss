@@ -16,7 +16,6 @@
         &_top{
             padding-left: 40px;
             display: flex;
-            top: 10px;
             align-items: center;
             column-gap: 20px;
             #each{
@@ -34,6 +33,7 @@
             #right{
                 position: absolute;
                 right: 40px;
+                top: 10px;
                 display: flex;
                 column-gap: 10px;
                 img{
