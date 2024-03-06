@@ -41,6 +41,7 @@
 .wrapper_navbar_top #right {
   position: absolute;
   right: 40px;
+  top: 10px;
   display: flex;
   -moz-column-gap: 10px;
        column-gap: 10px;
