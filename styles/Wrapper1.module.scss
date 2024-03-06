@@ -16,7 +16,6 @@
         &_top{
             padding-left: 40px;
             display: flex;
-            top: 10px;
             align-items: center;
             column-gap: 20px;
             #each{
@@ -35,6 +34,7 @@
                 position: absolute;
                 right: 40px;
                 display: flex;
+                top: 10px;
                 column-gap: 10px;
                 img{
                     height: 25px;
