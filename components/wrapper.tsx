@@ -8,9 +8,12 @@ import _051 from "../public/051.png";
 import discord from "../public/discord.png";
 import x from "../public/twitter.png";
 import { useSelector } from "react-redux";
+import useSWR from "swr";
 
 const Wrapper = ({title,children}:any) => {
     const notification = useSelector((state:any)=> state.loginSlice.notification);
+    const fetcher = (url:string) => fetch(url).then(r => r.json());
+    const { data:total, error, isLoading } = useSWR('/api/totalopenedcase', fetcher, { refreshInterval: 3000 });
     return ( 
         <>
      <Head>
@@ -20,7 +23,7 @@ const Wrapper = ({title,children}:any) => {
         <link rel="icon" href="/casa.png" />
       </Head>
       <main className={w.wrapper}>
-        <Navbar />
+        <Navbar total={total} />
         {children}
         {
             notification && <Notification text={notification} />
@@ -43,7 +46,7 @@ const Wrapper = ({title,children}:any) => {
             </div>
         </div>
       <footer>
-         <BottomBanner />
+         <BottomBanner total={total}  />
       </footer>
         </>
      );
