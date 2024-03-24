@@ -9,10 +9,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         client = await connectToDatabase();
         const data_base = client.db('casadepapel');
         const totalCount = data_base.collection('totalOpenedCaseNumber');
-    
+        const cases = data_base.collection('cdp_cases');
+        const totalTurnover = await cases.aggregate([
+          {
+            $group: {
+              _id: null,
+              totalTurnover: { $sum: "$turnover" }
+            }
+          }
+        ]).toArray();
+        
+        console.log("Total turnover:", totalTurnover[0].totalTurnover);
+        
         const currentCount = await totalCount.findOne({duty:"keepcount"});
         if(currentCount){
-          res.status(200).json({ total: currentCount.totalNumber });
+          res.status(200).json({ total: currentCount.totalNumber, turnover:totalTurnover[0].totalTurnover });
         }else{
           res.status(404).json({message:"total case count not found"});
         }
