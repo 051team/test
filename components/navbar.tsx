@@ -31,9 +31,7 @@ type User = {
     id: string;
   };
 
-const Navbar = () => {
-    const fetcher = (url:string) => fetch(url).then(r => r.json());
-    const { data:totalCaseCount, error, isLoading } = useSWR('/api/totalopenedcase', fetcher, { refreshInterval: 3000 })
+const Navbar = ({total}:any) => {
     const { data: session } = useSession();
     const allCases:any = useSelector((state:any)=>state.loginSlice.allCases);
     const cashable:any = useSelector((state:any)=>state.loginSlice.cashable);
@@ -279,16 +277,16 @@ const Navbar = () => {
         <div className={h.wrapper_navbar}>
             <div className={h.wrapper_navbar_top}>
                 <span id={h.each}><span id={h.dot}>&#x2022;</span> {activeUserCount ?? ""} <span style={{color:"#00bc3e"}}>Online</span> </span>
-                <span id={h.each}><span>&#9729;</span> {totalCaseCount && totalCaseCount.total}<span style={{color:"#009fb3"}}>Case Opened</span></span>
+                <span id={h.each}><span>&#9729;</span> {total && total.total}<span style={{color:"#009fb3"}}>Case Opened</span></span>
                 <div id={h.right}>
                     <Link href={"/"}><Image src={discord} alt="discord" /></Link>
-                    <Link href={"https://twitter.com/051io"} target="_blank"><Image src={twitter} alt="twitter" /></Link>
-                    <Link href={"https://whitepaper.051.io/"} target="_blank"><Image src={gitbook} alt="gitbook" /></Link>
+                    <Link href={"/"}><Image src={twitter} alt="twitter" /></Link>
+                    <Link href={"/"}><Image src={gitbook} alt="gitbook" /></Link>
                 </div>
             </div>
             <div className={h.wrapper_navbar_bottom}>
                 <Link href={"/"}>
-                <Image src={_051} alt={"051 logo"} width={90} height={60} /></Link>
+                <Image src={_051} alt={"051 logo"} width={90} height={50} /></Link>
                 <input type="text" placeholder="Search for case..." onChange={handleSearch} ref={search} />
                 <span id={h.found} style={{color:resultText === "No item matched!" ? "crimson" : "green"}}>{resultText}</span>
                 {
@@ -360,12 +358,12 @@ const Navbar = () => {
                             CASES
                         </button>
                         </Link>
-                        <button style={{cursor:cursor}} onClick={()=>{dispatch(note_notification("SOON")); setTimeout(() => {
-                            dispatch(note_notification(null));
-                        }, 2000);}}>
+                        <Link href={"/create-battle"}>
+                        <button style={{cursor:cursor}}>
                             <Image src={sword} alt={"battles"} width={20} height={20} />
                             BATTLES
                         </button>
+                        </Link>
                         <button style={{cursor:cursor}} onClick={()=>{dispatch(note_notification("SOON")); setTimeout(() => {
                             dispatch(note_notification(null));
                         }, 2000);}}>
