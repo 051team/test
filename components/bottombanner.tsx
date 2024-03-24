@@ -10,16 +10,15 @@ const BottomBanner = ({total}:any) => {
         <div id={bb.shell}>
             {/* <Image src={_051} alt={"051 logo"} width={63} height={35} /> */}
             <div id={bb.leftcol}>
-                <Link href={"/051"}>AFFILIATE PROGRAM </Link>
-                <Link href={"/051"}>TERMS OF SERVICE </Link>
-                <Link href={"/051"}>PROVABLY FAIR </Link>
-                <Link href={"/051"}>SUPPORT</Link>
-                <Link href={"/051"}>FAQ</Link>
+                <Link href={"/affiliate-program"}>AFFILIATE PROGRAM </Link>
+                <Link href={"#"}>TERMS OF SERVICE </Link>
+                <Link href={"#"}>PROVABLY FAIR </Link>
+                <Link href={"#"}>SUPPORT</Link>
+                <Link href={"https://whitepaper.051.io/getting-started/faq"}>FAQ</Link>
                 <div id={bb.icons}>
                     <Image id={bb.mad} src={"/discord.png"} alt={"discord"} width={20} height={20} />
                     <Image id={bb.mad} src={"/x.png"} alt={"twitter"} width={20} height={20} />
-                    <Image id={bb.mad} src={"/discord.png"} alt={"discord"} width={20} height={20} />
-                    <Image id={bb.mad} src={"/x.png"} alt={"twitter"} width={20} height={20} />
+                    <Image id={bb.mad} src={"/gitbook.svg"} alt={"gitbook"} width={20} height={20} />
                 </div>
             </div>
             <div id={bb.rightcol}>
@@ -59,9 +58,9 @@ const BottomBanner = ({total}:any) => {
             </div>
         </div>
         <div id={bb.lowest}>
-            ALL RIGHTS RESERVED. POWERED BY 051.Io. COPYRIGHT © 2024
+            ALL RIGHTS RESERVED. 051.Io. COPYRIGHT © 2024
             <span>
-                powered by &nbsp; <Image src={"/solana.png"} alt={"051 logo"} width={25} height={25} /> &nbsp; SOLANA
+                powered by &nbsp; <Image src={"/solana-logo.png"} alt={"051 logo"} width={25} height={25} />
             </span>
         </div>
     </div>
