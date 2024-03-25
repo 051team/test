@@ -279,9 +279,9 @@ const Navbar = ({total}:any) => {
                 <span id={h.each}><span id={h.dot}>&#x2022;</span> {activeUserCount ?? ""} <span style={{color:"#00bc3e"}}>Online</span> </span>
                 <span id={h.each}><span>&#9729;</span> {total && total.total}<span style={{color:"#009fb3"}}>Case Opened</span></span>
                 <div id={h.right}>
-                    <Link href={"#"}><Image src={discord} alt="discord" /></Link>
-                    <Link href={"https://twitter.com/051io"}><Image src={twitter} alt="twitter" /></Link>
-                    <Link href={"https://whitepaper.051.io"}><Image src={gitbook} alt="gitbook" /></Link>
+                    <Link target="_blank" href={"#"}><Image src={discord} alt="discord" /></Link>
+                    <Link target="_blank" href={"https://twitter.com/051io"}><Image src={twitter} alt="twitter" /></Link>
+                    <Link target="_blank" href={"https://whitepaper.051.io"}><Image src={gitbook} alt="gitbook" /></Link>
                 </div>
             </div>
             <div className={h.wrapper_navbar_bottom}>
