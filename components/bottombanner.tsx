@@ -14,7 +14,7 @@ const BottomBanner = ({total}:any) => {
                 <Link href={"#"}>TERMS OF SERVICE </Link>
                 <Link href={"#"}>PROVABLY FAIR </Link>
                 <Link href={"#"}>SUPPORT</Link>
-                <Link href={"https://whitepaper.051.io/getting-started/faq"}>FAQ</Link>
+                <Link target="_blank" href={"https://whitepaper.051.io/getting-started/faq"}>FAQ</Link>
                 <div id={bb.icons}>
                     <Image id={bb.mad} src={"/discord.png"} alt={"discord"} width={20} height={20} />
                     <Image id={bb.mad} src={"/x.png"} alt={"twitter"} width={20} height={20} />
