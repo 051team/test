@@ -60,7 +60,7 @@ const BottomBanner = ({total}:any) => {
         <div id={bb.lowest}>
             ALL RIGHTS RESERVED. 051.Io. COPYRIGHT © 2024
             <span>
-                powered by &nbsp; <Image src={"/solana-logo.png"} alt={"051 logo"} width={25} height={25} />
+                powered by &nbsp; <Image src={"/solana-logo.png"} alt={"051 logo"} width={100} height={25} />
             </span>
         </div>
     </div>
