@@ -1,9 +1,8 @@
 {
-    "rewrites": [
-      {
-        "source": "/:path*",
-        "destination": "/:path*.html"
-      }
-    ]
-  }
-  
+  "rewrites": [
+    {
+      "source": "/event/:path*",
+      "destination": "/event/:path*.html"
+    }
+  ]
+}
